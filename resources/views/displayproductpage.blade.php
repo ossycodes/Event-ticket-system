@@ -1,0 +1,3 @@
+Product Info
+
+{{ $product }}

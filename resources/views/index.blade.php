@@ -69,16 +69,28 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 						<div class="col-md-6 news-right-grid">
 							
 							<h3> Upcoming Events/Parties </h3>
-							@foreach($events as $event)
-								<div class="news-grid">
-									<h5>{{ $event->name }}</h5>
-									<label>{{ $event->date }}</label>
-									<p>{{ str_limit($event->description, 150) }}</p>
-									<br>
-									<a href="{{ url('/events/'.$event->id) }}"><button type="button" class="btn btn-default">More Details</button></a>
-								</div>
-							@endforeach		
+								<?php
+									$noOfevents = count($events);
+									//echo $noOfevents; die; 
+								?>
+
+									@if($noOfevents)
+										@foreach($events as $event)
+											<div class="news-grid">
+
+												<h5>{{ $event->name }}</h5>
+												<label>{{ $event->date }}</label>
+												<p>{{ str_limit($event->description, 150) }}</p>
+												<br>
+												<a href="{{ url('/events/'.$event->id) }}"><button type="button" class="btn btn-default">More Details</button></a>
+											
+											</div>
+										@endforeach		
+								
 							<a class="more" href="{{ route('events') }}">MORE</a>		
+							@else
+							<h5>No Upcoming Events/Parties At The Moment.</h5>
+							@endif
 						
 						</div>
 					
@@ -98,16 +110,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 					@include('layouts.frontLayout.front_scripts')	
 				
 				</div>	
-		
-				<div class ="container" style="background:#f3f3f3;">
-				
-					<strong>Categories: </strong>
-				
-					@foreach($allCategories as $category)
-						<a href="{{ url('category/'.$category->id) }}" style="text-decoration:none;"><span class="label label-warning">{{ $category->name }}</span></a>
-					@endforeach
-				
-				</div>
+
+			<!--Displays all the categories available-->
+			@include('layouts.frontLayout.front_categories')	
 	
 			@include('layouts.frontLayout.front_footer')
 	

@@ -82,15 +82,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				</div>
 
 	
-				<div class ="container" style="background:#f3f3f3;">
-					
-					<strong>Categories: </strong>
-	    
-					@foreach($allCategories as $category)
-						<a href="{{ url('category/'.$category->id) }}" style="text-decoration: none;"><span class="label label-warning">{{ $category->name }}</span></a>
-					@endforeach
-				
-				</div>
+		<!--Displays all the categories available-->
+		@include('layouts.frontLayout.front_categories')
 
 	    @include('layouts.frontLayout.front_footer')
 		 	</div>

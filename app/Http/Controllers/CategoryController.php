@@ -17,10 +17,11 @@ class CategoryController extends Controller
         //$categoryName = Category::find($id);
         //echo "<pre>"; print_r(json_decode(json_encode($categoryDetails = Category::where('id', $id)->with('events')->get()))); die;
         $categoryDetails = Category::where('id', $id)->with('events')->orderBy('id', 'DESC')->paginate(1); 
+        $maximumId = Category::all()->count(); 
         //$categoryDetails = json_encode(json_decode($categoryDetails)); 
         //return $this->jsonResponse($categoryDetails); die;
         $allCategories = Category::all();
-        return view('events.eventviacategory')->with(compact('categoryDetails', 'eventsimage', 'allCategories'));
+        return view('events.eventviacategory')->with(compact('categoryDetails', 'eventsimage', 'allCategories', 'maximumId'));
        
     }
 

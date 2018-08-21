@@ -33,18 +33,22 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 					
                     <div class="col-md-9 reviews-grids">
 					  
-				@if($categoryDetails)
+					  <?php
+					   $noOfCategory = count($categoryDetails);
+					   //dd($noOfCategory);
+					  ?>
+					  
+				@if($noOfCategory)
 					 @foreach($categoryDetails as $category)
-
 					 <h3 class="head">Category: {{ $category->name }}</h3>
-					
+						
 					@if($category)
 						 @foreach($category->events as $event)
-
+							
                             
 							<div class="review">
                                 <div class="movie-pic">
-                                    <a href="{{ url('/events/') }}"><img src="{{ asset($event->image) }}" alt="" style = "width:70%; height:100%;"/></a>
+                                    <a href="{{ url('/events/') }}"><img src="{{ asset($event->image) }}" alt="{{ asset($event->name) }}" style = "width:70%; height:100%;"/></a>
                                 </div>
 
     
@@ -110,7 +114,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 								@else					
 									<div class="">
 										<div class="jumbotron">
-											<h1>Oops! No Events Of This Category At the Moment</h1> 
+											<h3>Oops! No Event(s) of this category at the moment</h3> 
 										</div>
 									</div>
 							@endif
@@ -119,7 +123,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 					@else					
 							<div class="">
 								<div class="jumbotron">
-									<h1>Oops! No Category At the Moment</h1> 
+									<h3>Oops! This category does not exist</h3> 
 								</div>
 							</div>
 					@endif	

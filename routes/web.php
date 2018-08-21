@@ -46,17 +46,24 @@ Route::get('/movies', function(){
     return view('movies.movies');
 });
 
+
 //Admin Routes
 Route::group(['prefix' => 'system-admin', 'middleware' => ['auth', 'isAdmin']], function(){
+
+    //this is just a tetst version, delete admincontroller when done
     Route::get('users', 'AdminController@getUsers');
     Route::get('events', 'AdminController@getEvents');
     Route::get('categories', 'AdminController@getCategories');
+    
+    //to-do
+    //use a resource controller for all your admin routes
+    //create a new folder named admin in controller, were all your resource controllers would go into
 });
 
 
 
 /*
-One to One Relationship
+Just praticing One to One Relationship
 */
 
 Route::get('/customer/{id}', 'CustomersController@showPhone');
@@ -64,12 +71,13 @@ Route::get('/phonenumber/{id}', 'PhonesController@showCustomer');
 
 
 /*
-One to many relationship
+Just praticing One to many relationship
 */
 Route::get('/show-customer-with-hobbie/{id}', 'HobbieController@showCustomerWithHobbie');
 Route::get('/all-hobbies-of-customer/{id}', 'CustomersController@showAllHobbiesOfCustomer');
 
 /*
+Just praticing  how to get authenticated user details
 UsersController@details, gets the authenticated User details
 */
 Route::get('/get-user-details', 'UsersController@userDetails');
@@ -95,6 +103,7 @@ Route::get('/displayproduct/{product}', function(App\Product $product){
 		echo $product->name;
 });
 */
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');

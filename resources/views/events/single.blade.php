@@ -162,9 +162,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 								
 										<form action="{{ url('/add-comment-event') }}" method="post">{{ csrf_field() }}
 											<input type="hidden" name="event_id" value="{{ encrypt($eventDetails->id) }}">
-											<input type="text" class="text" placeholder="{{ Auth::user() ? Auth::user()->name : 'Enter name' }}" value="" name="name" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Enter Name';}">
-											<input type="text" class="text" placeholder = "{{ Auth::user() ? Auth::user()->email : 'Enter Email' }}" value="" name="email" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Enter Email';}">
-											<textarea name="message"></textarea>
+											<input type="text" class="text" placeholder="{{ Auth::user() ? Auth::user()->name : 'Enter name' }}" value="" name="name" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Enter Name';}" required>
+											<input type="text" class="text" placeholder = "{{ Auth::user() ? Auth::user()->email : 'Enter Email' }}" value="" name="email" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Enter Email';}" required>
+											<textarea name="message" required></textarea>
 											<input type="submit" value="SUBMIT COMMENT" class="btn btn-warning">
 										</form>
 								

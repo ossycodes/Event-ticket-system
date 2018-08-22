@@ -23,8 +23,6 @@ Route::get('aboutus', function(){
 })->name('aboutus');
 //Route for index
 Route::get('/', 'IndexController@index')->name('/');
-//Route for videos
-Route::get('/videos', 'VideosController@index');
 //Route for events
 Route::get('events', 'EventsController@index')->name('events');
 //Route for single page events
@@ -41,10 +39,6 @@ Route::post('/newsletter', 'NewslettersController@saveNewsletterSubscriber');
 Route::post('/add-comment-event', 'EventscommentController@store');
 //Route for category
 Route::get('/category/{id}', 'CategoryController@index');
-
-Route::get('/movies', function(){
-    return view('movies.movies');
-});
 
 
 //Admin Routes

@@ -1,55 +1,32 @@
-@extends('layouts.app')
+@extends('layouts.adminLayout.admin_design')
 
 @section('content')
 
-<div class="container">
-
-    <div class="row justify-content-center">
-        
-        <div class="col-md-8">
-           
-            <div class="card">
-               
-                <div class="card-header">Dashboard</div>
-
-                    <div class="card-body">
-
-                        @if (session('status'))
-                            <div class="alert alert-success" role="alert">
-                                {{ session('status') }}
-                            </div>
-                        @endif
-
-                        <!-- If Authenticated as admin, then admin dashboard details goes in here-->    
-                        @if(Auth::user()->role == "admin")
-                        
-                        You are logged in as Admin!
-                    
-                        <a href ="{{ url('system-admin/users') }}">View Users</a>
-                        <a href ="{{ url('system-admin/events') }}">View Events</a>
-                        <a href ="{{ url('system-admin/categories') }}">View Categories</a>
-
-                        @endif
-                        <!-- End of admin dashboard section -->
-
-                        <!-- IF Authenticated as User, then user's dashboard goes in here -->
-                        @if(Auth::user()->role == "user")
-
-                        You are logged in as user    
-
-                        @endif
-                        <!-- End of user's dashboard -->
-
-                    </div>
-                
-                </div>
-
-            </div>
-        
-        </div>
-   
+<!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0 text-dark">Dashboard</h1>
+          </div><!-- /.col -->
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">Dashboard v2</li>
+            </ol>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
     </div>
+    <!-- /.content-header -->
 
-</div>
+    <!-- Main content -->
+    @if(Auth::user()->role == "user")
+        @include('layouts.frontLayout.user_dashboard')
+    @endif
+    @if(Auth::user()->role == "admin")
+        @include('layouts.adminLayout.admin_dashboard')
+    @endif
+    <!-- /.content -->
 
 @endsection

@@ -33,7 +33,7 @@ class HomeController extends Controller
         
         $noOfEvents = Event::all()->count();
         $noOfPosts = Blog::all()->count();
-        $noOfUsers = User::all()->count();
+        $noOfUsers = User::where('role', 'user')->count();
         $noOfSubscribers = Newsletter::all()->count();
         $noOfContactusMessages = Contact::all()->count();
         $noOfCategories = Category::all()->count();

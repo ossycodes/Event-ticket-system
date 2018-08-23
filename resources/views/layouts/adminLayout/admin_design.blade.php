@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>AdminLTE 3 | Dashboard</title>
+  <title>CinemaXXII | Dashboard</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- Font Awesome -->
@@ -20,6 +20,8 @@
   <link rel="stylesheet" href="{{ asset('plugins/jvectormap/jquery-jvectormap-1.2.2.css') }}">
   <!-- Date Picker -->
   <link rel="stylesheet" href="{{ asset('plugins/datepicker/datepicker3.css') }}">
+  <!-- DataTables -->
+  <link rel="stylesheet" href="{{ asset('plugins/datatables/dataTables.bootstrap4.css') }}">
   <!-- Daterange picker -->
   <link rel="stylesheet" href="{{ asset('plugins/daterangepicker/daterangepicker-bs3.css') }}">
   <!-- bootstrap wysihtml5 - text editor -->
@@ -186,7 +188,7 @@
     <!-- If Authenticated as admin, then admin dashboard details goes in here-->    
     @if(Auth::user()->role == "admin")
     <li class="nav-item">
-            <a href="" class="nav-link 
+            <a href="{{ route('home') }}" class="nav-link 
               @if(!$segment)
               active
               @endif
@@ -238,16 +240,16 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="pages/forms/general.html" class="nav-link">
+            <li class="nav-item">
+                <a href="{{ route('system-admin.categories.index') }}" class="nav-link">
                   <i class="fa fa-circle-o nav-icon"></i>
-                  <p>Add Category</p>
+                  <p>View Categories</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="pages/forms/advanced.html" class="nav-link">
+                <a href="{{ route('system-admin.categories.create') }}" class="nav-link">
                   <i class="fa fa-circle-o nav-icon"></i>
-                  <p>Edit Categories</p>
+                  <p>Add Category</p>
                 </a>
               </li>
               </ul>
@@ -269,9 +271,9 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="pages/forms/advanced.html" class="nav-link">
+                <a href="{{ route('system-admin.events.index') }}" class="nav-link">
                   <i class="fa fa-circle-o nav-icon"></i>
-                  <p>Edit Events</p>
+                  <p>View Events</p>
                 </a>
               </li>
               </ul>
@@ -293,9 +295,9 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="pages/forms/advanced.html" class="nav-link">
+                <a href="{{ route('system-admin.posts.index') }}" class="nav-link">
                   <i class="fa fa-circle-o nav-icon"></i>
-                  <p>Edit Posts</p>
+                  <p>View Posts</p>
                 </a>
               </li>
               </ul>
@@ -311,38 +313,14 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="pages/forms/general.html" class="nav-link">
+                <a href="{{ route('system-admin.messages.index') }}" class="nav-link">
                   <i class="fa fa-circle-o nav-icon"></i>
                   <p>View Messages</p>
                 </a>
               </li>
               </ul>
           </li>
-          
-          <li class="nav-item has-treeview">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fa fa-edit"></i>
-              <p>
-                Events
-                <i class="fa fa-angle-left right"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="pages/forms/general.html" class="nav-link">
-                  <i class="fa fa-circle-o nav-icon"></i>
-                  <p>Upload Event</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/forms/advanced.html" class="nav-link">
-                  <i class="fa fa-circle-o nav-icon"></i>
-                  <p>View Events</p>
-                </a>
-              </li>
-              </ul>
-          </li>
-
+                    
           <li class="nav-item has-treeview">
             <a href="#" class="nav-link">
               <i class="nav-icon fa fa-edit"></i>
@@ -353,7 +331,7 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="pages/forms/general.html" class="nav-link">
+                <a href="{{ route('system-admin.subscribers.index') }}" class="nav-link">
                   <i class="fa fa-circle-o nav-icon"></i>
                   <p>View Subscribers</p>
                 </a>
@@ -368,7 +346,7 @@
           </li>
 
           <li class="nav-item">
-            <a href="" class="nav-link
+            <a href="{{ route('system-admin.users.index') }}" class="nav-link
               @if($segment == 'news')
               active
               @endif
@@ -383,7 +361,7 @@
     @endif
     <!-- End of admin dashboard section -->  
 
-    <!-- If Authenticated as admin, then admin dashboard details goes in here-->    
+    <!-- If Authenticated as user, then admin dashboard details goes in here-->    
     @if(Auth::user()->role == "user")
           <li class="nav-item">
             <a href="" class="nav-link 
@@ -543,5 +521,21 @@
 <script src="{{ asset('dist/js/pages/dashboard.js') }}"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="{{ asset('dist/js/demo.js') }}"></script>
+<!-- DataTables -->
+<script src="{{ asset('plugins/datatables/jquery.dataTables.js') }}"></script>
+<script src="{{ asset('plugins/datatables/jquerydataTables.bootstrap4.js') }}"></script>
+<script>
+  $(function () {
+    $("#example1").DataTable();
+    $('#example2').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": false,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false
+    });
+  });
+</script>
 </body>
 </html>

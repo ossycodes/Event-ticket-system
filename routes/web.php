@@ -42,12 +42,14 @@ Route::get('/category/{id}', 'CategoryController@index');
 
 
 //Admin Routes
-Route::group(['prefix' => 'system-admin', 'middleware' => ['auth', 'isAdmin']], function(){
+Route::group(['prefix' => 'system-admin', 'as' => 'system-admin.', 'middleware' => ['auth', 'isAdmin']], function(){
 
-    //this is just a tetst version, delete admincontroller when done
-    Route::get('users', 'AdminController@getUsers');
-    Route::get('events', 'AdminController@getEvents');
-    Route::get('categories', 'AdminController@getCategories');
+    Route::resource('admin/categories', 'Admin\CategoryController');
+    Route::resource('admin/events', 'Admin\EventsController');
+    Route::resource('admin/posts', 'Admin\BlogsController');
+    Route::resource('admin/users', 'Admin\UsersController');
+    Route::resource('admin/subscribers', 'Admin\NewslettersController');
+    Route::resource('admin/messages', 'Admin\ContactsController');
     
     //to-do
     //use a resource controller for all your admin routes

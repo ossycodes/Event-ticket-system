@@ -63,8 +63,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 						<form action="{{ url('/contactus') }}" method="post">{{ csrf_field() }}
 										
 							<div class="col-md-6 contact-left">
-								<input type="text" placeholder="Name" name="name" required/>
-								<input type="text" placeholder="E-mail" name="email" required/>
+								<input type="text" placeholder="{{ Auth::user() ? Auth::user()->name : 'Name'}}" name="name" required/>
+								<input type="text" placeholder="{{ Auth::user() ? Auth::user()->email : 'Email' }}" name="email" required/>
 								<input type="text" placeholder="Phone" name="phonenumber" required/>
 							</div>
 

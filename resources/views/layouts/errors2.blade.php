@@ -4,6 +4,20 @@
     {{ Session('subscriptionsuccess') }}
     </div>
 @endif
+
+@if(Session::has('error'))
+    <div class="alert alert-error alert-block">
+        <button type="button" class="close" data-dismiss="alert">x</button>
+        <strong>{!! session('error') !!}</strong>
+    </div>
+@endif 
+
+@if(Session::has('success'))
+    <div class="alert alert-success alert-block">
+        <button type="button" class="close" data-dismiss="alert">x</button>
+        <strong>{!! session('success') !!}</strong>
+    </div>
+@endif
 					
 <!-- displays flash error messages if any -->
 @if ($errors->any())

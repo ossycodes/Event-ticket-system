@@ -23,13 +23,13 @@
 
                 <ul class="list-group list-group-unbordered mb-3">
                   <li class="list-group-item">
-                    <b>Followers</b> <a class="float-right">1,322</a>
+                    <b>Newsletter Subscribers</b> <a class="float-right">{{ $noOfSubscribers }}</a>
                   </li>
                   <li class="list-group-item">
-                    <b>Following</b> <a class="float-right">543</a>
+                    <b>Registered Users</b> <a class="float-right">{{ $noOfRegisterdUsers }}</a>
                   </li>
                   <li class="list-group-item">
-                    <b>Friends</b> <a class="float-right">13,287</a>
+                    <b>Events Posted</b> <a class="float-right">{{ $noOfEventsPosted }}</a>
                   </li>
                 </ul>
 

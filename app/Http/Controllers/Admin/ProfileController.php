@@ -12,6 +12,7 @@ use App\Event;
 use App\Contact;
 use App\Eventscomment;
 use App\Postscomment;
+use App\Newsletter;
 
 class ProfileController extends Controller
 {
@@ -22,19 +23,22 @@ class ProfileController extends Controller
      */
     public function index()
     {
-        
+
+        $noOfSubscribers = Newsletter::count();
+        $noOfRegisterdUsers = User::count();
+        $noOfEventsPosted = Event::count();
         $usersOnline = User::where('online', 1)->get();
         $postComment = Postscomment::latest()->first();
         $latestEvent = Event::latest()->first();
         $commentOnEvent = Eventscomment::latest()->first();
         $message = Contact::latest()->first();
         $registeredUsers = User::where('role', 'user')->Orderby('created_at', 'asc')->get();
-
+        
         //logging event
         Log::info('displayed User with email:' .' ' .Auth::user()->email .' ' .'and name:' .' ' .Auth::user()->name .' ' .'profile page');
 
         //returns profile view
-        return view('admin.profile.index', compact('registeredUsers', 'message', 'commentOnEvent', 'latestEvent', 'postComment', 'usersOnline'));
+        return view('admin.profile.index', compact('registeredUsers', 'message', 'commentOnEvent', 'latestEvent', 'postComment', 'usersOnline', 'noOfSubscribers', 'noOfRegisterdUsers', 'noOfEventsPosted'));
     }
 
     /**

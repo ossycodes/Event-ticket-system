@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use App\Event;
@@ -46,8 +48,28 @@ class EventsController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validateRequest($request);
-        return response()->json($request->all());
+        //$this->validateRequest($request);
+        $data = $request->all();
+
+        //if the request has an image
+        if($request->hasFile('image') and $request->file('image')->isValid()){
+            
+             $path = 'public/images/frontend_images/events';
+             $imageNameWithNoExtension = explode('.', $request->image->getClientOriginalName()); 
+             $imageName =  $imageNameWithNoExtension[0].rand(1, 99999).date('ymdhis').'.'.$request->image->extension();
+             $request->image->storeAs($path, $imageName);
+
+             $data['image'] = $imageName;
+             
+             
+        } else{
+            $data['image'] = 'default.jpg';
+        }
+
+        //dd($data);
+        Event::create($data);
+        //return back
+        return redirect()->route('system-admin.events.create')->with('success', 'Event added successfully');
     }
 
     /**
@@ -94,8 +116,17 @@ class EventsController extends Controller
      */
     public function destroy($id)
     {
+        //Delete Medium Image If It Does Not Exists
+        if (file_exists(Event::find($id)->image)) {
+            unlink(Event::find($id)->image);
+        }
+ 
+        //Figure out why its not working plus use intervention image package
+        //Storage::delete(Event::find($id)->image);
+        
+        //delete the event
         Event::destroy($id);
-
+        //log the event
         log::info('User with email:' .' ' .Auth::user()->email .' ' .'just deleted an event with Id number' .' ' .$id);
         //return flash success message
         return redirect()->route('system-admin.events.index')->with('success', 'Event deleted successfully');

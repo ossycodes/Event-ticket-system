@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             profilesTableSeeder::class,
             ContactsTableSeeder::class,
             PostscommentTableSeeder::class,
+            NewsletterTableSeeder::class,
 
             ]);
     }

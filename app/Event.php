@@ -7,7 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Event extends Model
 {
-    protected $path = 'images/frontend_images/events/';
+    protected $path = 'storage/images/frontend_images/events/';
+
+    protected $guarded = [];
 
     //defines a one to many relationship(an event as many comments)
     public function eventscomment(){

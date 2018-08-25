@@ -50,7 +50,7 @@
 
                   <th>Id</th>
                   <th>Email</th>
-                  <th>Registered At</th>
+                  <th>Subscribed at</th>
                   
 
                 </tr>

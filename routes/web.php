@@ -67,6 +67,10 @@ Route::group(['prefix' => 'system-admin', 'as' => 'system-admin.', 'middleware' 
     Route::get('admin/change-password', 'Admin\PasswordController@index');
     Route::post('admin/update-password', 'Admin\PasswordController@update');
     
+    Route::get('admin/compose-mail', function(){
+            return view('admin.subscribers.composemail');
+    });
+
 });
 
 

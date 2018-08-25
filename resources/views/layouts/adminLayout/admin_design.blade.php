@@ -337,7 +337,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="pages/forms/advanced.html" class="nav-link">
+                <a href="{{ url('system-admin/admin/compose-mail') }}" class="nav-link">
                   <i class="fa fa-circle-o nav-icon"></i>
                   <p>Send Newsletter</p>
                 </a>

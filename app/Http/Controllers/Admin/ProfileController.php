@@ -4,9 +4,14 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\User;
+use App\Profile;
+use Auth;
 use App\Event;
+use App\Contact;
+use App\Eventscomment;
 
-class EventsController extends Controller
+class ProfileController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,8 +20,12 @@ class EventsController extends Controller
      */
     public function index()
     {
-        $events = Event::all();
-        return view('admin.events.index', compact('events'));
+        
+        $latestEvent = Event::latest()->first();
+        $commentOnEvent = Eventscomment::latest()->first();
+        $message = Contact::latest()->first();
+        $registeredUsers = User::where('role', 'user')->Orderby('created_at', 'asc')->get();
+        return view('admin.profile.index', compact('registeredUsers', 'message', 'commentOnEvent', 'latestEvent'));
     }
 
     /**
@@ -26,7 +35,7 @@ class EventsController extends Controller
      */
     public function create()
     {
-        echo "create form";
+        //
     }
 
     /**
@@ -59,7 +68,7 @@ class EventsController extends Controller
      */
     public function edit($id)
     {
-        echo "edit ";
+        //
     }
 
     /**
@@ -82,8 +91,6 @@ class EventsController extends Controller
      */
     public function destroy($id)
     {
-        Event::destroy($id);
-
-        return redirect()->route('system-admin.events.index')->with('success', 'Event deleted successfully');
+        //
     }
 }

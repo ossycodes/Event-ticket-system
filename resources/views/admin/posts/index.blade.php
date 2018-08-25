@@ -17,18 +17,7 @@
           </div><!-- /.col -->
 
           <br><br>
-          @if(Session::has('flash_message_error'))
-          <div class="alert alert-error alert-block">
-              <button type="button" class="close" data-dismiss="alert"> x </button>
-                <strong>{!! session('flash_message_error') !!}</strong>
-          </div>
-          @endif
-          @if(Session::has('flash_message_success'))
-          <div class="alert alert-success alert-block">
-              <button type="button" class="close" data-dismiss="alert"> x </button>
-                <strong>{!! session('flash_message_success') !!}</strong>
-          </div>
-          @endif 
+         @include('layouts.errors2')
                    
 
 
@@ -78,7 +67,14 @@
                   <td>{{ $post->body }}</td>
                   <td>{{ $post->created_at->toDayDateTimeString() }}</td>
                   <td>{{ $post->updated_at->toDayDateTimeString() }}</td>
-                  <td>Delete | Edit</td>
+                  <td>
+                     <a href="{{ route('system-admin.posts.edit', $post->id) }}" class="btn btn-info">Edit</a>
+                     <a href="javascript:void(0)" onclick="$(this).parent().find('form').submit()" class="btn btn-danger">Delete</a>
+                     <form action="{{ route('system-admin.posts.destroy', $post->id) }}" method="post">
+                      @method('DELETE')
+                      <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                    </form>
+                  </td>
                    
                 </tr>
                

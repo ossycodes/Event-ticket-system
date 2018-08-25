@@ -26,6 +26,7 @@ class CreateEventsTable extends Migration
             $table->string('age');
             $table->string('ticket');
             $table->string('dresscode');
+            $table->tinyInteger('status')->default('0');
             
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
             $table->timestamps();

@@ -25,6 +25,7 @@ class EventsTableSeeder extends Seeder
                 'age' => 'Age goes in here 1',
                 'ticket' => 'Ticket goes in here 1',
                 'dresscode' => 'Dresscode goes in here 1',
+                'status' => '1',
             ],
 
             [   
@@ -39,6 +40,7 @@ class EventsTableSeeder extends Seeder
                 'age' => 'Age goes in here 2',
                 'ticket' => 'Ticket goes in here 2',
                 'dresscode' => 'Dresscode goes in here 2',
+                'status' => '1',
             ],
             
             [
@@ -53,6 +55,7 @@ class EventsTableSeeder extends Seeder
                 'age' => 'Age goes in here 3',
                 'ticket' => 'Ticket goes in here 3',
                 'dresscode' => 'Dresscode goes in here 3',
+                'status' => '1',
             ],
 
             [
@@ -67,6 +70,7 @@ class EventsTableSeeder extends Seeder
                 'age' => 'Age goes in here 4',
                 'ticket' => 'Ticket goes in here 4',
                 'dresscode' => 'Dresscode goes in here 4',
+                'status' => '1',
             ],
 
             [
@@ -81,6 +85,7 @@ class EventsTableSeeder extends Seeder
                 'age' => 'Age goes in here 5',
                 'ticket' => 'Ticket goes in here 5',
                 'dresscode' => 'Dresscode goes in here 5',
+                'status' => '1',
             ],
 
             [
@@ -95,6 +100,7 @@ class EventsTableSeeder extends Seeder
                 'age' => 'Age goes in here 6',
                 'ticket' => 'Ticket goes in here 6',
                 'dresscode' => 'Dresscode goes in here 6',
+                'status' => '1',
             ]
         ];
 

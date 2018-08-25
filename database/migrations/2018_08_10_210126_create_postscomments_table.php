@@ -15,11 +15,11 @@ class CreatePostscommentsTable extends Migration
     {
         Schema::create('postscomments', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('blog_id')->unsigned();
+            $table->integer('blog_id')->unsigned()->index();
             $table->string('name');
             $table->mediumText('message');
             
-            $table->foreign('blog_id')->references('id')->on('blogs');
+            $table->foreign('blog_id')->references('id')->on('blogs')->onDelete('cascade');
             $table->timestamps();
         });
     }

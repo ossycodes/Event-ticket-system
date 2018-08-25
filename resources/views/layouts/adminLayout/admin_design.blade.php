@@ -211,19 +211,19 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="pages/UI/general.html" class="nav-link">
+                <a href="{{ route('system-admin.profile.index') }}" class="nav-link">
                   <i class="fa fa-circle-o nav-icon"></i>
                   <p>View Profile</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="pages/UI/icons.html" class="nav-link">
+                <a href="" class="nav-link">
                   <i class="fa fa-circle-o nav-icon"></i>
                   <p>Update Profile</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="pages/UI/buttons.html" class="nav-link">
+                <a href="{{ url('system-admin/admin/change-password') }}" class="nav-link">
                   <i class="fa fa-circle-o nav-icon"></i>
                   <p>Change Password</p>
                 </a>
@@ -289,7 +289,7 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="pages/forms/general.html" class="nav-link">
+                <a href="{{ route('system-admin.posts.create') }}" class="nav-link">
                   <i class="fa fa-circle-o nav-icon"></i>
                   <p>Upload Post</p>
                 </a>

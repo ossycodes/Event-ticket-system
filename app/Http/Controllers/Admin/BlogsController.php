@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Blog;
+use Validator;
 
 class BlogsController extends Controller
 {
@@ -26,7 +27,7 @@ class BlogsController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.posts.create');
     }
 
     /**
@@ -37,7 +38,15 @@ class BlogsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Validator::make($request->all(), [
+            'title' => 'required',
+            'description' => 'required',
+            'body' => 'required',
+        ])->validate();
+
+        Blog::create($request->all());
+
+        return redirect()->route('system-admin.posts.create')->with('success', 'Post created successfully');
     }
 
     /**
@@ -59,7 +68,7 @@ class BlogsController extends Controller
      */
     public function edit($id)
     {
-        //
+        echo "edit form";
     }
 
     /**
@@ -71,7 +80,7 @@ class BlogsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        
     }
 
     /**
@@ -82,6 +91,8 @@ class BlogsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Blog::destroy($id);
+
+        return redirect()->route('system-admin.posts.index')->with('success', 'Post deleted successfully');
     }
 }

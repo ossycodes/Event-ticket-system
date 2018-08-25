@@ -3,8 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use App\Event;
+use App\Category;
+use Validator;
+use Auth;
 
 class EventsController extends Controller
 {
@@ -15,6 +19,8 @@ class EventsController extends Controller
      */
     public function index()
     {
+        //log event
+        Log::info('Displayed a list of available events in database for user with email:' .' ' .Auth::user()->email .' ' .'to see');
         $events = Event::all();
         return view('admin.events.index', compact('events'));
     }
@@ -26,7 +32,10 @@ class EventsController extends Controller
      */
     public function create()
     {
-        echo "create form";
+        //log event
+        Log::info('Displayed a form to create an event for User with email:' .' ' .Auth::user()->email);
+        $categories = Category::all();
+        return view('admin.events.create', compact('categories'));
     }
 
     /**
@@ -37,7 +46,8 @@ class EventsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validateRequest($request);
+        return response()->json($request->all());
     }
 
     /**
@@ -59,7 +69,9 @@ class EventsController extends Controller
      */
     public function edit($id)
     {
-        echo "edit ";
+        $event = Event::find($id);
+        $categories = Category::all();
+        return view('admin.events.edit',compact('event', 'categories'));
     }
 
     /**
@@ -71,7 +83,7 @@ class EventsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        return response()->json($request->all());
     }
 
     /**
@@ -84,6 +96,38 @@ class EventsController extends Controller
     {
         Event::destroy($id);
 
+        log::info('User with email:' .' ' .Auth::user()->email .' ' .'just deleted an event with Id number' .' ' .$id);
+        //return flash success message
         return redirect()->route('system-admin.events.index')->with('success', 'Event deleted successfully');
+    }
+
+    public function validateRequest($request){
+        $message = [
+            'category.required' => 'Please select a given category',
+            'name.required' => 'Please give the event a name',
+            'image.required' => 'Please choose an image for the event',
+            'venue.required' => 'Please what is the venue of the event?',
+            'description.required' => 'Please give a description of the event',
+            'date.required' => 'Please what date is the event?',
+            'time.required' => 'Please what time is the event?',
+            'actors.required' => 'Any actors coming?',
+            'age.required' => 'Please what is the age limit?',
+            'dresscode.required' => 'Please what\'s the dress code, casual or what LOL?'
+
+        ];
+
+        Validator::make($request->all(), [
+            'name' => 'required',
+            'category' => 'required|integer',
+            'image' => 'required|mimes:jpeg,jpg,png',
+            'venue' => 'required',
+            'description' => 'required',
+            'date' => 'required',
+            'time' => 'required',
+            'ticket'=> 'required',
+            'actors' =>'string',
+            'age' => 'required|max:90',
+            'dresscode' => 'required',
+        ], $message)->validate();
     }
 }

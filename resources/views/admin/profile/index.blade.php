@@ -213,8 +213,7 @@
                             {{ $latestEvent->description }}
                           </div>
                           <div class="timeline-footer">
-                            <a href="#" class="btn btn-primary btn-sm">Read more</a>
-                            <a href="#" class="btn btn-danger btn-sm">Delete</a>
+                            <a href="#" class="btn {{ ($latestEvent->status == 1) ? 'btn-danger' : 'btn-primary' }} btn-sm">{{ ($latestEvent->status == 1) ? 'De activate' : 'Activate' }}</a>
                           </div>
                         </div>
                       </li>
@@ -223,12 +222,14 @@
                       <li>
                         <i class="fa fa-user bg-info"></i>
 
+                      @foreach($usersOnline as $online)
                         <div class="timeline-item">
-                          <span class="time"><i class="fa fa-clock-o"></i> 5 mins ago</span>
+                          <span class="time"><i class="fa fa-clock-o"></i> Came Online {{ $online->updated_at->diffForHumans() }} </span>
 
-                          <h3 class="timeline-header no-border"><a href="#">Sarah Young</a> accepted your friend request
+                          <h3 class="timeline-header no-border"><a href="#">{{ $online->name }}</a> is online
                           </h3>
                         </div>
+                      @endforeach  
                       </li>
                       <!-- END timeline item -->
                       <!-- timeline item -->
@@ -236,44 +237,21 @@
                         <i class="fa fa-comments bg-warning"></i>
 
                         <div class="timeline-item">
-                          <span class="time"><i class="fa fa-clock-o"></i> 27 mins ago</span>
+                          <span class="time"><i class="fa fa-clock-o"></i>{{ $postComment->created_at->diffForHumans() }}</span>
 
-                          <h3 class="timeline-header"><a href="#">Jay White</a> commented on your post</h3>
+                          <h3 class="timeline-header"><a href="#">{{ $postComment->name }}</a> commented on  <br><strong>{{ $postComment->blog->title }}</strong></h3>
 
                           <div class="timeline-body">
-                            Take me to your leader!
-                            Switzerland is small and neutral!
-                            We are more like Germany, ambitious and misunderstood!
-                          </div>
-                          <div class="timeline-footer">
-                            <a href="#" class="btn btn-warning btn-flat btn-sm">View comment</a>
+                            {{ $postComment->message }}
                           </div>
                         </div>
                       </li>
                       <!-- END timeline item -->
-                      <!-- timeline time label -->
-                      <li class="time-label">
-                        <span class="bg-success">
-                          3 Jan. 2014
-                        </span>
-                      </li>
-                      <!-- /.timeline-label -->
+                     
                       <!-- timeline item -->
                       <li>
                         <i class="fa fa-camera bg-purple"></i>
 
-                        <div class="timeline-item">
-                          <span class="time"><i class="fa fa-clock-o"></i> 2 days ago</span>
-
-                          <h3 class="timeline-header"><a href="#">Mina Lee</a> uploaded new photos</h3>
-
-                          <div class="timeline-body">
-                            <img src="http://placehold.it/150x100" alt="..." class="margin">
-                            <img src="http://placehold.it/150x100" alt="..." class="margin">
-                            <img src="http://placehold.it/150x100" alt="..." class="margin">
-                            <img src="http://placehold.it/150x100" alt="..." class="margin">
-                          </div>
-                        </div>
                       </li>
                       <!-- END timeline item -->
                       <li>
@@ -289,35 +267,45 @@
                         <label for="inputName" class="col-sm-2 control-label">Name</label>
 
                         <div class="col-sm-10">
-                          <input type="email" class="form-control" id="inputName" placeholder="Name">
+                          <input type="email" class="form-control" id="inputName" placeholder="{{ Auth::user()->name }}">
                         </div>
                       </div>
                       <div class="form-group">
                         <label for="inputEmail" class="col-sm-2 control-label">Email</label>
 
                         <div class="col-sm-10">
-                          <input type="email" class="form-control" id="inputEmail" placeholder="Email">
+                          <input type="email" class="form-control" id="inputEmail" placeholder="{{ Auth::user()->email }}" disabled>
                         </div>
                       </div>
                       <div class="form-group">
-                        <label for="inputName2" class="col-sm-2 control-label">Name</label>
+                        <label for="inputName2" class="col-sm-2 control-label">Phonenumber</label>
 
                         <div class="col-sm-10">
-                          <input type="text" class="form-control" id="inputName2" placeholder="Name">
+                          <input type="text" class="form-control" id="inputName2" placeholder="{{ Auth::user()->profile->phonenumber ? Auth::user()->profile->phonenumber : 'Enter Phonenumber' }}">
                         </div>
                       </div>
+
                       <div class="form-group">
-                        <label for="inputExperience" class="col-sm-2 control-label">Experience</label>
+                        <label for="inputExperience" class="col-sm-2 control-label">Education</label>
 
                         <div class="col-sm-10">
-                          <textarea class="form-control" id="inputExperience" placeholder="Experience"></textarea>
+                          <textarea class="form-control" id="inputExperience" placeholder="{{ Auth::user()->profile->education ? Auth::user()->profile->education : 'Enter Education' }}"></textarea>
                         </div>
                       </div>
+
+                      <div class="form-group">
+                        <label for="inputExperience" class="col-sm-2 control-label">Location</label>
+
+                        <div class="col-sm-10">
+                          <textarea class="form-control" id="inputExperience" placeholder="{{ Auth::user()->profile->location ? Auth::user()->profile->location : 'Enter location' }}"></textarea>
+                        </div>
+                      </div>
+
                       <div class="form-group">
                         <label for="inputSkills" class="col-sm-2 control-label">Skills</label>
 
                         <div class="col-sm-10">
-                          <input type="text" class="form-control" id="inputSkills" placeholder="Skills">
+                          <input type="text" class="form-control" id="inputSkills" placeholder="{{ Auth::user()->profile->skills ? Auth::user()->profile->skills : 'Enter Skills' }}">
                         </div>
                       </div>
                       <div class="form-group">
@@ -331,7 +319,7 @@
                       </div>
                       <div class="form-group">
                         <div class="col-sm-offset-2 col-sm-10">
-                          <button type="submit" class="btn btn-danger">Submit</button>
+                          <button type="submit" class="btn btn-danger">Update</button>
                         </div>
                       </div>
                     </form>

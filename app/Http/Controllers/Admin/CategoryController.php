@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use App\Category;
 use Validator;
+use Auth;
 
 class CategoryController extends Controller
 {
@@ -16,7 +18,11 @@ class CategoryController extends Controller
      */
     public function index()
     {
+        //log event to laravel.log
+        Log::info('Displayed a list of the available categories in database');
+        //get all categories from database
         $categories = Category::all(); 
+        //return the index view
         return view('admin.categories.index', compact('categories'));
     }
 
@@ -26,7 +32,10 @@ class CategoryController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {
+    {   
+        //log event to laravel.log
+        Log::info('Returned a form, where User with email:' .' ' .Auth::user()->email .' ' .' and name:' .Auth::user()->name .' ' .'can create a category');
+        //return category create view
         return view('admin.categories.create');
     }
 
@@ -42,7 +51,8 @@ class CategoryController extends Controller
         Validator::make($request->all(), [
             'name' => 'required|unique:categories',
         ])->validate();
-
+        //log event to laravel.log
+        Log::info( 'User with email:' .'  ' .Auth::user()->email .' '  .'and name:' .'  ' .Auth::user()->name .'  ' .'just created a category');
         //create the category
         Category::create($request->all());
 
@@ -69,6 +79,9 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
+        //log event
+        log::info('Displayed a category with Id number: ' .$id);
+        //find category with $id
         $category = Category::find($id);
         return view('admin.categories.edit', compact('category'));
     }
@@ -82,6 +95,8 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {   
+         //log event
+         log::info('User with email of:' .' ' .Auth::user()->email .' ' .'and name:' .Auth::user()->name .' ' .'updated a post with Id number: '.$id);
          //mass update the category
          Category::where('id', $id)->update([
              'name' => $request->name
@@ -98,6 +113,8 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
+            //log event
+            Log::info('category with Id number: ' .' ' .$id  .' '.'just got deleted by User with email:' .Auth::user()->email .' ' .'and name:' .Auth::user()->name );
             //delete category by id
             Category::destroy($id);
             //return back to category index page

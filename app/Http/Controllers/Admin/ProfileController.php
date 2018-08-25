@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use App\User;
 use App\Profile;
@@ -10,6 +11,7 @@ use Auth;
 use App\Event;
 use App\Contact;
 use App\Eventscomment;
+use App\Postscomment;
 
 class ProfileController extends Controller
 {
@@ -21,11 +23,18 @@ class ProfileController extends Controller
     public function index()
     {
         
+        $usersOnline = User::where('online', 1)->get();
+        $postComment = Postscomment::latest()->first();
         $latestEvent = Event::latest()->first();
         $commentOnEvent = Eventscomment::latest()->first();
         $message = Contact::latest()->first();
         $registeredUsers = User::where('role', 'user')->Orderby('created_at', 'asc')->get();
-        return view('admin.profile.index', compact('registeredUsers', 'message', 'commentOnEvent', 'latestEvent'));
+
+        //logging event
+        Log::info('displayed User with email:' .' ' .Auth::user()->email .' ' .'and name:' .' ' .Auth::user()->name .' ' .'profile page');
+
+        //returns profile view
+        return view('admin.profile.index', compact('registeredUsers', 'message', 'commentOnEvent', 'latestEvent', 'postComment', 'usersOnline'));
     }
 
     /**

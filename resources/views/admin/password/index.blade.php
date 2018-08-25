@@ -30,7 +30,7 @@
 
       <div class="row">
        <label class="col-md-3"> Old Password </label>
-       <div class="col-md-6"><input type="password" name="old_password" class="form-control" ></div>
+       <div class="col-md-6"><input type="password" name="old_password" class="form-control" required></div>
        <div class="clearfix"></div>
        </div>
       </div> 
@@ -38,7 +38,7 @@
 
     <div class="row">
        <label class="col-md-3"> New Password </label>
-       <div class="col-md-6"><input type="password" name="new_password" class="form-control" ></div>
+       <div class="col-md-6"><input type="password" name="new_password" class="form-control" required></div>
        <div class="clearfix"></div>
        </div>
     </div> 

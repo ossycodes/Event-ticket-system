@@ -48,7 +48,9 @@ class EventsController extends Controller
      */
     public function store(Request $request)
     {
-        //$this->validateRequest($request);
+        //validate the incoming request
+        $this->validateRequest($request);
+        //store the request in a $data variable
         $data = $request->all();
 
         //if the request has an image
@@ -56,7 +58,7 @@ class EventsController extends Controller
             
              $path = 'public/images/frontend_images/events';
              $imageNameWithNoExtension = explode('.', $request->image->getClientOriginalName()); 
-             $imageName =  $imageNameWithNoExtension[0].rand(1, 99999).date('ymdhis').'.'.$request->image->extension();
+             $imageName =  $imageNameWithNoExtension[0].rand(1, 99999).date('ymdhis').'.'.$request->image->getClientOriginalExtension();
              $request->image->storeAs($path, $imageName);
 
              $data['image'] = $imageName;
@@ -105,7 +107,53 @@ class EventsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        return response()->json($request->all());
+        //validate the incoming request
+        $this->validateRequest($request);
+        //store all incoming request in a $data variable
+        $data = $request->all();
+        //to get only the image name from the folder path and extension explode it
+        $formerImage = explode('/', $data['imagename']);
+        $path = 'public/images/frontend_images/events';
+
+        //if an image exits in the incoming request and the image was successfully uploaded
+        if($request->hasFile('image') and $request->image->isValid()){
+            
+            //Delete the previous image from the events folder, if a new image is uploaded
+            if (file_exists($data['imagename'])) {
+                //dd('exists');
+                unlink($data['imagename']);
+            }
+
+            $imageName = explode('.', $request->image->getClientOriginalName());
+            $imageName = $imageName[0].rand(1, 99999).date('ymdhis').'.'.$request->image->getClientOriginalExtension();
+            //dd($data);
+            $request->image->storeAs($path, $imageName);
+
+            $data['image'] = $imageName;
+     
+        }   else{
+            $data['image'] = $formerImage[4];
+        }
+        
+        //dd($data);
+
+        Event::where('id', $id)->update([
+            
+            'name' => $data['name'],
+            'category_id' => $data['category_id'],
+            'venue' => $data['venue'],
+            'description' => $data['description'],
+            'date' => $data['date'],
+            'time' => $data['time'],
+            'ticket' => $data['ticket'],
+            'actors' => $data['actors'],
+            'age' => $data['age'],
+            'dresscode' => $data['dresscode'],
+            'image' => $data['image'],
+        
+        ]);
+
+        return redirect()->route('system-admin.events.index')->with('success', 'Event updated successfully');
     }
 
     /**
@@ -116,7 +164,7 @@ class EventsController extends Controller
      */
     public function destroy($id)
     {
-        //Delete Medium Image If It Does Not Exists
+        //Delete Image If It Exists
         if (file_exists(Event::find($id)->image)) {
             unlink(Event::find($id)->image);
         }
@@ -134,7 +182,7 @@ class EventsController extends Controller
 
     public function validateRequest($request){
         $message = [
-            'category.required' => 'Please select a given category',
+            'category_id.required' => 'Please select a given category',
             'name.required' => 'Please give the event a name',
             'image.required' => 'Please choose an image for the event',
             'venue.required' => 'Please what is the venue of the event?',
@@ -149,7 +197,7 @@ class EventsController extends Controller
 
         Validator::make($request->all(), [
             'name' => 'required',
-            'category' => 'required|integer',
+            'category_id' => 'required|integer',
             'image' => 'required|mimes:jpeg,jpg,png',
             'venue' => 'required',
             'description' => 'required',

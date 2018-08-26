@@ -28,7 +28,7 @@
      <div class="form-group">
       <div class="row">
        <label class="col-md-3">Name</label>
-       <div class="col-md-6"><input type="text" name="name" class="form-control" ></div>
+       <div class="col-md-6"><input type="text" name="name" class="form-control" value="{{ old('name') }}"></div>
        <div class="clearfix"></div>
        </div>
      </div> 
@@ -59,7 +59,7 @@
      <div class="form-group">
       <div class="row">
        <label class="col-md-3">Venue</label>
-       <div class="col-md-6"><textarea name="venue" class="form-control" ></textarea></div>
+       <div class="col-md-6"><textarea name="venue" class="form-control" >{{ old('venue') }}</textarea></div>
        <div class="clearfix"></div>
        </div>
      </div> 
@@ -67,7 +67,7 @@
      <div class="form-group">
       <div class="row">
        <label class="col-md-3">Description</label>
-       <div class="col-md-6"><textarea name="description" class="form-control" rows="10px"></textarea></div>
+       <div class="col-md-6"><textarea name="description" class="form-control" rows="10px">{{ old('description') }}</textarea></div>
        <div class="clearfix"></div>
        </div>
      </div> 
@@ -75,7 +75,7 @@
      <div class="form-group">
       <div class="row">
        <label class="col-md-3">Date</label>
-       <div class="col-md-6"><input type="text" name="date" class="form-control" ></div>
+       <div class="col-md-6"><input type="text" name="date" class="form-control" value="{{ old('date') }}"></div>
        <div class="clearfix"></div>
        </div>
      </div>
@@ -83,7 +83,7 @@
      <div class="form-group">
       <div class="row">
        <label class="col-md-3">Time</label>
-       <div class="col-md-6"><input type="text" name="time" class="form-control" ></div>
+       <div class="col-md-6"><input type="text" name="time" class="form-control" value="{{ old('time') }}"></div>
        <div class="clearfix"></div>
        </div>
      </div>
@@ -91,7 +91,7 @@
      <div class="form-group">
       <div class="row">
        <label class="col-md-3">Tickets Type and Price</label>
-       <div class="col-md-6"><textarea name="ticket" class="form-control" ></textarea></div>
+       <div class="col-md-6"><textarea name="ticket" class="form-control" >{{ old('ticket') }}</textarea></div>
        <div class="clearfix"></div>
        </div>
      </div> 
@@ -99,7 +99,7 @@
      <div class="form-group">
       <div class="row">
        <label class="col-md-3">Actors</label>
-       <div class="col-md-6"><textarea name="actors" class="form-control" ></textarea></div>
+       <div class="col-md-6"><textarea name="actors" class="form-control" >{{ old('actors') }}</textarea></div>
        <div class="clearfix"></div>
        </div>
      </div> 
@@ -107,7 +107,7 @@
      <div class="form-group">
       <div class="row">
        <label class="col-md-3">Age</label>
-       <div class="col-md-6"><input type="text" name="age" class="form-control" ></div>
+       <div class="col-md-6"><input type="text" name="age" class="form-control" value="{{ old('age') }}"></div>
        <div class="clearfix"></div>
        </div>
      </div>
@@ -115,7 +115,7 @@
      <div class="form-group">
       <div class="row">
        <label class="col-md-3">Dresscode</label>
-       <div class="col-md-6"><input type="text" name="dresscode" class="form-control" ></div>
+       <div class="col-md-6"><input type="text" name="dresscode" class="form-control" value="{{ old('dresscode') }}"></div>
        <div class="clearfix"></div>
        </div>
      </div>

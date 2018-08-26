@@ -8,7 +8,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0 text-dark">Add Event</h1>
+            <h1 class="m-0 text-dark">Edit Event</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -131,8 +131,10 @@
        </div>
      </div>
 
+    <input type="text" name="imagename" value="{{ $event->image }}" class="form-control"/>
+
      <div class="form-group">
-       <input type="submit" class="btn btn-info" value="Save" >
+       <input type="submit" class="btn btn-info" value="Update" >
      </div>
 
     </form>

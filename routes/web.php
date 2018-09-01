@@ -73,6 +73,13 @@ Route::group(['prefix' => 'system-admin', 'as' => 'system-admin.', 'middleware' 
 
 });
 
+//Users Routes
+Route::group(['prefix' => 'user', 'as' => 'user.', 'midlleware' => 'auth'], function(){
+     Route::resource('profile', 'user\ProfileController');
+});
+     Route::get('change-password', 'user\PasswordController@index')->name('user.password');
+     Route::post('change-password', 'user\PasswordController@update')->name('user.password.update');
+
 
 
 

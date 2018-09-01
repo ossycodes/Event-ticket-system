@@ -382,19 +382,13 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="pages/UI/general.html" class="nav-link">
+                <a href="{{ route('user.profile.index') }}" class="nav-link">
                   <i class="fa fa-circle-o nav-icon"></i>
                   <p>View Profile</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="pages/UI/icons.html" class="nav-link">
-                  <i class="fa fa-circle-o nav-icon"></i>
-                  <p>Update Profile</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/UI/buttons.html" class="nav-link">
+                <a href="{{ route('user.password') }}" class="nav-link">
                   <i class="fa fa-circle-o nav-icon"></i>
                   <p>Change Password</p>
                 </a>

@@ -394,7 +394,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="pages/UI/sliders.html" class="nav-link">
+                <a href="{{ url('user/delete-account/'.Auth::user()->id) }}" class="nav-link">
                   <i class="fa fa-circle-o nav-icon"></i>
                   <p>Delete Account</p>
                 </a>
@@ -403,7 +403,7 @@
           </li>
 
           <li class="nav-item">
-            <a href="" class="nav-link
+            <a href="{{ route('user.events.create') }}" class="nav-link
               @if($segment == 'categories')
               active
               @endif

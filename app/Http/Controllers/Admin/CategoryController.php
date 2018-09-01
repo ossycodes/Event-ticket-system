@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
@@ -54,7 +55,13 @@ class CategoryController extends Controller
         //log event to laravel.log
         Log::info( 'User with email:' .'  ' .Auth::user()->email .' '  .'and name:' .'  ' .Auth::user()->name .'  ' .'just created a category');
         //create the category
+        try{
         Category::create($request->all());
+        }catch(QueryException $e){
+            Log::error($e->getMessage());
+            //return flash session error message to view
+            return redirect()->route('system-admin.categories.create')->with('error', 'something went wrong'); 
+        }
 
         //redirect back 
         return redirect()->route('system-admin.categories.create')->with('success', 'Category added successfully');

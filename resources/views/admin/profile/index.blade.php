@@ -210,8 +210,7 @@
                         <div class="timeline-item">
                           <span class="time"><i class="fa fa-clock-o"></i>{{ $latestEvent->created_at->diffForHumans() }}</span>
 
-                          <h3 class="timeline-header"><a href="#">{{ $latestEvent->name }} Event </a> Status: {{ ($latestEvent->status == 1) ? 'Active' : 'Not Active' }}</h3>
-
+                          <h3 class="timeline-header"><a href="#">{{ $latestEvent->name }} Event </a> Status: {{ ($latestEvent->status == 1) ? 'Active' : 'Not Active' }}</h3><p>Uploaded by: <strong>{{ $latestEvent->user->name }}</strong> </p>
                           <div class="timeline-body">
                             {{ $latestEvent->description }}
                           </div>

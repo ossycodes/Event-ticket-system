@@ -74,11 +74,18 @@ Route::group(['prefix' => 'system-admin', 'as' => 'system-admin.', 'middleware' 
 });
 
 //Users Routes
-Route::group(['prefix' => 'user', 'as' => 'user.', 'midlleware' => 'auth'], function(){
+Route::group(['prefix' => 'user', 'as' => 'user.', 'middleware' => ['isUser', 'auth']], function(){
      Route::resource('profile', 'user\ProfileController');
+     Route::resource('events', 'user\EventsController');
 });
+
+Route::group(['middleware' => ['isUser', 'Auth']], function(){
      Route::get('change-password', 'user\PasswordController@index')->name('user.password');
      Route::post('change-password', 'user\PasswordController@update')->name('user.password.update');
+     Route::get('user/delete-account/{id}', 'user\ProfileController@deleteAccount')->name('user.account.delete');
+});
+     
+     
 
 
 

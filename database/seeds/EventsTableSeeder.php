@@ -15,6 +15,7 @@ class EventsTableSeeder extends Seeder
         $events = [
             [
                 'category_id' => '1',
+                'user_id' => '1',
                 'image' => 'event1.jpg',
                 'name' => 'The Basement GIG',
                 'venue' => 'The FreeMe Space, Plot, 16A, Block 1394, Nike Art Gallery Road, Ikate Elegushi, Lekki, Lagos.',
@@ -30,6 +31,7 @@ class EventsTableSeeder extends Seeder
 
             [   
                 'category_id' => '2',
+                'user_id' => '1',
                 'image' => 'event2.jpg',
                 'name' => 'The BUJ Concert',
                 'venue' => 'Chida Event Center, Abuja.',
@@ -45,6 +47,7 @@ class EventsTableSeeder extends Seeder
             
             [
                 'category_id' => '2',
+                'user_id' => '1',
                 'image' => 'event3.jpg',
                 'name' => 'Gala & Award Night',
                 'venue' => 'Golden Tulip Hotel, Festac.',
@@ -60,6 +63,7 @@ class EventsTableSeeder extends Seeder
 
             [
                 'category_id' => '1',
+                'user_id' => '1',
                 'image' => 'event4.jpg',
                 'name' => 'IKD FEST 2018',
                 'venue' => 'FunPark, Itamada, Ikorodu, Lagos',
@@ -75,6 +79,7 @@ class EventsTableSeeder extends Seeder
 
             [
                 'category_id' => '3',
+                'user_id' => '2',
                 'image' => 'event5.jpg',
                 'name' => 'Pencil Unbroken 3',
                 'venue' => 'The Balmoral Hall, Federal Palace Hotel, Victoria Island, Lagos.',
@@ -90,6 +95,7 @@ class EventsTableSeeder extends Seeder
 
             [
                 'category_id' => '3',
+                'user_id' => '2',
                 'image' => 'event6.jpg',
                 'name' => 'The Wawomi Tour',
                 'venue' => 'Thought Pyramid Gallery, 96, Norman Williams, Ikoyi, Lagos.',

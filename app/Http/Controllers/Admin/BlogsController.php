@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
@@ -58,7 +59,13 @@ class BlogsController extends Controller
         ])->validate();
         
         //create post via mass assignment
+        try{
         Blog::create($request->all());
+        }catch(QueryException $e){
+            Log::error($e->getMessage());
+            //return flash session error message to view
+            return redirect()->route('system-admin.posts.create')->with('error', 'something went wrong');
+        }
         
         //log event
         Log::info('User with email:' .' ' .Auth::user()->email .' ' .'just created a post');

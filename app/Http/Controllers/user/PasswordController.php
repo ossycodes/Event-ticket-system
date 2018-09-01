@@ -32,7 +32,7 @@ class PasswordController extends Controller
                     //something goes wrong
                     return back()->with('error', 'Something went wrong');
             }
-            //something goes wrong
+            //something went wrong
             Log::info('something went wrong');
             return back()->with('error', 'Something went wrong');
     }

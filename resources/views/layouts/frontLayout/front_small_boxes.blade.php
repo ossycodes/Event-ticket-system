@@ -19,7 +19,7 @@
             <!-- small box -->
             <div class="small-box bg-success">
               <div class="inner">
-                <h3>53<sup style="font-size: 20px">%</sup></h3>
+                <h3>53</h3>
 
                 <p>Upload Event</p>
               </div>
@@ -51,7 +51,7 @@
               <div class="inner">
                 <h3>65</h3>
 
-                <p>Update Profile</p>
+                <p>Transactions</p>
               </div>
               <div class="icon">
                 <i class="ion ion-pie-graph"></i>

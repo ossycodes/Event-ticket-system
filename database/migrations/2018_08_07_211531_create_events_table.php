@@ -16,6 +16,7 @@ class CreateEventsTable extends Migration
         Schema::create('events', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('category_id')->unsigned()->index();
+            $table->integer('user_id')->unsigned()->index();
             $table->string('image');
             $table->string('name');
             $table->string('venue');
@@ -28,6 +29,8 @@ class CreateEventsTable extends Migration
             $table->string('dresscode');
             $table->tinyInteger('status')->default('0');
             
+            
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
             $table->timestamps();
         });

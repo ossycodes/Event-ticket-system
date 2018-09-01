@@ -70,17 +70,16 @@ class ProfileController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //return response()->json($request->all());
+        //if the request has a name as part of the request;
         if($request->has('name')){
-            
-            //update user  name
+             //update user  name
             $this->updateName($request);
-          
-           //update user profile
+            //update user profile
            $this->updateProfile($request);
-
+           //redirect the user back with flash seession success message
            return back()->with('success', 'Profile updated successfully');
         }
+           return back()->with('error', 'Something went wrong');
     }
 
     /**
@@ -91,16 +90,18 @@ class ProfileController extends Controller
      */
     public function destroy($id)
     {
-        //
+        echo $id; die;
     }
 
     public function updateName(Request $request){
+        //validate the authenticated user request
         Auth::user()->update([
             'name' => $request->name
         ]);
     }
 
     public function updateProfile(Request $request){
+        ///update the authenticated user's profile
         Auth::User()->profile()->update([
             'gender' => $request->gender,
             'phonenumber' => $request->phonenumber,
@@ -108,5 +109,16 @@ class ProfileController extends Controller
             'skills'=>  $request->skills,
             'location' => $request->location,
         ]);
+    }
+
+    public function deleteAccount($id){
+        /*
+        //delete user
+        User::destroy($id);
+        //destroy user session
+        $request->session()->flush();
+        //redirect back to home
+        return redirect()->route('home');
+        */
     }
 }

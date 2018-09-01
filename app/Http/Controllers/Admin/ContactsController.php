@@ -82,6 +82,7 @@ class ContactsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Contact::destroy($id);
+        return redirect()->route('system-admin.messages.index')->with('success', 'Message deleted successfully');
     }
 }

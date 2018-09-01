@@ -216,12 +216,7 @@
                   <p>View Profile</p>
                 </a>
               </li>
-              <li class="nav-item">
-                <a href="" class="nav-link">
-                  <i class="fa fa-circle-o nav-icon"></i>
-                  <p>Update Profile</p>
-                </a>
-              </li>
+              
               <li class="nav-item">
                 <a href="{{ url('system-admin/admin/change-password') }}" class="nav-link">
                   <i class="fa fa-circle-o nav-icon"></i>

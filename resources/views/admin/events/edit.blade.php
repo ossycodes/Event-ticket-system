@@ -45,7 +45,7 @@
           @foreach($categories as $c)
             <option value="{{ $c->id }}" {{ $event->category->id == $c->id ? 'selected' : '' }}>{{ $c->name }}</option>
           @endforeach
-           </select>
+          </select>
          </div>
          <div class="clearfix"></div>
          </div>

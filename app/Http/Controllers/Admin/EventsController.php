@@ -23,7 +23,7 @@ class EventsController extends Controller
     {
         //log event
         Log::info('Displayed a list of available events in database for user with email:' .' ' .Auth::user()->email .' ' .'to see');
-        $events = Event::all();
+        dd($events = Event::orderBy('id', 'desc')->get());
         return view('admin.events.index', compact('events'));
     }
 

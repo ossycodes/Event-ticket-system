@@ -21,7 +21,10 @@ class BlogsController extends Controller
         //log event
         Log::info('Displayed a list of available posts in database for user with email:' .' ' .Auth::user()->email .' ' .'to see');
         //fetch all posts from database
-        $posts = Blog::all();
+        $posts = Blog::with(['postcomments' => function ($query) {
+            $query->orderBy('created_at', 'desc');
+        }])->get();
+        //dd($posts);
         //return to the index page posts fetched
         return view('admin.posts.index', compact('posts'));
     }
@@ -83,7 +86,8 @@ class BlogsController extends Controller
      */
     public function edit($id)
     {
-        echo "edit form";
+        $post = Blog::find($id);
+        return view('admin.posts.edit', compact('post'));
     }
 
     /**
@@ -95,7 +99,9 @@ class BlogsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        
+        Blog::update($request->all());
+
+        return redirect()->route('system-admin.posts.create')->with('success', 'Post updated successfully');
     }
 
     /**

@@ -47,6 +47,7 @@
                   <th>Title</th>
                   <th>Description</th>
                   <th>Body</th>
+                  <th>Comment</th>
                   <th>Created At</th>
                   <th>Updated At</th>
                   <th>Action</th>
@@ -65,10 +66,17 @@
                   <td>{{ $post->title}}</td>
                   <td>{{ $post->description }}</td>
                   <td>{{ $post->body }}</td>
+                  @foreach($post->postcomments as $comment)
+                    <td>
+                      <strong>Name</strong> {{ $comment->name }}
+                      <strong>Message</strong> {{ $comment->message }}
+                    </td>
+                  @endforeach  
                   <td>{{ $post->created_at->toDayDateTimeString() }}</td>
                   <td>{{ $post->updated_at->toDayDateTimeString() }}</td>
                   <td>
                      <a href="{{ route('system-admin.posts.edit', $post->id) }}" class="btn btn-info">Edit</a>
+                     <a href="" class="btn btn-success">View Comments</a>
                      <a href="javascript:void(0)" onclick="$(this).parent().find('form').submit()" class="btn btn-danger">Delete</a>
                      <form action="{{ route('system-admin.posts.destroy', $post->id) }}" method="post">
                       @method('DELETE')

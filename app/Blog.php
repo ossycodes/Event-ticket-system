@@ -16,4 +16,8 @@ class Blog extends Model
     public function postcomments(){
         return $this->hasMany(Postscomment::class);
     }
+
+    public function blogimage(){
+        return $this->hasOne(Blogsimage::class);
+    }
 }

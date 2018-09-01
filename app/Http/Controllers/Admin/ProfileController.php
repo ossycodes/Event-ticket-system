@@ -21,6 +21,16 @@ class ProfileController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    protected $fillable = [
+        'name',
+        'email',
+        'phonenumber',
+        'education',
+        'location',
+        'skills',
+    ];
+
     public function index()
     {
 
@@ -93,7 +103,19 @@ class ProfileController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+
+        if($request->has('name')){
+            
+            //update the User field
+            $this->updateName($request);
+            //update the profile
+            $this->updateProfile($request);
+
+            return back()->with('success', 'Profile updated successfully');
+        }    
+
+             return back()->with('error', 'Something went wrong');
+            
     }
 
     /**
@@ -105,5 +127,24 @@ class ProfileController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function updateName(Request $request){
+        
+        User::where('id', Auth::user()->id)->update([
+            'name' => $request->name
+        ]);
+    }
+
+    public function updateProfile(Request $request){
+       
+        return User::find(Auth::user()->id)->profile()->update([
+            'gender' => $request->gender,
+            'phonenumber' => $request->phonenumber,
+            'education' => $request->education,
+            'skills' => $request->skills,
+            'location' => $request->location,
+        ]);
+
     }
 }

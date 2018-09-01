@@ -90,6 +90,9 @@
               <div class="card-body">
                 <div class="tab-content">
                   <div class="active tab-pane" id="activity">
+                  <br><br>
+                  @include('layouts.errors2')
+                   <br><br>
                     <!-- Post -->
                     <div class="post">
                       <div class="user-block">
@@ -262,26 +265,37 @@
                   <!-- /.tab-pane -->
 
                   <div class="tab-pane" id="settings">
-                    <form class="form-horizontal">
+                    <form method="post" action="{{ route('system-admin.profile.update', Auth::user()->id) }}" class="form-horizontal"/>{{ csrf_field() }}
+                      
+                      @Method('PUT')
                       <div class="form-group">
                         <label for="inputName" class="col-sm-2 control-label">Name</label>
 
                         <div class="col-sm-10">
-                          <input type="email" class="form-control" id="inputName" placeholder="{{ Auth::user()->name }}">
+                          <input type="text" class="form-control" id="inputName" placeholder="{{ Auth::user()->name }}" name="name" value="{{ Auth::user()->name }}" required>
                         </div>
                       </div>
                       <div class="form-group">
                         <label for="inputEmail" class="col-sm-2 control-label">Email</label>
 
                         <div class="col-sm-10">
-                          <input type="email" class="form-control" id="inputEmail" placeholder="{{ Auth::user()->email }}" disabled>
+                          <input type="email" class="form-control" id="inputEmail" placeholder="{{ Auth::user()->email }}" name="email" value="" disabled>
                         </div>
                       </div>
+
                       <div class="form-group">
                         <label for="inputName2" class="col-sm-2 control-label">Phonenumber</label>
 
                         <div class="col-sm-10">
-                          <input type="text" class="form-control" id="inputName2" placeholder="{{ Auth::user()->profile->phonenumber ? Auth::user()->profile->phonenumber : 'Enter Phonenumber' }}">
+                          <input type="text" class="form-control" id="inputName2" placeholder="{{ Auth::user()->profile->phonenumber ? Auth::user()->profile->phonenumber : 'Enter Phonenumber' }}" value="{{ Auth::user()->profile->phonenumber }}" name="phonenumber" required>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="inputName2" class="col-sm-2 control-label">Gender</label>
+
+                        <div class="col-sm-10">
+                          <input type="text" class="form-control" id="inputName2" placeholder="{{ Auth::user()->profile->gender ? Auth::user()->profile->gender : 'Enter Gender' }}" value="{{ Auth::user()->profile->gender }}" name="gender" required>
                         </div>
                       </div>
 
@@ -289,7 +303,7 @@
                         <label for="inputExperience" class="col-sm-2 control-label">Education</label>
 
                         <div class="col-sm-10">
-                          <textarea class="form-control" id="inputExperience" placeholder="{{ Auth::user()->profile->education ? Auth::user()->profile->education : 'Enter Education' }}"></textarea>
+                          <textarea class="form-control" id="inputExperience" placeholder="{{ Auth::user()->profile->education ? Auth::user()->profile->education : 'Enter Education' }}" name="education" required>{{ Auth::user()->profile->education }}</textarea>
                         </div>
                       </div>
 
@@ -297,7 +311,7 @@
                         <label for="inputExperience" class="col-sm-2 control-label">Location</label>
 
                         <div class="col-sm-10">
-                          <textarea class="form-control" id="inputExperience" placeholder="{{ Auth::user()->profile->location ? Auth::user()->profile->location : 'Enter location' }}"></textarea>
+                          <textarea class="form-control" id="inputExperience" placeholder="{{ Auth::user()->profile->location ? Auth::user()->profile->location : 'Enter location' }}" name="location" required>{{ Auth::user()->profile->location }}</textarea>
                         </div>
                       </div>
 
@@ -305,21 +319,21 @@
                         <label for="inputSkills" class="col-sm-2 control-label">Skills</label>
 
                         <div class="col-sm-10">
-                          <input type="text" class="form-control" id="inputSkills" placeholder="{{ Auth::user()->profile->skills ? Auth::user()->profile->skills : 'Enter Skills' }}">
+                          <input type="text" class="form-control" id="inputSkills" placeholder="{{ Auth::user()->profile->skills ? Auth::user()->profile->skills : 'Enter Skills' }}" value="{{ Auth::user()->profile->skills }}" name="skills" required>
                         </div>
                       </div>
                       <div class="form-group">
                         <div class="col-sm-offset-2 col-sm-10">
                           <div class="checkbox">
                             <label>
-                              <input type="checkbox"> I agree to the <a href="#">terms and conditions</a>
+                              <input type="checkbox" required> I agree to the <a href="#">terms and conditions</a>
                             </label>
                           </div>
                         </div>
                       </div>
                       <div class="form-group">
                         <div class="col-sm-offset-2 col-sm-10">
-                          <button type="submit" class="btn btn-danger">Update</button>
+                        <input type="submit" class="btn btn-danger" value="Update"/>
                         </div>
                       </div>
                     </form>

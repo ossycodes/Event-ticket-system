@@ -24,7 +24,7 @@ class EventsController extends Controller
     {
         //log event
         Log::info('Displayed a list of available events in database for user with email:' .' ' .Auth::user()->email .' ' .'to see');
-        dd($events = Event::orderBy('id', 'desc')->get());
+        $events = Event::latest()->get();
         return view('admin.events.index', compact('events'));
     }
 
@@ -174,10 +174,12 @@ class EventsController extends Controller
     public function destroy($id)
     {
         //Delete Image If It Exists
+        
         if (file_exists(Event::find($id)->image)) {
             unlink(Event::find($id)->image);
         }
  
+        
         //Figure out why its not working plus use intervention image package
         //Storage::delete(Event::find($id)->image);
         

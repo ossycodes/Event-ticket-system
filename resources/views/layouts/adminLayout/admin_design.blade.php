@@ -402,17 +402,28 @@
             </ul>
           </li>
 
-          <li class="nav-item">
-            <a href="{{ route('user.events.create') }}" class="nav-link
-              @if($segment == 'categories')
-              active
-              @endif
-              ">
-              <i class="nav-icon fa fa-th"></i>
+          <li class="nav-item has-treeview">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fa fa-tree"></i>
               <p>
-                Upload Events
+                Events
+                <i class="fa fa-angle-left right"></i>
               </p>
             </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{ route('user.events.create') }}" class="nav-link">
+                  <i class="fa fa-circle-o nav-icon"></i>
+                  <p>Upload Events</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{ route('user.events.index') }}" class="nav-link">
+                  <i class="fa fa-circle-o nav-icon"></i>
+                  <p>Events History</p>
+                </a>
+              </li>
+            </ul>
           </li>
 
           <li class="nav-item">

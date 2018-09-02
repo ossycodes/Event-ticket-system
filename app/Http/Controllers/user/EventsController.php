@@ -4,10 +4,12 @@ namespace App\Http\Controllers\user;
 
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Category;
 use App\Event;
+use App\User;
 use Validator;
 
 
@@ -21,7 +23,8 @@ class EventsController extends Controller
      */
     public function index()
     {
-        //
+       $events= Auth::user()->events()->latest()->get(); 
+       return view('users.events.index', compact('events')); 
     }
 
     /**

@@ -32,7 +32,7 @@
             <p>
  			<a href="{{ route('system-admin.events.create') }}" class="btn btn-primary">Add New Event</a>
  		</p>
-              <h3 class="card-title">All available events</h3>
+              <h3 class="card-title">Uploaded Events History</h3>
             </div>
             <!-- /.card-header -->
             <div class="card-body">
@@ -50,7 +50,7 @@
 
                 <tr>
 
-                  <th>Id</th>
+                  <!--<th>Id</th>-->
                   <th>Image</th>
                   <th>Category</th>
                   <th>Name</th>
@@ -76,7 +76,7 @@
 
                 <tr>
 
-                  <td>{{ $event->id }}</td>   
+                  <!--<td>{{ $event->id }}</td>-->
                   <td><a href="{{ asset($event->image) }}"><img src="{{ asset($event->image) }}" href="{{ asset($event->image) }}" height="100px"/><a/></td>   
                   <td>{{ $event->category->name }}</td>
                   <td>{{ $event->name }}</td>
@@ -108,7 +108,7 @@
 
                 <tr>
 
-                  <th>Id</th>
+                  <!--<th>Id</th>-->
                   <th>Image</th>
                   <th>Category</th>
                   <th>Name</th>

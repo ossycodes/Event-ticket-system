@@ -49,9 +49,12 @@ Route::post('/add-comment-event', 'EventscommentController@store');
 //Route for category
 Route::get('/category/{id}', 'CategoryController@index');
 
+//Authentication routes
 Auth::routes();
 
+//home route
 Route::get('/home', 'HomeController@index')->name('home');
+
 
 //Admin Routes
 Route::group(['prefix' => 'system-admin', 'as' => 'system-admin.', 'middleware' => ['auth', 'isAdmin']], function(){
@@ -73,12 +76,13 @@ Route::group(['prefix' => 'system-admin', 'as' => 'system-admin.', 'middleware' 
 
 });
 
-//Users Routes
+//User's Routes
 Route::group(['prefix' => 'user', 'as' => 'user.', 'middleware' => ['isUser', 'auth']], function(){
      Route::resource('profile', 'user\ProfileController');
      Route::resource('events', 'user\EventsController');
 });
 
+//User's Routes
 Route::group(['middleware' => ['isUser', 'Auth']], function(){
      Route::get('change-password', 'user\PasswordController@index')->name('user.password');
      Route::post('change-password', 'user\PasswordController@update')->name('user.password.update');

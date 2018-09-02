@@ -123,7 +123,14 @@ class EventsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        //if the image exists unlink the image
+        if(file_exists(Event::find($id)->image)){
+            unlink(Event::find($id)->image);
+        }
+        //delete the event
+        Event::destroy($id);
+        //return flash session message back to user
+        return back()->with('success', 'Event deleted successfully');
     }
 
     public function validateRequest($request){

@@ -89,7 +89,7 @@ class CategoryController extends Controller
         //log event
         log::info('Displayed a category with Id number: ' .$id);
         //find category with $id
-        $category = Category::find($id);
+        $category = Category::findOrFail($id);
         return view('admin.categories.edit', compact('category'));
     }
 

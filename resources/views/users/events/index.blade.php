@@ -28,22 +28,24 @@
 
         <!-- Main content -->
         <div class="card">
+            
             <div class="card-header">
+            
             <p>
- 			<a href="{{ route('system-admin.events.create') }}" class="btn btn-primary">Add New Event</a>
- 		</p>
-              <h3 class="card-title">Uploaded Events History</h3>
+ 			    <a href="{{ route('user.events.create') }}" class="btn btn-primary">Add New Event</a>
+ 		    </p>
+             
+             <?php
+                //counts the number of events in database
+                 $noOfEvents = count($events);     
+              ?>
+
+            @if($noOfEvents > 0)
+
+            <h3 class="card-title">Uploaded Events History</h3>
             </div>
             <!-- /.card-header -->
             <div class="card-body">
-
-            
-            <?php
-              //counts the number of events in database
-              $noOfEvents = count($events);     
-            ?>
-
-            @if($noOfEvents > 0)
 
               <table id="example1" class="table table-bordered table-striped table-responsive">
                 <thead>
@@ -91,9 +93,9 @@
                   <td>{{ $event->created_at->toDayDateTimeString() }}</td>
                   <td>{{ $event->updated_at->toDayDateTimeString() }}</td>
                   <td>
-                     <a href="{{ route('system-admin.events.edit', $event->id) }}" class="btn btn-info">Edit</a>
+                     <a href="{{ route('user.events.edit', $event->id) }}" class="btn btn-info">Edit</a>
                      <a href="javascript:void(0)" onclick="$(this).parent().find('form').submit()" class="btn btn-danger">Delete</a>
-                     <form action="{{ route('system-admin.events.destroy', $event->id) }}" method="post">
+                     <form action="{{ route('user.events.destroy', $event->id) }}" method="post">
                       @method('DELETE')
                       <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     </form>
@@ -131,7 +133,7 @@
 
               @else
 
-                <p>No events available</p>
+                <p>You have not uploaded any event yet.</p>
 
               @endif
 

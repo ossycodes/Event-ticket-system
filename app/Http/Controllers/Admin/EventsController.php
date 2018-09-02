@@ -100,8 +100,8 @@ class EventsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
-    {
-        $event = Event::find($id);
+    {   
+        $event = Event::findOrFail($id);
         $categories = Category::all();
         return view('admin.events.edit',compact('event', 'categories'));
     }

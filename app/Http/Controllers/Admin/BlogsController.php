@@ -92,8 +92,10 @@ class BlogsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
-    {
-        $post = Blog::find($id);
+    {   
+        //find or fail
+        $post = Blog::findOrFail($id);
+        //return view
         return view('admin.posts.edit', compact('post'));
     }
 
@@ -105,9 +107,10 @@ class BlogsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {
+    {   
+        //update the request
         Blog::update($request->all());
-
+        //return flash success session message to the view
         return redirect()->route('system-admin.posts.create')->with('success', 'Post updated successfully');
     }
 
@@ -121,7 +124,7 @@ class BlogsController extends Controller
     {
         //delete post by primary key(id)
         Blog::destroy($id);
-
+        //log the error
         log::info('User with email:' .' ' .Auth::user()->email .' ' .'just deleted a post with Id number' .' ' .$id);
         //return flash success message
         return redirect()->route('system-admin.posts.index')->with('success', 'Post deleted successfully');

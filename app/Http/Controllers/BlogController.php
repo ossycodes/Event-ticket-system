@@ -12,8 +12,10 @@ class BlogController extends Controller
     public function show($id){
         
         $eventsimages = Event::all();
-        //echo $noOfEventimages->image; die;
-        $allBlogPosts = Blog::where('id', $id)->with('postcomments')->get();
-        echo "<pre>"; print_r(json_decode(json_encode($allBlogPosts))); die;
+        //$postDetails = Blog::where('id', $id)->with('postcomments')->get();
+        //$postDetails = Blog::find($id)->first();
+        $postDetails = Blog::find($id)->with('postcomments')->first();
+        //echo "<pre>"; print_r(json_decode(json_encode($postDetails))); die;
+        return view('post', compact('postDetails'));
     }
 }

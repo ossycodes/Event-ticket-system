@@ -25,13 +25,6 @@ Route::get('aboutus', function(){
 //Route for index
 Route::get('/', 'IndexController@index')->name('/');
 
-//Route for events
-Route::get('events', 'EventsController@index')->name('events');
-
-//Route for single page events
-Route::get('/events/{id}', 'EventsController@show');
-
-//Route for single page events
 Route::get('/posts/{id}', 'BlogController@show');
 
 //Route for Error page
@@ -55,6 +48,17 @@ Auth::routes();
 //home route
 Route::get('/home', 'HomeController@index')->name('home');
 
+
+
+
+//Event routes
+Route::group(['prefix' => 'events'], function(){
+
+    Route::get('', 'EventsController@index')->name('events');
+    //Route for single page events
+    Route::get('{id}', 'EventsController@show');
+
+});
 
 //Admin Routes
 Route::group(['prefix' => 'system-admin', 'as' => 'system-admin.', 'middleware' => ['auth', 'isAdmin']], function(){
@@ -83,7 +87,7 @@ Route::group(['prefix' => 'user', 'as' => 'user.', 'middleware' => ['isUser', 'a
 });
 
 //User's Routes
-Route::group(['middleware' => ['isUser', 'Auth']], function(){
+Route::group(['middleware' => ['isUser', 'auth']], function(){
      Route::get('change-password', 'user\PasswordController@index')->name('user.password');
      Route::post('change-password', 'user\PasswordController@update')->name('user.password.update');
      Route::get('user/delete-account/{id}', 'user\ProfileController@deleteAccount')->name('user.account.delete');

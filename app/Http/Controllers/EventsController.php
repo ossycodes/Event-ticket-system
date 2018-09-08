@@ -31,15 +31,15 @@ class EventsController extends Controller
 		$allBlogPosts = Blog::all();
 		//echo $allBlogPosts; die;
 		$noofevents = Event::all();
-		$eventcomments = Event::find($id)->eventscomment;
+		$eventcomments = Event::findOrFail($id)->eventscomment;
 		$eventsimage = Event::paginate(6);
 		$noofevents = Event::all();
 		$events = Event::orderBy('id', 'DESC')->paginate(6);
-		$eventDetails = Event::find($id);
+		$eventDetails = Event::findOrFail($id);
 		
 		return view('events.single', compact('events', 'noofevents', 'eventsimage', 'eventDetails', 'eventcomments', 'allBlogPosts', 'allCategories'));
 		
-	} catch(\exception $e){
+	} catch(\Exception $e){
 			abort(404);
 		}
 	}

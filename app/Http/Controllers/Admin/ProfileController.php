@@ -40,7 +40,11 @@ class ProfileController extends Controller
         $usersOnline = User::where('online', 1)->get();
         $postComment = Postscomment::latest()->first();
         $latestEvent = Event::latest()->first();
-        $commentOnEvent = Eventscomment::latest()->first();
+        try{
+            $commentOnEvent = Eventscomment::latest()->first();
+        }catch(\ErrorException $e){
+            return $e->getMessage();
+        }
         $message = Contact::latest()->first();
         $registeredUsers = User::where('role', 'user')->Orderby('created_at', 'asc')->get();
         

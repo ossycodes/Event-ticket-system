@@ -49,21 +49,21 @@
                 <strong><i class="fa fa-book mr-1"></i> Education</strong>
 
                 <p class="text-muted">
-                {{ Auth::user()->profile->education ? Auth::user()->profile->education : 'Not set yet' }}
+                {{ Auth::user()->profile ? Auth::user()->profile->education : 'Not set yet' }}
                 </p>
 
                 <hr>
 
                 <strong><i class="fa fa-map-marker mr-1"></i> Location</strong>
 
-                <p class="text-muted">{{ Auth::user()->profile->location ? Auth::user()->profile->location : 'Not set yet' }}</p>
+                <p class="text-muted">{{ Auth::user()->profile ? Auth::user()->profile->location : 'Not set yet' }}</p>
 
                 <hr>
 
                 <strong><i class="fa fa-pencil mr-1"></i> Skills</strong>
 
                 <p class="text-muted">
-                  <span class="tag tag-danger">{{ Auth::user()->profile->skills ? Auth::user()->profile->skills : 'Not set yet' }}</span>
+                  <span class="tag tag-danger">{{ Auth::user()->profile ? Auth::user()->profile->skills : 'Not set yet' }}</span>
                   
                 </p>
 
@@ -71,7 +71,7 @@
 
                 <strong><i class="fa fa-file-text-o mr-1"></i> Phonenumber</strong>
 
-                <p class="text-muted">{{ Auth::user()->profile->phonenumber ? Auth::user()->profile->phonenumber : 'Not set yet' }}</p>
+                <p class="text-muted">{{ Auth::user()->profile ? Auth::user()->profile->phonenumber : 'Not set yet' }}</p>
               </div>
               <!-- /.card-body -->
             </div>
@@ -93,7 +93,8 @@
                   <br><br>
                   @include('layouts.errors2')
                    <br><br>
-                    <!-- Post -->
+                    <!-- latest comment on any event -->
+                    @if($commentOnEvent)
                     <div class="post">
                       <div class="user-block">
                         <img class="img-circle img-bordered-sm" src="../../dist/img/user1-128x128.jpg" alt="user image">
@@ -120,9 +121,11 @@
 
                       <input class="form-control form-control-sm" type="text" placeholder="Type a comment">
                     </div>
-                    <!-- /.post -->
+                    <!-- /latest comment on any event -->
+                    @endif
 
-                    <!-- Post -->
+                    <!-- message -->
+                    @if($message)
                     <div class="post clearfix">
                       <div class="user-block">
                         <img class="img-circle img-bordered-sm" src="../../dist/img/user7-128x128.jpg" alt="User Image">
@@ -146,9 +149,11 @@
                         </div>
                       </form>
                     </div>
-                    <!-- /.post -->
+                    @endif
+                    <!-- /.message -->
 
-                    <!-- Post -->
+                    <!-- Registered users -->
+                    @if($registeredUsers)
                     <div class="post">
                       <div class="user-block">
                         <img class="img-circle img-bordered-sm" src="../../dist/img/user6-128x128.jpg" alt="User Image">
@@ -190,8 +195,11 @@
 
                       <input class="form-control form-control-sm" type="text" placeholder="Type a comment">
                     </div>
-                    <!-- /.post -->
+                    @endif
+                    <!-- /.Registered users -->
                   </div>
+
+
                   <!-- /.tab-pane -->
                   <div class="tab-pane" id="timeline">
                     <!-- The timeline -->
@@ -207,6 +215,7 @@
                       <li>
                         <i class="fa fa-envelope bg-primary"></i>
 
+                        @if($latestEvent)
                         <div class="timeline-item">
                           <span class="time"><i class="fa fa-clock-o"></i>{{ $latestEvent->created_at->diffForHumans() }}</span>
 
@@ -218,12 +227,15 @@
                             <a href="#" class="btn {{ ($latestEvent->status == 1) ? 'btn-danger' : 'btn-primary' }} btn-sm">{{ ($latestEvent->status == 1) ? 'De activate' : 'Activate' }}</a>
                           </div>
                         </div>
+                        @endif
+
                       </li>
                       <!-- END timeline item -->
                       <!-- timeline item -->
                       <li>
                         <i class="fa fa-user bg-info"></i>
 
+                      @if($usersOnline)
                       @foreach($usersOnline as $online)
                         <div class="timeline-item">
                           <span class="time"><i class="fa fa-clock-o"></i> Came Online {{ $online->updated_at->diffForHumans() }} </span>
@@ -231,13 +243,15 @@
                           <h3 class="timeline-header no-border"><a href="#">{{ $online->name }}</a> is online
                           </h3>
                         </div>
-                      @endforeach  
+                      @endforeach 
+                      @endif 
                       </li>
                       <!-- END timeline item -->
                       <!-- timeline item -->
                       <li>
                         <i class="fa fa-comments bg-warning"></i>
 
+                        @if($postComment)
                         <div class="timeline-item">
                           <span class="time"><i class="fa fa-clock-o"></i>{{ $postComment->created_at->diffForHumans() }}</span>
 
@@ -247,6 +261,7 @@
                             {{ $postComment->message }}
                           </div>
                         </div>
+                        @endif
                       </li>
                       <!-- END timeline item -->
                      
@@ -286,7 +301,7 @@
                         <label for="inputName2" class="col-sm-2 control-label">Phonenumber</label>
 
                         <div class="col-sm-10">
-                          <input type="text" class="form-control" id="inputName2" placeholder="{{ Auth::user()->profile->phonenumber ? Auth::user()->profile->phonenumber : 'Enter Phonenumber' }}" value="{{ Auth::user()->profile->phonenumber }}" name="phonenumber" required>
+                          <input type="text" class="form-control" id="inputName2" placeholder="{{ Auth::user()->profile ? Auth::user()->profile->phonenumber : 'Enter Phonenumber' }}" value="{{ Auth::user()->profile ? Auth::user()->profile->phonenumber : '' }}" name="phonenumber" required>
                         </div>
                       </div>
 
@@ -294,7 +309,7 @@
                         <label for="inputName2" class="col-sm-2 control-label">Gender</label>
 
                         <div class="col-sm-10">
-                          <input type="text" class="form-control" id="inputName2" placeholder="{{ Auth::user()->profile->gender ? Auth::user()->profile->gender : 'Enter Gender' }}" value="{{ Auth::user()->profile->gender }}" name="gender" required>
+                          <input type="text" class="form-control" id="inputName2" placeholder="{{ Auth::user()->profile ? Auth::user()->profile->gender : 'Enter Gender' }}" value="{{ Auth::user()->profile ? Auth::user()->profile->gender : 'Enter Gender' }}" name="gender" required>
                         </div>
                       </div>
 
@@ -302,7 +317,7 @@
                         <label for="inputExperience" class="col-sm-2 control-label">Education</label>
 
                         <div class="col-sm-10">
-                          <textarea class="form-control" id="inputExperience" placeholder="{{ Auth::user()->profile->education ? Auth::user()->profile->education : 'Enter Education' }}" name="education" required>{{ Auth::user()->profile->education }}</textarea>
+                          <textarea class="form-control" id="inputExperience" placeholder="{{ Auth::user()->profile ? Auth::user()->profile->education : 'Enter Education' }}" name="education" required>{{ Auth::user()->profile ? Auth::user()->profile->education : '' }}</textarea>
                         </div>
                       </div>
 
@@ -310,7 +325,7 @@
                         <label for="inputExperience" class="col-sm-2 control-label">Location</label>
 
                         <div class="col-sm-10">
-                          <textarea class="form-control" id="inputExperience" placeholder="{{ Auth::user()->profile->location ? Auth::user()->profile->location : 'Enter location' }}" name="location" required>{{ Auth::user()->profile->location }}</textarea>
+                          <textarea class="form-control" id="inputExperience" placeholder="{{ Auth::user()->profile ? Auth::user()->profile->location : 'Enter location' }}" name="location" required>{{ Auth::user()->profile ? Auth::user()->profile->location : '' }}</textarea>
                         </div>
                       </div>
 
@@ -318,7 +333,7 @@
                         <label for="inputSkills" class="col-sm-2 control-label">Skills</label>
 
                         <div class="col-sm-10">
-                          <input type="text" class="form-control" id="inputSkills" placeholder="{{ Auth::user()->profile->skills ? Auth::user()->profile->skills : 'Enter Skills' }}" value="{{ Auth::user()->profile->skills }}" name="skills" required>
+                          <input type="text" class="form-control" id="inputSkills" placeholder="{{ Auth::user()->profile ? Auth::user()->profile->skills : 'Enter Skills' }}" value="{{ Auth::user()->profile ? Auth::user()->profile->skills : '' }}" name="skills" required>
                         </div>
                       </div>
                       <div class="form-group">

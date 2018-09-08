@@ -32,82 +32,94 @@
             <p>
  			<a href="{{ route('system-admin.posts.create') }}" class="btn btn-primary">Add New Post</a>
  		</p>
-              <h3 class="card-title">Data Table With Full Features</h3>
+            <?php
+              $noOfPosts = count($posts);
+            ?>
+            @if($noOfPosts)
+            
+              <h3 class="card-title">All Available Posts</h3>
             </div>
             <!-- /.card-header -->
             <div class="card-body">
-
             
-              <table id="example1" class="table table-bordered table-striped table-responsive">
-                <thead>
+                <table id="example1" class="table table-bordered table-striped table-responsive">
+                  <thead>
 
-                <tr>
+                  <tr>
 
-                  <th>Id</th>
-                  <th>Title</th>
-                  <th>Description</th>
-                  <th>Body</th>
-                  <th>Comment</th>
-                  <th>Created At</th>
-                  <th>Updated At</th>
-                  <th>Action</th>
+                    <th>Id</th>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Body</th>
+                    <th>Comment</th>
+                    <th>Created At</th>
+                    <th>Updated At</th>
+                    <th>Action</th>
 
-                </tr>
+                  </tr>
 
-                </thead>
+                  </thead>
 
-                <tbody>
-                
-                @foreach($posts as $post)
+                  <tbody>
+                  
+                  @foreach($posts as $post)
 
-                <tr>
+                  <tr>
 
-                  <td>{{ $post->id }}</td>   
-                  <td>{{ $post->title}}</td>
-                  <td>{{ $post->description }}</td>
-                  <td>{{ $post->body }}</td>
-                  @foreach($post->postcomments as $comment)
+                    <td>{{ $post->id }}</td>   
+                    <td>{{ $post->title}}</td>
+                    <td>{{ $post->description }}</td>
+                    <td>{{ $post->body }}</td>
+                    @foreach($post->postcomments as $comment)
+                      <td>
+                        <strong>Name</strong> {{ $comment->name }}
+                        <strong>Message</strong> {{ $comment->message }}
+                      </td>
+                    @endforeach  
+                    <td>{{ $post->created_at->toDayDateTimeString() }}</td>
+                    <td>{{ $post->updated_at->toDayDateTimeString() }}</td>
                     <td>
-                      <strong>Name</strong> {{ $comment->name }}
-                      <strong>Message</strong> {{ $comment->message }}
+                      <a href="{{ route('system-admin.posts.edit', $post->id) }}" class="btn btn-info">Edit</a>
+                      <a href="" class="btn btn-success">View Comments</a>
+                      <a href="javascript:void(0)" onclick="$(this).parent().find('form').submit()" class="btn btn-danger">Delete</a>
+                      <form action="{{ route('system-admin.posts.destroy', $post->id) }}" method="post">
+                        @method('DELETE')
+                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                      </form>
                     </td>
-                  @endforeach  
-                  <td>{{ $post->created_at->toDayDateTimeString() }}</td>
-                  <td>{{ $post->updated_at->toDayDateTimeString() }}</td>
-                  <td>
-                     <a href="{{ route('system-admin.posts.edit', $post->id) }}" class="btn btn-info">Edit</a>
-                     <a href="" class="btn btn-success">View Comments</a>
-                     <a href="javascript:void(0)" onclick="$(this).parent().find('form').submit()" class="btn btn-danger">Delete</a>
-                     <form action="{{ route('system-admin.posts.destroy', $post->id) }}" method="post">
-                      @method('DELETE')
-                      <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                    </form>
-                  </td>
-                   
-                </tr>
+                    
+                  </tr>
+                
+                  @endforeach 
+                  
+                  </tbody>
+                  <tfoot>
+
+                  <tr>
+
+                    <th>Id</th>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Body</th>
+                    <th>Created At</th>
+                    <th>Updated At</th>
+                    <th>Action</th>
+                  
+                  </tr>
+                  </tfoot>
+
+                </table>
                
-                @endforeach 
-                
-                </tbody>
-                <tfoot>
-
-                <tr>
-
-                  <th>Id</th>
-                  <th>Title</th>
-                  <th>Description</th>
-                  <th>Body</th>
-                  <th>Created At</th>
-                  <th>Updated At</th>
-                  <th>Action</th>
-                
-                </tr>
-                </tfoot>
-
-              </table>
-        
+          
             </div>
             <!-- /.card-body -->
+            
+            @else
+               <h3 class="card-title">No Available Post At The Moment</h3>
+            @endif
+
+
+         
           </div>		
 
 @endsection

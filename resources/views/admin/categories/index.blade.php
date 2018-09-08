@@ -37,6 +37,11 @@
             <!-- /.card-header -->
             <div class="card-body">
 
+              <?php
+                $noOfCategories = count($categories);
+              ?>
+              
+              @if($noOfCategories)
             
               <table id="example1" class="table table-bordered table-striped table-responsive">
                 <thead>
@@ -91,6 +96,10 @@
                 </tfoot>
 
               </table>
+
+              @else
+                  <h5>No Categories Available At The Moment</h5>
+              @endif
         
             </div>
             <!-- /.card-body -->

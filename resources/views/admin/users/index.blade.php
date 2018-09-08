@@ -17,19 +17,7 @@
           </div><!-- /.col -->
 
           <br><br>
-          @if(Session::has('flash_message_error'))
-          <div class="alert alert-error alert-block">
-              <button type="button" class="close" data-dismiss="alert"> x </button>
-                <strong>{!! session('flash_message_error') !!}</strong>
-          </div>
-          @endif
-          @if(Session::has('flash_message_success'))
-          <div class="alert alert-success alert-block">
-              <button type="button" class="close" data-dismiss="alert"> x </button>
-                <strong>{!! session('flash_message_success') !!}</strong>
-          </div>
-          @endif 
-                   
+          @include('layouts.errors2')  
 
 
         </div><!-- /.row -->
@@ -42,7 +30,11 @@
             <!-- /.card-header -->
             <div class="card-body">
 
-            
+              <?php
+                $noOfUsers = count($users);
+              ?>
+              @if($noOfUsers)
+
               <table id="example1" class="table table-bordered table-striped table-responsive">
                 <thead>
 
@@ -89,6 +81,10 @@
                 </tfoot>
 
               </table>
+
+              @else 
+                <h5>No Registered Users At The Moment</h5>
+              @endif
         
             </div>
             <!-- /.card-body -->

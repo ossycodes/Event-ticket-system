@@ -1,5 +1,9 @@
 <?php
 use App\Newsletter;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Notification;
+
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -71,9 +75,10 @@ Route::group(['prefix' => 'system-admin', 'as' => 'system-admin.', 'middleware' 
     Route::resource('admin/subscribers', 'Admin\NewslettersController');
     Route::resource('admin/messages', 'Admin\ContactsController');
     Route::resource('admin/profile', 'Admin\ProfileController');
+    Route::resource('admin/notification', 'Admin\NotificationController');
     
+    //password route
     Route::get('admin/change-password', 'Admin\PasswordController@index');
-
     Route::post('admin/update-password', 'Admin\PasswordController@update');
     
     Route::get('admin/compose-mail', function(){
@@ -93,9 +98,13 @@ Route::group(['middleware' => ['isUser', 'auth']], function(){
      Route::get('change-password', 'user\PasswordController@index')->name('user.password');
      Route::post('change-password', 'user\PasswordController@update')->name('user.password.update');
      Route::get('user/delete-account/{id}', 'user\ProfileController@deleteAccount')->name('user.account.delete');
+     Route::get('user/read-notification', function(){
+        Auth::user()->unreadNotifications->markAsRead();
+        return back();
+    });
 });
      
-     
+
 
 
 

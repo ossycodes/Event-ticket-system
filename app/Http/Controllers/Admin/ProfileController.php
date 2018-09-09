@@ -118,7 +118,7 @@ class ProfileController extends Controller
             return back()->with('success', 'Profile updated successfully');
         }    
 
-             return back()->with('error', 'Something went wrong');
+            return back()->with('error', 'Something went wrong');
             
     }
 
@@ -134,14 +134,14 @@ class ProfileController extends Controller
     }
 
     public function updateName(Request $request){
-        
+        //update the user's name
         User::where('id', Auth::user()->id)->update([
             'name' => $request->name
         ]);
     }
 
     public function updateProfile(Request $request){
-       
+        //uupdate the user's profile,
         return User::find(Auth::user()->id)->profile()->update([
             'gender' => $request->gender,
             'phonenumber' => $request->phonenumber,

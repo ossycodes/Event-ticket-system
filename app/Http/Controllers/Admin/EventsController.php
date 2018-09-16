@@ -49,27 +49,22 @@ class EventsController extends Controller
      */
     public function store(Request $request)
     {
+
+        //TODO USE THAT ENOCH CODE SNIPPET FOR CREATING A NEW EVENT IMAGE
+
         //validate the incoming request
         $this->validateRequest($request);
+
         //store the request in a $data variable
         $data = $request->all();
 
-        //if the request has an image
-        if($request->hasFile('image') and $request->file('image')->isValid()){
-            
-             $path = 'public/images/frontend_images/events';
-             $imageNameWithNoExtension = explode('.', $request->image->getClientOriginalName()); 
-             $imageName =  $imageNameWithNoExtension[0].rand(1, 99999).date('ymdhis').'.'.$request->image->getClientOriginalExtension();
-             $request->image->storeAs($path, $imageName);
+        $data['user_id'] = Auth::user()->id;
 
-             $data['image'] = $imageName;
-             
-             
-        } else{
-            $data['image'] = 'default.jpg';
-        }
+        //upload and store image
+        $imageName = $this->checkAndUploadImage($request, $data);
+       
+        $data['image'] = $imageName;
 
-        //dd($data);
         try{
         Event::create($data);
         }catch(QueryException $e){
@@ -121,21 +116,24 @@ class EventsController extends Controller
         $data = $request->all();
         //to get only the image name from the folder path and extension explode it
         $formerImage = explode('/', $data['imagename']);
-        $path = 'public/images/frontend_images/events';
+       
+        $path = 'images/frontend_images/events';
 
         //if an image exits in the incoming request and the image was successfully uploaded
         if($request->hasFile('image') and $request->image->isValid()){
             
             //Delete the previous image from the events folder, if a new image is uploaded
             if (file_exists($data['imagename'])) {
-                //dd('exists');
                 unlink($data['imagename']);
             }
 
             $imageName = explode('.', $request->image->getClientOriginalName());
             $imageName = $imageName[0].rand(1, 99999).date('ymdhis').'.'.$request->image->getClientOriginalExtension();
-            //dd($data);
-            $request->image->storeAs($path, $imageName);
+          
+            //a better way to store the image in an event folder
+            $request->file('image')->move($path, $imageName);
+
+            //$request->image->storeAs($path, $imageName);
 
             $data['image'] = $imageName;
      
@@ -178,17 +176,35 @@ class EventsController extends Controller
         if (file_exists(Event::find($id)->image)) {
             unlink(Event::find($id)->image);
         }
- 
-        
-        //Figure out why its not working plus use intervention image package
-        //Storage::delete(Event::find($id)->image);
-        
+
         //delete the event
         Event::destroy($id);
         //log the event
         log::info('User with email:' .' ' .Auth::user()->email .' ' .'just deleted an event with Id number' .' ' .$id);
         //return flash success message
         return redirect()->route('system-admin.events.index')->with('success', 'Event deleted successfully');
+    }
+
+    public function checkAndUploadImage(Request $request, $data)
+    {
+
+            //if the request has an image
+            if($request->hasFile('image') and $request->file('image')->isValid()){
+                
+                $path = 'images/frontend_images/events';
+                $imageNameWithNoExtension = explode('.', $request->image->getClientOriginalName()); 
+                $imageName =  $imageNameWithNoExtension[0].rand(1, 99999).date('ymdhis').'.'.$request->image->getClientOriginalExtension();
+                
+                 //better way to store the image in the events folder
+                $request->file('image')->move($path, $imageName);
+                //$request->image->storeAs($path, $imageName);
+ 
+                return $imageName;          
+                
+            } else{
+                 return $data['image'] = 'default.jpg';
+            }
+
     }
 
     public function validateRequest($request){

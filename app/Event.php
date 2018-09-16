@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Event extends Model
 {
-    protected $path = 'storage/images/frontend_images/events/';
+    protected $path = 'images/frontend_images/events/';
 
     protected $guarded = [];
 

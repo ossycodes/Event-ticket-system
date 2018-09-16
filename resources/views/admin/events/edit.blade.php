@@ -131,7 +131,7 @@
        </div>
      </div>
 
-    <input type="text" name="imagename" value="{{ $event->image }}" class="form-control"/>
+    <input type="hidden" name="imagename" value="{{ $event->image }}" class="form-control"/>
 
      <div class="form-group">
        <input type="submit" class="btn btn-info" value="Update" >

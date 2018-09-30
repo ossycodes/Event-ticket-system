@@ -50,8 +50,6 @@ class EventsController extends Controller
     public function store(Request $request)
     {
 
-        //TODO USE THAT ENOCH CODE SNIPPET FOR CREATING A NEW EVENT IMAGE
-
         //validate the incoming request
         $this->validateRequest($request);
 

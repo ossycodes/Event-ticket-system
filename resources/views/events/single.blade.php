@@ -58,21 +58,21 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 											
 													<div class="review-info">
 													
-															<h2><a class="span" href="">{{ $eventDetails->name }}</a></h2>
+															<h2><a class="span" href="">{{ optional($eventDetails)->name }}</a></h2>
 															<br>
-															<p><strong>Venue: </strong> {{ $eventDetails->venue }}</p>
+															<p><strong>Venue: </strong> {{ optional($eventDetails)->venue }}</p>
 															<br>
-															<p><strong>Actors: </strong> {{ $eventDetails->actors }}</p>
+															<p><strong>Actors: </strong> {{ optional($eventDetails)->actors }}</p>
 															<br>
-															<p><strong>Time Duration: </strong> {{ $eventDetails->time }}</p>
+															<p><strong>Time Duration: </strong> {{ optional($eventDetails)->time }}</p>
 															<br>
-															<p><strong>Date: </strong> {{ $eventDetails->date }} </p>
+															<p><strong>Date: </strong> {{ optional($eventDetails)->date }} </p>
 															<br>
-															<p><strong>Age: </strong>{{ $eventDetails->age }}</p>
+															<p><strong>Age: </strong>{{ optional($eventDetails)->age }}</p>
 															<br>
-															<p><strong>Tickets: </strong> {{ $eventDetails->ticket }} </p> 
+															<p><strong>Tickets: </strong> {{ optional($eventDetails)->ticket }} </p> 
 															<br>
-															<p><strong>Dress Code: </strong>{{ $eventDetails->dresscode }}</p>
+															<p><strong>Dress Code: </strong>{{ optional($eventDetails)->dresscode }}</p>
 											
 															<br>
 															<!-- Trigger the modal with a button -->
@@ -107,7 +107,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 												
 												<div class="comments-section-head-text">
 													<?php $noOfcCmments = count($eventcomments); ?>
-														<h3>{{ $noOfcCmments }} @if($noOfcCmments > 1) Comments @else Comment @endif</h3>
+														<h3>{{ $noOfcCmments }} @if($noOfcCmments > 1) {{str_plural('Comment')}} @else Comment @endif</h3>
 												</div>
 												<div class="clearfix"></div>
 											
@@ -125,10 +125,10 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 															</div>
 											
 															<div class="col-md-10 comments-section-grid-text">
-																<h4><a href="#">{{ $comments->name }}</a></h4>
-																<label>{{ $comments->created_at->diffForHumans() }}</label>
-																<p>{{ $comments->email }}</p>
-																<label>{{ $comments->message }}</label>
+																<h4><a href="#">{{ optional($comments)->name }}</a></h4>
+																<label>{{ optional($comments->created_at)->diffForHumans() }}</label>
+																<p>{{ optional($comments)->email }}</p>
+																<label>{{ optional($comments)->message }}</label>
 																<i class="rply-arrow"></i>
 															</div>
 															<div class="clearfix"></div>

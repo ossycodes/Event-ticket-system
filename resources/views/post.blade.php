@@ -28,6 +28,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                         <h3>{{ $postDetails->title }}</h3>
                         <p>Posted {{ $postDetails->created_at->diffForHumans() }} </p>
 
+                        <!-- TODO HAD A PPOST PICTURE FROM DB, USING MODELS-->
+
                         <br>
 						<img src="{{ asset('images/frontend_images/a1.jpg') }}" alt="" />
 						

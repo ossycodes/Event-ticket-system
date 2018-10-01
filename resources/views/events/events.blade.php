@@ -71,10 +71,18 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 																					
 																					<a class="span" href="{{ url('/events/'.$event->id) }}">{{ $event->name }}</a>
 																					<br>
-																								
-																					<p class="">VENUE:&nbsp; {{ $event->venue }}</p>
-																					<p class="">DATE:&nbsp; {{ $event->date }}</p>
-																					<p class="">DURATION:&nbsp; {{ $event->time }}</p>
+
+																					<?php
+																						//me just testing the transform() helper method
+																						$res = transform(null, function($value){
+																							return $value * 2;
+																						}, 'gets return if value is returns null');
+																				
+																					?>
+																						
+																					<p class="">VENUE:&nbsp; {{ $event->venue ?? 'Venue was not provided' }} {{-- ?? php 7 null coalesce operator --}}</p>
+																					<p class="">DATE:&nbsp; {{ $event->date ?? 'No date was set' }} {{-- ?? php 7 null coalesce operator --}}</p>
+																					<p class="">DURATION:&nbsp; {{ $event->time ?? 'No time was set' }} {{-- ?? php 7 null coalesce operator --}}</p>
 																	
 																					<br>
 																					<!-- Trigger the modal with a button -->
@@ -96,21 +104,21 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 																									</div>
 
 																									<div class="modal-body">
-																										<p><strong>Description: </strong> {{ $event->description }} </p>
+																										<p><strong>Description: </strong> {{ $event->description ?? 'No description provided' }} {{-- ?? php 7 null coalesce operator --}}</p>
 																										<br>
-																										<p><strong>Venue: </strong> {{ $event->venue }}</p>
+																										<p><strong>Venue: </strong> {{ $event->venue ?? 'No venue provided' }} {{-- ?? php 7 null coalesce operator --}}</p>
 																										<br>
-																										<p><strong>Actors: </strong> {{ $event->actors }}</p>
+																										<p><strong>Actors: </strong> {{ $event->actors ?? 'No actors provided' }} {{-- ?? php 7 null coalesce operator --}}</p>
 																										<br>
-																										<p><strong>Time Duration: </strong> {{ $event->time }}</p>
+																										<p><strong>Time Duration: </strong> {{ $event->time ?? 'No time provided' }} {{-- ?? php 7 null coalesce operator --}}</p>
 																										<br>
-																										<p><strong>Date: </strong> {{ $event->date }} </p>
+																										<p><strong>Date: </strong> {{ $event->date ?? 'No date provided' }} {{-- ?? php 7 null coalesce operator --}}</p>
 																										<br>
-																										<p><strong>Age: </strong>{{ $event->age }}</p>
+																										<p><strong>Age: </strong>{{ $event->age ?? 'No age provided' }} {{-- ?? php 7 null coalesce operator --}}</p>
 																										<br>
-																										<p><strong>Tickets: </strong> {{ $event->ticket }} </p> 
+																										<p><strong>Tickets: </strong> {{ $event->ticket ?? 'No ticket category given' }} {{-- ?? php 7 null coalesce operator --}}</p> 
 																										<br>
-																										<p><strong>Dress Code: </strong>{{ $event->dresscode }}</p>
+																										<p><strong>Dress Code: </strong>{{ $event->dresscode ?? 'No dresscode provided' }} {{-- ?? php 7 null coalesce operator --}}</p>
 																									</div>
 
 																									<div class="modal-footer">

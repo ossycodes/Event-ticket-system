@@ -1,5 +1,6 @@
 <?php
 use App\Newsletter;
+use Intervention\Image\Image;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Notification;
 
@@ -19,6 +20,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 */
+
+// usage inside a laravel route
+Route::get('/test-i', 'IndexController@t');
 
 Route::get('/sendmail', 'ContactsController@sendMail');
 
@@ -52,6 +56,8 @@ Auth::routes();
 
 //home route
 Route::get('/home', 'HomeController@index')->name('home');
+
+//Route::get('/test-transform', 'IndexController@testT');
 
 
 

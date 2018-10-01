@@ -45,8 +45,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 						
 							<div class="reviews-section">
 								
-								<h3 class="head">{{$eventDetails->name }} Full Description</h3>
-								<p>Posted on - {{ $eventDetails->created_at->toDayDateTimeString() }}</p>
+								<h3 class="head">{{ optional($eventDetails)->name ?? 'No description provided' }} Full Description</h3>
+								<p>Posted on - {{ optional($eventDetails)->created_at->toDayDateTimeString() ?? 'No date provided' }}</p>
 									
 									<div class="col-md-9 reviews-grids">
 										
@@ -91,13 +91,13 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
 											<div class="best-review">
 												<h4>Event Full Description</h4>
-												<p>{{ $eventDetails->description }}</p>
+												<p>{{ optional($eventDetails)->description ?? 'No description provided' }}</p>
 												<p><span>Neeraj Upadhyay (Noida)</span> 16/03/2015 at 12:14 PM</p>
 											</div>
 
 											<div class="story-review">
 												<h4>PERFORMING ARTISTES:</h4>
-												<p>{{ $eventDetails->actors }}</p>
+												<p>{{ optional($eventDetails)->actors ?? 'no actors provided' }}</p>
 											</div>
 
 										<!-- comments-section-starts -->
@@ -125,10 +125,10 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 															</div>
 											
 															<div class="col-md-10 comments-section-grid-text">
-																<h4><a href="#">{{ optional($comments)->name }}</a></h4>
-																<label>{{ optional($comments->created_at)->diffForHumans() }}</label>
-																<p>{{ optional($comments)->email }}</p>
-																<label>{{ optional($comments)->message }}</label>
+																<h4><a href="#">{{ optional($comments)->name ?? 'No name provided' }}</a></h4>
+																<label>{{ optional($comments->created_at)->diffForHumans() ?? 'No date provided' }}</label>
+																<p>{{ optional($comments)->email ?? 'No email provided' }}</p>
+																<label>{{ optional($comments)->message ?? 'No comment provided' }}</label>
 																<i class="rply-arrow"></i>
 															</div>
 															<div class="clearfix"></div>
@@ -136,7 +136,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 														</div>
 
 												@endif
-												@endforeach
+												@endforeach 
 
 
 										</div>
@@ -162,7 +162,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 								
 										<form action="{{ url('/add-comment-event') }}" method="post">{{ csrf_field() }}
 											<input type="hidden" name="event_id" value="{{ encrypt($eventDetails->id) }}">
-											<input type="text" class="text" placeholder="{{ Auth::user() ? Auth::user()->name : 'Enter name' }}" value="" name="name" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Enter Name';}" required>
+											<input type="text" class="text" placeholder="{{ Auth::user()->name ?? 'Enter name' }}" value="" name="name" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Enter Name';}" required>
 											<input type="text" class="text" placeholder = "{{ Auth::user() ? Auth::user()->email : 'Enter Email' }}" value="" name="email" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Enter Email';}" required>
 											<textarea name="message" required></textarea>
 											<input type="submit" value="SUBMIT COMMENT" class="btn btn-warning">

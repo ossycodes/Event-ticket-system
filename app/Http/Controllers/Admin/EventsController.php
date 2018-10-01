@@ -2,16 +2,19 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\Database\QueryException;
+use Auth;
+use App\Event;
+use Validator;
+use App\Category;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
-use App\Event;
-use App\Category;
-use Validator;
-use Auth;
+use Intervention\Image\Facades\Image;
+use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\Storage;
+
+use Illuminate\Support\Facades\Input;
 
 class EventsController extends Controller
 {
@@ -128,8 +131,17 @@ class EventsController extends Controller
             $imageName = explode('.', $request->image->getClientOriginalName());
             $imageName = $imageName[0].rand(1, 99999).date('ymdhis').'.'.$request->image->getClientOriginalExtension();
           
+            //Intervention resize image pakage starts here
+          
+            $fp = 'images/frontend_images/events/'.$imageName;
+
+            Image::make(input::file('image'))->resize(287, 412)->save($fp);
+
+            //ends here
+
+
             //a better way to store the image in an event folder
-            $request->file('image')->move($path, $imageName);
+            //$request->file('image')->move($path, $imageName);
 
             //$request->image->storeAs($path, $imageName);
 
@@ -193,8 +205,20 @@ class EventsController extends Controller
                 $imageNameWithNoExtension = explode('.', $request->image->getClientOriginalName()); 
                 $imageName =  $imageNameWithNoExtension[0].rand(1, 99999).date('ymdhis').'.'.$request->image->getClientOriginalExtension();
                 
-                 //better way to store the image in the events folder
-                $request->file('image')->move($path, $imageName);
+                //Intervention resize image pakage starts here
+                //This resizes the image and stores it in th epath i specified.
+          
+                $fp = 'images/frontend_images/events/'.$imageName;
+
+                Image::make(input::file('image'))->resize(287, 412)->save($fp);
+
+                //ends here
+
+                //used this in place of the intervention image package, better way to store the image in the events folder
+                //but now i am using the intervention package i need this no more
+
+                //$request->file('image')->move($path, $imageName);
+
                 //$request->image->storeAs($path, $imageName);
  
                 return $imageName;          
@@ -234,4 +258,5 @@ class EventsController extends Controller
             'dresscode' => 'required',
         ], $message)->validate();
     }
+
 }

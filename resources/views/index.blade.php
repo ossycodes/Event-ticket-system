@@ -25,7 +25,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 					<ul id="flexiselDemo1">
 					
 						@foreach($noofeventsimages as $image)
-							<li><img src="{{ asset($image->image) }}" alt="{{ $image->name }}"/></li>
+							<li><img src="{{ asset(optional($image)->image) }}" alt="{{ $image->name }}"/></li>
 						@endforeach
 						
 					</ul>
@@ -78,8 +78,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 										@foreach($events as $event)
 											<div class="news-grid">
 
-												<h5>{{ $event->name }}</h5>
-												<label>{{ $event->date }}</label>
+												<h5>{{ optional($event)->name }}</h5>
+												<label>{{ optional($event)->date }}</label>
 												<p>{{ str_limit($event->description, 150) }}</p>
 												<br>
 												<a href="{{ url('/events/'.$event->id) }}"><button type="button" class="btn btn-default">More Details</button></a>

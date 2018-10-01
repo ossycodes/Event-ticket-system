@@ -2,17 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Blog;
 
 use App\Event;
-use App\Eventscomment;
 use App\Category;
-use App\Blog;
+use App\Blogsimage;
+use App\Eventscomment;
+use Illuminate\Http\Request;
 
 class EventsController extends Controller
 {
     public function index(){
 		
+		$allBlogPosts1 = Blog::paginate(6);
 		$allBlogPosts1 = Blog::all();
 		$allCategories = Category::all();
 		$noofevents = Event::all();

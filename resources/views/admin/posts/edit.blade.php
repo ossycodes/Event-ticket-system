@@ -22,9 +22,26 @@
         <!-- Main content -->
  <section class="content">
  	<div class="container-fluid">
- 		<form method="post" action="{{ route('system-admin.posts.update', $post->id) }}">{{ csrf_field() }}
+ 		<form method="post" action="{{ route('system-admin.posts.update', $post->id) }}" enctype="multipart/form-data">{{ csrf_field() }}
             @Method('PUT')
 
+   <div class="form-group">
+      <div class="row">
+        <label class="col-md-3">Image</label>
+          <div class="col-md-9"><input type="file" name="image"></div>
+            <div class="clearfix"></div>
+            @if(optional($postImage)->imagename)
+            <div class="col-md-3"></div>
+            <div class="col-md-9">
+            <br>
+              <img src="{{ asset(optional($postImage)->imagename) }}" style="width: 256px; height: 380px">
+              </div>  
+            <div class="clearfix"></div>
+            @endif
+        </div>
+      </div> 
+      
+      
       <div class="form-group">
       <div class="row">
        <label class="col-md-3"> Title </label>
@@ -48,6 +65,8 @@
        <div class="clearfix"></div>
        </div>
      </div> 
+
+     <input type="hidden" name="formerimage" value="{{ optional($postImage)->imagename }}" class="form-control"/>
 
 
      <div class="form-group">

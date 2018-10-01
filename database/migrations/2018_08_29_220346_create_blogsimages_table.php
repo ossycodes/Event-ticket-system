@@ -19,7 +19,7 @@ class CreateBlogsimagesTable extends Migration
             $table->string('imagename');
 
 
-            $table->foreign('blog_id')->references('id')->on('blogs');
+            $table->foreign('blog_id')->references('id')->on('blogs')->onDelete('cascade');
             $table->timestamps();
         });
     }

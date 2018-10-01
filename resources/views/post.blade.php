@@ -26,12 +26,13 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 					<div class="col-md-6 about-grid">
 						
                         <h3>{{ $postDetails->title }}</h3>
+                    
                         <p>Posted {{ $postDetails->created_at->diffForHumans() }} </p>
 
                         <!-- TODO HAD A PPOST PICTURE FROM DB, USING MODELS-->
 
                         <br>
-						<img src="{{ asset('images/frontend_images/a1.jpg') }}" alt="" />
+						<img src="{{ asset(optional($postImage)->imagename ?? 'images/frontend_images/posts/default.jpg') }}" alt="" />
 						
 						
 					</div>
@@ -61,7 +62,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
                         <div class="comments-section-grids">
 										
-                                        @foreach($postDetails['postcomments'] as $comments)
+                                        @foreach($postComments as $comments)
                                         
                                                 <div class="comments-section-grid">
                                                     

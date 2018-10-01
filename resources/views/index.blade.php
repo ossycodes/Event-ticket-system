@@ -25,7 +25,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 					<ul id="flexiselDemo1">
 					
 						@foreach($noofeventsimages as $image)
-							<li><img src="{{ asset(optional($image)->image) }}" alt="{{ $image->name }}"/></li>
+							<li><img src="{{ asset($image->image) }}" alt="{{ $image->name }}"/></li>
 						@endforeach
 						
 					</ul>

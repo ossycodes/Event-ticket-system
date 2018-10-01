@@ -22,15 +22,26 @@
         <!-- Main content -->
  <section class="content">
  	<div class="container-fluid">
- 		<form method="post" action="{{ route('system-admin.posts.store') }}">{{ csrf_field() }}
-     <div class="form-group">
+ 		<form method="post" action="{{ route('system-admin.posts.store') }}" enctype="multipart/form-data">{{ csrf_field() }}
+     
+      <div class="form-group">
+        <div class="row">
+         <label class="col-md-3">Image</label>
+         <div class="col-md-6"><input type="file" name="image" required></div>
+         <div class="clearfix"></div>
+         </div>
+       </div> 
 
-      <div class="row">
-       <label class="col-md-3"> Title </label>
-       <div class="col-md-6"><input type="text" name="title" class="form-control" ></div>
-       <div class="clearfix"></div>
-       </div>
+
+      <div class="form-group">
+         <div class="row">
+          <label class="col-md-3"> Title </label>
+            <div class="col-md-6"><input type="text" name="title" class="form-control" ></div>
+              <div class="clearfix">
+              </div>
+        </div>
       </div> 
+      
 
       <div class="form-group">
       <div class="row">

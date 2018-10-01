@@ -13,7 +13,6 @@ use App\Http\Controllers\Controller;
 use Intervention\Image\Facades\Image;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Storage;
-
 use Illuminate\Support\Facades\Input;
 
 class EventsController extends Controller

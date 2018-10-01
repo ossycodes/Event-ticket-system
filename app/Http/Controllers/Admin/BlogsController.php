@@ -2,13 +2,17 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\Database\QueryException;
+use Auth;
+use App\Blog;
+use Validator;
+use App\Blogsimage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
-use App\Blog;
-use Validator;
-use Auth;
+use Illuminate\Support\Facades\Input;
+use Intervention\Image\Facades\Image;
+use Illuminate\Database\QueryException;
+
 
 class BlogsController extends Controller
 {
@@ -53,14 +57,28 @@ class BlogsController extends Controller
     {
         //validate incoming request
         Validator::make($request->all(), [
+            'image' => 'required',
             'title' => 'required',
             'description' => 'required',
             'body' => 'required',
         ])->validate();
         
+        $data = $request->all();
+
+        //upload and store image
+        $imageName = $this->checkAndUploadImage($request, $data);
+       
+        $data['image'] = $imageName;
+        
         //create post via mass assignment
         try{
-        Blog::create($request->all());
+
+        $blog = Blog::create($data);
+
+        Blog::find($blog->id)->blogimage()->create([
+            'imagename' => $data['image']
+        ]);
+
         }catch(QueryException $e){
             Log::error($e->getMessage());
             //return flash session error message to view
@@ -95,8 +113,9 @@ class BlogsController extends Controller
     {   
         //find or fail
         $post = Blog::findOrFail($id);
+        $postImage = Blog::findOrFail($id)->blogimage;
         //return view
-        return view('admin.posts.edit', compact('post'));
+        return view('admin.posts.edit', compact('post', 'postImage'));
     }
 
     /**
@@ -108,8 +127,55 @@ class BlogsController extends Controller
      */
     public function update(Request $request, $id)
     {   
+         
+        $data = $request->all();
+        
+         $formerImage = explode('/', $data['formerimage']);
+
+        //if an image exits in the incoming request and the image was successfully uploaded
+        if($request->hasFile('image') and $request->image->isValid()) {
+            
+            //Delete the previous image from the events folder, if a new image is uploaded
+            if(file_exists($data['formerimage'])) {
+                unlink($data['formerimage']);
+                //dd('exists');
+            }
+
+            $imageName = explode('.', $request->image->getClientOriginalName());
+            $imageName = $imageName[0].rand(1, 99999).date('ymdhis').'.'.$request->image->getClientOriginalExtension();
+          
+            // //Intervention resize image pakage starts here
+          
+            $fp = 'images/frontend_images/posts/'.$imageName;
+
+            Image::make(input::file('image'))->resize(640, 423)->save($fp);
+
+            //ends here
+
+            $data['imageName'] = $imageName;
+     
+        }   else {
+
+             $data['imageName'] = $formerImage[3];
+
+        }
+
+        $tp = tap(Blog::find($id))->update([
+            'title' => $data['title'],
+            'body' => $data['body'],
+            'description' => $data['description'],
+        ]);
+        
+        // dd($data['imagename']);
+        // dd($tp->id);
+
+        Blog::find($tp->id)->blogimage()->update([
+            'imagename' => $data['imageName']
+        ]);
+
         //update the request
-        Blog::update($request->all());
+        //Blog::update($request->all());
+
         //return flash success session message to the view
         return redirect()->route('system-admin.posts.create')->with('success', 'Post updated successfully');
     }
@@ -122,11 +188,63 @@ class BlogsController extends Controller
      */
     public function destroy($id)
     {
+
+        //if a post has no image the file_exists function would throw an error exception
+        //as such image does not exist, rather than throwing the error exception, the rescue function
+        //catches such exception that occcur, and the request continues peacefully.
+        rescue( function() {
+            
+            $i = Blogsimage::where('blog_id', $id)->first();
+            $i->imagename;
+            
+            if (file_exists($i->imagename)) {
+                unlink($i->imagename);
+            }
+
+        });
+        
+
         //delete post by primary key(id)
         Blog::destroy($id);
+        
         //log the error
         log::info('User with email:' .' ' .Auth::user()->email .' ' .'just deleted a post with Id number' .' ' .$id);
+        
         //return flash success message
         return redirect()->route('system-admin.posts.index')->with('success', 'Post deleted successfully');
+    
+    }
+
+    public function checkAndUploadImage(Request $request, $data)
+    {
+
+            //if the request has an image
+            if($request->hasFile('image') and $request->file('image')->isValid()){
+                
+                // dd($data);
+                // //Delete the previous image from the events folder, if a new image is uploaded
+                // if (file_exists($data['imagename'])) {
+                //     unlink($data['imagename']);
+                // }
+
+                $path = 'images/frontend_images/posts';
+                $imageNameWithNoExtension = explode('.', $request->image->getClientOriginalName()); 
+                $imageName =  $imageNameWithNoExtension[0].rand(1, 99999).date('ymdhis').'.'.$request->image->getClientOriginalExtension();
+                
+                //Intervention resize image pakage starts here
+                //This resizes the image and stores it in th epath i specified.
+          
+                $fp = 'images/frontend_images/posts/'.$imageName;
+
+                Image::make(input::file('image'))->resize(640, 423)->save($fp);
+
+                //ends here
+ 
+                return $imageName;          
+                
+            } else{
+                 return $data['image'] = 'default.jpg';
+            }
+
     }
 }

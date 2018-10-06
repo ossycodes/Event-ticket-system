@@ -40,15 +40,16 @@
         <a class="nav-link" data-widget="pushmenu" href="#"><i class="fa fa-bars"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="index3.html" class="nav-link">Home</a>
+      <a href="{{ route('home') }}" class="nav-link">Home</a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="#" class="nav-link">Contact</a>
+      <a href="{{ route('contactus') }}" class="nav-link">Contact us</a>
       </li>
     </ul>
 
     <!-- SEARCH FORM -->
-    <form class="form-inline ml-3">
+   {{-- TODO WORK ON THIS SEARCH BAR --}}
+    {{-- <form class="form-inline ml-3">
       <div class="input-group input-group-sm">
         <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
         <div class="input-group-append">
@@ -57,7 +58,7 @@
           </button>
         </div>
       </div>
-    </form>
+    </form> --}}
 
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
@@ -100,7 +101,7 @@
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="index3.html" class="brand-link">
+    <a href="#" class="brand-link">
       <img src="{{ asset('dist/img/AdminLTELogo.png') }}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
            style="opacity: .8">
       <span class="brand-text font-weight-light">{{ Auth::user()->role }} dashboard</span>
@@ -310,10 +311,15 @@
     @endif
     <!-- End of admin dashboard section -->  
 
-    <!-- If Authenticated as user, then admin dashboard details goes in here-->    
+    <!-- If Authenticated as user, then user's dashboard details goes in here-->    
+    
+    <?php
+       $segment = request::segment(2);
+    ?>
+
     @if(Auth::user()->role == "user")
           <li class="nav-item">
-            <a href="" class="nav-link 
+            <a href="{{ route('home') }}" class="nav-link 
               @if(!$segment)
               active
               @endif
@@ -381,8 +387,8 @@
           </li>
 
           <li class="nav-item">
-            <a href="" class="nav-link
-              @if($segment == 'news')
+          <a href="{{ route('user.transaction') }}" class="nav-link
+              @if($segment == 'transactions')
               active
               @endif
               ">
@@ -393,7 +399,7 @@
             </a>
           </li>
     @endif
-    <!-- End of admin dashboard section -->  
+    <!-- End of user dashboard section -->  
 
 
           <li class="nav-header">Action</li>

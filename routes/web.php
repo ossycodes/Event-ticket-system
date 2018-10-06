@@ -108,8 +108,16 @@ Route::group(['middleware' => ['isUser', 'auth']], function(){
         Auth::user()->unreadNotifications->markAsRead();
         return back();
     });
+    Route::get('user/transactions', 'user\TransactionController@index')->name('user.transaction');
 });
-     
+
+
+Route::group(['middleware' => 'auth'], function(){
+    Route::post('/makepayment', 'PaymentController@redirectToProvider');
+    Route::get('/payment/callback', 'PaymentController@handleGatewayCallback');    
+});
+
+
 
 
 

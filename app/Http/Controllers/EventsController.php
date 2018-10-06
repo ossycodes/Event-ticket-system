@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Blog;
 
 use App\Event;
+use App\Ticket;
 use App\Category;
 use App\Blogsimage;
 use App\Eventscomment;
@@ -12,6 +13,10 @@ use Illuminate\Http\Request;
 
 class EventsController extends Controller
 {
+	public function __construct() {
+		$this->middleware('auth')->only('show');	
+	}
+
     public function index(){
 		
 		$allBlogPosts1 = Blog::paginate(6);
@@ -38,8 +43,9 @@ class EventsController extends Controller
 		$noofevents = Event::all();
 		$events = Event::orderBy('id', 'DESC')->paginate(6);
 		$eventDetails = Event::findOrFail($id);
+		$eventTickets = Ticket::where('event_id', '=', $id)->first();
 		
-		return view('events.single', compact('events', 'noofevents', 'eventsimage', 'eventDetails', 'eventcomments', 'allBlogPosts', 'allCategories'));
+		return view('events.single', compact('events', 'noofevents', 'eventsimage', 'eventDetails', 'eventcomments', 'allBlogPosts', 'allCategories', 'eventTickets'));
 		
 	} catch(\Exception $e){
 			abort(404);

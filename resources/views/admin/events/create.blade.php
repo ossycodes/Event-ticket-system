@@ -87,19 +87,11 @@
        <div class="clearfix"></div>
        </div>
      </div>
-
-     <div class="form-group">
-      <div class="row">
-       <label class="col-md-3">Tickets Type and Price</label>
-       <div class="col-md-6"><textarea name="ticket" class="form-control" required>{{ old('ticket') }}</textarea></div>
-       <div class="clearfix"></div>
-       </div>
-     </div> 
      
      <div class="form-group">
       <div class="row">
        <label class="col-md-3">Actors</label>
-       <div class="col-md-6"><textarea name="actors" class="form-control" required>{{ old('actors') }}</textarea></div>
+       <div class="col-md-6"><textarea name="actors" class="form-control">{{ old('actors') }}</textarea></div>
        <div class="clearfix"></div>
        </div>
      </div> 
@@ -115,10 +107,48 @@
      <div class="form-group">
       <div class="row">
        <label class="col-md-3">Dresscode</label>
-       <div class="col-md-6"><input type="text" name="dresscode" class="form-control" value="{{ old('dresscode') }}" required></div>
+       <div class="col-md-6"><input type="text" name="dresscode" class="form-control" value="{{ old('dresscode') }}" ></div>
        <div class="clearfix"></div>
        </div>
      </div>
+     
+     <br>
+     <h3>Event Ticket Type And Price</h3>
+     <br>
+
+     <div class="form-group">
+      <div class="row">
+       <label class="col-md-3">Regular</label>
+       <div class="col-md-6"><input type="number" name="regular" class="form-control" value="{{ old('regular') }}" ></div>
+       <div class="clearfix"></div>
+       </div>
+     </div>
+     
+     <div class="form-group">
+      <div class="row">
+       <label class="col-md-3">VIP</label>
+       <div class="col-md-6"><input type="number" name="vip" class="form-control" value="{{ old('vip') }}" ></div>
+       <div class="clearfix"></div>
+       </div>
+     </div>
+
+     <div class="form-group">
+      <div class="row">
+       <label class="col-md-3">Table for 10</label>
+       <div class="col-md-6"><input type="number" name="tableforten" class="form-control" value="{{ old('tableforten') }}" ></div>
+       <div class="clearfix"></div>
+       </div>
+     </div>
+
+     <div class="form-group">
+      <div class="row">
+       <label class="col-md-3">Table for 100</label>
+       <div class="col-md-6"><input type="number" name="tableforhundred" class="form-control" value="{{ old('tableforhundred') }}" required></div>
+       <div class="clearfix"></div>
+       </div>
+     </div>
+     
+     
 
      <div class="form-group">
        <input type="submit" class="btn btn-info" value="Save">

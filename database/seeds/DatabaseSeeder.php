@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             BlogsTableSeeder::class,
             CategoriesTableSeeder::class,
             EventsTableSeeder::class,
+            TicketsTableSeeder::class,
             EventscommentsTableSeeder::class,
             ContactsTableSeeder::class,
             NewsletterTableSeeder::class,

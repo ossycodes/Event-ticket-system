@@ -44,10 +44,14 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 							</div>
 						
 							<div class="reviews-section">
+
+								@include('layouts.errors3')
 								
 								<h3 class="head">{{ optional($eventDetails)->name ?? 'No description provided' }} Full Description</h3>
+								<br>
 								<p>Posted on - {{ optional($eventDetails)->created_at->toDayDateTimeString() ?? 'No date provided' }}</p>
 									
+								
 									<div class="col-md-9 reviews-grids">
 										
 										<div class="review">
@@ -57,9 +61,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 											</div>
 											
 													<div class="review-info">
-													
-															<h2><a class="span" href="">{{ optional($eventDetails)->name }}</a></h2>
-															<br>
+														
 															<p><strong>Venue: </strong> {{ optional($eventDetails)->venue }}</p>
 															<br>
 															<p><strong>Actors: </strong> {{ optional($eventDetails)->actors }}</p>
@@ -70,34 +72,33 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 															<br>
 															<p><strong>Age: </strong>{{ optional($eventDetails)->age }}</p>
 															<br>
-															<p><strong>Tickets: </strong> {{ optional($eventDetails)->ticket }} </p> 
-															<br>
 															<p><strong>Dress Code: </strong>{{ optional($eventDetails)->dresscode }}</p>
-											
 															<br>
 															<!-- Trigger the modal with a button -->
-															<button type="button" class="btn btn-warning" style="margin-bottom: 15px;"> BUY TICKET NOW </button>
-													
+															@auth
+															<button type="button" class="btn btn-warning" style="margin-bottom: 15px;" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal"> BUY TICKET NOW </button>
+															@endauth
 													</div>
 													<div class="clearfix"></div>
 										</div>
 										
-											<div class="single">
-											
-												<h3>Lorem Ipsum IS A TENSE, TAUT, COMPELLING THRILLER</h3>
-												<p>STORY:<i> Meera and Arjun drive down Lorem Ipsum - can they survive a highway from hell?</i></p>
-											
-											</div>
-
 											<div class="best-review">
 												<h4>Event Full Description</h4>
 												<p>{{ optional($eventDetails)->description ?? 'No description provided' }}</p>
-												<p><span>Neeraj Upadhyay (Noida)</span> 16/03/2015 at 12:14 PM</p>
+												<p><span>Posted by </span> {{ optional($eventDetails)->created_at->toDayDateTimeString() ?? 'No date provided' }} </p>
 											</div>
 
 											<div class="story-review">
+													<h4>Available Tickets</h4>
+													<strong><p> REGULAR : {{ optional($eventTickets)->regular.' '.'Naira' ?? 'price not provided' }}</p></strong>
+													<strong><p> VIP : {{ optional($eventTickets)->vip.' '.'Naira' ?? 'price not provided' }}</p></strong>
+													<p>TABLE FOR TEN : {{ optional($eventTickets)->tableforten.'  ' .'Naira' ?? 'price not provided' }}</p>
+													<p>TABLE FOR HUNDRED : {{ optional($eventTickets)->tableforhundred.'  ' .'Naira' ?? 'price not provided' }}</p>
+												</div>
+
+											<div class="story-review">
 												<h4>PERFORMING ARTISTES:</h4>
-												<p>{{ optional($eventDetails)->actors ?? 'no actors provided' }}</p>
+												<p>{{ optional($eventDetails)->actors ?? 'no performing artiste(s) provided' }}</p>
 											</div>
 
 										<!-- comments-section-starts -->
@@ -228,4 +229,69 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 	
 	</div>
 
+@auth
+		
+<div id="myModal" class="modal fade" role="dialog">
+	<div class="modal-dialog">
+  
+	  <!-- Modal content-->
+	  <div class="modal-content">
+		<div class="modal-header">
+		  <button type="button" class="close" data-dismiss="modal">&times;</button>
+		  <h4 class="modal-title">Book Ticket for {{ $eventDetails->name }}</h4>
+		</div>
+		    <div class="modal-body">
+
+			<form action="{{ url('/makepayment') }}" method="post" role="form">{{ csrf_field() }}
+
+				<?php
+
+					$metadata = [
+							'event_name' => $eventDetails->name,
+							'event_id' => $eventDetails->id,
+			            ];
+			
+
+				?> 
+					
+					    <select class="form-control" id="sel1" name="amount">
+							<option disabled>--- Select Tickets ---</option>
+						    <option value="{{ optional($eventTickets)->regular }}">Regular</option>
+							<option value="{{ optional($eventTickets)->vip }}">VIP</option>
+							<option value="{{ optional($eventTickets)->tableforten }}">Table for 10</option>
+							<option value="{{ optional($eventTickets)->tableforhundred }}">Table for 100</option>
+						</select>
+
+						<br>
+
+						<select class="form-control" id="sel1" name="qty">
+								<option disabled> ---Select Quantity ---</option>
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+						</select>
+
+						<input type="hidden" name="metadata" value="{{ json_encode($metadata) }}" >
+
+						{{-- <input type="hidden" name="metadata" value="{{ json_encode($array = ['event_name' => $eventDetails->name]) }}" > --}}
+						
+						
+						<br><br>
+					<input type="submit" class="btn btn-green" value="Pay Now" style="background-color:green; color:white;">
+
+				</form>
+
+			</div>
+		<div class="modal-footer">
+		  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		</div>
+	  </div>
+  
+	</div>
+  </div>
+
+  @endauth
+
 @endsection
+
+

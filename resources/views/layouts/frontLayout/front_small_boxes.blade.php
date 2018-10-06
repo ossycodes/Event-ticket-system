@@ -26,7 +26,7 @@
               <div class="icon">
                 <i class="ion ion-stats-bars"></i>
               </div>
-              <a href="#" class="small-box-footer">Click here <i class="fa fa-arrow-circle-right"></i></a>
+            <a href="{{ route('user.events.create') }}" class="small-box-footer">Click here <i class="fa fa-arrow-circle-right"></i></a>
             </div>
           </div>
           <!-- ./col -->
@@ -56,7 +56,7 @@
               <div class="icon">
                 <i class="ion ion-pie-graph"></i>
               </div>
-              <a href="#" class="small-box-footer">Click here <i class="fa fa-arrow-circle-right"></i></a>
+            <a href="{{ route('user.transaction') }}" class="small-box-footer">Click here <i class="fa fa-arrow-circle-right"></i></a>
             </div>
           </div>
           <!-- ./col -->

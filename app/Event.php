@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Ticket;
 use Illuminate\Database\Eloquent\Model;
 
 
@@ -19,6 +20,10 @@ class Event extends Model
     //defines an invers one to many relationship(an event has one category)
     public function category(){
         return $this->belongsTo(Category::class);
+    }
+
+    public function tickets() {
+        return $this->hasMany(Ticket::class);
     }
 
     //defines an Accessors that automatically concatenates

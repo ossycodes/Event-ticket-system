@@ -15,23 +15,24 @@ class CreateEventsTable extends Migration
     {
         Schema::create('events', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('category_id')->unsigned()->index();
             $table->integer('user_id')->unsigned()->index();
+            $table->integer('category_id')->unsigned()->index();
+            
             $table->string('image');
             $table->string('name');
             $table->string('venue');
             $table->mediumText('description');
-            $table->string('actors');
+            $table->string('actors')->nullable();
             $table->string('time');
             $table->string('date');
             $table->string('age');
-            $table->string('ticket');
-            $table->string('dresscode');
+            $table->string('dresscode')->nullable();
             $table->tinyInteger('status')->default('0');
             
             
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
+           
             $table->timestamps();
         });
     }

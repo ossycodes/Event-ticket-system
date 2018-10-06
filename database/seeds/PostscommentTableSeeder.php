@@ -43,11 +43,6 @@ class PostscommentTableSeeder extends Seeder
                 'message' => 'This is just a default comment from lorem ispium blah blah',
             ],
 
-            [
-                'blog_id' => '6',
-                'name' => 'default@gmiail.com',
-                'message' => 'This is just a default comment from lorem ispium blah blah',
-            ]
         ];
 
             foreach($postComments as $comment)

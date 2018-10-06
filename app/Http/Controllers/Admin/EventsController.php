@@ -64,9 +64,28 @@ class EventsController extends Controller
         $imageName = $this->checkAndUploadImage($request, $data);
        
         $data['image'] = $imageName;
-
+        
         try{
-        Event::create($data);
+        //Event::create($data);
+        $createdEvent = Event::create([
+            'user_id' => $data['user_id'],
+            'category_id' => $data['category_id'],
+            'image' => $data['image'],
+            'name' => $data['name'],
+            'venue' => $data['venue'],
+            'description' => $data['description'],
+            'actors' => $data['actors'],
+            'time' => $data['time'],
+            'date' => $data['date'],
+            'age' => $data['age'],
+            'dresscode' => $data['dresscode']
+        ])->tickets()->create([
+            'regular' => $data['regular'],
+            'vip' => $data['vip'],
+            'tableforten' => $data['tableforten'],
+            'tableforhundred' => $data['tableforhundred'],
+        ]);
+        //dd($createdEvent->id);
         }catch(QueryException $e){
             //log error
             Log::error($e->getMessage());
@@ -237,9 +256,9 @@ class EventsController extends Controller
             'description.required' => 'Please give a description of the event',
             'date.required' => 'Please what date is the event?',
             'time.required' => 'Please what time is the event?',
-            'actors.required' => 'Any actors coming?',
+            //'actors.required' => 'Any actors coming?',
             'age.required' => 'Please what is the age limit?',
-            'dresscode.required' => 'Please what\'s the dress code, casual or what LOL?'
+            //'dresscode.required' => 'Please what\'s the dress code, casual or what LOL?'
 
         ];
 
@@ -251,10 +270,9 @@ class EventsController extends Controller
             'description' => 'required',
             'date' => 'required',
             'time' => 'required',
-            'ticket'=> 'required',
-            'actors' =>'string',
+            //'actors' =>'string',
             'age' => 'required|max:90',
-            'dresscode' => 'required',
+            //'dresscode' => 'required',
         ], $message)->validate();
     }
 

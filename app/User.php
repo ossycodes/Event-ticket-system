@@ -28,7 +28,7 @@ class User extends Authenticatable
     ];
 
     //checks if the user has an admin role
-    public function checkRole(){
+    public function checkRole() {
         if($this->role !== 'admin'){
             return true;
         }
@@ -36,11 +36,16 @@ class User extends Authenticatable
         
     }
 
-    public function profile(){
+    public function profile() {
         return $this->hasOne(Profile::class);
     }
 
-    public function events(){
+    public function events() {
         return $this->hasMany(Event::class);
     }
+
+    public function transactions() {
+        return $this->hasMany(Transaction::class);
+    }
+    
 }

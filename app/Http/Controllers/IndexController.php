@@ -16,7 +16,7 @@ class IndexController extends Controller
     public function index(){
         $allCategories = Category::all();
         $noofeventsimages =  Event::paginate(6);
-        $events = Event::orderBy('id', 'DESC')->paginate(3);
+        $events = Event::where('status', '=', 1)->orderBy('id', 'DESC')->paginate(3);
         $backgroundInfo =  Background::all();
         return view('index', compact('events', 'backgroundInfo', 'noofeventsimages', 'allCategories'));
     }

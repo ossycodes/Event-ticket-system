@@ -57,10 +57,6 @@ Auth::routes();
 //home route
 Route::get('/home', 'HomeController@index')->name('home');
 
-//Route::get('/test-transform', 'IndexController@testT');
-
-
-
 
 //Event routes
 Route::group(['prefix' => 'events'], function(){

@@ -85,7 +85,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 											<div class="best-review">
 												<h4>Event Full Description</h4>
 												<p>{{ optional($eventDetails)->description ?? 'No description provided' }}</p>
-												<p><span>Posted by </span> {{ optional($eventDetails)->created_at->toDayDateTimeString() ?? 'No date provided' }} </p>
+												<p><span>Posted on </span> {{ optional($eventDetails)->created_at->toDayDateTimeString() ?? 'No date provided' }} </p>
 											</div>
 
 											<div class="story-review">
@@ -94,7 +94,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 													<strong><p> VIP : {{ optional($eventTickets)->vip.' '.'Naira' ?? 'price not provided' }}</p></strong>
 													<p>TABLE FOR TEN : {{ optional($eventTickets)->tableforten.'  ' .'Naira' ?? 'price not provided' }}</p>
 													<p>TABLE FOR HUNDRED : {{ optional($eventTickets)->tableforhundred.'  ' .'Naira' ?? 'price not provided' }}</p>
-												</div>
+											</div>
 
 											<div class="story-review">
 												<h4>PERFORMING ARTISTES:</h4>
@@ -241,6 +241,12 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		  <h4 class="modal-title">Book Ticket for {{ $eventDetails->name }}</h4>
 		</div>
 		    <div class="modal-body">
+
+					<strong><p> REGULAR : {{ optional($eventTickets)->regular.' '.'Naira' ?? 'price not provided' }}</p></strong>
+					<strong><p> VIP : {{ optional($eventTickets)->vip.' '.'Naira' ?? 'price not provided' }}</p></strong>
+				    <strong><p>TABLE FOR TEN : {{ optional($eventTickets)->tableforten.'  ' .'Naira' ?? 'price not provided' }}</p></strong>
+					<strong><p>TABLE FOR HUNDRED : {{ optional($eventTickets)->tableforhundred.'  ' .'Naira' ?? 'price not provided' }}</p></strong>
+					<br><br>
 
 			<form action="{{ url('/makepayment') }}" method="post" role="form">{{ csrf_field() }}
 

@@ -88,9 +88,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 													<br>
 													<p><strong>Date: </strong> {{ $event->date }} </p>
 													<br>
-													<p><strong>Age: </strong> {{ $event->age }} </p>
-													<br>
-													<p><strong>Tickets: </strong> {{ $event->ticket }} </p> 
+													<p><strong>Age: </strong> {{ $event->age }} </p> 
 													<br>
 													<p><strong>Dress Code: </strong>{{ $event->dresscode }} </p>
 												</div>

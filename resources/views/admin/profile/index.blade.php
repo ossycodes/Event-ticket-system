@@ -224,7 +224,7 @@
                             {{ $latestEvent->description }}
                           </div>
                           <div class="timeline-footer">
-                            <a href="#" class="btn {{ ($latestEvent->status == 1) ? 'btn-danger' : 'btn-primary' }} btn-sm">{{ ($latestEvent->status == 1) ? 'De activate' : 'Activate' }}</a>
+                          <a href="{{ $latestEvent->status == 0 ? url('system-admin/admin/activate/'.$latestEvent->id) : url('system-admin/admin/de-activate/'.$latestEvent->id) }}" class="btn {{ ($latestEvent->status == 1) ? 'btn-danger' : 'btn-primary' }} btn-sm">{{ ($latestEvent->status == 1) ? 'De activate' : 'Activate' }}</a>
                           </div>
                         </div>
                         @endif

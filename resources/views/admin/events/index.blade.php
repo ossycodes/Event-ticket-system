@@ -91,6 +91,13 @@
                   <td>{{ $event->created_at->toDayDateTimeString() }}</td>
                   <td>{{ $event->updated_at->toDayDateTimeString() }}</td>
                   <td>
+
+                    @if($event->status === 0) 
+                      <a href="{{ url('system-admin/admin/activate/'.$event->id) }}" class="btn btn-success">Activate</a>
+                    @endif  
+                    @if($event->status === 1) 
+                      <a href="{{ url('system-admin/admin/de-activate/'.$event->id) }}" class="btn btn-success">De-Activate</a>
+                    @endif  
                      <a href="{{ route('system-admin.events.edit', $event->id) }}" class="btn btn-info">Edit</a>
                      <a href="javascript:void(0)" onclick="$(this).parent().find('form').submit()" class="btn btn-danger">Delete</a>
                      <form action="{{ route('system-admin.events.destroy', $event->id) }}" method="post">

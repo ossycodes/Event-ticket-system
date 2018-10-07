@@ -91,6 +91,9 @@ Route::group(['prefix' => 'system-admin', 'as' => 'system-admin.', 'middleware' 
             return view('admin.subscribers.composemail');
     });
 
+    Route::get('admin/activate/{id}', 'Admin\EventsController@activate');
+    Route::get('admin/de-activate/{id}', 'Admin\EventsController@deActivate');
+
 });
 
 //User's Routes

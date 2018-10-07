@@ -116,8 +116,6 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 																										<br>
 																										<p><strong>Age: </strong>{{ $event->age ?? 'No age provided' }} {{-- ?? php 7 null coalesce operator --}}</p>
 																										<br>
-																										<p><strong>Tickets: </strong> {{ $event->ticket ?? 'No ticket category given' }} {{-- ?? php 7 null coalesce operator --}}</p> 
-																										<br>
 																										<p><strong>Dress Code: </strong>{{ $event->dresscode ?? 'No dresscode provided' }} {{-- ?? php 7 null coalesce operator --}}</p>
 																									</div>
 

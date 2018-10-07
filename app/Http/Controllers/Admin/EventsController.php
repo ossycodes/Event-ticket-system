@@ -5,18 +5,22 @@ namespace App\Http\Controllers\Admin;
 use Auth;
 use App\Event;
 use Validator;
+use App\Ticket;
 use App\Category;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
+use App\Helper\checkAndUploadImage;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Input;
 use Intervention\Image\Facades\Image;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Input;
+use App\Helper\checkAndUploadUpdatedImage;
 
 class EventsController extends Controller
 {
+    use checkAndUploadImage, checkAndUploadUpdatedImage;
     /**
      * Display a listing of the resource.
      *
@@ -116,8 +120,9 @@ class EventsController extends Controller
     public function edit($id)
     {   
         $event = Event::findOrFail($id);
+        $eventTicket = Ticket::findOrFail($id);
         $categories = Category::all();
-        return view('admin.events.edit',compact('event', 'categories'));
+        return view('admin.events.edit',compact('event', 'categories', 'eventTicket'));
     }
 
     /**
@@ -137,41 +142,10 @@ class EventsController extends Controller
         $formerImage = explode('/', $data['imagename']);
        
         $path = 'images/frontend_images/events';
-
-        //if an image exits in the incoming request and the image was successfully uploaded
-        if($request->hasFile('image') and $request->image->isValid()){
-            
-            //Delete the previous image from the events folder, if a new image is uploaded
-            if (file_exists($data['imagename'])) {
-                unlink($data['imagename']);
-            }
-
-            $imageName = explode('.', $request->image->getClientOriginalName());
-            $imageName = $imageName[0].rand(1, 99999).date('ymdhis').'.'.$request->image->getClientOriginalExtension();
-          
-            //Intervention resize image pakage starts here
-          
-            $fp = 'images/frontend_images/events/'.$imageName;
-
-            Image::make(input::file('image'))->resize(287, 412)->save($fp);
-
-            //ends here
-
-
-            //a better way to store the image in an event folder
-            //$request->file('image')->move($path, $imageName);
-
-            //$request->image->storeAs($path, $imageName);
-
-            $data['image'] = $imageName;
-     
-        }   else{
-            $data['image'] = $formerImage[4];
-        }
         
-        //dd($data);
+        $data['image'] = $this->checkAndUploadUpdatedImage($data, $request);
 
-        Event::where('id', $id)->update([
+        $updateEvent = tap(Event::find($id))->update([
             
             'name' => $data['name'],
             'category_id' => $data['category_id'],
@@ -180,7 +154,6 @@ class EventsController extends Controller
             'description' => $data['description'],
             'date' => $data['date'],
             'time' => $data['time'],
-            'ticket' => $data['ticket'],
             'actors' => $data['actors'],
             'age' => $data['age'],
             'dresscode' => $data['dresscode'],
@@ -188,7 +161,15 @@ class EventsController extends Controller
         
         ]);
 
+        Ticket::find($updateEvent->id)->update([
+            'regular' => $data['regular'],
+            'vip' => $data['vip'],
+            'tableforten' => $data['tableforten'],
+            'tableforhundred' => $data['tableforhundred'],
+        ]);
+        
         return redirect()->route('system-admin.events.index')->with('success', 'Event updated successfully');
+   
     }
 
     /**
@@ -199,8 +180,7 @@ class EventsController extends Controller
      */
     public function destroy($id)
     {
-        //Delete Image If It Exists
-        
+        //Delete Image If It Exists.
         if (file_exists(Event::find($id)->image)) {
             unlink(Event::find($id)->image);
         }
@@ -213,38 +193,26 @@ class EventsController extends Controller
         return redirect()->route('system-admin.events.index')->with('success', 'Event deleted successfully');
     }
 
-    public function checkAndUploadImage(Request $request, $data)
-    {
+    public function activate($id) {
+        //find event with given id and activate it
+        Event::find($id)->update([
+            'status' => 1
+        ]);
+        //log the event
+        log::info('Event with id of' .' ' .$id .' ' .'just got activated');
+        //return flash session success message back to the view.
+        return back()->with('success', 'Event successfully activated');
+    }
 
-            //if the request has an image
-            if($request->hasFile('image') and $request->file('image')->isValid()){
-                
-                $path = 'images/frontend_images/events';
-                $imageNameWithNoExtension = explode('.', $request->image->getClientOriginalName()); 
-                $imageName =  $imageNameWithNoExtension[0].rand(1, 99999).date('ymdhis').'.'.$request->image->getClientOriginalExtension();
-                
-                //Intervention resize image pakage starts here
-                //This resizes the image and stores it in th epath i specified.
-          
-                $fp = 'images/frontend_images/events/'.$imageName;
-
-                Image::make(input::file('image'))->resize(287, 412)->save($fp);
-
-                //ends here
-
-                //used this in place of the intervention image package, better way to store the image in the events folder
-                //but now i am using the intervention package i need this no more
-
-                //$request->file('image')->move($path, $imageName);
-
-                //$request->image->storeAs($path, $imageName);
- 
-                return $imageName;          
-                
-            } else{
-                 return $data['image'] = 'default.jpg';
-            }
-
+    public function deActivate($id) {
+        //find event with given id and activate it
+        Event::find($id)->update([
+            'status' => 0
+        ]);
+        //log the event
+        log::info('Event with id of' .' ' .$id .' ' .'just got de-activated');
+        //return flash session success message back to the view.
+        return back()->with('success', 'Event successfully De-activated');
     }
 
     public function validateRequest($request){
@@ -273,6 +241,10 @@ class EventsController extends Controller
             //'actors' =>'string',
             'age' => 'required|max:90',
             //'dresscode' => 'required',
+            'regular' => 'numeric',
+            'vip' => 'numeric',
+            'tableforten' => 'numeric',
+            'tableforhunderd' => 'numeric',
         ], $message)->validate();
     }
 

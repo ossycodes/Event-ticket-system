@@ -25,7 +25,7 @@ class EventsController extends Controller
 		$noofevents = Event::all();
 		$eventsimage = Event::paginate(6);
 		$noofevents = Event::all();
-		$events = Event::orderBy('id', 'DESC')->paginate(3);
+		$events = Event::where('status', '=', 1)->orderBy('id', 'DESC')->paginate(3);
     	//echo $custom; die;
     	return view('events.events')->with(compact('events', 'noofevents', 'eventsimage', 'allCategories', 'allBlogPosts1'));
 	}

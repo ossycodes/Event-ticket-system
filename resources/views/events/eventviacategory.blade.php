@@ -65,7 +65,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 									<!-- Trigger the modal with a button -->
                                     <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#myModal{{ $event->id }}" style="margin-bottom: 15px;">More Details</button>
                                     
-									<button type="button" class="btn btn-danger" style="margin-bottom: 15px;">Book Ticket</button>
+									<a href="@guest{{ url('login') }}@else {{ url('/events/'.$event->id) }} @endif"><button type="button" class="btn btn-danger" style="margin-bottom: 15px;">Book Ticket</button></a>
 
 										<!-- Modal -->
 										<div id="myModal{{ $event->id }}" class="modal fade" role="dialog">

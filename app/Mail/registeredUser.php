@@ -2,12 +2,13 @@
 
 namespace App\Mail;
 
+use App\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class ContactusMail extends Mailable
+class registeredUser extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -16,10 +17,10 @@ class ContactusMail extends Mailable
      *
      * @return void
      */
-    public $data;
-    public function __construct($data)
+    public $user;
+    public function __construct(User $user)
     {
-        $this->data = $data;
+        $this->user = $user;
     }
 
     /**
@@ -29,7 +30,6 @@ class ContactusMail extends Mailable
      */
     public function build()
     {
-        return $this->from('hello@cinemaxxi.com')
-        ->markdown('emails.contactusmail');
+        return $this->markdown('emails.registeredUser');
     }
 }

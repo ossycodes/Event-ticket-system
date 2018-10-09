@@ -13,7 +13,7 @@
               <div class="card-body box-profile">
                 <div class="text-center">
                   <img class="profile-user-img img-fluid img-circle"
-                       src="../../dist/img/user4-128x128.jpg"
+                       src="../../dist/img/co.png"
                        alt="User profile picture">
                 </div>
 
@@ -36,21 +36,21 @@
                 <strong><i class="fa fa-book mr-1"></i> Education</strong>
 
                 <p class="text-muted">
-                {{ Auth::user()->profile->education ? Auth::user()->profile->education : 'Not set yet' }}
+                {{ optional(Auth::user()->profile)->education ? optional(Auth::user()->profile)->education : 'Not set yet' }}
                 </p>
 
                 <hr>
 
                 <strong><i class="fa fa-map-marker mr-1"></i> Location</strong>
 
-                <p class="text-muted">{{ Auth::user()->profile->location ? Auth::user()->profile->location : 'Not set yet' }}</p>
+                <p class="text-muted">{{ optional(Auth::user()->profile)->location ? optional(Auth::user()->profile)->location : 'Not set yet' }}</p>
 
                 <hr>
 
                 <strong><i class="fa fa-pencil mr-1"></i> Skills</strong>
 
                 <p class="text-muted">
-                  <span class="tag tag-danger">{{ Auth::user()->profile->skills ? Auth::user()->profile->skills : 'Not set yet' }}</span>
+                  <span class="tag tag-danger">{{ optional(Auth::user()->profile)->skills ? optional(Auth::user()->profile)->skills : 'Not set yet' }}</span>
                   
                 </p>
 
@@ -58,7 +58,7 @@
 
                 <strong><i class="fa fa-file-text-o mr-1"></i> Phonenumber</strong>
 
-                <p class="text-muted">{{ Auth::user()->profile->phonenumber ? Auth::user()->profile->phonenumber : 'Not set yet' }}</p>
+                <p class="text-muted">{{ optional(Auth::user()->profile)->phonenumber ? optional(Auth::user()->profile)->phonenumber : 'Not set yet' }}</p>
               </div>
               <!-- /.card-body -->
             </div>
@@ -269,7 +269,7 @@
                         <label for="inputName2" class="col-sm-2 control-label">Phonenumber</label>
 
                         <div class="col-sm-10">
-                          <input type="text" class="form-control" id="inputName2" placeholder="{{ Auth::user()->profile->phonenumber ? Auth::user()->profile->phonenumber : 'Enter Phonenumber' }}" value="{{ Auth::user()->profile->phonenumber }}" name="phonenumber" required>
+                          <input type="text" class="form-control" id="inputName2" placeholder="{{ Auth::user()->profile && Auth::user()->profile->phonenumber ? Auth::user()->profile->phonenumber : 'Enter Phonenumber' }}" value="{{ Auth::user()->profile ? Auth::user()->profile->phonenumber : '' }}" name="phonenumber" required>
                         </div>
                       </div>
 
@@ -277,7 +277,7 @@
                         <label for="inputName2" class="col-sm-2 control-label">Gender</label>
 
                         <div class="col-sm-10">
-                          <input type="text" class="form-control" id="inputName2" placeholder="{{ Auth::user()->profile->gender ? Auth::user()->profile->gender : 'Enter Gender' }}" value="{{ Auth::user()->profile->gender }}" name="gender" required>
+                          <input type="text" class="form-control" id="inputName2" placeholder="{{ Auth::user()->profile && Auth::user()->profile->gender ? Auth::user()->profile->gender : 'Enter Gender' }}" value="{{ Auth::user()->profile ? Auth::user()->profile->gender : '' }}" name="gender" required>
                         </div>
                       </div>
 
@@ -285,7 +285,7 @@
                         <label for="inputExperience" class="col-sm-2 control-label">Education</label>
 
                         <div class="col-sm-10">
-                          <textarea class="form-control" id="inputExperience" placeholder="{{ Auth::user()->profile->education ? Auth::user()->profile->education : 'Enter Education' }}" name="education" required>{{ Auth::user()->profile->education }}</textarea>
+                          <textarea class="form-control" id="inputExperience" placeholder="{{ Auth::user()->profile && Auth::user()->profile->education ? Auth::user()->profile->education : 'Enter Education' }}" name="education" required>{{ Auth::user()->profile ? Auth::user()->profile->education : '' }}</textarea>
                         </div>
                       </div>
 
@@ -293,7 +293,7 @@
                         <label for="inputExperience" class="col-sm-2 control-label">Location</label>
 
                         <div class="col-sm-10">
-                          <textarea class="form-control" id="inputExperience" placeholder="{{ Auth::user()->profile->location ? Auth::user()->profile->location : 'Enter location' }}" name="location" required>{{ Auth::user()->profile->location }}</textarea>
+                          <textarea class="form-control" id="inputExperience" placeholder="{{ Auth::user()->profile && Auth::user()->profile->location ? Auth::user()->profile->location : 'Enter location' }}" name="location" required>{{ Auth::user()->profile ? Auth::user()->profile->location : '' }}</textarea>
                         </div>
                       </div>
 
@@ -301,7 +301,7 @@
                         <label for="inputSkills" class="col-sm-2 control-label">Skills</label>
 
                         <div class="col-sm-10">
-                          <input type="text" class="form-control" id="inputSkills" placeholder="{{ Auth::user()->profile->skills ? Auth::user()->profile->skills : 'Enter Skills' }}" value="{{ Auth::user()->profile->skills }}" name="skills" required>
+                          <input type="text" class="form-control" id="inputSkills" placeholder="{{ Auth::user()->profile && Auth::user()->profile->skills ? Auth::user()->profile->skills : 'Enter Skills' }}" value="{{ Auth::user()->profile ? Auth::user()->profile->skills : '' }}" name="skills" required>
                         </div>
                       </div>
                       <div class="form-group">

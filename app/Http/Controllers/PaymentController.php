@@ -19,6 +19,7 @@ class PaymentController extends Controller
     {
         return $this->getHashedToken(25);
     }
+
     private static function getPool($type = 'alnum')
     {
         switch ($type) {
@@ -84,8 +85,9 @@ class PaymentController extends Controller
     }
     public function redirectToProvider(Request $request) {
         //dd($request->all());
+
         //TDOD create a method that handles all the totalPayment
-        $totalAmount = $request->amount * $request->qty;
+        $totalAmount = $request->amount * $request->qty * 100;
         $initializePayment = 'https://api.paystack.co/transaction/initialize';
         $authBearer = 'Bearer '. $this->setKey();
 
@@ -94,8 +96,9 @@ class PaymentController extends Controller
             $response = Curl::to($initializePayment)
                 ->withData([
                     'reference' => $this->genTranxRef(),
-                    'amount' => $totalAmount,//this should come from the modified request
-                    'email'=> Auth::user()->email //this should come form request
+                    'amount' => intval($totalAmount),//this should come from the modified request
+                    'email'=> Auth::user()->email, //this should come form request
+                    'metadata' => $request->metadata,
                 ])
                 ->withHeader('Authorization: Bearer '.$this->SetKey())
                 ->asJson()
@@ -113,7 +116,8 @@ class PaymentController extends Controller
     }
 
     
-    public function handleGatewayCallback() {
+    public function handleGatewayCallback(Request $request) {
+        
         
         $transactionRef = request()->query('trxref');
         
@@ -126,34 +130,30 @@ class PaymentController extends Controller
         //return $response;
         
          $response = json_decode($response);
+        //return response()->json($response);
         
-         //return $response->data->gateway_response;
-
         if($response->status === true) {
 
             //TODO store in response in transaction database
+            Transaction::create([
+                'status' => $response->data->status,
+                'user_id' => Auth::user()->id,
+                'reference_id' => $response->data->reference,
+                'tran_id' => $response->data->id,
+                'amount' => $response->data->amount,
+                'paid_through' => $response->data->channel,
+                'event_name' => $response->data->metadata->custom_fields[0]->event_name,
+                //'qty' => $request->qty,
+            ]);
 
-            // Transaction::create([
-            //     'user_id' => Auth::user()->id,
-            //     'reference_id' => $response->data->reference_id,
-            //     'tran_id' => $response->data->id,
-            //     'amount' => $response->data->amount,
-            //     'paid_through' => $response->data->card_type,
-            //     'event_name' => $eventName,
-            //     'qty' => $eventQty
-            //     'ticket_type' => $ticketType;
-            // ]);
+            return redirect()->route('user.transaction')->with('success', 'Event Booked Successfully');
 
-            //Then redirect to transaction page.
-
-            //return redirect()->with('trn_success', 'Event Booked Successfully');
-
-             dd(response()->json($response));
+            //dd(response()->json($response));
 
         }else {
 
              dd(response()->json($response)); 
-             return back()->with('trn_failed', 'Transaction failed, please try again later.');   
+             return redirect()->route('user.transaction')->with('error', 'Transaction failed, please try again later.');   
 
         }
     }

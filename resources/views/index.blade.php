@@ -82,7 +82,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 												<label>{{ optional($event)->date }}</label>
 												<p>{{ str_limit($event->description, 150) }}</p>
 												<br>
-												<a href="{{ url('/events/'.$event->id) }}"><button type="button" class="btn btn-default">More Details</button></a>
+												<a href="{{ route('events') }}"><button type="button" class="btn btn-default">More Details</button></a>
 											
 											</div>
 										@endforeach		

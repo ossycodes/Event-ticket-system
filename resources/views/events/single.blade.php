@@ -253,9 +253,11 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				<?php
 
 					$metadata = [
-							'event_name' => $eventDetails->name,
-							'event_id' => $eventDetails->id,
-			            ];
+						'custom_fields' => [
+							['event_name' => $eventDetails->name ],
+							
+						 ]
+		        	];
 			
 
 				?> 
@@ -277,6 +279,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 								<option value="3">3</option>
 						</select>
 
+						
+						
 						<input type="hidden" name="metadata" value="{{ json_encode($metadata) }}" >
 
 						{{-- <input type="hidden" name="metadata" value="{{ json_encode($array = ['event_name' => $eventDetails->name]) }}" > --}}

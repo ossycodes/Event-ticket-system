@@ -142,7 +142,7 @@ class ProfileController extends Controller
 
     public function updateProfile(Request $request){
         //uupdate the user's profile,
-        return User::find(Auth::user()->id)->profile()->update([
+        return User::find(Auth::user()->id)->profile()->updateOrCreate([
             'gender' => $request->gender,
             'phonenumber' => $request->phonenumber,
             'education' => $request->education,

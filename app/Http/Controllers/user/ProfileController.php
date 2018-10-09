@@ -70,6 +70,7 @@ class ProfileController extends Controller
      */
     public function update(Request $request, $id)
     {
+        
         //if the request has a name as part of the request;
         if($request->has('name')){
              //update user  name
@@ -102,7 +103,7 @@ class ProfileController extends Controller
 
     public function updateProfile(Request $request){
         ///update the authenticated user's profile
-        Auth::User()->profile()->update([
+        Auth::User()->profile()->updateOrCreate([
             'gender' => $request->gender,
             'phonenumber' => $request->phonenumber,
             'education' => $request->education,

@@ -143,7 +143,7 @@
      <div class="form-group">
       <div class="row">
        <label class="col-md-3">Table for 100</label>
-       <div class="col-md-6"><input type="number" name="tableforhundred" class="form-control" value="{{ old('tableforhundred') }}" required></div>
+       <div class="col-md-6"><input type="number" name="tableforhundred" class="form-control" value="{{ old('tableforhundred') }}"></div>
        <div class="clearfix"></div>
        </div>
      </div>

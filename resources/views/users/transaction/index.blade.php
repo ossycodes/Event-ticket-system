@@ -48,14 +48,12 @@
 
                 <tr>
 
-
-                  <th>Reference_id</th>
+                  <th>Status</th>
+                  <th>Reference</th>
                   <th>Transaction_id</th>
                   <th>Amount Paid</th>
                   <th>Paid via</th>
                   <th>Event Name</th>
-                  <th>Ticket Type</th>
-                  <th>Ticket Quantity</th>
                   <th>Paid At</th>
 
                 </tr>
@@ -64,37 +62,37 @@
 
                 <tbody>
                 
-                {{-- @foreach($events as $event) --}}
-
+                  
+                  @foreach($transactions as $transaction) 
                 <tr>
 
                   
-                  <td>jdhndkdhndkd</td>
-                  <td>1929299219</td>
-                  <td>5,00000</td>
-                  <td>CARD</td>
-                  <td>EVENDNR  SNS</td>
-                  <td>Regular</td>
-                  <td>8</td>
-                  <td>128390021</td>
+                  
+                  <td>{{ $transaction->status }}</td>
+                  <td>{{ $transaction->reference_id }}</td>
+                  <td>{{ $transaction->tran_id }}</td>
+                  <td>{{ $transaction->amount }}</td>
+                  <td>{{ $transaction->paid_through }}</td>
+                  <td>{{ $transaction->event_name }}</td>
+                  <td>{{ $transaction->created_at }}</td>
                  
-                   
+                  
+
                 </tr>
-               
-                {{-- @endforeach  --}}
+                @endforeach 
+                
                 
                 </tbody>
                 <tfoot>
 
                 <tr>
 
-
-                    <th>Reference_id</th>
+                    <th>Status</th>
+                    <th>Reference</th>
                     <th>Transaction_id</th>
                     <th>Amount Paid</th>
                     <th>Paid via</th>
                     <th>Event Name</th>
-                    <th>Quantity</th>
                     <th>Created At</th>
       
                 

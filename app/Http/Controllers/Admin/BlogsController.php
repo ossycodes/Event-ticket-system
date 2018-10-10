@@ -189,20 +189,10 @@ class BlogsController extends Controller
     public function destroy($id)
     {
 
-        //if a post has no image the file_exists function would throw an error exception
-        //as such image does not exist, rather than throwing the error exception, the rescue function
-        //catches such exception that occcur, and the request continues peacefully.
-        rescue( function() {
-            
-            $i = Blogsimage::where('blog_id', $id)->first();
-            $i->imagename;
-            
-            if (file_exists($i->imagename)) {
-                unlink($i->imagename);
-            }
-
-        });
-        
+        $i = Blogsimage::where('blog_id', $id)->first();
+        if(file_exists($i->imagename)) {
+            unlink($i->imagename);
+        } 
 
         //delete post by primary key(id)
         Blog::destroy($id);
@@ -219,13 +209,13 @@ class BlogsController extends Controller
     {
 
             //if the request has an image
-            if($request->hasFile('image') and $request->file('image')->isValid()){
+            if($request->hasFile('image') and $request->file('image')->isValid()) {
                 
-                // dd($data);
-                // //Delete the previous image from the events folder, if a new image is uploaded
-                // if (file_exists($data['imagename'])) {
-                //     unlink($data['imagename']);
-                // }
+                dd($data);
+                //Delete the previous image from the events folder, if a new image is uploaded
+                if (file_exists($data['imagename'])) {
+                    unlink($data['imagename']);
+                }
 
                 $path = 'images/frontend_images/posts';
                 $imageNameWithNoExtension = explode('.', $request->image->getClientOriginalName()); 

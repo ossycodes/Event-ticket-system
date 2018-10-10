@@ -21,18 +21,17 @@ Route::get('/', function () {
 });
 */
 
-// usage inside a laravel route
-Route::get('/test-i', 'IndexController@t');
-
+//route to send mail
 Route::get('/sendmail', 'ContactsController@sendMail');
 
+//about us page route
 Route::get('aboutus', function(){
  return view('aboutus');
 })->name('aboutus');
 
 
 //Route for index
-Route::get('/', 'IndexController@index')->name('/');
+Route::get('/', 'IndexController')->name('/');
 
 Route::get('/posts/{id}', 'BlogController@show');
 
@@ -59,7 +58,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 
 //Event routes
-Route::group(['prefix' => 'events'], function(){
+Route::group(['prefix' => 'events'], function() {
 
     Route::get('', 'EventsController@index')->name('events');
     //Route for single page events
@@ -68,25 +67,27 @@ Route::group(['prefix' => 'events'], function(){
 });
 
 //Admin Routes
-Route::group(['prefix' => 'system-admin', 'as' => 'system-admin.', 'middleware' => ['auth', 'isAdmin']], function(){
+Route::group(['prefix' => 'system-admin', 'as' => 'system-admin.', 'middleware' => ['auth', 'isAdmin']], function() {
 
-    Route::resource('admin/categories', 'Admin\CategoryController');
-    Route::resource('admin/events', 'Admin\EventsController');
-    Route::resource('admin/posts', 'Admin\BlogsController');
+    //Resourceful routes
+    Route::resource('admin/categories', 'Admin\CategoryController', ['except' => 'show']);
+    Route::resource('admin/events', 'Admin\EventsController', ['except' => 'show']);
+    Route::resource('admin/posts', 'Admin\BlogsController', ['except' => 'show']);
     Route::resource('admin/users', 'Admin\UsersController');
-    Route::resource('admin/subscribers', 'Admin\NewslettersController');
-    Route::resource('admin/messages', 'Admin\ContactsController');
+    Route::resource('admin/subscribers', 'Admin\NewslettersController', ['only' => 'index']);
+    Route::resource('admin/messages', 'Admin\ContactsController', ['only' => ['index', 'destroy']]);
     Route::resource('admin/profile', 'Admin\ProfileController');
     Route::resource('admin/notification', 'Admin\NotificationController');
     
-    //password route
+    //Adminpassword controller routes
     Route::get('admin/change-password', 'Admin\PasswordController@index');
     Route::post('admin/update-password', 'Admin\PasswordController@update');
     
-    Route::get('admin/compose-mail', function(){
+    Route::get('admin/compose-mail', function() {
             return view('admin.subscribers.composemail');
     });
 
+    //activate and de-activate user's route
     Route::get('admin/activate/{id}', 'Admin\EventsController@activate');
     Route::get('admin/de-activate/{id}', 'Admin\EventsController@deActivate');
 
@@ -99,7 +100,7 @@ Route::group(['prefix' => 'user', 'as' => 'user.', 'middleware' => ['isUser', 'a
 });
 
 //User's Routes
-Route::group(['middleware' => ['isUser', 'auth']], function(){
+Route::group(['middleware' => ['isUser', 'auth']], function() {
      Route::get('change-password', 'user\PasswordController@index')->name('user.password');
      Route::post('change-password', 'user\PasswordController@update')->name('user.password.update');
      Route::get('user/delete-account/{id}', 'user\ProfileController@deleteAccount')->name('user.account.delete');
@@ -111,7 +112,8 @@ Route::group(['middleware' => ['isUser', 'auth']], function(){
 });
 
 
-Route::group(['middleware' => 'auth'], function(){
+Route::group(['middleware' => 'auth'], function() {
+    //paymentcontroller routes
     Route::post('/makepayment', 'PaymentController@redirectToProvider');
     Route::get('/payment/callback', 'PaymentController@handleGatewayCallback');    
 });

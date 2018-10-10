@@ -224,10 +224,7 @@ class EventsController extends Controller
             'description.required' => 'Please give a description of the event',
             'date.required' => 'Please what date is the event?',
             'time.required' => 'Please what time is the event?',
-            //'actors.required' => 'Any actors coming?',
             'age.required' => 'Please what is the age limit?',
-            //'dresscode.required' => 'Please what\'s the dress code, casual or what LOL?'
-
         ];
 
         Validator::make($request->all(), [
@@ -238,13 +235,13 @@ class EventsController extends Controller
             'description' => 'required',
             'date' => 'required',
             'time' => 'required',
-            //'actors' =>'string',
+            'actors' =>'nullable|string',
             'age' => 'required|max:90',
-            //'dresscode' => 'required',
-            'regular' => 'numeric',
-            'vip' => 'numeric',
-            'tableforten' => 'numeric',
-            'tableforhunderd' => 'numeric',
+            'dresscode' => 'nullable|string',
+            'regular' => 'nullable|numeric',
+            'vip' => 'nullable|numeric',
+            'tableforten' => 'nullable|numeric',
+            'tableforhunderd' => 'nullable|numeric',
         ], $message)->validate();
     }
 

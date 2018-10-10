@@ -188,8 +188,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 					
 					<div class="review-slider">
 						<ul id="flexiselDemo1">
-							@foreach($eventsimage as $eventimage)
-								<li><img src="{{ asset($eventimage->image) }}" alt="{{ $eventimage->image }}"/></li>
+							@foreach($eventSliderImages as $eventimage)
+								<li><img src="{{ asset($eventimage->slider_imagename) }}" alt="{{ $eventimage->slider_imagename }}"/></li>
 							@endforeach
 						</ul>
 

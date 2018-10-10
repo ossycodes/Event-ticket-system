@@ -1,6 +1,6 @@
 <ul>
     <li class="ent">
-          <a href="single.html"><img src="{{ asset(optional($event->blogimage)->imagename ?? 'images/frontend_images/posts/default.jpg') }}" alt="" /></a>
+          <a href="{{ asset(optional($event->blogimage)->imagename ?? 'images/frontend_images/posts/default.jpg') }}"><img src="{{ asset(optional($event->blogimage)->imagename ?? 'images/frontend_images/posts/default.jpg') }}" alt="" /></a>
        
     </li>
     <li>

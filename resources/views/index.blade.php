@@ -24,8 +24,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 					
 					<ul id="flexiselDemo1">
 					
-						@foreach($noofeventsimages as $image)
-							<li><img src="{{ asset($image->image) }}" alt="{{ $image->name }}"/></li>
+						@foreach($eventSliderImages as $image)
+							<li><img src="{{ asset($image->slider_imagename) }}" alt="{{ $image->slider_imagename }}"/></li>
 						@endforeach
 						
 					</ul>
@@ -102,8 +102,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				<div class="more-reviews">
 				
 					<ul id="flexiselDemo2">
-					@foreach($noofeventsimages as $image)
-						<li><img src="{{ asset($image->image) }}" alt=""/></li>
+						
+					@foreach($eventSliderImages as $image)
+					<li><img src="{{ asset($image->slider_imagename) }}" alt="{{ $image->slider_imagename }}"/></li>
 					@endforeach
 					</ul>
 					

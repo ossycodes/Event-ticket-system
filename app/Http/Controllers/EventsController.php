@@ -23,11 +23,10 @@ class EventsController extends Controller
 		$allBlogPosts1 = Blog::all();
 		$allCategories = Category::all();
 		$noofevents = Event::all();
-		$eventsimage = Event::paginate(6);
 		$noofevents = Event::all();
 		$events = Event::where('status', '=', 1)->orderBy('id', 'DESC')->paginate(3);
     	//echo $custom; die;
-    	return view('events.events')->with(compact('events', 'noofevents', 'eventsimage', 'allCategories', 'allBlogPosts1'));
+    	return view('events.events')->with(compact('events', 'noofevents', 'allCategories', 'allBlogPosts1'));
 	}
 	
 	public function show($id){

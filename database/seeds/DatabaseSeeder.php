@@ -23,8 +23,9 @@ class DatabaseSeeder extends Seeder
             ContactsTableSeeder::class,
             NewsletterTableSeeder::class,
             PostscommentTableSeeder::class,
+            BlogsimagesTableSeeder::class,
+            EventsliderimagesTableSeeder::class,
             
-
             ]);
     }
 }

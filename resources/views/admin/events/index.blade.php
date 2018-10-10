@@ -31,7 +31,7 @@
             <div class="card-header">
             <p>
  			<a href="{{ route('system-admin.events.create') }}" class="btn btn-primary">Add New Event</a>
- 		</p>
+ 	        	</p>
               <h3 class="card-title">All available events</h3>
             </div>
             <!-- /.card-header -->

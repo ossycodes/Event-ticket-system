@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Event;
+use App\Transaction;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 
 class ProfileController extends Controller
 {
@@ -15,7 +18,28 @@ class ProfileController extends Controller
      */
     public function index()
     {
-        return view('users.profile.index');
+        $eventsuploaded = Event::where([
+            ['user_id', '=', Auth::user()->id],
+            ['status', '=', '1']
+        ])->get();
+
+        $noOfEventUploaded = Event::where([
+            ['user_id', '=', Auth::user()->id],
+            ['status', '=', '1']
+        ])->count();
+
+        $latestEventTicketsPurchased = Transaction::where([
+            ['user_id', '=', Auth::user()->id],
+            ['status', '=', 'success']
+        ])->get();
+
+        $noOfEventTicketsPurchased = Transaction::where([
+            ['user_id', '=', Auth::user()->id],
+            ['status', '=', 'success']
+        ])->count();
+
+        $profile = Auth::user()->profile;
+        return view('users.profile.index', compact('eventsuploaded', 'noOfEventUploaded', 'noOfEventTicketsPurchased', 'latestEventTicketsPurchased', 'profile'));
     }
 
     /**

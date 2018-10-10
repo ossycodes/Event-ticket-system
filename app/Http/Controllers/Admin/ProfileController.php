@@ -42,7 +42,7 @@ class ProfileController extends Controller
         $latestEvent = Event::latest()->first();
         try{
             $commentOnEvent = Eventscomment::latest()->first();
-        }catch(\ErrorException $e){
+        }catch(\ErrorException $e) {
             return $e->getMessage();
         }
         $message = Contact::latest()->first();
@@ -56,49 +56,6 @@ class ProfileController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -108,29 +65,16 @@ class ProfileController extends Controller
     public function update(Request $request, $id)
     {
 
-        if($request->has('name')){
-            
+        if($request->has('name')) {
             //update the User field
             $this->updateName($request);
             //update the profile
             $this->updateProfile($request);
-
             return back()->with('success', 'Profile updated successfully');
         }    
 
             return back()->with('error', 'Something went wrong');
             
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 
     public function updateName(Request $request){

@@ -30,28 +30,30 @@
         <div class="card">
             <div class="card-header">
             <p>
- 			<a href="{{ route('system-admin.posts.create') }}" class="btn btn-primary">Add New Post</a>
- 		</p>
-            <?php
-              $noOfPosts = count($posts);
-            ?>
-            @if($noOfPosts)
+ 			       <a href="{{ route('system-admin.posts.create') }}" class="btn btn-primary">Add New Post</a>
+ 	  	     </p>
             
               <h3 class="card-title">All Available Posts</h3>
-            </div>
-            <!-- /.card-header -->
-            <div class="card-body">
-            
+             </div>
+              <!-- /.card-header -->
+              <div class="card-body">
+
+                <?php
+                  $noOfPosts = count($posts);
+                ?>
+
+                @if($noOfPosts > 0)
+
                 <table id="example1" class="table table-bordered table-striped table-responsive">
                   <thead>
 
                   <tr>
-
-                    <th>Id</th>
+                    
+                    <th>Image</th>
                     <th>Title</th>
                     <th>Description</th>
                     <th>Body</th>
-                    <th>Comment</th>
+                    <th>Comments</th>
                     <th>Created At</th>
                     <th>Updated At</th>
                     <th>Action</th>
@@ -66,26 +68,26 @@
 
                   <tr>
 
-                    <td>{{ $post->id }}</td>   
+                    <td><a href="{{ asset($post->blogimage->imagename) }}"><img src="{{ asset($post->blogimage->imagename) }}" href="{{ asset($post->blogimage->imagename) }}" height="100px"/><a/></td> 
                     <td>{{ $post->title}}</td>
                     <td>{{ $post->description }}</td>
                     <td>{{ $post->body }}</td>
-                    @foreach($post->postcomments as $comment)
-                      <td>
-                        <strong>Name</strong> {{ $comment->name }}
-                        <strong>Message</strong> {{ $comment->message }}
-                      </td>
-                    @endforeach  
+                          @foreach($post->postcomments as $comment)
+                    <td>
+                      <strong>Name</strong> {{ $comment->name }}
+                      <strong>Message</strong> {{ $comment->message }}
+                    </td>
+                           @endforeach  
                     <td>{{ $post->created_at->toDayDateTimeString() }}</td>
                     <td>{{ $post->updated_at->toDayDateTimeString() }}</td>
                     <td>
                       <a href="{{ route('system-admin.posts.edit', $post->id) }}" class="btn btn-info">Edit</a>
-                      <a href="" class="btn btn-success">View Comments</a>
+                      {{-- <a href="" class="btn btn-success">View Comments</a> --}}
                       <a href="javascript:void(0)" onclick="$(this).parent().find('form').submit()" class="btn btn-danger">Delete</a>
-                      <form action="{{ route('system-admin.posts.destroy', $post->id) }}" method="post">
-                        @method('DELETE')
-                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                      </form>
+                        <form action="{{ route('system-admin.posts.destroy', $post->id) }}" method="post">
+                          @method('DELETE')
+                          <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                        </form>
                     </td>
                     
                   </tr>
@@ -97,10 +99,11 @@
 
                   <tr>
 
-                    <th>Id</th>
+                    <th>Image</th>
                     <th>Title</th>
                     <th>Description</th>
                     <th>Body</th>
+                    <th>Comments</th>
                     <th>Created At</th>
                     <th>Updated At</th>
                     <th>Action</th>
@@ -109,17 +112,13 @@
                   </tfoot>
 
                 </table>
-               
-          
-            </div>
-            <!-- /.card-body -->
             
             @else
                <h3 class="card-title">No Available Post At The Moment</h3>
             @endif
 
-
+          </div>
          
-          </div>		
+        </div>		
 
 @endsection

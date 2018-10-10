@@ -71,42 +71,36 @@
               <div class="card-header p-2">
                 <ul class="nav nav-pills">
                   <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Activity</a></li>
-                  <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Timeline</a></li>
                   <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Settings</a></li>
                 </ul>
               </div><!-- /.card-header -->
               <div class="card-body">
                 <div class="tab-content">
                   <div class="active tab-pane" id="activity">
-                  <br><br>
+                  
                   @include('layouts.errors2')
-                   <br><br>
+    
                     <!-- Post -->
-                    <div class="post">
-                      <div class="user-block">
-                        <img class="img-circle img-bordered-sm" src="../../dist/img/user1-128x128.jpg" alt="user image">
-                        <span class="username">
-                          <a href="#"></a>
-                          <a href="#" class="float-right btn-tool"><i class="fa fa-times"></i></a>
-                        </span>
-                        <span class="description"></span>
+                    <div class="post clearfix">
+                        <div class="user-block">
+                          <img class="img-circle img-bordered-sm" src="../../dist/img/user7-128x128.jpg" alt="User Image">
+                          <span class="username">
+                            <a href="#">Profile Status</a>
+                            <a href="#" class="float-right btn-tool"><i class="fa fa-times"></i></a>
+                          </span>
+                          <span class="description"> {{ $profile->phonenumber && $profile->gender && $profile->education && $profile->skills && $profile->location ? 'All profile details has been set, good work man.' : 'Please try  update your profile details , most/some details are missing.'}} </span>
+                
+                        </div>
+  
+                        @if($latestEventTicketsPurchased)
+                        @foreach($latestEventTicketsPurchased as $ticket)
+                          <p>
+                            {{$event->event_name}}
+                          </p>
+                        @endforeach
+                        @endif
+  
                       </div>
-                      <!-- /.user-block -->
-                      <p>
-                      </p>
-
-                      <p>
-                        <a href="#" class="link-black text-sm mr-2"><i class="fa fa-share mr-1"></i> Share</a>
-                        <a href="#" class="link-black text-sm"><i class="fa fa-thumbs-o-up mr-1"></i> Like</a>
-                        <span class="float-right">
-                          <a href="#" class="link-black text-sm">
-                            <i class="fa fa-comments-o mr-1"></i> Comments (5)
-                          </a>
-                        </span>
-                      </p>
-
-                      <input class="form-control form-control-sm" type="text" placeholder="Type a comment">
-                    </div>
                     <!-- /.post -->
 
                     <!-- Post -->
@@ -114,24 +108,21 @@
                       <div class="user-block">
                         <img class="img-circle img-bordered-sm" src="../../dist/img/user7-128x128.jpg" alt="User Image">
                         <span class="username">
-                          <a href="#"></a>
+                          <a href="#">Event Tickets Purchased Status</a>
                           <a href="#" class="float-right btn-tool"><i class="fa fa-times"></i></a>
                         </span>
-                        <span class="description"></span>
+                        <span class="description"> {{ $noOfEventTicketsPurchased > 0  ? $noOfEventTicketsPurchased.' '.' tickets purchased.' : 'You have\'nt purchased any tickets yet.' }} </span>
+              
                       </div>
-                      <!-- /.user-block -->
-                      <p>
-                      
-                      </p>
 
-                      <form class="form-horizontal">
-                        <div class="input-group input-group-sm mb-0">
-                          <input class="form-control form-control-sm" placeholder="Response">
-                          <div class="input-group-append">
-                            <button type="submit" class="btn btn-danger">Send</button>
-                          </div>
-                        </div>
-                      </form>
+                      @if($latestEventTicketsPurchased)
+                      @foreach($latestEventTicketsPurchased as $ticket)
+                        <p>
+                          {{$event->event_name}}
+                        </p>
+                      @endforeach
+                      @endif
+
                     </div>
                     <!-- /.post -->
 
@@ -140,111 +131,31 @@
                       <div class="user-block">
                         <img class="img-circle img-bordered-sm" src="../../dist/img/user6-128x128.jpg" alt="User Image">
                         <span class="username">
-                          <a href="#">USERS</a>
+                          <a href="#">Uploaded Events Status</a>
                           <a href="#" class="float-right btn-tool"><i class="fa fa-times"></i></a>
                         </span>
-                        <span class="description">Registered Users</span>
+                      <span class="description"> {{ $noOfEventUploaded > 0 ? $noOfEventUploaded .' '.'of your uploaded events has been activated by Admin.' : 'none of your events has been activated by Admin.' }} </span>
                       </div>
                       <!-- /.user-block -->
                       <div class="row mb-3">
                         <div class="col-sm-12">
-                          
-                            <span class="username">
-                              <a href="#"></a>
-                              <a href="#" class="float-right btn-tool"><i class="fa fa-times"></i></a>
-                              <br>
-                            </span>
-                          
                             <span class="description"></span>
-                            
                         </div>
-                        <!-- /.col -->
-                        
-                      
-                        <!-- /.col -->
+
                       </div>
-                      <!-- /.row -->
 
-                      <p>
-                        <span class="float-right">
-                          <a href="#" class="link-black text-sm">
-                            <i class="fa fa-comments-o mr-1"></i> Comments (5)
-                          </a>
-                        </span>
-                      </p>
+                      @if($eventsuploaded)
+                        @foreach($eventsuploaded as $event)
+                            <p>
+                              {{$event->name}}
+                            </p>
+                        @endforeach
+                      @endif
 
-                      <input class="form-control form-control-sm" type="text" placeholder="Type a comment">
                     </div>
-                    <!-- /.post -->
+
                   </div>
-                  <!-- /.tab-pane -->
-                  <div class="tab-pane" id="timeline">
-                    <!-- The timeline -->
-                    <ul class="timeline timeline-inverse">
-                      <!-- timeline time label -->
-                      <li class="time-label">
-                        <span class="bg-danger">
-                        </span>
-                      </li>
-                      <!-- /.timeline-label -->
-                      <!-- timeline item -->
-                      <li>
-                        <i class="fa fa-envelope bg-primary"></i>
 
-                        <div class="timeline-item">
-                          <span class="time"><i class="fa fa-clock-o"></i></span>
-
-                          <h3 class="timeline-header"><a href="#"></h3>
-
-                          <div class="timeline-body">
-                          </div>
-                          <div class="timeline-footer">
-                            <a href="#" class=""></a>
-                          </div>
-                        </div>
-                      </li>
-                      <!-- END timeline item -->
-                      <!-- timeline item -->
-                      <li>
-                        <i class="fa fa-user bg-info"></i>
-
-                     
-                        <div class="timeline-item">
-                          <span class="time"><i class="fa fa-clock-o"></i> </span>
-
-                          <h3 class="timeline-header no-border"><a href="#"></a> 
-                          </h3>
-                        </div>
-                 
-                      </li>
-                      <!-- END timeline item -->
-                      <!-- timeline item -->
-                      <li>
-                        <i class="fa fa-comments bg-warning"></i>
-
-                        <div class="timeline-item">
-                          <span class="time"><i class="fa fa-clock-o"></i></span>
-
-                          <h3 class="timeline-header"><a href="#"></a>  <br><strong></strong></h3>
-
-                          <div class="timeline-body">
-                          </div>
-                        </div>
-                      </li>
-                      <!-- END timeline item -->
-                     
-                      <!-- timeline item -->
-                      <li>
-                        <i class="fa fa-camera bg-purple"></i>
-
-                      </li>
-                      <!-- END timeline item -->
-                      <li>
-                        <i class="fa fa-clock-o bg-gray"></i>
-                      </li>
-                    </ul>
-                  </div>
-                  <!-- /.tab-pane -->
 
                   <div class="tab-pane" id="settings">
                     <form method="post" action="{{ route('user.profile.update', Auth::user()->id) }}" class="form-horizontal"/>{{ csrf_field() }}

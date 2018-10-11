@@ -83,7 +83,7 @@
      <div class="form-group">
       <div class="row">
        <label class="col-md-3">Time</label>
-       <div class="col-md-6"><input type="text" name="time" class="form-control" value="{{ old('time') }}"></div>
+       <div class="col-md-6"><input type="text" name="time" class="form-control" value="{{ old('time') }}" required></div>
        <div class="clearfix"></div>
        </div>
      </div>

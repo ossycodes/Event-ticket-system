@@ -8,6 +8,7 @@ use Validator;
 use App\Ticket;
 use App\Category;
 use Illuminate\Http\Request;
+use App\Http\Requests\StoreEvent;
 use Illuminate\Http\UploadedFile;
 use App\Helper\checkAndUploadImage;
 use Illuminate\Support\Facades\Log;
@@ -53,12 +54,8 @@ class EventsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreEvent $request)
     {
-
-        //validate the incoming request
-        $this->validateRequest($request);
-
         //store the request in a $data variable
         $data = $request->all();
 
@@ -132,10 +129,8 @@ class EventsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(StoreEvent $request, $id)
     {
-        //validate the incoming request
-        $this->validateRequest($request);
         //store all incoming request in a $data variable
         $data = $request->all();
         //to get only the image name from the folder path and extension explode it
@@ -213,36 +208,6 @@ class EventsController extends Controller
         log::info('Event with id of' .' ' .$id .' ' .'just got de-activated');
         //return flash session success message back to the view.
         return back()->with('success', 'Event successfully De-activated');
-    }
-
-    public function validateRequest($request){
-        $message = [
-            'category_id.required' => 'Please select a given category',
-            'name.required' => 'Please give the event a name',
-            'image.required' => 'Please choose an image for the event',
-            'venue.required' => 'Please what is the venue of the event?',
-            'description.required' => 'Please give a description of the event',
-            'date.required' => 'Please what date is the event?',
-            'time.required' => 'Please what time is the event?',
-            'age.required' => 'Please what is the age limit?',
-        ];
-
-        Validator::make($request->all(), [
-            'name' => 'required',
-            'category_id' => 'required|integer',
-            'image' => 'required|mimes:jpeg,jpg,png',
-            'venue' => 'required',
-            'description' => 'required',
-            'date' => 'required',
-            'time' => 'required',
-            'actors' =>'nullable|string',
-            'age' => 'required|max:90',
-            'dresscode' => 'nullable|string',
-            'regular' => 'nullable|numeric',
-            'vip' => 'nullable|numeric',
-            'tableforten' => 'nullable|numeric',
-            'tableforhunderd' => 'nullable|numeric',
-        ], $message)->validate();
     }
 
 }

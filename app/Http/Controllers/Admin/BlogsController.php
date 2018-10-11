@@ -7,6 +7,7 @@ use App\Blog;
 use Validator;
 use App\Blogsimage;
 use Illuminate\Http\Request;
+use App\Http\Requests\StorePost;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Input;
@@ -53,16 +54,9 @@ class BlogsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StorePost $request)
     {
-        //validate incoming request
-        Validator::make($request->all(), [
-            'image' => 'required',
-            'title' => 'required',
-            'description' => 'required',
-            'body' => 'required',
-        ])->validate();
-        
+
         $data = $request->all();
 
         //upload and store image
@@ -125,12 +119,12 @@ class BlogsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(StorePost $request, $id)
     {   
          
         $data = $request->all();
         
-         $formerImage = explode('/', $data['formerimage']);
+        $formerImage = explode('/', $data['formerimage']);
 
         //if an image exits in the incoming request and the image was successfully uploaded
         if($request->hasFile('image') and $request->image->isValid()) {

@@ -46,7 +46,7 @@ class PasswordController extends Controller
             ];
 
            return Validator::make($request->all(), [
-                'old_password' => 'required|min:6',
+                'old_password' => 'required',
                 'new_password' => 'required|min:6',
             ], $msg)->validate();
     }

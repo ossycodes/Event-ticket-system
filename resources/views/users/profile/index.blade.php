@@ -83,7 +83,7 @@
                     <!-- Post -->
                     <div class="post clearfix">
                         <div class="user-block">
-                          <img class="img-circle img-bordered-sm" src="../../dist/img/user7-128x128.jpg" alt="User Image">
+                          <img class="img-circle img-bordered-sm" src="../../dist/img/co.png" alt="User Image">
                           <span class="username">
                             <a href="#">Profile Status</a>
                             <a href="#" class="float-right btn-tool"><i class="fa fa-times"></i></a>
@@ -106,7 +106,7 @@
                     <!-- Post -->
                     <div class="post clearfix">
                       <div class="user-block">
-                        <img class="img-circle img-bordered-sm" src="../../dist/img/user7-128x128.jpg" alt="User Image">
+                        <img class="img-circle img-bordered-sm" src="../../dist/img/co.png" alt="User Image">
                         <span class="username">
                           <a href="#">Event Tickets Purchased Status</a>
                           <a href="#" class="float-right btn-tool"><i class="fa fa-times"></i></a>
@@ -129,7 +129,7 @@
                     <!-- Post -->
                     <div class="post">
                       <div class="user-block">
-                        <img class="img-circle img-bordered-sm" src="../../dist/img/user6-128x128.jpg" alt="User Image">
+                        <img class="img-circle img-bordered-sm" src="../../dist/img/co.png" alt="User Image">
                         <span class="username">
                           <a href="#">Uploaded Events Status</a>
                           <a href="#" class="float-right btn-tool"><i class="fa fa-times"></i></a>

@@ -36,7 +36,7 @@
       <div class="form-group">
          <div class="row">
           <label class="col-md-3"> Title </label>
-            <div class="col-md-6"><input type="text" name="title" class="form-control" ></div>
+            <div class="col-md-6"><input type="text" name="title" class="form-control" required></div>
               <div class="clearfix">
               </div>
         </div>
@@ -46,7 +46,7 @@
       <div class="form-group">
       <div class="row">
        <label class="col-md-3"> Description </label>
-       <div class="col-md-6"><textarea name="description" class="form-control" ></textarea></div>
+       <div class="col-md-6"><textarea name="description" class="form-control" required></textarea></div>
        <div class="clearfix"></div>
        </div>
      </div> 
@@ -54,7 +54,7 @@
      <div class="form-group">
       <div class="row">
        <label class="col-md-3"> Body </label>
-       <div class="col-md-6"><textarea name="body" class="form-control" ></textarea></div>
+       <div class="col-md-6"><textarea name="body" class="form-control" required></textarea></div>
        <div class="clearfix"></div>
        </div>
      </div> 

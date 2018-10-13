@@ -17,10 +17,7 @@ Trait checkAndUploadPostImage {
     
 public function checkAndUploadPostImage(Request $request, $data) {
 
-        //if the request has an image
-        if($request->hasFile('image') and $request->file('image')->isValid()) {
-
-            //dd($data);
+    if($request->hasFile('image') and $request->file('image')->isValid()) {
 
             $path = 'images/frontend_images/posts';
             $imageNameWithNoExtension = explode('.', $request->image->getClientOriginalName()); 

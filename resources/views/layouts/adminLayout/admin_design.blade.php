@@ -77,7 +77,7 @@
          
           @foreach(Auth::user()->unreadNotifications as $notification)
           <a href="#" class="dropdown-item">
-            <i class="fa fa-envelope mr-2"></i> {{ $notification->data['data'] }}
+            <a href="" data-toggle="modal" data-target="#myModal"><i class="fa fa-envelope mr-2"></i> {{ str_limit($notification->data['data'],30) }} </a>
             <span class="float-right text-muted text-sm">{{ $notification->created_at->diffForHumans() }}</span>
           </a>
           @endforeach
@@ -440,6 +440,30 @@
   <!-- /.control-sidebar -->
 </div>
 <!-- ./wrapper -->
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Notification(s)</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      @foreach(Auth::user()->unreadNotifications as $notification)
+        <div class="modal-body">
+          <strong>Message:<strong> <p>{{ $notification->data['data'] }}</p>
+        <strong>Sent: </strong> <p>{{ $notification->created_at->diffForHumans() }}</p>
+        </div>
+      @endforeach
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
 
 <!-- jQuery -->
 <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>

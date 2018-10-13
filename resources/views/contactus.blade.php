@@ -69,7 +69,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 							</div>
 
 							<div class="col-md-6 contact-right">
-								<textarea placeholder="Message" name="message"></textarea>
+								<textarea placeholder="Message" name="message" required></textarea>
 								<input type="submit" value="SEND"/>
 							</div>
 

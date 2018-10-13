@@ -12,11 +12,14 @@ use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Input;
 use Intervention\Image\Facades\Image;
+use App\Helper\checkAndUploadPostImage;
 use Illuminate\Database\QueryException;
+use App\Helper\checkAndUploadUpdatedPostImage;
 
 
 class BlogsController extends Controller
 {
+    use checkAndUploadPostImage, checkAndUploadUpdatedPostImage;
     /**
      * Display a listing of the resource.
      *
@@ -56,24 +59,21 @@ class BlogsController extends Controller
      */
     public function store(StorePost $request)
     {
-
         $data = $request->all();
 
         //upload and store image
-        $imageName = $this->checkAndUploadImage($request, $data);
-       
+        $imageName = $this->checkAndUploadPostImage($request, $data);
         $data['image'] = $imageName;
-        
+
         //create post via mass assignment
         try{
 
-        $blog = Blog::create($data);
+            $blog = Blog::create($data);
+            Blog::find($blog->id)->blogimage()->create([
+                'imagename' => $data['image']
+            ]);
 
-        Blog::find($blog->id)->blogimage()->create([
-            'imagename' => $data['image']
-        ]);
-
-        }catch(QueryException $e){
+        }catch(QueryException $e) {
             Log::error($e->getMessage());
             //return flash session error message to view
             return redirect()->route('system-admin.posts.create')->with('error', 'something went wrong');
@@ -81,7 +81,6 @@ class BlogsController extends Controller
         
         //log event
         Log::info('User with email:' .' ' .Auth::user()->email .' ' .'just created a post');
-        
         //return flash success message
         return redirect()->route('system-admin.posts.create')->with('success', 'Post created successfully');
     }
@@ -120,55 +119,22 @@ class BlogsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(StorePost $request, $id)
-    {   
-         
+    {    
         $data = $request->all();
         
-        $formerImage = explode('/', $data['formerimage']);
-
-        //if an image exits in the incoming request and the image was successfully uploaded
-        if($request->hasFile('image') and $request->image->isValid()) {
-            
-            //Delete the previous image from the events folder, if a new image is uploaded
-            if(file_exists($data['formerimage'])) {
-                unlink($data['formerimage']);
-                //dd('exists');
-            }
-
-            $imageName = explode('.', $request->image->getClientOriginalName());
-            $imageName = $imageName[0].rand(1, 99999).date('ymdhis').'.'.$request->image->getClientOriginalExtension();
-          
-            // //Intervention resize image pakage starts here
-          
-            $fp = 'images/frontend_images/posts/'.$imageName;
-
-            Image::make(input::file('image'))->resize(640, 423)->save($fp);
-
-            //ends here
-
-            $data['imageName'] = $imageName;
-     
-        }   else {
-
-             $data['imageName'] = $formerImage[3];
-
-        }
-
         $tp = tap(Blog::find($id))->update([
             'title' => $data['title'],
             'body' => $data['body'],
             'description' => $data['description'],
         ]);
         
-        // dd($data['imagename']);
-        // dd($tp->id);
+        $data['imageName'] = $this->checkAndUploadUpdatedPostImage($request, $data);
 
         Blog::find($tp->id)->blogimage()->update([
             'imagename' => $data['imageName']
         ]);
 
-        //update the request
-        //Blog::update($request->all());
+        Log::info('Blog with ID:' .' ' .$tp->id .' ' .'just got uploaded');
 
         //return flash success session message to the view
         return redirect()->route('system-admin.posts.create')->with('success', 'Post updated successfully');
@@ -227,7 +193,9 @@ class BlogsController extends Controller
                 return $imageName;          
                 
             } else{
+
                  return $data['image'] = 'default.jpg';
+                 
             }
 
     }

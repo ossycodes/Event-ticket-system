@@ -21,7 +21,7 @@ use App\Helper\checkAndUploadUpdatedImage;
 
 class EventsController extends Controller
 {
-    use checkAndUploadImage,checkAndUploadUpdatedImage ;
+    use checkAndUploadImage, checkAndUploadUpdatedImage ;
     /**
      * Display a listing of the resource.
      *
@@ -29,7 +29,7 @@ class EventsController extends Controller
      */
     public function index()
     {
-       $events= Auth::user()->events()->latest()->get(); 
+       $events = Auth::user()->events()->latest()->get(); 
        return view('users.events.index', compact('events')); 
     }
 
@@ -92,7 +92,7 @@ class EventsController extends Controller
             return redirect()->route('user.events.create')->with('error', 'something went wrong');
         }
         //return back
-        return redirect()->route('user.events.create')->with('success', 'Event added successfully');
+        return redirect()->route('user.events.create')->with('success', 'Event added successfully, after being reviewed it would be activated.');
     }
 
     /**

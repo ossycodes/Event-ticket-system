@@ -2,25 +2,26 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
-use App\Mail\ContactusMail;
-use Illuminate\Support\Facades\Mail;
-
-use App\Contact;
-use App\Category;
 use App\Error;
+
 use Validator;
+use App\Contact;
 
-
+use App\Category;
+use App\Mail\ContactusMail;
+use Illuminate\Http\Request;
 use App\JSONResponse\JSONResponse;
+
+
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class ContactsController extends Controller
 {
     
     public function store(Request $request, Contact $saveContactusMessage) {
 
-        if($request->isMethod('post')) {
+     if($request->isMethod('post')) {
         
         //validate request
         $this->validateMessage($request);
@@ -41,6 +42,7 @@ class ContactsController extends Controller
     }
 
     public function validateMessage(Request $request){
+        
         // $messages = [
         //     //custom validation error messages
         //     'name.required' => 'Please fill in the name field',
@@ -68,14 +70,13 @@ class ContactsController extends Controller
         $saveContactusMessage->message = $request->message;
         $saveContactusMessage->phonenumber = $request->phonenumber;
 
-        $saveContactusMessage->save();
+        try{ 
+            $saveContactusMessage->save();
+        } catch(\Exception $e) {
+            Log::error('something went wrong');
+            return back()->with('error', 'Something went wrong, please try again later.');
+        }
 
-    }
-
-    public function getContactusMessages(){
-        $contactusMessages = Contact::all();
-        //echo "<pre>"; print_r($contactusMessages); die;
-        return $this->jsonSuccessResponse($contactusMessages);
     }
  
     public function normalResponse(){

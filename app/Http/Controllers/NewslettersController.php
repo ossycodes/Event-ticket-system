@@ -9,7 +9,7 @@ use Validator;
 class NewslettersController extends Controller
 {
 	protected $newsletter;
-	//dependency injection, which would be hamdled by lararvel service containers
+	//constructor dependency injection, which would be handled by lararvel service container
 	public function __construct(Newsletter $saveNewsletter) {
 		$this->newsletter = $saveNewsletter;
 	}

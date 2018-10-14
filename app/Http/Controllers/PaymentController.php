@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Transaction;
 use Illuminate\Http\Request;
 use Ixudra\Curl\Facades\Curl;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 
 class PaymentController extends Controller
@@ -107,6 +108,7 @@ class PaymentController extends Controller
             $authorizationUrl =  $response->data->authorization_url;
 
         } catch(\ErrorException $e) {
+            Log::error($e->getMessage());
             return back()->with('trn_error', 'Unable to connect to service provider, please try again later.');
         }
         

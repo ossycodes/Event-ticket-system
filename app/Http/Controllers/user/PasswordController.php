@@ -20,7 +20,7 @@ class PasswordController extends Controller
         $this->validateRequest($request);
 
         try{
-                if(Hash::check($request->old_password, Auth::user()->password)){
+                if(Hash::check($request->old_password, Auth::user()->password)) {
                     log::info('password updated succcessfully');
                     Auth::User()->update([
                         'password' => bcrypt($request->new_password)

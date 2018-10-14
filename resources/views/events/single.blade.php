@@ -107,8 +107,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 											<div class="comments-section-head">
 												
 												<div class="comments-section-head-text">
-													<?php $noOfcCmments = count($eventcomments); ?>
-														<h3>{{ $noOfcCmments }} @if($noOfcCmments > 1) {{str_plural('Comment')}} @else Comment @endif</h3>
+														<h3>{{ $noComments }} @if($noComments > 1) {{str_plural('Comment')}} @else Comment @endif</h3>
 												</div>
 												<div class="clearfix"></div>
 											
@@ -176,7 +175,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 							</div>
 						
 						<div class="col-md-3 side-bar">
-							
+								
 							<div class="entertainment">
 								<h3>Event Blog</h3>
 								@foreach($allBlogPosts as $posts)
@@ -184,12 +183,12 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 								@endforeach
 							</div>
 
-							<!---->
+							{{-- <!---->
 							<div class="grid-top">
 								<h4>Other Events</h4>
 									@include('layouts.frontLayout.front_otherevents')
 							</div>
-							<!---->
+							<!----> --}}
 
 						</div>
 

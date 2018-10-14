@@ -17,7 +17,9 @@ class registeredUser extends Mailable
      *
      * @return void
      */
+    // protected $user;
     public $user;
+
     public function __construct(User $user)
     {
         $this->user = $user;
@@ -31,5 +33,9 @@ class registeredUser extends Mailable
     public function build()
     {
         return $this->markdown('emails.registeredUser');
+                                // ->with([
+                                //     $userName = $this->user->name,
+                                //     $userEmail = $this->user->email
+                                // ]);
     }
 }

@@ -15,11 +15,6 @@ use Illuminate\Support\Facades\Notification;
 | contains the "web" middleware group. Now create something great!
 |
 */
-/*
-Route::get('/', function () {
-    return view('welcome');
-});
-*/
 
 //route to send mail
 Route::get('/sendmail', 'ContactsController@sendMail');
@@ -74,7 +69,7 @@ Route::group(['prefix' => 'system-admin', 'as' => 'system-admin.', 'middleware' 
     Route::resource('admin/events', 'Admin\EventsController', ['except' => 'show']);
     Route::resource('admin/posts', 'Admin\BlogsController', ['except' => 'show']);
     Route::resource('admin/users', 'Admin\UsersController');
-    Route::resource('admin/subscribers', 'Admin\NewslettersController', ['only' => 'index']);
+    Route::resource('admin/subscribers', 'Admin\NewslettersController');
     Route::resource('admin/messages', 'Admin\ContactsController', ['only' => ['index', 'destroy']]);
     Route::resource('admin/profile', 'Admin\ProfileController');
     Route::resource('admin/notification', 'Admin\NotificationController');

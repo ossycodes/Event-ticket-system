@@ -13,7 +13,7 @@ class Event extends Model
     protected $guarded = [];
 
     //defines a one to many relationship(an event as many comments)
-    public function eventscomment(){
+    public function eventscomment() {
         return $this->hasMany(Eventscomment::class);
     }
 

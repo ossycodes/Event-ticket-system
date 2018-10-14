@@ -74,7 +74,7 @@
                   <td>{{ $transaction->amount }}</td>
                   <td>{{ $transaction->paid_through }}</td>
                   <td>{{ $transaction->event_name }}</td>
-                  <td>{{ $transaction->created_at }}</td>
+                  <td>{{ $transaction->created_at->diffForHumans() }}</td>
                  
                   
 

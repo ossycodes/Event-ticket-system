@@ -60,6 +60,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 															@if($noOfEvents)
 																	
 																	@foreach($events as $event)
+																	 @foreach($event->tickets as $ticket)
 
 																		<div class="review">
 																				
@@ -117,6 +118,16 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 																										<p><strong>Age: </strong>{{ $event->age ?? 'No age provided' }} {{-- ?? php 7 null coalesce operator --}}</p>
 																										<br>
 																										<p><strong>Dress Code: </strong>{{ $event->dresscode ?? 'No dresscode provided' }} {{-- ?? php 7 null coalesce operator --}}</p>
+																										<br>
+																										<h3>Available Tickets</h3>
+																										<br>
+																										<p><strong>Regular:</strong> {{ $ticket->regular .' Naira ' ?? 'No price for regular ticket' }}</p>
+																										<br>
+																										<p><strong>VIP:</strong> {{ $ticket->vip .' Naira ' ?? 'No price for vip ticket' }}</p>
+																										<br>
+																										<p><strong>Table For Ten:</strong> {{ $ticket->tableforten .' Naira ' ?? 'No price for Table For Ten ticket' }}</p>		
+																										<br>
+																										<p><strong>Table For Hundred:</strong> {{ $ticket->tableforhundred .' Naira ' ?? 'No price for Table For Hundred ticket' }}</p>		
 																									</div>
 
 																									<div class="modal-footer">
@@ -135,9 +146,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 																			<div class="clearfix"></div>
 																			
 																		</div>
-																	
+																	 @endforeach
 																	@endforeach
-															
+																		
 															@else
 																
 																		<div class="">
@@ -172,10 +183,10 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 														
 																
 																<!---->
-																<div class="grid-top">
+																{{-- <div class="grid-top">
 																	<h4>Other Events</h4>
 																		@include('layouts.frontLayout.front_otherevents')
-																</div>
+																</div> --}}
 																<!---->
 
 													</div>
@@ -207,27 +218,5 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 			<div class="clearfix"></div>
 		
 	</div>
-
-		<!-- Modal -->
-<div id="myModal" class="modal fade" role="dialog">
-	<div class="modal-dialog">
-  
-	  <!-- Modal content-->
-	  <div class="modal-content">
-		<div class="modal-header">
-		  <button type="button" class="close" data-dismiss="modal">&times;</button>
-		  <h4 class="modal-title">Modal Header</h4>
-		</div>
-		<div class="modal-body">
-		  <p>Some text in the modal.</p>
-		</div>
-		<div class="modal-footer">
-		  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-		</div>
-	  </div>
-  
-	</div>
-  </div>
-  
 
 @endsection

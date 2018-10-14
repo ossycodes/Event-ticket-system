@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers\User;
 
+use App\User;
 use App\Event;
+use App\Profile;
 use App\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\updateProfile;
 use Illuminate\Support\Facades\Auth;
 
 class ProfileController extends Controller
@@ -43,64 +46,20 @@ class ProfileController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(updateProfile $request, $id)
     {
-        
         //if the request has a name as part of the request;
-        if($request->has('name')){
-             //update user  name
+        if($request->has('name')) {
+            //update user  name
             $this->updateName($request);
             //update user profile
-           $this->updateProfile($request);
+            $this->updateProfile($request);
            //redirect the user back with flash seession success message
            return back()->with('success', 'Profile updated successfully');
         }
@@ -118,16 +77,15 @@ class ProfileController extends Controller
         echo $id; die;
     }
 
-    public function updateName(Request $request){
-        //validate the authenticated user request
+    public function updateName(Request $request) {
         Auth::user()->update([
             'name' => $request->name
         ]);
     }
 
-    public function updateProfile(Request $request){
+    public function updateProfile(Request $request) {
         ///update the authenticated user's profile
-        Auth::User()->profile()->updateOrCreate([
+        Auth::User()->profile()->update([
             'gender' => $request->gender,
             'phonenumber' => $request->phonenumber,
             'education' => $request->education,

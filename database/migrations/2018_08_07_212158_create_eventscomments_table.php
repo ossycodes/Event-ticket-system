@@ -18,7 +18,7 @@ class CreateEventscommentsTable extends Migration
             $table->integer('event_id')->unsigned()->index();
             $table->string('name');
             $table->string('email');
-            $table->boolean('status');
+            $table->boolean('status')->default(0);
             $table->longText('message');
             
             $table->foreign('event_id')->references('id')->on('events')->onDelete('cascade');

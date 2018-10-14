@@ -83,10 +83,9 @@ class PaymentController extends Controller
         }
         return $token;
     }
-    public function redirectToProvider(Request $request) {
-        //dd($request->all());
 
-        //TDOD create a method that handles all the totalPayment
+    public function redirectToProvider(Request $request) {
+       
         $totalAmount = $request->amount * $request->qty * 100;
         $initializePayment = 'https://api.paystack.co/transaction/initialize';
         $authBearer = 'Bearer '. $this->setKey();
@@ -96,14 +95,13 @@ class PaymentController extends Controller
             $response = Curl::to($initializePayment)
                 ->withData([
                     'reference' => $this->genTranxRef(),
-                    'amount' => intval($totalAmount),//this should come from the modified request
-                    'email'=> Auth::user()->email, //this should come form request
+                    'amount' => intval($totalAmount),
+                    'email'=> Auth::user()->email, 
                     'metadata' => $request->metadata,
                 ])
                 ->withHeader('Authorization: Bearer '.$this->SetKey())
                 ->asJson()
                 ->post();
-                //return response()->json($response);
         
             $response = json_decode(json_encode($response));
             $authorizationUrl =  $response->data->authorization_url;
@@ -118,23 +116,17 @@ class PaymentController extends Controller
     
     public function handleGatewayCallback(Request $request) {
         
-        
         $transactionRef = request()->query('trxref');
         
-        //make a call to verify
-        $verifyPayment = 'https://api.paystack.co/transaction/verify/'.$transactionRef;
-        //store secret in env file    
+        $verifyPayment = 'https://api.paystack.co/transaction/verify/'.$transactionRef;   
         $response = Curl::to($verifyPayment)
         ->withHeader('Authorization: Bearer '.$this->SetKey())
         ->get();
-        //return $response;
         
-         $response = json_decode($response);
-        //return response()->json($response);
+        $response = json_decode($response);
         
         if($response->status === true) {
 
-            //TODO store in response in transaction database
             Transaction::create([
                 'status' => $response->data->status,
                 'user_id' => Auth::user()->id,
@@ -143,16 +135,12 @@ class PaymentController extends Controller
                 'amount' => $response->data->amount,
                 'paid_through' => $response->data->channel,
                 'event_name' => $response->data->metadata->custom_fields[0]->event_name,
-                //'qty' => $request->qty,
             ]);
 
             return redirect()->route('user.transaction')->with('success', 'Event Booked Successfully');
 
-            //dd(response()->json($response));
-
         }else {
-
-             dd(response()->json($response)); 
+            
              return redirect()->route('user.transaction')->with('error', 'Transaction failed, please try again later.');   
 
         }

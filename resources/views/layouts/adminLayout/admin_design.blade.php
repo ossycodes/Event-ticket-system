@@ -82,7 +82,7 @@
           </a>
           @endforeach
 
-          <br>
+          <br><br><br>
 
           <a href="{{ url('user/read-notification') }}"><p>{{ Auth::user()->unreadNotifications->count() > 0 ? 'Mark as read' : ' ' }}</p></a>
         </div>
@@ -454,7 +454,7 @@
       @foreach(Auth::user()->unreadNotifications as $notification)
         <div class="modal-body">
           <strong>Message:<strong> <p>{{ $notification->data['data'] }}</p>
-        <strong>Sent: </strong> <p>{{ $notification->created_at->diffForHumans() }}</p>
+        <strong>Sent: </strong> <p>{{ $notification->created_at->diffForHumans() }} By Admin</p>
         </div>
       @endforeach
       <div class="modal-footer">

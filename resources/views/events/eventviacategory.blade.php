@@ -53,7 +53,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
     
                                 <div class="review-info">
-                                    <a class="span" href="{{ url('/events/') }}">{{ $event->name }}</a>
+                                    <a class="span" href="{{ url('/events/' .$event->id) }}">{{ $event->name }}</a>
                                     
 									<br>
                                                    
@@ -122,6 +122,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 							<div class="">
 								<div class="jumbotron">
 									<h3>Oops! This category does not exist</h3> 
+									
 								</div>
 							</div>
 					@endif	
@@ -144,19 +145,19 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                   
                     
 
-					<div class="col-md-3 side-bar">
+			<div class="col-md-3 side-bar">
 				
 				<div class="entertainment">
 					
-				</div>	
+					</div>	
 				
-						
-					<!---->
-				<div class="grid-top">
-				    <h4>Other Events</h4>
-						@include('layouts.frontLayout.front_otherevents')
-				</div>
-				<!---->
+							
+						<div class="entertainment">
+							<h3>Event Blog</h3>
+							@foreach($allBlogPosts1 as $event)
+								@include('layouts.frontLayout.front_entertainment2')
+							@endforeach
+						</div>
 
 				</div>
 

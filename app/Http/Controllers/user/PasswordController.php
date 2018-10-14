@@ -15,7 +15,7 @@ class PasswordController extends Controller
         return view('users.password.index');
     }
 
-    public function update(Request $request){
+    public function update(Request $request) {
         //validate the incoming request
         $this->validateRequest($request);
 
@@ -27,7 +27,8 @@ class PasswordController extends Controller
                     ]);
                     return back()->with('success', 'Password changed successfully');
               }
-            }catch(\Exception $e){
+
+            }catch(\Exception $e) {
                     Log::info($e->getMessage());
                     //something goes wrong
                     return back()->with('error', 'Something went wrong');
@@ -36,8 +37,8 @@ class PasswordController extends Controller
             Log::info('something went wrong');
             return back()->with('error', 'Something went wrong');
     }
-
-    public function validateRequest(Request $request){
+ 
+    public function validateRequest(Request $request) {
         
         //custom error messages
             $msg = [

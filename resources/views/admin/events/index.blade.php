@@ -99,6 +99,8 @@
                       <a href="{{ url('system-admin/admin/de-activate/'.$event->id) }}" class="btn btn-success">De-Activate</a>
                     @endif  
                      <a href="{{ route('system-admin.events.edit', $event->id) }}" class="btn btn-info">Edit</a>
+                     <!-- Trigger the view comments modal with a button -->
+                     <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#myModal">View Comments</button>
                      <a href="javascript:void(0)" onclick="$(this).parent().find('form').submit()" class="btn btn-danger">Delete</a>
                      <form action="{{ route('system-admin.events.destroy', $event->id) }}" method="post">
                       @method('DELETE')
@@ -147,4 +149,29 @@
             <!-- /.card-body -->
           </div>		
 
+          <!-- View Comments Modal -->
+          <div id="myModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+
+              <!-- Modal content-->
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title">Comments on {{ $event->name }}</h4>
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <div class="modal-body">
+                  @foreach($events as $comment)
+                    <p>{{ $comment->eventscomment }}</p>
+                  @endforeach
+                </div>
+                
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+
+            </div>
+          </div>
+          
 @endsection

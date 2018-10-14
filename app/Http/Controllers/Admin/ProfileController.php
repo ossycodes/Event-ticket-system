@@ -22,6 +22,7 @@ class ProfileController extends Controller
      * @return \Illuminate\Http\Response
      */
 
+    //list of properties on profile database that can be mass assignable
     protected $fillable = [
         'name',
         'email',
@@ -40,11 +41,13 @@ class ProfileController extends Controller
         $usersOnline = User::where('online', 1)->get();
         $postComment = Postscomment::latest()->first();
         $latestEvent = Event::latest()->first();
+
         try{
             $commentOnEvent = Eventscomment::latest()->first();
         }catch(\ErrorException $e) {
             return $e->getMessage();
         }
+
         $message = Contact::latest()->first();
         $registeredUsers = User::where('role', 'user')->Orderby('created_at', 'asc')->get();
         
@@ -77,16 +80,16 @@ class ProfileController extends Controller
             
     }
 
-    public function updateName(Request $request){
+    public function updateName(Request $request) {
         //update the user's name
         User::where('id', Auth::user()->id)->update([
             'name' => $request->name
         ]);
     }
 
-    public function updateProfile(Request $request){
+    public function updateProfile(Request $request) {
         //uupdate the user's profile,
-        return User::find(Auth::user()->id)->profile()->updateOrCreate([
+        return User::find(Auth::user()->id)->profile()->update([
             'gender' => $request->gender,
             'phonenumber' => $request->phonenumber,
             'education' => $request->education,

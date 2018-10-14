@@ -88,18 +88,8 @@
                             <a href="#">Profile Status</a>
                             <a href="#" class="float-right btn-tool"><i class="fa fa-times"></i></a>
                           </span>
-                          <span class="description"> {{ $profile->phonenumber && $profile->gender && $profile->education && $profile->skills && $profile->location ? 'All profile details has been set, good work man.' : 'Please try  update your profile details , most/some details are missing.'}} </span>
-                
+                          <span class="description"> {{ optional($profile)->phonenumber && optional($profile)->gender && optional($profile)->education && optional($profile)->skills && optional($profile)->location ? 'All profile details has been set, good work man.' : 'Please try  update your profile details , most/some details are missing.'}} </span>
                         </div>
-  
-                        @if($latestEventTicketsPurchased)
-                        @foreach($latestEventTicketsPurchased as $ticket)
-                          <p>
-                            {{$event->event_name}}
-                          </p>
-                        @endforeach
-                        @endif
-  
                       </div>
                     <!-- /.post -->
 
@@ -118,7 +108,7 @@
                       @if($latestEventTicketsPurchased)
                       @foreach($latestEventTicketsPurchased as $ticket)
                         <p>
-                          {{$event->event_name}}
+                          {{$ticket->event_name}}
                         </p>
                       @endforeach
                       @endif

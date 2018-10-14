@@ -72,8 +72,9 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),
         ]);
         
+        Mail::to($user)->send(new registeredUser($user));
         //send welcome mail to user
-        $this->sendRegisteredUserMail($user);
+        //$this->sendRegisteredUserMail($user);
         //update user's profile
         $this->updateProfile($user);
             
@@ -81,9 +82,8 @@ class RegisterController extends Controller
 
     }
 
-    public function updateProfile($user){
-        
-        //dd($user->id);
+    public function updateProfile($user) {
+
         User::find($user->id)->profile()->create([
             'gender' => '',
             'phonenumber' => '',
@@ -92,11 +92,7 @@ class RegisterController extends Controller
             'location' => '',
         ]);
         
-        //put the user online
-        //put user's email in session, so that logout function can set 
-        //the the value of the user's email whose in the session back to 0 on logout
-        $request->session()->put('clue', $user->email);
-        
+        Session(['clue', $user->email]);
         User::where('email', $user->email)->update([
             'online' => '1',
         ]);

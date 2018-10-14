@@ -31,7 +31,7 @@ class EventsController extends Controller
     {
         //log event
         Log::info('Displayed a list of available events in database for user with email:' .' ' .Auth::user()->email .' ' .'to see');
-        $events = Event::latest()->get();
+        $events = Event::all();
         return view('admin.events.index', compact('events'));
     }
 
@@ -86,7 +86,7 @@ class EventsController extends Controller
             'tableforten' => $data['tableforten'],
             'tableforhundred' => $data['tableforhundred'],
         ]);
-        //dd($createdEvent->id);
+        
         }catch(QueryException $e){
             //log error
             Log::error($e->getMessage());
@@ -210,4 +210,6 @@ class EventsController extends Controller
         return back()->with('success', 'Event successfully De-activated');
     }
 
+    //public function 
+    //Return comments back to events index page
 }

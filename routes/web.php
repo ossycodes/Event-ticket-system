@@ -62,7 +62,7 @@ Route::group(['prefix' => 'events'], function() {
 });
 
 //Admin Routes
-Route::group(['prefix' => 'system-admin', 'as' => 'system-admin.', 'middleware' => ['auth', 'isAdmin']], function() {
+Route::group(['prefix' => 'system-admin', 'as' => 'system-admin.', 'middleware' => ['auth', 'isAdmin', 'can:is-Admin']], function() {
 
     //Resourceful routes
     Route::resource('admin/categories', 'Admin\CategoryController', ['except' => 'show']);
@@ -89,13 +89,13 @@ Route::group(['prefix' => 'system-admin', 'as' => 'system-admin.', 'middleware' 
 });
 
 //User's Routes
-Route::group(['prefix' => 'user', 'as' => 'user.', 'middleware' => ['isUser', 'auth']], function(){
+Route::group(['prefix' => 'user', 'as' => 'user.', 'middleware' => ['isUser', 'auth', 'can:is-User']], function(){
      Route::resource('profile', 'user\ProfileController');
      Route::resource('events', 'user\EventsController');
 });
 
 //User's Routes
-Route::group(['middleware' => ['isUser', 'auth']], function() {
+Route::group(['middleware' => ['isUser', 'auth', 'can:is-User']], function() {
      Route::get('change-password', 'user\PasswordController@index')->name('user.password');
      Route::post('change-password', 'user\PasswordController@update')->name('user.password.update');
      Route::get('user/delete-account/{id}', 'user\ProfileController@deleteAccount')->name('user.account.delete');
@@ -112,6 +112,11 @@ Route::group(['middleware' => 'auth'], function() {
     Route::post('/makepayment', 'PaymentController@redirectToProvider');
     Route::get('/payment/callback', 'PaymentController@handleGatewayCallback');    
 });
+
+Route::get('test-author', function() {
+    return "hey";
+})->middleware('can:is-Admin');
+
 
 
 

@@ -125,9 +125,13 @@
           $segment = Request::segment(2);
           //echo $segment;
           ?>
-    
-    <!-- If Authenticated as admin, then admin dashboard details goes in here-->    
+     
     @if(Auth::user()->role == "admin")
+    <!-- If Authenticated as admin, then admin dashboard details goes in here-->   
+    @if(Gate::allows('is-Admin'))
+    <!-- If User is Authorized as Admin then admin dashoard details goes in here -->
+    @can('is-Admin')
+    <!-- If User is Authorized as Admin then admin dashoard details goes in here -->
     <li class="nav-item">
             <a href="{{ route('home') }}" class="nav-link 
               @if(!$segment)
@@ -304,17 +308,24 @@
               </p>
             </a>
           </li>
-
+    
+    @endcan
+    @endif
     @endif
     <!-- End of admin dashboard section -->  
-
-    <!-- If Authenticated as user, then user's dashboard details goes in here-->    
+   
     
     <?php
        $segment = request::segment(2);
     ?>
 
     @if(Auth::user()->role == "user")
+    <!-- If Authenticated as user, then user's dashboard details goes in here--> 
+    @if(Gate::denies('is-Admin'))
+    <!-- If User is Authorized as User then admin dashoard details goes in here -->
+    @cannot('is-Admin')
+    <!-- If User is Authorized as User then admin dashoard details goes in here -->
+
           <li class="nav-item">
             <a href="{{ route('home') }}" class="nav-link 
               @if(!$segment)
@@ -395,6 +406,9 @@
               </p>
             </a>
           </li>
+    
+    @endcannot 
+    @endif     
     @endif
     <!-- End of user dashboard section -->  
 

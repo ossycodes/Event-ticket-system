@@ -93,11 +93,13 @@
                   <td>{{ $event->created_at->toDayDateTimeString() }}</td>
                   <td>{{ $event->updated_at->toDayDateTimeString() }}</td>
                   <td>
+                    @can('view', $event)
                      <a href="{{ route('user.events.edit', $event->id) }}" class="btn btn-info">Edit</a>
                      <a href="javascript:void(0)" onclick="$(this).parent().find('form').submit()" class="btn btn-danger">Delete</a>
                      <form action="{{ route('user.events.destroy', $event->id) }}" method="post">
                       @method('DELETE')
                       <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                    @endcan 
                     </form>
                   </td>
                    

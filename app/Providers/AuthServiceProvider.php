@@ -31,10 +31,13 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
+        //returns true if the user is an admin, allowing you authorize the admin to
+        //view the admin dashbaord
         Gate::define('is-Admin', function(User $user) {
             return Auth::user()->role === "admin"; 
         });
-
+        //returns true if the user is a user, allowing you authorize the user to
+        //view the user dashbaord
         Gate::define('is-User', function(User $user) {
             return Auth::user()->role === "user"; 
         });

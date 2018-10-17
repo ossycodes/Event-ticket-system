@@ -19,7 +19,7 @@ class EventPolicy
      */
     public function view(User $user, Event $event)
     {
-        return $user->id === $event->user_id;
+        //return $user->id === $event->user_id;
     }
 
     /**
@@ -30,7 +30,18 @@ class EventPolicy
      */
     public function create(User $user)
     {
-        
+        return true;
+    }
+
+    /**
+     * Determine whether the user can edit events.
+     *
+     * @param  \App\User  $user
+     * @return mixed
+     */
+    public function edit(User $user, Event $event)
+    {
+       return $user->id === $event->user_id;
     }
 
     /**

@@ -42,6 +42,7 @@ class EventsController extends Controller
      */
     public function create()
     {
+        
         //log event
         Log::info('Displayed a form to create an event for User with email:' .' ' .Auth::user()->email);
         $categories = Category::all();
@@ -56,6 +57,9 @@ class EventsController extends Controller
      */
     public function store(StoreEvent $request)
     {
+        // if(Auth::user()->can('update', $event)){
+        //     dd('yes');
+        // }
         //store the request in a $data variable
         $data = $request->all();
 
@@ -116,6 +120,7 @@ class EventsController extends Controller
      */
     public function edit($id)
     {   
+
         $event = Event::findOrFail($id);
         $eventTicket = Ticket::findOrFail($id);
         $categories = Category::all();
@@ -131,6 +136,7 @@ class EventsController extends Controller
      */
     public function update(StoreEvent $request, $id)
     {
+        
         //store all incoming request in a $data variable
         $data = $request->all();
         //to get only the image name from the folder path and extension explode it
@@ -175,6 +181,7 @@ class EventsController extends Controller
      */
     public function destroy($id)
     {
+        
         //Delete Image If It Exists.
         if (file_exists(Event::find($id)->image)) {
             unlink(Event::find($id)->image);

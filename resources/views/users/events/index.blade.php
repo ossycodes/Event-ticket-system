@@ -75,6 +75,7 @@
                 <tbody>
                 
                 @foreach($events as $event)
+                  @foreach($event->tickets as $t)
 
                 <tr>
 
@@ -88,23 +89,26 @@
                   <td>{{ $event->time }}</td>
                   <td>{{ $event->date }}</td>
                   <td>{{ $event->age }}</td>
-                  <td>{{ $event->ticket }}</td>
+                  <td>REGULAR: {{ $t->regular }} <br> VIP: {{ $t->vip }} <br> TABLEFORTEN: {{ $t->tableforten}} <br> TABLEFORHUNDRED: {{ $t->tableforhundred }}  </td>
                   <td>{{ $event->dresscode }}</td>
                   <td>{{ $event->created_at->toDayDateTimeString() }}</td>
                   <td>{{ $event->updated_at->toDayDateTimeString() }}</td>
                   <td>
-                    @can('view', $event)
+                    @can('edit', $event)
                      <a href="{{ route('user.events.edit', $event->id) }}" class="btn btn-info">Edit</a>
+                    @endcan 
+                    @can('delete', $event)
                      <a href="javascript:void(0)" onclick="$(this).parent().find('form').submit()" class="btn btn-danger">Delete</a>
                      <form action="{{ route('user.events.destroy', $event->id) }}" method="post">
-                      @method('DELETE')
-                      <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                    @endcan 
-                    </form>
+                        @method('DELETE')
+                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                      </form>
+                    @endcan    
                   </td>
                    
                 </tr>
-               
+                  
+                 @endforeach
                 @endforeach 
                 
                 </tbody>

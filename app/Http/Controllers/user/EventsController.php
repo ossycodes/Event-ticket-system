@@ -29,7 +29,7 @@ class EventsController extends Controller
      */
     public function index()
     {
-       $events = Auth::user()->events()->latest()->get(); 
+       $events = Auth::user()->events()->with('tickets')->get();
        return view('users.events.index', compact('events')); 
     }
 
@@ -40,6 +40,9 @@ class EventsController extends Controller
      */
     public function create()
     {
+        // if(Auth::user()->can('create')) {
+        //     dd('can create');
+        // }
         $categories = Category::all();
         return view('users.events.create', compact('categories'));
     }
@@ -114,11 +117,13 @@ class EventsController extends Controller
      */
     public function edit($id)
     {
-        //TODO
-        $event = Event::findOrFail($id);
-        $eventTicket = Ticket::findOrFail($id);
-        $categories = Category::all();
-        return view('users.events.edit',compact('event', 'categories', 'eventTicket'));
+        //Authourizing  edit action using policies via the user model
+        if(Auth::user()->can('edit', Event::find($id))) {
+            $event = Event::findOrFail($id);
+            $eventTicket = Ticket::findOrFail($id);
+            $categories = Category::all();
+            return view('users.events.edit',compact('event', 'categories', 'eventTicket'));
+        }   
     }
 
     /**
@@ -130,41 +135,44 @@ class EventsController extends Controller
      */
     public function update(StoreEvent $request, $id)
     {
-        //store all incoming request in a $data variable
-        $data = $request->all();
+        //Authourizing  edit action using policies via the user model
+        if(Auth::user()->can('update', Event::find($id))) {
+            //store all incoming request in a $data variable
+            $data = $request->all();
 
-        //to get only the image name from the folder path and extension explode it
-        $formerImage = explode('/', $data['imagename']);
-       
-        $path = 'images/frontend_images/events';
+            //to get only the image name from the folder path and extension explode it
+            $formerImage = explode('/', $data['imagename']);
+        
+            $path = 'images/frontend_images/events';
 
-        $data['image'] = $this->checkAndUploadUpdatedImage($data, $request);
+            $data['image'] = $this->checkAndUploadUpdatedImage($data, $request);
 
-        //dd($data);
+            //dd($data);
 
-        $updateEvent = tap(Event::find($id))->update([
+            $updateEvent = tap(Event::find($id))->update([
+                
+                'name' => $data['name'],
+                'category_id' => $data['category_id'],
+                'user_id' => Auth::user()->id,
+                'venue' => $data['venue'],
+                'description' => $data['description'],
+                'date' => $data['date'],
+                'time' => $data['time'],
+                'actors' => $data['actors'],
+                'age' => $data['age'],
+                'dresscode' => $data['dresscode'],
+                'image' => $data['image'],
             
-            'name' => $data['name'],
-            'category_id' => $data['category_id'],
-            'user_id' => Auth::user()->id,
-            'venue' => $data['venue'],
-            'description' => $data['description'],
-            'date' => $data['date'],
-            'time' => $data['time'],
-            'actors' => $data['actors'],
-            'age' => $data['age'],
-            'dresscode' => $data['dresscode'],
-            'image' => $data['image'],
-        
-        ]);
+            ]);
 
-        Ticket::find($updateEvent->id)->update([
-            'regular' => $data['regular'],
-            'vip' => $data['vip'],
-            'tableforten' => $data['tableforten'],
-            'tableforhundred' => $data['tableforhundred'],
-        ]);
-        
+            Ticket::find($updateEvent->id)->update([
+                'regular' => $data['regular'],
+                'vip' => $data['vip'],
+                'tableforten' => $data['tableforten'],
+                'tableforhundred' => $data['tableforhundred'],
+            ]);
+
+        }    
 
         return redirect()->route('user.events.index')->with('success', 'Event updated successfully');
     }
@@ -177,13 +185,16 @@ class EventsController extends Controller
      */
     public function destroy($id)
     {
-        //if the image exists unlink the image
-        if(file_exists(Event::find($id)->image)){
-            unlink(Event::find($id)->image);
-        }
-        //delete the event
-        Event::destroy($id);
-        //return flash session message back to user
+        //Authourizing  delete action using policies via the user model
+        if(Auth::user()->can('delete', Event::find($id))) {
+            //if the image exists unlink the image
+            if(file_exists(Event::find($id)->image)){
+                unlink(Event::find($id)->image);
+            }
+            //delete the event
+            Event::destroy($id);
+            //return flash session message back to user
+        }    
         return back()->with('success', 'Event deleted successfully');
     }
 

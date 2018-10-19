@@ -45,7 +45,7 @@ return [
             'port' => env('DB_PORT', '3306'),
             'database' => env('DB_DATABASE', 'eventticket'),
             'username' => env('DB_USERNAME', 'cinemaxii'),
-            'password' => env('DB_PASSWORD', '08027332873@ossy'),
+            'password' => env('DB_PASSWORD', '08027332873'),
             'unix_socket' => env('DB_SOCKET', ''),
             'charset' => 'utf8mb4',
             'collation' => 'utf8mb4_unicode_ci',

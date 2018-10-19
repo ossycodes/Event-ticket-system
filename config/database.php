@@ -41,11 +41,11 @@ return [
 
         'mysql' => [
             'driver' => 'mysql',
-            'host' => env('DB_HOST', '127.0.0.1'),
+            'host' => env('DB_HOST', 'db4free.net'),
             'port' => env('DB_PORT', '3306'),
-            'database' => env('DB_DATABASE', 'db4free.net'),
-            'username' => env('DB_USERNAME', 'eventticket'),
-            'password' => env('DB_PASSWORD', '08027332873'),
+            'database' => env('DB_DATABASE', 'eventticket'),
+            'username' => env('DB_USERNAME', 'cinemaxii'),
+            'password' => env('DB_PASSWORD', '08027332873@ossy'),
             'unix_socket' => env('DB_SOCKET', ''),
             'charset' => 'utf8mb4',
             'collation' => 'utf8mb4_unicode_ci',

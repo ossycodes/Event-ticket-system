@@ -27,7 +27,7 @@ class StoreEvent extends FormRequest
             //validation rules
             'name' => 'required',
             'category_id' => 'required|integer',
-            'image' => 'required|mimes:jpeg,jpg,png',
+            'image' => 'required|file|mimes:jpeg,jpg,png',
             'venue' => 'required',
             'description' => 'required',
             'date' => 'required',

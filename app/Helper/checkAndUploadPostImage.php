@@ -23,11 +23,10 @@ public function checkAndUploadPostImage(Request $request, $data) {
             $imageNameWithNoExtension = explode('.', $request->image->getClientOriginalName()); 
             $imageName =  $imageNameWithNoExtension[0].rand(1, 99999).date('ymdhis').'.'.$request->image->getClientOriginalExtension();
             
-            //Intervention resize image pakage starts here
-            //This resizes the image and stores it in th epath i specified.
-      
             $fp = 'images/frontend_images/posts/'.$imageName;
 
+            //Intervention resize image pakage starts here
+            //This resizes the image and stores it in th epath i specified.
             Image::make(input::file('image'))->resize(640, 426)->save($fp);
 
             //ends here

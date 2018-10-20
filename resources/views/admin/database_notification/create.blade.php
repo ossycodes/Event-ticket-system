@@ -9,7 +9,7 @@
       <div class="container-fluid">
         <div class="row">
           <div class="col-md-3">
-            <a href="mailbox.html" class="btn btn-primary btn-block mb-3">Back to Inbox</a>
+            <a href="{{route('home')}}" class="btn btn-primary btn-block mb-3">Back to Dashboard</a>
 
             <div class="card">
               <div class="card-header">
@@ -22,33 +22,34 @@
               </div>
               <div class="card-body p-0">
                 <ul class="nav nav-pills flex-column">
+                  {{--<li class="nav-item">--}}
+                    {{--<a href="mailbox.html" class="nav-link">--}}
+                      {{--<i class="fa fa-inbox"></i> Inbox--}}
+                      {{--<span class="badge bg-primary float-right">12</span>--}}
+                    {{--</a>--}}
+                  {{--</li>--}}
                   <li class="nav-item">
-                    <a href="mailbox.html" class="nav-link">
-                      <i class="fa fa-inbox"></i> Inbox
-                      <span class="badge bg-primary float-right">12</span>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a class="nav-link">
                       <i class="fa fa-envelope-o"></i> Sent
+                      <span class="badge bg-primary float-right">{{$sentNotifcations}}</span>
                     </a>
                   </li>
+                  {{--<li class="nav-item">--}}
+                    {{--<a href="#" class="nav-link">--}}
+                      {{--<i class="fa fa-file-text-o"></i> Drafts--}}
+                    {{--</a>--}}
+                  {{--</li>--}}
                   <li class="nav-item">
-                    <a href="#" class="nav-link">
-                      <i class="fa fa-file-text-o"></i> Drafts
+                    <a class="nav-link">
+                      <i class="fa fa-filter"></i> Read
+                      <span class="badge bg-warning float-right">{{$readNotifications}}</span>
                     </a>
                   </li>
-                  <li class="nav-item">
-                    <a href="#" class="nav-link">
-                      <i class="fa fa-filter"></i> Junk
-                      <span class="badge bg-warning float-right">65</span>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="#" class="nav-link">
-                      <i class="fa fa-trash-o"></i> Trash
-                    </a>
-                  </li>
+                  {{--<li class="nav-item">--}}
+                    {{--<a href="#" class="nav-link">--}}
+                      {{--<i class="fa fa-trash-o"></i> Trash--}}
+                    {{--</a>--}}
+                  {{--</li>--}}
                 </ul>
               </div>
               <!-- /.card-body -->
@@ -56,7 +57,7 @@
             <!-- /. box -->
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title">Labels</h3>
+                <h3 class="card-title">Action</h3>
 
                 <div class="card-tools">
                   <button type="button" class="btn btn-tool" data-widget="collapse"><i class="fa fa-minus"></i>
@@ -67,14 +68,14 @@
               <div class="card-body p-0">
                 <ul class="nav nav-pills flex-column">
                   <li class="nav-item">
-                    <a class="nav-link" href="#"><i class="fa fa-circle-o text-danger"></i> Important</a>
+                    <a class="nav-link" href="{{route('system-admin.admin.delete-notification')}}"><i class="fa fa-circle-o text-danger"></i> Delete all notification </a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="#"><i class="fa fa-circle-o text-warning"></i> Promotions</a>
+                    <a class="nav-link" href="{{route('system-admin.admin.view-notifications')}}"><i class="fa fa-circle-o text-warning"></i> View Notifcations</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="#"><i class="fa fa-circle-o text-primary"></i> Social</a>
-                  </li>
+                    {{--<a class="nav-link" href="#"><i class="fa fa-circle-o text-primary"></i> Social</a>--}}
+                  {{--</li>--}}
                 </ul>
               </div>
               <!-- /.card-body -->

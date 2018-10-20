@@ -73,7 +73,9 @@ Route::group(['prefix' => 'system-admin', 'as' => 'system-admin.', 'middleware' 
     Route::resource('admin/messages', 'Admin\ContactsController', ['only' => ['index', 'destroy']]);
     Route::resource('admin/profile', 'Admin\ProfileController');
     Route::resource('admin/notification', 'Admin\NotificationController');
-    
+    Route::get('system-admin/admin/delete-notification', 'Admin\NotificationController@deleteNotification')->name('admin.delete-notification');
+    Route::get('system-admin/admin/view-notifications', 'Admin\NotificationController@viewNotifications')->name('admin.view-notifications');
+
     //Adminpassword controller routes
     Route::get('admin/change-password', 'Admin\PasswordController@index');
     Route::post('admin/update-password', 'Admin\PasswordController@update');
@@ -112,6 +114,7 @@ Route::group(['middleware' => 'auth'], function() {
     Route::post('/makepayment', 'PaymentController@redirectToProvider');
     Route::get('/payment/callback', 'PaymentController@handleGatewayCallback');    
 });
+
 
 Route::get('test-author', function() {
     return "hey";

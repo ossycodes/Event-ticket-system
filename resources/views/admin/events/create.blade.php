@@ -154,6 +154,26 @@
        <input type="submit" class="btn btn-info" value="Save">
      </div>
 
+
+<div class="widget-content nopadding">
+    <form class="form-horizontal" enctype="multipart/form-data" method="post" action="{{ url('/admin/add-attributes/') }}" name="add_product" id="add_product">{{ csrf_field() }}
+        <input type="hidden" name="product_id" value="">
+
+        <div class="control-group">
+          <label class="control-label"></label>
+          <div class="field_wrapper">
+            <div>
+              <input type="text" name="sku[]" id="sku" placeholder="Ticket Type(eg Regular)" style="width: 180px" required>
+              <input type="number" name="price[]" id="price" placeholder="Ticket Price" style="width: 180px" required>
+              <a href="javascript:void(0);" class="add_button" title="Add field">Add</a>
+            </div>
+          </div>
+        </div>
+
+    </form>
+</div>
+
+
     </form>
  	</div>
  </section>			

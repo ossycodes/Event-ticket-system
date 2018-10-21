@@ -265,7 +265,7 @@
             <a href="#" class="nav-link">
               <i class="nav-icon fa fa-edit"></i>
               <p>
-                Newsletter Subscribers
+                Subscribers
                 <i class="fa fa-angle-left right"></i>
               </p>
             </a>
@@ -285,6 +285,14 @@
               </ul>
           </li>
 
+          <li class="nav-item">
+            <a href="{{ route('system-admin.eventsimagesliders.create') }}" class="nav-link">
+              <i class="nav-icon fa fa-edit"></i>
+              <p>
+                Upload Images Sliders
+              </p>
+            </a>
+          </li>
 
            <li class="nav-item">
             <a href="{{ route('system-admin.notification.create') }}" class="nav-link">
@@ -472,7 +480,9 @@
   </div>
 </div>
 
+
 <!-- jQuery -->
+<script src="{{ asset('plugins/jquery/multipleadd.js') }}"></script>
 <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
 <!-- jQuery UI 1.11.4 -->
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>

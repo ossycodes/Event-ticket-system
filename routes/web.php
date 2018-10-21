@@ -88,6 +88,9 @@ Route::group(['prefix' => 'system-admin', 'as' => 'system-admin.', 'middleware' 
     Route::get('admin/activate/{id}', 'Admin\EventsController@activate');
     Route::get('admin/de-activate/{id}', 'Admin\EventsController@deActivate');
 
+    Route::get('admin/eventsimagesliders', 'Admin\EventsliderimagesController@create')->name('eventsimagesliders.create');
+    Route::post('admin/eventsimagesliders', 'Admin\EventsliderimagesController@store')->name('eventsimagesliders.store');
+
 });
 
 //User's Routes

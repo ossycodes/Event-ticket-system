@@ -72,7 +72,7 @@ Route::group(['prefix' => 'system-admin', 'as' => 'system-admin.', 'middleware' 
     Route::resource('admin/subscribers', 'Admin\NewslettersController');
     Route::resource('admin/messages', 'Admin\ContactsController', ['only' => ['index', 'destroy']]);
     Route::resource('admin/profile', 'Admin\ProfileController');
-    Route::resource('admin/notification', 'Admin\NotificationController');
+    Route::resource('admin/notification', 'Admin\notificationController');
     Route::get('system-admin/admin/delete-notification', 'Admin\NotificationController@deleteNotification')->name('admin.delete-notification');
     Route::get('system-admin/admin/view-notifications', 'Admin\NotificationController@viewNotifications')->name('admin.view-notifications');
 
@@ -88,8 +88,10 @@ Route::group(['prefix' => 'system-admin', 'as' => 'system-admin.', 'middleware' 
     Route::get('admin/activate/{id}', 'Admin\EventsController@activate');
     Route::get('admin/de-activate/{id}', 'Admin\EventsController@deActivate');
 
-    Route::get('admin/eventsimagesliders', 'Admin\EventsliderimagesController@create')->name('eventsimagesliders.create');
-    Route::post('admin/eventsimagesliders', 'Admin\EventsliderimagesController@store')->name('eventsimagesliders.store');
+    Route::get('admin/eventsimagesliders/create', 'Admin\EventsliderimagesController@create')->name('eventsimagesliders.create');
+    Route::get('admin/eventsimagesliders', 'Admin\EventsliderimagesController@index')->name('eventsimagesliders.index');
+    Route::post('admin/eventsimagesliders/edit', 'Admin\EventsliderimagesController@edit')->name('eventsimagesliders.edit');
+    Route::post('admin/eventsimagesliders/destroy', 'Admin\EventsliderimagesController@destroy')->name('eventsimagesliders.destroy');
 
 });
 

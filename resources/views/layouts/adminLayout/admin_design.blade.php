@@ -285,13 +285,28 @@
               </ul>
           </li>
 
-          <li class="nav-item">
-            <a href="{{ route('system-admin.eventsimagesliders.create') }}" class="nav-link">
+          <li class="nav-item has-treeview">
+            <a href="" class="nav-link">
               <i class="nav-icon fa fa-edit"></i>
               <p>
-                Upload Images Sliders
+                Image sliders
+                <i class="fa fa-angle-left right"></i>
               </p>
             </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{ route('system-admin.eventsimagesliders.create') }}" class="nav-link">
+                  <i class="fa fa-circle-o nav-icon"></i>
+                  <p>Upload Sliders</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{ route('system-admin.eventsimagesliders.index') }}" class="nav-link">
+                  <i class="fa fa-circle-o nav-icon"></i>
+                  <p>View Sliders</p>
+                </a>
+              </li>
+              </ul>
           </li>
 
            <li class="nav-item">

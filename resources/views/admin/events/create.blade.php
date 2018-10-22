@@ -1,7 +1,34 @@
-
 @extends('layouts.adminLayout.admin_design')
 
 @section('content')
+
+<script>
+
+    $(document).ready(function(){
+      var maxField = 10; //Input fields increment limitation
+      var addButton = $('.add_button'); //Add button selector
+      var wrapper = $('.field_wrapper'); //Input field wrapper
+      var fieldHTML = '<div><input type="text" name="key[]" value="" placeholder="Key" style="color: black; font-size: 13px;  margin-right: 20px;" /><input type="text" name="value[]" value="" placeholder="Value" style="color: black; font-size: 13px;"/><a href="javascript:void(0);" class="remove_button"><p style="color:white; font-size: 14px;">Remove</p></a></div>'; //New input field html 
+      var x = 1; //Initial field counter is 1
+      
+      //Once add button is clicked
+      $(addButton).click(function(){
+          //Check maximum number of input fields
+          if(x < maxField){ 
+              x++; //Increment field counter
+              $(wrapper).append(fieldHTML); //Add field html
+          }
+      });
+      
+      //Once remove button is clicked
+      $(wrapper).on('click', '.remove_button', function(e){
+          e.preventDefault();
+          $(this).parent('div').remove(); //Remove field html
+          x--; //Decrement field counter
+      });
+    });
+
+</script>
 
 <!-- Content Header (Page header) -->
     <div class="content-header">
@@ -116,7 +143,7 @@
      <h3>Event Ticket Type And Price</h3>
      <br>
 
-     <div class="form-group">
+     {{-- <div class="form-group">
       <div class="row">
        <label class="col-md-3">Regular</label>
        <div class="col-md-6"><input type="number" name="regular" class="form-control" value="{{ old('regular') }}" ></div>
@@ -146,32 +173,20 @@
        <div class="col-md-6"><input type="number" name="tableforhundred" class="form-control" value="{{ old('tableforhundred') }}"></div>
        <div class="clearfix"></div>
        </div>
-     </div>
+     </div> --}}
+
+     <div class="field_wrapper">
+        <div>
+            <input type="text" name="key[]" value="" placeholder="Ticket Type" style="color: black; font-size: 13px; margin-right: 20px;" /> <input type="text" name="value[]" value="" placeholder="Price" style="color: black; font-size: 13px"/> <br>
+            <a href="javascript:void(0);" class="add_button" title="Add field"><i class="fa fa-plus" aria-hidden="true"></i></a>
+        </div>
+     </div> 
      
-     
+     <br><br>
 
      <div class="form-group">
        <input type="submit" class="btn btn-info" value="Save">
      </div>
-
-
-<div class="widget-content nopadding">
-    <form class="form-horizontal" enctype="multipart/form-data" method="post" action="{{ url('/admin/add-attributes/') }}" name="add_product" id="add_product">{{ csrf_field() }}
-        <input type="hidden" name="product_id" value="">
-
-        <div class="control-group">
-          <label class="control-label"></label>
-          <div class="field_wrapper">
-            <div>
-              <input type="text" name="sku[]" id="sku" placeholder="Ticket Type(eg Regular)" style="width: 180px" required>
-              <input type="number" name="price[]" id="price" placeholder="Ticket Price" style="width: 180px" required>
-              <a href="javascript:void(0);" class="add_button" title="Add field">Add</a>
-            </div>
-          </div>
-        </div>
-
-    </form>
-</div>
 
 
     </form>

@@ -15,50 +15,38 @@ class TicketsTableSeeder extends Seeder
         $tickets = [
             [
                 'event_id' => 1,
-                'regular' => 5000,
-                'vip' => 10000,
-                'tableforten' => 100000,
-                'tableforhundred' => 1000000
+                'tickettype' => 'Regular',
+                'price' => 10000,
             ],
                 
             [
                 'event_id' => 2,
-                'regular' => 5000,
-                'vip' => 10000,
-                'tableforten' => 100000,
-                'tableforhundred' => 1000000
+                'tickettype' => 'Regular',
+                'price' => 10000,
             ],
 
             [
                 'event_id' => 3,
-                'regular' => 5000,
-                'vip' => 10000,
-                'tableforten' => 100000,
-                'tableforhundred' => 1000000
+                'tickettype' => 'Regular',
+                'price' => 10000,
             ],
 
             [
                 'event_id' => 4,
-                'regular' => 5000,
-                'vip' => 10000,
-                'tableforten' => 100000,
-                'tableforhundred' => 1000000
+                'tickettype' => 'Regular',
+                'price' => 10000,
             ],
 
             [
                 'event_id' => 5,
-                'regular' => 5000,
-                'vip' => 10000,
-                'tableforten' => 100000,
-                'tableforhundred' => 1000000
+                'tickettype' => 'Regular',
+                'price' => 10000,
             ],
 
             [
                 'event_id' => 6,
-                'regular' => 5000,
-                'vip' => 10000,
-                'tableforten' => 100000,
-                'tableforhundred' => 1000000
+                'tickettype' => 'Regular',
+                'price' => 10000,
             ],
 
         ];

@@ -16,10 +16,8 @@ class CreateTicketsTable extends Migration
         Schema::create('tickets', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('event_id')->unsigned()->index();
-            $table->string('regular')->nullable()->default('0');
-            $table->string('vip')->nullable()->default('0');
-            $table->string('tableforten')->nullable()->default('0');
-            $table->string('tableforhundred')->nullable()->default('0');
+            $table->string('tickettype');
+            $table->string('price');
             $table->timestamps();
 
             $table->foreign('event_id')->references('id')->on('events')->onDelete('cascade');

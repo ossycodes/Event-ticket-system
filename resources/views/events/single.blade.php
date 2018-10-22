@@ -240,11 +240,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		  <h4 class="modal-title">Book Ticket for {{ $eventDetails->name }}</h4>
 		</div>
 		    <div class="modal-body">
-
-					<strong><p> REGULAR : {{ optional($eventTickets)->regular.' '.'Naira' ?? 'price not provided' }}</p></strong>
-					<strong><p> VIP : {{ optional($eventTickets)->vip.' '.'Naira' ?? 'price not provided' }}</p></strong>
-				    <strong><p>TABLE FOR TEN : {{ optional($eventTickets)->tableforten.'  ' .'Naira' ?? 'price not provided' }}</p></strong>
-					<strong><p>TABLE FOR HUNDRED : {{ optional($eventTickets)->tableforhundred.'  ' .'Naira' ?? 'price not provided' }}</p></strong>
+					@foreach($tickets as $ticket)
+						<strong><p> {{$ticket->tickettype}} : {{ optional($ticket)->price.' '.'Naira' ?? 'price not provided' }}</p></strong>
+					@endforeach
 					<br><br>
 
 			<form action="{{ url('/makepayment') }}" method="post" role="form">{{ csrf_field() }}
@@ -263,11 +261,12 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 					
 					    <select class="form-control" id="sel1" name="amount">
 							<option disabled>--- Select Tickets ---</option>
-						    <option value="{{ optional($eventTickets)->regular }}">Regular</option>
-							<option value="{{ optional($eventTickets)->vip }}">VIP</option>
-							<option value="{{ optional($eventTickets)->tableforten }}">Table for 10</option>
-							<option value="{{ optional($eventTickets)->tableforhundred }}">Table for 100</option>
+							  @foreach($tickets as $ticket)
+								<option value="{{$ticket->price}}">Regular</option>
+							  @endforeach
 						</select>
+
+						<br>
 
 						<br>
 

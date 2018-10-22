@@ -86,6 +86,7 @@ class PaymentController extends Controller
     }
 
     public function redirectToProvider(Request $request) {
+        
        
         $totalAmount = $request->amount * $request->qty * 100;
         $initializePayment = 'https://api.paystack.co/transaction/initialize';

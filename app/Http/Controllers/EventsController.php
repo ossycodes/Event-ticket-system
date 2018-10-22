@@ -33,6 +33,7 @@ class EventsController extends Controller
 		$allCategories = Category::all();
 		$allBlogPosts = Blog::all();
 		$noofevents = Event::all();
+		$tickets = Ticket::where('event_id', '=', $id)->get();
 		$eventcomments = Event::findOrFail($id)->eventscomment;
 		$noComments = Eventscomment::where([
 											 ['event_id', '=', $id],
@@ -44,7 +45,7 @@ class EventsController extends Controller
 		$eventDetails = Event::findOrFail($id);
 		$eventTickets = Ticket::where('event_id', '=', $id)->first();
 		
-		return view('events.single', compact('noComments', 'events', 'noofevents', 'eventsimage', 'eventDetails', 'eventcomments', 'allBlogPosts', 'allCategories', 'eventTickets'));
+		return view('events.single', compact('noComments', 'events', 'noofevents', 'eventsimage', 'eventDetails', 'eventcomments', 'allBlogPosts', 'allCategories', 'eventTickets', 'tickets'));
 		
 	} catch(\Exception $e){
 			abort(404);

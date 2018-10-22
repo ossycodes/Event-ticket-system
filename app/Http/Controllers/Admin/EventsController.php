@@ -55,27 +55,26 @@ class EventsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreEvent $request)
+    public function store(Request $request)
     {
-        // if(Auth::user()->can('update', $event)){
-        //     dd('yes');
-        // }
+
         //store the request in a $data variable
         $data = $request->all();
 
-        $data['user_id'] = Auth::user()->id;
+         $data['user_id'] = Auth::user()->id;
 
-        //upload and store image
-        $imageName = $this->checkAndUploadImage($request, $data);
+         //upload and store image
+         //$imageName = $this->checkAndUploadImage($request, $data);
        
-        $data['image'] = $imageName;
+         //$data['image'] = $imageName;
         
-        try{
+         //try{
         //Event::create($data);
         $createdEvent = Event::create([
+
             'user_id' => $data['user_id'],
             'category_id' => $data['category_id'],
-            'image' => $data['image'],
+            'image' => 'dddd',
             'name' => $data['name'],
             'venue' => $data['venue'],
             'description' => $data['description'],
@@ -84,19 +83,38 @@ class EventsController extends Controller
             'date' => $data['date'],
             'age' => $data['age'],
             'dresscode' => $data['dresscode']
-        ])->tickets()->create([
-            'regular' => $data['regular'],
-            'vip' => $data['vip'],
-            'tableforten' => $data['tableforten'],
-            'tableforhundred' => $data['tableforhundred'],
-        ]);
-        
-        }catch(QueryException $e){
-            //log error
-            Log::error($e->getMessage());
-            //return flash session error message to view
-            return redirect()->route('system-admin.events.create')->with('error', 'something went wrong');
+
+         ]);
+
+        //if the tickettype and price is equals to 1
+        if ($data['key'] && $data['value']   === 1) {
+
+            $ticket = new Ticket;
+            $ticket->event_id = $createdEvent->id;
+            $ticket->tickettype = $data['key'];
+            $ticket->price = $data['value'];
+            $ticket->save();
+
+        } else{
+
+            //if the tickettype and price is greater than 1
+            foreach($data['key'] as $key => $val) {
+                $ticket = new Ticket;
+                $ticket->event_id = $createdEvent->id;
+                $ticket->tickettype = $val;
+                $ticket->price = $data['value'][$key];
+                $ticket->save();
+
+            }
+            
         }
+
+        //}catch(QueryException $e){
+            //log error
+            //Log::error($e->getMessage());
+            //return flash session error message to view
+            //return redirect()->route('system-admin.events.create')->with('error', 'something went wrong');
+        //
         //return back
         return redirect()->route('system-admin.events.create')->with('success', 'Event added successfully');
     }

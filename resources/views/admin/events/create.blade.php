@@ -143,38 +143,6 @@
      <h3>Event Ticket Type And Price</h3>
      <br>
 
-     {{-- <div class="form-group">
-      <div class="row">
-       <label class="col-md-3">Regular</label>
-       <div class="col-md-6"><input type="number" name="regular" class="form-control" value="{{ old('regular') }}" ></div>
-       <div class="clearfix"></div>
-       </div>
-     </div>
-     
-     <div class="form-group">
-      <div class="row">
-       <label class="col-md-3">VIP</label>
-       <div class="col-md-6"><input type="number" name="vip" class="form-control" value="{{ old('vip') }}" ></div>
-       <div class="clearfix"></div>
-       </div>
-     </div>
-
-     <div class="form-group">
-      <div class="row">
-       <label class="col-md-3">Table for 10</label>
-       <div class="col-md-6"><input type="number" name="tableforten" class="form-control" value="{{ old('tableforten') }}" ></div>
-       <div class="clearfix"></div>
-       </div>
-     </div>
-
-     <div class="form-group">
-      <div class="row">
-       <label class="col-md-3">Table for 100</label>
-       <div class="col-md-6"><input type="number" name="tableforhundred" class="form-control" value="{{ old('tableforhundred') }}"></div>
-       <div class="clearfix"></div>
-       </div>
-     </div> --}}
-
      <div class="field_wrapper">
         <div>
             <input type="text" name="key[]" value="" placeholder="Ticket Type" style="color: black; font-size: 13px; margin-right: 20px;" /> <input type="text" name="value[]" value="" placeholder="Price" style="color: black; font-size: 13px"/> <br>

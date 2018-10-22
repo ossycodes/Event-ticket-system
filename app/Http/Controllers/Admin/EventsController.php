@@ -64,9 +64,9 @@ class EventsController extends Controller
          $data['user_id'] = Auth::user()->id;
 
          //upload and store image
-         //$imageName = $this->checkAndUploadImage($request, $data);
+         $imageName = $this->checkAndUploadImage($request, $data);
        
-         //$data['image'] = $imageName;
+         $data['image'] = $imageName;
         
          //try{
         //Event::create($data);
@@ -74,7 +74,7 @@ class EventsController extends Controller
 
             'user_id' => $data['user_id'],
             'category_id' => $data['category_id'],
-            'image' => 'dddd',
+            'image' => $data['user_id'],
             'name' => $data['name'],
             'venue' => $data['venue'],
             'description' => $data['description'],

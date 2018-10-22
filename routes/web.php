@@ -92,6 +92,7 @@ Route::group(['prefix' => 'system-admin', 'as' => 'system-admin.', 'middleware' 
     Route::get('admin/eventsimagesliders', 'Admin\EventsliderimagesController@index')->name('eventsimagesliders.index');
     Route::post('admin/eventsimagesliders/edit', 'Admin\EventsliderimagesController@edit')->name('eventsimagesliders.edit');
     Route::post('admin/eventsimagesliders/destroy', 'Admin\EventsliderimagesController@destroy')->name('eventsimagesliders.destroy');
+    Route::post('admin/eventsimagesliders', 'Admin\EventsliderimagesController@store')->name('eventsimagesliders.store');
 
 });
 

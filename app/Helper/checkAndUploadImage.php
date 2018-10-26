@@ -31,16 +31,30 @@ Trait checkAndUploadImage
                     //This resizes the image and stores it in th epath i specified.
             
                     $fp = 'images/frontend_images/events/'.$imageName;
-
                     Image::make(input::file('image'))->resize(287, 412)->save($fp);
+                    return $imageName; 
 
                     //ends here
-    
-                    return $imageName;          
+
+                    //use cloudinary instead
+
+                    // $height = 50;
+                    // $width = 50;
+                    // $image_size = array("height"=>$height, "width"=>$width, "crop"=>"scale");
+                    // $image_name = $request->file('image_name')->getRealPath();;
+                    // $path = "cinemaxii/events/";
+                    // $uniqueid = Date('Ymdhis').rand(1,99999);
+                    // Cloudder::upload($image_name, $path.$uniqueid.$request->file('image_name')->getClientOriginalName(), $image_size);
+                    // $CloudderArray = Cloudder::getResult();
+                    // $image_url = $CloudderArray['url'];
+                    //dd($image_url);
+             
                     
                 } else{
                     return $data['image'] = 'default.jpg';
                 }
+
+   
 
     }
 

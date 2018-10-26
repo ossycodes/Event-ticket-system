@@ -65,6 +65,8 @@ class EventsController extends Controller
 
          //upload and store image
          $imageName = $this->checkAndUploadImage($request, $data);
+
+         //use cloudinary instead
        
          $data['image'] = $imageName;
         

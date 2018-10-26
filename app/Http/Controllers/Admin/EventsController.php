@@ -66,6 +66,8 @@ class EventsController extends Controller
          //upload and store image
          $imageName = $this->checkAndUploadImage($request, $data);
 
+         //TOdo store the public Id in db, so has to be able to delete from cloudinary when the user click the delete event
+
          //use cloudinary instead
        
          $data['image'] = $imageName;

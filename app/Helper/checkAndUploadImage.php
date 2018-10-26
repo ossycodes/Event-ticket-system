@@ -14,6 +14,7 @@ use Intervention\Image\Facades\Image;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Input;
+use JD\Cloudder\Facades\Cloudder;
 
 Trait checkAndUploadImage 
 {
@@ -25,28 +26,30 @@ Trait checkAndUploadImage
                     
                     $path = 'images/frontend_images/events';
                     $imageNameWithNoExtension = explode('.', $request->image->getClientOriginalName()); 
-                    $imageName =  $imageNameWithNoExtension[0].rand(1, 99999).date('ymdhis').'.'.$request->image->getClientOriginalExtension();
+                    //$imageName =  $imageNameWithNoExtension[0].rand(1, 99999).date('ymdhis').'.'.$request->image->getClientOriginalExtension();
                     
                     //Intervention resize image pakage starts here
                     //This resizes the image and stores it in th epath i specified.
             
-                    $fp = 'images/frontend_images/events/'.$imageName;
-                    Image::make(input::file('image'))->resize(287, 412)->save($fp);
-                    return $imageName; 
+                    // $fp = 'images/frontend_images/events/'.$imageName;
+                    // Image::make(input::file('image'))->resize(287, 412)->save($fp);
+                    // return $imageName; 
 
                     //ends here
 
                     //use cloudinary instead
 
-                    // $height = 50;
-                    // $width = 50;
-                    // $image_size = array("height"=>$height, "width"=>$width, "crop"=>"scale");
-                    // $image_name = $request->file('image_name')->getRealPath();;
-                    // $path = "cinemaxii/events/";
-                    // $uniqueid = Date('Ymdhis').rand(1,99999);
-                    // Cloudder::upload($image_name, $path.$uniqueid.$request->file('image_name')->getClientOriginalName(), $image_size);
-                    // $CloudderArray = Cloudder::getResult();
-                    // $image_url = $CloudderArray['url'];
+                    $height = 412;
+                    $width = 287;
+                    $image_size = array("height"=>$height, "width"=>$width, "crop"=>"scale");
+                    $image_name = $request->file('image')->getRealPath();;
+                    $path = "cinemaxii/events/";
+                    $uniqueid = Date('Ymdhis').rand(1,99999);
+                    Cloudder::upload($image_name, $path.$uniqueid.$imageNameWithNoExtension[0], $image_size);
+                    $CloudderArray = Cloudder::getResult();
+                    //dd($image_url = $CloudderArray['url']);
+                    dd($image_publicid = $CloudderArray['public_id']);
+
                     //dd($image_url);
              
                     

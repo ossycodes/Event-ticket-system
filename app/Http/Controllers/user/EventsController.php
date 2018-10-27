@@ -63,9 +63,16 @@ class EventsController extends Controller
          $data['user_id'] = Auth::user()->id;
 
          //upload and store image
-         $imageName = $this->checkAndUploadImage($request, $data);
+         try{
+            $imageName = $this->checkAndUploadImage($request, $data);
+         } catch(\Cloudinary\Error $e) {
+             Log::error($e->getMessage());
+             return back()->with('error', 'Something went wrong please try again');
+         }
        
-         $data['image'] = $imageName;
+         $data['image'] = $imageName[0];
+         $data['public_id'] = $imageName[1];
+         dd($imageName);
         
          //try{
         //Event::create($data);
@@ -73,7 +80,8 @@ class EventsController extends Controller
 
             'user_id' => $data['user_id'],
             'category_id' => $data['category_id'],
-            'image' => $data['user_id'],
+            'image' => $data['image'],
+            'public_id' => $data['public_id'],
             'name' => $data['name'],
             'venue' => $data['venue'],
             'description' => $data['description'],

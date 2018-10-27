@@ -29,8 +29,8 @@ Trait checkAndUploadImage
                     //$imageName =  $imageNameWithNoExtension[0].rand(1, 99999).date('ymdhis').'.'.$request->image->getClientOriginalExtension();
                     
                     //Intervention resize image pakage starts here
+
                     //This resizes the image and stores it in th epath i specified.
-            
                     // $fp = 'images/frontend_images/events/'.$imageName;
                     // Image::make(input::file('image'))->resize(287, 412)->save($fp);
                     // return $imageName; 
@@ -47,14 +47,15 @@ Trait checkAndUploadImage
                     $uniqueid = Date('Ymdhis').rand(1,99999);
                     Cloudder::upload($image_name, $path.$uniqueid.$imageNameWithNoExtension[0], $image_size);
                     $CloudderArray = Cloudder::getResult();
-                    //dd($image_url = $CloudderArray['url']);
-                    dd($image_publicid = $CloudderArray['public_id']);
+                    $imageInformation = [];
+                    $image_url = $CloudderArray['url'];
+                    $image_publicid = $CloudderArray['public_id'];
 
-                    //dd($image_url);
-             
+                    return $imageInformation = [$image_url, $image_publicid];
+
                     
                 } else{
-                    return $data['image'] = 'default.jpg';
+                    return $imageInformation = ['null', 'null'];
                 }
 
    

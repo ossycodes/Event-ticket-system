@@ -31,7 +31,7 @@ class EventsController extends Controller
     {
         //log event
         Log::info('Displayed a list of available events in database for user with email:' .' ' .Auth::user()->email .' ' .'to see');
-        $events = Event::all();
+        $events = Event::with('tickets')->get();
         return view('admin.events.index', compact('events'));
     }
 
@@ -42,7 +42,6 @@ class EventsController extends Controller
      */
     public function create()
     {
-        
         //log event
         Log::info('Displayed a form to create an event for User with email:' .' ' .Auth::user()->email);
         $categories = Category::all();
@@ -63,22 +62,24 @@ class EventsController extends Controller
 
          $data['user_id'] = Auth::user()->id;
 
-         //upload and store image
-         $imageName = $this->checkAndUploadImage($request, $data);
-
-         //TOdo store the public Id in db, so has to be able to delete from cloudinary when the user click the delete event
-
-         //use cloudinary instead
-       
-         $data['image'] = $imageName;
+         //upload  image to cloudinary
+         try{
+            $imageName = $this->checkAndUploadImage($request, $data);
+         } catch(\Cloudinary\Error $e) {
+             Log::error($e->getMessage());
+             return back()->with('error', 'Something went wrong please try again');
+         }
+         
+         $data['image'] = $imageName[0];
+         $data['public_id'] = $imageName[1];
+         dd($imageName);
         
-         //try{
-        //Event::create($data);
         $createdEvent = Event::create([
 
             'user_id' => $data['user_id'],
             'category_id' => $data['category_id'],
-            'image' => $data['user_id'],
+            'image' => $data['image'],
+            'public_id' => $data['public_id'],
             'name' => $data['name'],
             'venue' => $data['venue'],
             'description' => $data['description'],
@@ -113,13 +114,6 @@ class EventsController extends Controller
             
         }
 
-        //}catch(QueryException $e){
-            //log error
-            //Log::error($e->getMessage());
-            //return flash session error message to view
-            //return redirect()->route('system-admin.events.create')->with('error', 'something went wrong');
-        //
-        //return back
         return redirect()->route('system-admin.events.create')->with('success', 'Event added successfully');
     }
 

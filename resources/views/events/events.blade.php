@@ -60,8 +60,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 															@if($noOfEvents)
 																	
 																	@foreach($events as $event)
-																	 @foreach($event->tickets as $ticket)
-
+																	 
 																		<div class="review">
 																				
 																				<div class="movie-pic">
@@ -121,13 +120,15 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 																										<br>
 																										<h3>Available Tickets</h3>
 																										<br>
-																										<p><strong>Regular:</strong> {{ $ticket->regular .' Naira ' ?? 'No price for regular ticket' }}</p>
-																										<br>
+																										@foreach($event->tickets as $ticket)
+																									    	<p><strong>{{ $ticket->tickettype ?? 'Free' }}</strong> {{ $ticket->price ." Naira" ?? 'Free' }}</p>
+																										@endforeach
+																										{{-- <br>
 																										<p><strong>VIP:</strong> {{ $ticket->vip .' Naira ' ?? 'No price for vip ticket' }}</p>
 																										<br>
 																										<p><strong>Table For Ten:</strong> {{ $ticket->tableforten .' Naira ' ?? 'No price for Table For Ten ticket' }}</p>		
 																										<br>
-																										<p><strong>Table For Hundred:</strong> {{ $ticket->tableforhundred .' Naira ' ?? 'No price for Table For Hundred ticket' }}</p>		
+																										<p><strong>Table For Hundred:</strong> {{ $ticket->tableforhundred .' Naira ' ?? 'No price for Table For Hundred ticket' }}</p>		 --}}
 																									</div>
 
 																									<div class="modal-footer">
@@ -146,7 +147,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 																			<div class="clearfix"></div>
 																			
 																		</div>
-																	 @endforeach
+
 																	@endforeach
 																		
 															@else

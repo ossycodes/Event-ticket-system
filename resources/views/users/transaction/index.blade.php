@@ -71,7 +71,7 @@
                   <td>{{ $transaction->status }}</td>
                   <td>{{ $transaction->reference_id }}</td>
                   <td>{{ $transaction->tran_id }}</td>
-                  <td>{{ $transaction->amount }}</td>
+                  <td>{{ $transaction->amount/100 }}</td>
                   <td>{{ $transaction->paid_through }}</td>
                   <td>{{ $transaction->event_name }}</td>
                   <td>{{ $transaction->created_at->diffForHumans() }}</td>

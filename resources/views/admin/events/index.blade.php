@@ -73,6 +73,7 @@
                 <tbody>
                 
                 @foreach($events as $event)
+                  @foreach($event->tickets as $ticket)
 
                 <tr>
 
@@ -86,7 +87,7 @@
                   <td>{{ $event->time }}</td>
                   <td>{{ $event->date }}</td>
                   <td>{{ $event->age }}</td>
-                  <td>{{ $event->ticket }}</td>
+                  <td>{{ $ticket->tickettype.'-'.$ticket->price }}</td>
                   <td>{{ $event->dresscode }}</td>
                   <td>{{ $event->created_at->toDayDateTimeString() }}</td>
                   <td>{{ $event->updated_at->toDayDateTimeString() }}</td>
@@ -110,7 +111,8 @@
                    
                 </tr>
                
-                @endforeach 
+                  @endforeach 
+                @endforeach
                 
                 </tbody>
                 <tfoot>

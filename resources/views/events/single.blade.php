@@ -90,10 +90,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
 											<div class="story-review">
 													<h4>Available Tickets</h4>
-													<strong><p> REGULAR : {{ optional($eventTickets)->regular.' '.'Naira' ?? 'price not provided' }}</p></strong>
-													<strong><p> VIP : {{ optional($eventTickets)->vip.' '.'Naira' ?? 'price not provided' }}</p></strong>
-													<p>TABLE FOR TEN : {{ optional($eventTickets)->tableforten.'  ' .'Naira' ?? 'price not provided' }}</p>
-													<p>TABLE FOR HUNDRED : {{ optional($eventTickets)->tableforhundred.'  ' .'Naira' ?? 'price not provided' }}</p>
+													  @foreach($tickets as $ticket)
+														<strong><p> {{ optional($ticket)->tickettype.' ' ?? 'Ticket type not provided' }} : {{ optional($ticket)->price.' '.'Naira' ?? 'price not provided' }}</p></strong>
+													  @endforeach
 											</div>
 
 											<div class="story-review">
@@ -262,7 +261,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 					    <select class="form-control" id="sel1" name="amount">
 							<option disabled>--- Select Tickets ---</option>
 							  @foreach($tickets as $ticket)
-								<option value="{{$ticket->price}}">Regular</option>
+								<option value="{{$ticket->price}}">{{$ticket->tickettype}}</option>
 							  @endforeach
 						</select>
 

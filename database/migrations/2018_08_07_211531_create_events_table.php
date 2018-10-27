@@ -19,6 +19,7 @@ class CreateEventsTable extends Migration
             $table->integer('category_id')->unsigned()->index();
             
             $table->string('image');
+            $table->string('public_id');
             $table->string('name');
             $table->string('venue');
             $table->mediumText('description');

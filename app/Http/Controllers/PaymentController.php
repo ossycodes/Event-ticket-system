@@ -87,8 +87,12 @@ class PaymentController extends Controller
 
     public function redirectToProvider(Request $request) {
         
-       
-        $totalAmount = $request->amount * $request->qty * 100;
+        try{
+            $totalAmount = $request->amount * $request->qty * 100;
+        } catch(\ErrorException $e) {
+            return back()->with('trn_error', 'You can only book tickets that have a price provided.');
+        }
+        
         $initializePayment = 'https://api.paystack.co/transaction/initialize';
         $authBearer = 'Bearer '. $this->setKey();
 

@@ -126,41 +126,30 @@
      <br>
      <h3>Event Ticket Type And Price</h3>
      <br>
-
-     <div class="form-group">
-      <div class="row">
-       <label class="col-md-3">Regular</label>
-       <div class="col-md-6"><input type="number" name="regular" class="form-control" value="{{ optional($eventTicket)->regular }}" ></div>
-       <div class="clearfix"></div>
-       </div>
-     </div>
+     @if($noOfTickets === '1')
+      <div class="form-group">
+        <div class="row">
+        <label class="col-md-3">{{ $tickets->tickettype }}</label>
+        <div class="col-md-6"><input type="number" name="regular" class="form-control" value="{{ is_numeric($ticket->price) ? $ticket->price : '' }}" placeholder="{{ is_numeric($ticket->price) ? $ticket->price : 'Free' }}"></div>
+        <div class="clearfix"></div>
+        </div>
+      </div>
+     @else
+      @foreach($tickets as $ticket)
+        <div class="form-group">
+            <div class="row">
+            <label class="col-md-3">{{ optional($ticket)->tickettype }}</label>
+            <div class="col-md-6"><input type="number" name="{{ $ticket->tickettype }}" class="form-control"  value="{{ is_numeric($ticket->price) ? $ticket->price : '' }}" placeholder="{{ is_numeric($ticket->price) ? $ticket->price : 'Free' }}"></div>
+            <div class="clearfix"></div>
+            </div>
+          </div>
+      @endforeach 
+     @endif 
      
-     <div class="form-group">
-      <div class="row">
-       <label class="col-md-3">VIP</label>
-       <div class="col-md-6"><input type="number" name="vip" class="form-control" value="{{ optional($eventTicket)->vip }}" ></div>
-       <div class="clearfix"></div>
-       </div>
-     </div>
-
-     <div class="form-group">
-      <div class="row">
-       <label class="col-md-3">Table for 10</label>
-       <div class="col-md-6"><input type="number" name="tableforten" class="form-control" value="{{ optional($eventTicket)->tableforten }}" ></div>
-       <div class="clearfix"></div>
-       </div>
-     </div>
-
-     <div class="form-group">
-      <div class="row">
-       <label class="col-md-3">Table for 100</label>
-       <div class="col-md-6"><input type="number" name="tableforhundred" class="form-control" value="{{ optional($eventTicket)->tableforhundred }}"></div>
-       <div class="clearfix"></div>
-       </div>
-     </div>
      
 
     <input type="hidden" name="imagename" value="{{ $event->image }}" class="form-control"/>
+    <input type="hidden" name="public_id" value="{{ $event->public_id }}" class="form-control"/>
 
      <div class="form-group">
        <input type="submit" class="btn btn-info" value="Update" >

@@ -121,7 +121,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 																										<h3>Available Tickets</h3>
 																										<br>
 																										@foreach($event->tickets as $ticket)
-																									    	<p><strong>{{ $ticket->tickettype ?? 'Free' }}</strong> {{ $ticket->price ." Naira" ?? 'Free' }}</p>
+																									    	<p><strong>{{ optional($ticket)->tickettype.' ' ?? 'Free' }}</strong>{{ is_numeric(optional($ticket)->price) ? optional($ticket)->price.' '.'Naira' : 'Free' }}</p>
 																										@endforeach
 																										{{-- <br>
 																										<p><strong>VIP:</strong> {{ $ticket->vip .' Naira ' ?? 'No price for vip ticket' }}</p>

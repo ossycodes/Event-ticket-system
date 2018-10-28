@@ -54,7 +54,7 @@ class EventsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreEvent $request)
     {
 
         //store the request in a $data variable
@@ -72,7 +72,7 @@ class EventsController extends Controller
          
          $data['image'] = $imageName[0];
          $data['public_id'] = $imageName[1];
-         dd($imageName);
+         // dd($imageName);
         
         $createdEvent = Event::create([
 
@@ -92,7 +92,7 @@ class EventsController extends Controller
          ]);
 
         //if the tickettype and price is equals to 1
-        if ($data['key'] && $data['value']   === 1) {
+        if ($data['key'] && $data['value'] === 1) {
 
             $ticket = new Ticket;
             $ticket->event_id = $createdEvent->id;
@@ -100,7 +100,7 @@ class EventsController extends Controller
             $ticket->price = $data['value'];
             $ticket->save();
 
-        } else{
+        } elseif($data['key'] && $data['value'] > 1) {
 
             //if the tickettype and price is greater than 1
             foreach($data['key'] as $key => $val) {
@@ -112,9 +112,16 @@ class EventsController extends Controller
 
             }
             
+        } else{
+            //no tickettype and price provided
+            $ticket = new Ticket;
+            $ticket->event_id = $createdEvent->id;
+            $ticket->tickettype = NULL;
+            $ticket->price = NULL;
+            $ticket->save();
         }
 
-        return redirect()->route('system-admin.events.create')->with('success', 'Event added successfully');
+        return redirect()->route('system-admin.events.create')->with('success', 'Event created successfully');
     }
 
     /**
@@ -135,12 +142,13 @@ class EventsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
-    {   
+    {       
 
         $event = Event::findOrFail($id);
-        $eventTicket = Ticket::findOrFail($id);
+        $noOfTickets = Ticket::where('event_id', '=', $id)->count();
+        $tickets = Ticket::where('event_id', '=', $id)->get();
         $categories = Category::all();
-        return view('admin.events.edit',compact('event', 'categories', 'eventTicket'));
+        return view('admin.events.edit',compact('event', 'categories', 'tickets', 'noOfTickets'));
     }
 
     /**
@@ -152,7 +160,7 @@ class EventsController extends Controller
      */
     public function update(StoreEvent $request, $id)
     {
-        
+        dd($request->all());
         //store all incoming request in a $data variable
         $data = $request->all();
         //to get only the image name from the folder path and extension explode it

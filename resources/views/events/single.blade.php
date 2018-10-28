@@ -76,7 +76,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 															<br>
 															<!-- Trigger the modal with a button -->
 															@auth
-															<button type="button" class="btn btn-warning" style="margin-bottom: 15px;" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal"> BUY TICKET NOW </button>
+															<button type="button" class="btn btn-warning" style="margin-bottom: 15px;" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal"> @if($noOfTickets > 0) BUY TICKET NOW @else EVENT IS FREE @endif </button>
 															@endauth
 													</div>
 													<div class="clearfix"></div>
@@ -91,7 +91,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 											<div class="story-review">
 													<h4>Available Tickets</h4>
 													  @foreach($tickets as $ticket)
-														<strong><p> {{ optional($ticket)->tickettype.' ' ?? 'Ticket type not provided' }} : {{ optional($ticket)->price.' '.'Naira' ?? 'price not provided' }}</p></strong>
+														<strong><p> {{ $ticket->tickettype.' ' ?? 'Ticket type not provided' }} : {{ is_numeric($ticket->price) ? $ticket->price.' '.'Naira' : 'Free' }}</p></strong>
 													  @endforeach
 											</div>
 
@@ -228,7 +228,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 	</div>
 
 @auth
-		
+
+
+@if($noOfTickets  > 0)
 <div id="myModal" class="modal fade" role="dialog">
 	<div class="modal-dialog">
   
@@ -240,7 +242,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		</div>
 		    <div class="modal-body">
 					@foreach($tickets as $ticket)
-						<strong><p> {{$ticket->tickettype}} : {{ optional($ticket)->price.' '.'Naira' ?? 'price not provided' }}</p></strong>
+						<strong><p> {{ $ticket->tickettype }} : {{ is_numeric($ticket->price) ? $ticket->price.' '.'Naira' : 'Free' }}</p></strong>
 					@endforeach
 					<br><br>
 
@@ -261,7 +263,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 					    <select class="form-control" id="sel1" name="amount">
 							<option disabled>--- Select Tickets ---</option>
 							  @foreach($tickets as $ticket)
-								<option value="{{$ticket->price}}">{{$ticket->tickettype}}</option>
+							   @if(is_numeric($ticket->price)) 
+								 <option value="{{$ticket->price}}">{{$ticket->tickettype}}</option>
+							   @endif
 							  @endforeach
 						</select>
 
@@ -295,7 +299,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 	  </div>
   
 	</div>
-  </div>
+</div>
+@endif
 
   @endauth
 

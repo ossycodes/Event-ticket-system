@@ -25,22 +25,23 @@ Trait checkAndUploadUpdatedImage
         $formerImage = explode('/', $data['imagename']);
         //if an image exits in the incoming request and the image was successfully uploaded
         if($request->hasFile('image') and $request->image->isValid()) {
-            
             //Delete the previous image from the events folder, if a new image is uploaded
             if (file_exists($data['imagename'])) {
                 unlink($data['imagename']);
             }
-
             $imageName = explode('.', $request->image->getClientOriginalName());
             $imageName = $imageName[0].rand(1, 99999).date('ymdhis').'.'.$request->image->getClientOriginalExtension();
-          
             //Intervention resize image pakage starts here
-          
-            $fp = 'images/frontend_images/events/'.$imageName;
-
-            Image::make(input::file('image'))->resize(287, 412)->save($fp);
-
+                $fp = 'images/frontend_images/events/'.$imageName;
+                Image::make(input::file('image'))->resize(287, 412)->save($fp);
             //ends here
+
+            //TODO
+                //check if the public_id of the uploaded image matches the one in db
+                //get the public_id of the previous image,
+                //delete the image from cloudinary
+                //upload the new image to cloudinary
+                //return the image_url and public_id
 
             return  $imageName;
      

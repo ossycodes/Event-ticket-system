@@ -28,9 +28,9 @@ class Event extends Model
 
     //defines an Accessors that automatically concatenates
     //the image path to the nam eof the image from the database
-    public function getImageAttribute($image){
-        return $this->path.$image;
-    }
+    // public function getImageAttribute($image){
+    //     return $this->path.$image;
+    // }
 
     /*
     A mutator that does something similar to the accessor above

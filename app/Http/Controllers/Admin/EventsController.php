@@ -60,7 +60,7 @@ class EventsController extends Controller
         //store the request in a $data variable
         $data = $request->all();
 
-         $data['user_id'] = Auth::user()->id;
+        $data['user_id'] = Auth::user()->id;
 
          //upload  image to cloudinary
          try{

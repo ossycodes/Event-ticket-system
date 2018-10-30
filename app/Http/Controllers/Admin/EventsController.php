@@ -10,6 +10,7 @@ use App\Category;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreEvent;
 use Illuminate\Http\UploadedFile;
+use JD\Cloudder\Facades\Cloudder;
 use App\Helper\checkAndUploadImage;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
@@ -205,12 +206,21 @@ class EventsController extends Controller
      */
     public function destroy($id)
     {
-        
-        //Delete Image If It Exists.
-        if (file_exists(Event::find($id)->image)) {
-            unlink(Event::find($id)->image);
-        }
+        $event = Event::find($id);   
+        // //Delete Image If It Exists.
+        // if (file_exists(Event::find($id)->image)) {
+        //     unlink(Event::find($id)->image);
+        // }
 
+        //deletes and destroy the image from clodinary
+        try{
+            Cloudder::destroyImage($event->public_id);
+            Cloudder::delete($event->public_id);
+        } catch(\Cloudinary\Error $e) {
+            Log::error($e->getMessage());
+            return back()->with('error', 'Something went wrong please try again');
+        }
+        
         //delete the event
         Event::destroy($id);
         //log the event

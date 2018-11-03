@@ -208,11 +208,7 @@ class EventsController extends Controller
      */
     public function destroy($id)
     {
-        $event = Event::find($id);   
-        // //Delete Image If It Exists.
-        // if (file_exists(Event::find($id)->image)) {
-        //     unlink(Event::find($id)->image);
-        // }
+        $event = Event::find($id);
 
         //deletes and destroy the image from clodinary
         try{
@@ -225,8 +221,10 @@ class EventsController extends Controller
         
         //delete the event
         Event::destroy($id);
+
         //log the event
         log::info('User with email:' .' ' .Auth::user()->email .' ' .'just deleted an event with Id number' .' ' .$id);
+
         //return flash success message
         return redirect()->route('system-admin.events.index')->with('success', 'Event deleted successfully');
     }
@@ -236,8 +234,10 @@ class EventsController extends Controller
         Event::find($id)->update([
             'status' => 1
         ]);
+
         //log the event
         log::info('Event with id of' .' ' .$id .' ' .'just got activated');
+
         //return flash session success message back to the view.
         return back()->with('success', 'Event successfully activated');
     }
@@ -249,6 +249,7 @@ class EventsController extends Controller
         ]);
         //log the event
         log::info('Event with id of' .' ' .$id .' ' .'just got de-activated');
+        
         //return flash session success message back to the view.
         return back()->with('success', 'Event successfully De-activated');
     }

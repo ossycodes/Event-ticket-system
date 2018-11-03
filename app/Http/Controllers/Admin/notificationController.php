@@ -21,9 +21,10 @@ class notificationController extends Controller
     {
         $noOfNotifications = DB::table('notifications')->count();
         $noOfUsers = User::all()->count();
-        $sentNotifcations = $noOfNotifications / $noOfUsers;
+        $sentNotifcations = round(($noOfNotifications / $noOfUsers));
+        $allNotifications = DB::table('notifications')->get();
         $readNotifications = DB::table('notifications')->where('read_at', '!=', NULL)->count();
-        return view('admin.database_notification.create', compact('sentNotifcations', 'readNotifications'));
+        return view('admin.database_notification.create', compact('sentNotifcations', 'readNotifications', 'allNotifications'));
     }
 
     /**
@@ -61,7 +62,8 @@ class notificationController extends Controller
 
    public function viewNotifications()
    {
-       dd(DB::table('notifications')->get());
+       $allNotifications = DB::table('notifications')->toArray();
+       return view('admin.database_notification.create', compact('allNotifications'));
    }
 
 }

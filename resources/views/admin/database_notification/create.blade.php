@@ -71,7 +71,7 @@
                     <a class="nav-link" href="{{route('system-admin.admin.delete-notification')}}"><i class="fa fa-circle-o text-danger"></i> Delete all notification </a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="{{route('system-admin.admin.view-notifications')}}"><i class="fa fa-circle-o text-warning"></i> View Notifcations</a>
+                    <a class="nav-link" data-toggle="modal" data-target="#myModal"href="{{route('system-admin.admin.view-notifications')}}"><i class="fa fa-circle-o text-warning"></i> View Notifcations</a>
                   </li>
                   <li class="nav-item">
                     {{--<a class="nav-link" href="#"><i class="fa fa-circle-o text-primary"></i> Social</a>--}}
@@ -116,5 +116,31 @@
       </div><!-- /.container-fluid -->
     </section>
     <!-- /.content -->
+
+
+    <!-- Modal -->
+  <div id="myModal" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+    
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+              <h4 class="modal-title">Sent Notification</h4>
+
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+          <div class="modal-body">
+            @foreach ($allNotifications as $notification)
+             <p>{{ $notification->data }}</p>      
+            @endforeach
+          
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+    
+      </div>
+   </div>
 
 @endsection

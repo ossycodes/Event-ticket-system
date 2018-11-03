@@ -90,7 +90,8 @@ class EventsController extends Controller
             'time' => $data['time'],
             'date' => $data['date'],
             'age' => $data['age'],
-            'dresscode' => $data['dresscode']
+            'dresscode' => $data['dresscode'],
+            'quantity' => $data['quantity']
 
          ]);
 

@@ -27,6 +27,7 @@ class EventsTableSeeder extends Seeder
                 'age' => '18 And Above',
                 'dresscode' => 'Freeestyle',
                 'status' => '1',
+                'quantity' => '5',
             ],
 
             [   
@@ -43,6 +44,7 @@ class EventsTableSeeder extends Seeder
                 'age' => '18 And Above',
                 'dresscode' => 'Freeestyle',
                 'status' => '1',
+                'quantity' => '5',
             ],
             
             [
@@ -59,6 +61,7 @@ class EventsTableSeeder extends Seeder
                 'age' => '18 And Above',
                 'dresscode' => 'Freeestyle',
                 'status' => '1',
+                'quantity' => '5',
             ],
 
             [
@@ -75,6 +78,7 @@ class EventsTableSeeder extends Seeder
                 'age' => 'Age goes in here 4',
                 'dresscode' => 'Freeestyle',
                 'status' => '1',
+                'quantity' => '5',
             ],
 
             [
@@ -91,6 +95,7 @@ class EventsTableSeeder extends Seeder
                 'age' => '18 And Above',
                 'dresscode' => 'Casuals',
                 'status' => '1',
+                'quantity' => '5',
             ],
 
             [
@@ -107,6 +112,7 @@ class EventsTableSeeder extends Seeder
                 'age' => '18 And Above',
                 'dresscode' => 'Casuals',
                 'status' => '1',
+                'quantity' => '5',
             ]
         ];
 

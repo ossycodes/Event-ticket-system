@@ -29,7 +29,7 @@ class CreateEventsTable extends Migration
             $table->string('age');
             $table->string('dresscode')->nullable();
             $table->tinyInteger('status')->default('0');
-            
+            $table->string('quantity');
             
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');

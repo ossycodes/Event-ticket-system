@@ -87,7 +87,8 @@ class EventsController extends Controller
             'time' => $data['time'],
             'date' => $data['date'],
             'age' => $data['age'],
-            'dresscode' => $data['dresscode']
+            'dresscode' => $data['dresscode'],
+            'quantity' => $data['quantity']
 
          ]);
 
@@ -122,7 +123,7 @@ class EventsController extends Controller
         }
 
         //return back
-        return redirect()->route('users.events.create')->with('success', 'Event created successfully');
+        return redirect()->back()->with('success', 'Event created successfully');
     }
 
     /**

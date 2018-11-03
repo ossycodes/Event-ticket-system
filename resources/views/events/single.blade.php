@@ -274,11 +274,14 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 						<br>
 
 						<select class="form-control" id="sel1" name="qty">
-								<option disabled> ---Select Quantity ---</option>
-								<option value="1">1</option>
-								<option value="2">2</option>
-								<option value="3">3</option>
+						
+							<?php 
+								for ($x = 1; $x <= $eventDetails->quantity; $x++) {
+									echo "<option value=$x>$x</option>";
+								} 
+							?>
 						</select>
+
 
 						
 						

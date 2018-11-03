@@ -91,8 +91,8 @@ Route::group(['prefix' => 'system-admin', 'as' => 'system-admin.', 'middleware' 
     //events comment route
     Route::get('admin/view-comments/{id}', 'Admin\EventsController@viewComments');
     Route::get('admin/delete-comment/{id}', 'Admin\EventsController@deleteComment');
-    Route::get('admin/activate/{id}', 'Admin\EventsController@activateComment');
-    Route::get('admin/de-activate/{id}', 'Admin\EventsController@deactivateComment');
+    Route::get('admin/activate-comment/{id}', 'Admin\EventsController@activateComment');
+    Route::get('admin/de-activate-comment/{id}', 'Admin\EventsController@deactivateComment');
 
     Route::get('admin/eventsimagesliders/create', 'Admin\EventsliderimagesController@create')->name('eventsimagesliders.create');
     Route::get('admin/eventsimagesliders', 'Admin\EventsliderimagesController@index')->name('eventsimagesliders.index');

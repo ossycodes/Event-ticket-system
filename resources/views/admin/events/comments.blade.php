@@ -67,10 +67,10 @@
                     <td>{{ $comments->updated_at->toDayDateTimeString() }}</td>
                     <td>
                     @if($comments->status === 0) 
-                      <a href="{{ url('system-admin/admin/activate/'.$comments->id) }}" class="btn btn-success">Activate</a>
+                      <a href="{{ url('system-admin/admin/activate-comment/'.$comments->id) }}" class="btn btn-success">Activate</a>
                     @endif  
                     @if($comments->status === 1) 
-                      <a href="{{ url('system-admin/admin/de-activate/'.$comments->id) }}" class="btn btn-success">De-Activate</a>
+                      <a href="{{ url('system-admin/admin/de-activate-comment/'.$comments->id) }}" class="btn btn-success">De-Activate</a>
                     @endif 
                     </td>
                     <td>

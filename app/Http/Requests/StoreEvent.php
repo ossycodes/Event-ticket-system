@@ -39,6 +39,7 @@ class StoreEvent extends FormRequest
             'vip' => 'nullable|numeric',
             'tableforten' => 'nullable|numeric',
             'tableforhunderd' => 'nullable|numeric',
+            'quantity' => 'required|numeric|min:1',
         ];
     }
 

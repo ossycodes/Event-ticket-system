@@ -94,14 +94,12 @@ class ProfileController extends Controller
         ]);
     }
 
-    public function deleteAccount($id){
-        /*
+    public function deleteAccount(Request $request, $id){
         //delete user
         User::destroy($id);
         //destroy user session
         $request->session()->flush();
         //redirect back to home
         return redirect()->route('home');
-        */
     }
 }

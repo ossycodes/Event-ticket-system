@@ -54,7 +54,7 @@ class EventsController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function store(Request $request)
+    public function store(StoreEvent $request)
     {
 
         //store the request in a $data variable
@@ -72,10 +72,8 @@ class EventsController extends Controller
        
          $data['image'] = $imageName[0];
          $data['public_id'] = $imageName[1];
-         dd($imageName);
-        
-         //try{
-        //Event::create($data);
+         //dd($imageName);
+
         $createdEvent = Event::create([
 
             'user_id' => $data['user_id'],
@@ -102,7 +100,7 @@ class EventsController extends Controller
             $ticket->price = $data['value'];
             $ticket->save();
 
-        } else{
+        } elseif($data['key'] && $data['value'] > 1) {
 
             //if the tickettype and price is greater than 1
             foreach($data['key'] as $key => $val) {
@@ -113,17 +111,18 @@ class EventsController extends Controller
                 $ticket->save();
 
             }
-            
+
+        } else{
+            //no tickettype and price provided
+            $ticket = new Ticket;
+            $ticket->event_id = $createdEvent->id;
+            $ticket->tickettype = NULL;
+            $ticket->price = NULL;
+            $ticket->save();
         }
 
-        //}catch(QueryException $e){
-            //log error
-            //Log::error($e->getMessage());
-            //return flash session error message to view
-            //return redirect()->route('system-admin.events.create')->with('error', 'something went wrong');
-        //
         //return back
-        return redirect()->route('system-admin.events.create')->with('success', 'Event added successfully');
+        return redirect()->route('users.events.create')->with('success', 'Event created successfully');
     }
 
     /**

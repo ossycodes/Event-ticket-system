@@ -100,6 +100,6 @@ class ProfileController extends Controller
         //destroy user session
         $request->session()->flush();
         //redirect back to home
-        return redirect()->route('home');
+        return redirect()->route('login')->with('success', 'Account deleted successfully');
     }
 }

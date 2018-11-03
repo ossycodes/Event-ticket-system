@@ -71,10 +71,10 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
-        
-        Mail::to($user)->send(new registeredUser($user));
+       
         //send welcome mail to user
-        //$this->sendRegisteredUserMail($user);
+        Mail::to($user)->send(new registeredUser($user));
+       
         //update user's profile
         $this->updateProfile($user);
             

@@ -59,7 +59,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                                                    
                                     <p class="">VENUE:&nbsp; {{ $event->venue }}</p>
 									<p class="">DATE:&nbsp; {{ $event->date }}</p>
-                                    <p class="">DURATION:&nbsp; {{ $event->time }}</p>
+                                    <p class="">TIME:&nbsp; {{ $event->time }}</p>
                       
                                     <br>
 									<!-- Trigger the modal with a button -->
@@ -78,20 +78,29 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 													<h4 class="modal-title">{{ $event->name }}</h4>
 												</div>
 												<div class="modal-body">
+
 													<p><strong>Description: </strong> {{ $event->description }} </p>
 													<br>
 													<p><strong>Venue: </strong> {{ $event->venue }} </p>
 													<br>
 													<p><strong>Actors: </strong> {{ $event->actors }} </p>
 													<br>
-													<p><strong>Time Duration: </strong> {{ $event->time }} </p>
+													<p><strong>Time: </strong> {{ $event->time }} </p>
 													<br>
 													<p><strong>Date: </strong> {{ $event->date }} </p>
 													<br>
 													<p><strong>Age: </strong> {{ $event->age }} </p> 
 													<br>
 													<p><strong>Dress Code: </strong>{{ $event->dresscode }} </p>
+													<br>
+													<h3>Available Tickets</h3>
+													<br>
+													 @foreach($event->tickets as $ticket)
+														<p><strong>{{ optional($ticket)->tickettype.' ' ?? 'Free' }}</strong>{{ is_numeric(optional($ticket)->price) ? optional($ticket)->price.' '.'Naira' : 'Free' }}</p><br>
+													 @endforeach
+
 												</div>
+
 												<div class="modal-footer">
 													<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 												</div>

@@ -82,7 +82,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 																						
 																					<p class="">VENUE:&nbsp; {{ $event->venue ?? 'Venue was not provided' }} {{-- ?? php 7 null coalesce operator --}}</p>
 																					<p class="">DATE:&nbsp; {{ $event->date ?? 'No date was set' }} {{-- ?? php 7 null coalesce operator --}}</p>
-																					<p class="">DURATION:&nbsp; {{ $event->time ?? 'No time was set' }} {{-- ?? php 7 null coalesce operator --}}</p>
+																					<p class="">TIME:&nbsp; {{ $event->time ?? 'No time was set' }} {{-- ?? php 7 null coalesce operator --}}</p>
 																	
 																					<br>
 																					<!-- Trigger the modal with a button -->
@@ -104,13 +104,14 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 																									</div>
 
 																									<div class="modal-body">
+
 																										<p><strong>Description: </strong> {{ $event->description ?? 'No description provided' }} {{-- ?? php 7 null coalesce operator --}}</p>
 																										<br>
 																										<p><strong>Venue: </strong> {{ $event->venue ?? 'No venue provided' }} {{-- ?? php 7 null coalesce operator --}}</p>
 																										<br>
 																										<p><strong>Actors: </strong> {{ $event->actors ?? 'No actors provided' }} {{-- ?? php 7 null coalesce operator --}}</p>
 																										<br>
-																										<p><strong>Time Duration: </strong> {{ $event->time ?? 'No time provided' }} {{-- ?? php 7 null coalesce operator --}}</p>
+																										<p><strong>Time: </strong> {{ $event->time ?? 'No time provided' }} {{-- ?? php 7 null coalesce operator --}}</p>
 																										<br>
 																										<p><strong>Date: </strong> {{ $event->date ?? 'No date provided' }} {{-- ?? php 7 null coalesce operator --}}</p>
 																										<br>
@@ -121,14 +122,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 																										<h3>Available Tickets</h3>
 																										<br>
 																										@foreach($event->tickets as $ticket)
-																									    	<p><strong>{{ optional($ticket)->tickettype.' ' ?? 'Free' }}</strong>{{ is_numeric(optional($ticket)->price) ? optional($ticket)->price.' '.'Naira' : 'Free' }}</p>
+																									    	<p><strong>{{ optional($ticket)->tickettype.' ' ?? 'Free' }}</strong>{{ is_numeric(optional($ticket)->price) ? optional($ticket)->price.' '.'Naira' : 'Free' }}</p><br>
 																										@endforeach
-																										{{-- <br>
-																										<p><strong>VIP:</strong> {{ $ticket->vip .' Naira ' ?? 'No price for vip ticket' }}</p>
-																										<br>
-																										<p><strong>Table For Ten:</strong> {{ $ticket->tableforten .' Naira ' ?? 'No price for Table For Ten ticket' }}</p>		
-																										<br>
-																										<p><strong>Table For Hundred:</strong> {{ $ticket->tableforhundred .' Naira ' ?? 'No price for Table For Hundred ticket' }}</p>		 --}}
+																										
 																									</div>
 
 																									<div class="modal-footer">

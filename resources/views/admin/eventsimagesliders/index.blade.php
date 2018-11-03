@@ -66,7 +66,7 @@
                     <td>{{ $slider->created_at->toDayDateTimeString() }}</td>
                     <td>{{ $slider->updated_at->toDayDateTimeString() }}</td>
                     <td>
-                      <a href="{{ route('system-admin.eventsimagesliders.edit', $slider->id) }}" class="btn btn-info">Edit</a>
+                      {{-- <a href="{{ route('system-admin.eventsimagesliders.edit', $slider->id) }}" class="btn btn-info">Edit</a> --}}
                       <a href="javascript:void(0)" onclick="$(this).parent().find('form').submit()" class="btn btn-danger">Delete</a>
                         <form action="{{ route('system-admin.eventsimagesliders.destroy', $slider->id) }}" method="post">
                           @method('DELETE')

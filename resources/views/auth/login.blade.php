@@ -7,6 +7,8 @@
             <div class="card">
                 <div class="card-header">{{ __('Login') }}</div>
 
+                @include('layouts.errors2')
+
                 <div class="card-body">
                     <form method="POST" action="{{ route('login') }}" aria-label="{{ __('Login') }}">
                         @csrf

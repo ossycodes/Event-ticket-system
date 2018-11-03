@@ -15,8 +15,11 @@ class NewslettersController extends Controller
 	}
 	
     public function saveNewsletterSubscriber(Request $request) {
+		//validate incoming request
 		$this->validateNewsletter($request);
+		//save the subscriber
 		$this->saveSubscriber($request);
+		//return response
 		return $this->normalMessage();
     }
 
@@ -42,5 +45,6 @@ class NewslettersController extends Controller
     public function normalMessage() {
     	return redirect()->back()->with('subscriptionsuccess', 'Successfully Subscribed.');
 	}
+	//TOdo send email to subscribers method
 	
 }

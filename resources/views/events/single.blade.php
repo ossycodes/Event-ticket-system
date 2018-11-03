@@ -66,7 +66,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 															<br>
 															<p><strong>Actors: </strong> {{ optional($eventDetails)->actors }}</p>
 															<br>
-															<p><strong>Time Duration: </strong> {{ optional($eventDetails)->time }}</p>
+															<p><strong>Time: </strong> {{ optional($eventDetails)->time }}</p>
 															<br>
 															<p><strong>Date: </strong> {{ optional($eventDetails)->date }} </p>
 															<br>

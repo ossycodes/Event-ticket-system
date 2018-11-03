@@ -76,7 +76,7 @@ Route::group(['prefix' => 'system-admin', 'as' => 'system-admin.', 'middleware' 
     Route::get('system-admin/admin/delete-notification', 'Admin\NotificationController@deleteNotification')->name('admin.delete-notification');
     Route::get('system-admin/admin/view-notifications', 'Admin\NotificationController@viewNotifications')->name('admin.view-notifications');
 
-    //Adminpassword controller routes
+    //Admin password controller routes
     Route::get('admin/change-password', 'Admin\PasswordController@index');
     Route::post('admin/update-password', 'Admin\PasswordController@update');
     
@@ -84,9 +84,15 @@ Route::group(['prefix' => 'system-admin', 'as' => 'system-admin.', 'middleware' 
             return view('admin.subscribers.composemail');
     });
 
-    //activate and de-activate user's route
+    //activate and de-activate event's route
     Route::get('admin/activate/{id}', 'Admin\EventsController@activate');
     Route::get('admin/de-activate/{id}', 'Admin\EventsController@deActivate');
+
+    //events comment route
+    Route::get('admin/view-comments/{id}', 'Admin\EventsController@viewComments');
+    Route::get('admin/delete-comment/{id}', 'Admin\EventsController@deleteComment');
+    Route::get('admin/activate/{id}', 'Admin\EventsController@activateComment');
+    Route::get('admin/de-activate/{id}', 'Admin\EventsController@deactivateComment');
 
     Route::get('admin/eventsimagesliders/create', 'Admin\EventsliderimagesController@create')->name('eventsimagesliders.create');
     Route::get('admin/eventsimagesliders', 'Admin\EventsliderimagesController@index')->name('eventsimagesliders.index');

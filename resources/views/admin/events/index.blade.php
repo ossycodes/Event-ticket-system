@@ -100,8 +100,7 @@
                       <a href="{{ url('system-admin/admin/de-activate/'.$event->id) }}" class="btn btn-success">De-Activate</a>
                     @endif  
                      <a href="{{ route('system-admin.events.edit', $event->id) }}" class="btn btn-info">Edit</a>
-                     <!-- Trigger the view comments modal with a button -->
-                     <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#myModal">View Comments</button>
+                     <a href="{{ url('system-admin/admin/view-comments/'.$event->id) }}" class="btn btn-success">View Comments</a>
                      <a href="javascript:void(0)" onclick="$(this).parent().find('form').submit()" class="btn btn-danger">Delete</a>
                      <form action="{{ route('system-admin.events.destroy', $event->id) }}" method="post">
                       @method('DELETE')
@@ -152,7 +151,7 @@
           </div>		
 
           <!-- View Comments Modal -->
-          <div id="myModal" class="modal fade" role="dialog">
+          {{-- <div id="myModal" class="modal fade" role="dialog">
             <div class="modal-dialog">
 
               <!-- Modal content-->
@@ -174,6 +173,6 @@
               </div>
 
             </div>
-          </div>
+          </div> --}}
           
 @endsection

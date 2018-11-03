@@ -7,6 +7,7 @@ use App\Event;
 use Validator;
 use App\Ticket;
 use App\Category;
+use App\Eventscomment;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreEvent;
 use Illuminate\Http\UploadedFile;
@@ -19,6 +20,7 @@ use Intervention\Image\Facades\Image;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Storage;
 use App\Helper\checkAndUploadUpdatedImage;
+use PHPUnit\Framework\MockObject\Stub\Exception;
 
 class EventsController extends Controller
 {
@@ -251,6 +253,43 @@ class EventsController extends Controller
         return back()->with('success', 'Event successfully De-activated');
     }
 
-    //public function 
-    //Return comments back to events index page
+    public function viewComments($id) {
+        $eventComments = Eventscomment::where('event_id', '=', $id)->get();
+        $noOfComments =  EventsComment::count();
+        return view('admin.events.comments', compact('eventComments', 'noOfComments'));
+    }
+
+    public function activateComment($id) {
+        try{
+
+            Eventscomment::where('id', '=', $id)
+                        ->update([
+                            'status' => 1
+                        ]);
+
+            } catch(Exception $e) {
+                return back()->with('success', 'Comment successfully de-activated');
+            }               
+        return back()->with('success', 'Comment successfully activated');                
+    }
+
+    public function deactivateComment($id) {
+        try{
+
+            Eventscomment::where('id', '=', $id) 
+                ->update([
+                    'status' => 0
+                ]);
+        
+        } catch(Exception $e) {
+            return back()->with('error', 'Something went wrong');
+        }
+        
+        return back()->with('success', 'Comment successfully de-activated');
+    }
+
+    public function deleteComment($id) {
+        Eventscomment::destroy($id);
+        return back()->with('success', 'Comment deleted successfully');
+    }
 }

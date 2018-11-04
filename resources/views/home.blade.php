@@ -18,15 +18,18 @@
         </div><!-- /.row -->
       </div><!-- /.container-fluid -->
     </div>
-    <!-- /.content-header -->
+  <!-- /.content-header -->
 
     <!-- Main content -->
-    @if(Auth::user()->role == "user")
-        @include('layouts.frontLayout.user_dashboard')
-    @endif
-    @if(Auth::user()->role == "admin")
-        @include('layouts.adminLayout.admin_dashboard')
-    @endif
+
+      @if(Auth::user()->role == "user" && Gate::denies('is-Admin'))
+          @include('layouts.frontLayout.user_dashboard')
+      @endif
+
+      @if(Auth::user()->role == "admin" && Gate::allows('is-Admin'))
+          @include('layouts.adminLayout.admin_dashboard')
+      @endif
+
     <!-- /.content -->
 
 @endsection

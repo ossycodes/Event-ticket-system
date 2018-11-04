@@ -158,6 +158,15 @@
        <div class="clearfix"></div>
        </div>
      </div>
+
+     <br> 
+     <div class="form-group">
+        <div class="row">
+         <label class="col-md-3">Ticket Quanity</label>
+         <div class="col-md-6"><input type="number" name="quantity" class="form-control" value="{{ old('qty') }}" min="1"></div>
+         <div class="clearfix"></div>
+         </div>
+      </div>
      
 
     <input type="hidden" name="imagename" value="{{ $event->image }}" class="form-control"/>

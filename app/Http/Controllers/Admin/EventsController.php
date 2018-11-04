@@ -211,7 +211,7 @@ class EventsController extends Controller
     {
         $event = Event::find($id);
         
-        //deletes and destroy the image from clodinary
+        //deletes and destroy the image from cloudinary
         try{
             Cloudder::destroyImage($event->public_id);
             Cloudder::delete($event->public_id);

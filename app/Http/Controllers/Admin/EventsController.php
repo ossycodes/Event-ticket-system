@@ -230,6 +230,7 @@ class EventsController extends Controller
         return redirect()->route('system-admin.events.index')->with('success', 'Event deleted successfully');
     }
 
+    
     public function activate($id) {
         //find event with given id and activate it
         Event::find($id)->update([

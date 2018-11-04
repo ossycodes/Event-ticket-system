@@ -80,20 +80,22 @@ Route::group(['prefix' => 'system-admin', 'as' => 'system-admin.', 'middleware' 
     Route::get('admin/change-password', 'Admin\PasswordController@index');
     Route::post('admin/update-password', 'Admin\PasswordController@update');
     
+    //to-do
     Route::get('admin/compose-mail', function() {
             return view('admin.subscribers.composemail');
     });
 
-    //activate and de-activate event's route
+    //activate and de-activate event's routes
     Route::get('admin/activate/{id}', 'Admin\EventsController@activate');
     Route::get('admin/de-activate/{id}', 'Admin\EventsController@deActivate');
 
-    //events comment route
+    //events comment routes
     Route::get('admin/view-comments/{id}', 'Admin\EventsController@viewComments');
     Route::get('admin/delete-comment/{id}', 'Admin\EventsController@deleteComment');
     Route::get('admin/activate-comment/{id}', 'Admin\EventsController@activateComment');
     Route::get('admin/de-activate-comment/{id}', 'Admin\EventsController@deactivateComment');
 
+    //image sliders routes
     Route::get('admin/eventsimagesliders/create', 'Admin\EventsliderimagesController@create')->name('eventsimagesliders.create');
     Route::get('admin/eventsimagesliders', 'Admin\EventsliderimagesController@index')->name('eventsimagesliders.index');
     Route::post('admin/eventsimagesliders/edit', 'Admin\EventsliderimagesController@edit')->name('eventsimagesliders.edit');
@@ -130,10 +132,6 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('/payment/callback', 'PaymentController@handleGatewayCallback');    
 });
 
-
-Route::get('test-author', function() {
-    return "hey";
-})->middleware('can:is-Admin');
 
 
 

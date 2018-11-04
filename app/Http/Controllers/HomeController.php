@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Newsletter;
-use App\Event;
 use App\Blog;
 use App\User;
+use App\Event;
 use App\Contact;
 use App\Category;
+use App\Newsletter;
+use App\Transaction;
+use Illuminate\Http\Request;
 
 
 class HomeController extends Controller
@@ -37,8 +38,9 @@ class HomeController extends Controller
         $noOfSubscribers = Newsletter::all()->count();
         $noOfContactusMessages = Contact::all()->count();
         $noOfCategories = Category::all()->count();
+        $noOfTransactions = Transaction::count();
         
 
-        return view('home', compact('noOfEvents', 'noOfPosts', 'noOfUsers', 'noOfSubscribers', 'noOfContactusMessages', 'noOfCategories'));
+        return view('home', compact('noOfEvents', 'noOfPosts', 'noOfUsers', 'noOfSubscribers', 'noOfContactusMessages', 'noOfCategories', 'noOfTransactions'));
     }
 }

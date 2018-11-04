@@ -166,7 +166,7 @@ class EventsController extends Controller
         //Authourizing  edit action using policies via the user model
         if(Auth::user()->can('update', Event::find($id))) {
             //store all incoming request in a $data variable
-            $data = $request->all();
+            dd($data = $request->all());
 
             //to get only the image name from the folder path and extension explode it
             $formerImage = explode('/', $data['imagename']);

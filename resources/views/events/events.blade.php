@@ -43,6 +43,17 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 									</div>
 
 									<div class="clearfix"></div>
+
+									<form class="form-inline ml-3">
+										<div class="input-group input-group-sm">
+										  <input class="form-control form-control-navbar" type="search" placeholder="Event name" aria-label="Search">
+										  <div class="input-group-append">
+											<button class="btn btn-danger" type="submit">
+											  Search
+											</button>
+										  </div>
+										</div>
+									</form> 
 							
 							</div>
 						

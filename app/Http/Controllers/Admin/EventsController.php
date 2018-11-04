@@ -210,7 +210,7 @@ class EventsController extends Controller
     public function destroy($id)
     {
         $event = Event::find($id);
-
+        
         //deletes and destroy the image from clodinary
         try{
             Cloudder::destroyImage($event->public_id);

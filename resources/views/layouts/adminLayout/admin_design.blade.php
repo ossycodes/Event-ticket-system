@@ -42,9 +42,13 @@
       <li class="nav-item d-none d-sm-inline-block">
       <a href="{{ route('home') }}" class="nav-link">Home</a>
       </li>
-      <li class="nav-item d-none d-sm-inline-block">
-      <a href="{{ route('contactus') }}" class="nav-link">Contact us</a>
-      </li>
+
+      @unless(Auth::user()->role === "admin")
+        <li class="nav-item d-none d-sm-inline-block">
+        <a href="{{ route('contactus') }}" class="nav-link">Contact us</a>
+        </li>
+      @endunless
+
     </ul>
 
     <!-- SEARCH FORM -->
@@ -58,7 +62,7 @@
           </button>
         </div>
       </div>
-    </form> --}}
+    </form>  --}}
 
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
@@ -325,9 +329,22 @@
               active
               @endif
               ">
-              <i class="nav-icon fa fa-pie-chart"></i>
+              <i class="nav-icon fa fa-user"></i>
               <p>
                 Users
+              </p>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a href="{{ route('system-admin.admin.transactions') }}" class="nav-link
+              @if($segment == 'news')
+              active
+              @endif
+              ">
+              <i class="nav-icon fa fa-money"></i>
+              <p>
+                All Transactions
               </p>
             </a>
           </li>

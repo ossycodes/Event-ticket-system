@@ -54,7 +54,7 @@
                   <th>Amount Paid</th>
                   <th>Paid via</th>
                   <th>Event Name</th>
-                  <th>Paid At</th>
+                  <th>Paid</th>
 
                 </tr>
 
@@ -93,7 +93,7 @@
                     <th>Amount Paid</th>
                     <th>Paid via</th>
                     <th>Event Name</th>
-                    <th>Created At</th>
+                    <th>Paid</th>
       
                 
                 </tr>

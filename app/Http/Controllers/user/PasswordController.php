@@ -35,7 +35,7 @@ class PasswordController extends Controller
             }
             //something went wrong
             Log::info('something went wrong');
-            return back()->with('error', 'Something went wrong');
+            return back()->with('error', 'Old password is incorrect');
     }
  
     public function validateRequest(Request $request) {

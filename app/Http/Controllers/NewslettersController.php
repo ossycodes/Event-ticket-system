@@ -9,7 +9,7 @@ use Validator;
 class NewslettersController extends Controller
 {
 	protected $newsletter;
-	//constructor dependency injection, which would be handled by lararvel service container
+	//constructor dependency injection, which would be resolved by lararvel service container
 	public function __construct(Newsletter $saveNewsletter) {
 		$this->newsletter = $saveNewsletter;
 	}
@@ -24,11 +24,11 @@ class NewslettersController extends Controller
     }
 
 	public function validateNewsletter($request) { 
-		
+		//validation rule
 		$rules = [
 			'email' => 'required|email|unique:newsletters|',
 		];
-		
+		//custom validation error message
 		$message = [
 			'email.unique' => 'This E-mail is subscribed already.Thank you',
 		];
@@ -45,6 +45,7 @@ class NewslettersController extends Controller
     public function normalMessage() {
     	return redirect()->back()->with('subscriptionsuccess', 'Successfully Subscribed.');
 	}
+	
 	//TOdo send email to subscribers method
 	
 }

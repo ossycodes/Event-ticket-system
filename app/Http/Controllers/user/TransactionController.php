@@ -9,7 +9,8 @@ use Illuminate\Support\Facades\Auth;
 
 class TransactionController extends Controller
 {
-    public function index() {
+    //use invoke since a single method is present in the class
+    public function __invoke() {
         $transactions = Transaction::where('user_id', '=', Auth::user()->id)->orderBy('id', 'DESC')->get();
         return view('users.transaction.index', compact('transactions'));
     }

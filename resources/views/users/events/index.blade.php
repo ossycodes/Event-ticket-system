@@ -89,7 +89,7 @@
                   <td>{{ $event->time }}</td>
                   <td>{{ $event->date }}</td>
                   <td>{{ $event->age }}</td>
-                  <td>REGULAR: {{ $t->regular }} <br> VIP: {{ $t->vip }} <br> TABLEFORTEN: {{ $t->tableforten}} <br> TABLEFORHUNDRED: {{ $t->tableforhundred }}  </td>
+                  <td>{{ optional($t)->tickettype }} {{ optional($t)->price }}</td>
                   <td>{{ $event->dresscode }}</td>
                   <td>{{ $event->created_at->toDayDateTimeString() }}</td>
                   <td>{{ $event->updated_at->toDayDateTimeString() }}</td>

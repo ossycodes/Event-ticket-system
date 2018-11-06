@@ -122,7 +122,7 @@ Route::group(['middleware' => ['isUser', 'auth', 'can:is-User']], function() {
         Auth::user()->unreadNotifications->markAsRead();
         return back();
     });
-    Route::get('user/transactions', 'user\TransactionController@index')->name('user.transaction');
+    Route::get('user/transactions', 'user\TransactionController')->name('user.transaction');
 });
 
 

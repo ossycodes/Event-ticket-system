@@ -12,14 +12,14 @@ use App\User;
 
 class PasswordController extends Controller
 {
-    public function index(){
+    public function index() {
         //logging event
         Log::info('returned change-password form for user with email and name:' .' ' .Auth::user()->email .' ' .'and' .' ' .Auth::user()->name .' ' .'respectively');
         //return view
         return view('admin.password.index');
     }
 
-    public function update(Request $request){
+    public function update(Request $request) {
         
         //validate the incoming request
         Validator::make($request->all(), [
@@ -27,13 +27,11 @@ class PasswordController extends Controller
             'new_password' => 'required|min:6',
         ])->validate();
 
-        
-        
-        //call the verifyPassword function
+        //verify if password matches
         $data = $this->verifyPassword($request);
         
-        if($data){
-            //return response()->json($data);
+        if($data) {
+            
             Auth::user()->update([
                 'password' => bcrypt($request->new_password)
             ]);
@@ -43,7 +41,7 @@ class PasswordController extends Controller
             //redirect with flash success mesage
             return redirect('system-admin/admin/change-password')->with('success', 'Password updated successfully');
             
-        }else{
+        }else {
 
             //logging error
             log::error('failed to change user with email:' .Auth::user()->email .' '. 'password, due to incorrect password provided');
@@ -53,11 +51,11 @@ class PasswordController extends Controller
              
     }
 
-    public function verifyPassword($request){
+    public function verifyPassword($request) {
         $hashedPassowrd = Auth::user()->password;
-        if(Hash::check($request->old_password, $hashedPassowrd)){
+        if(Hash::check($request->old_password, $hashedPassowrd)) {
             return true;
-        }else{
+        }else {
             return false;
         }
     }

@@ -17,10 +17,14 @@ class checkUser
      */
     public function handle($request, Closure $next)
     {
-        
-        if(Auth::user()->role !== "user"){
-            return abort(404);
+        //check if user is authenticated
+        if(Auth::check()) {
+            //if user is authenticated then check if user's role is user
+            if(Auth::user()->role !== "user"){
+                return abort(404);
+            }
         }
+        
 
         return $next($request);
     }

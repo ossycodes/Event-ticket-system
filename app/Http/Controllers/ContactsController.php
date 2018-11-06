@@ -55,8 +55,8 @@ class ContactsController extends Controller
         $rules = [
             'name' => 'required|string',
             'email' => 'required|email',
-            'message' => 'required|min:4|string',
-            'phonenumber' => 'required|numeric',
+            'message' => 'required|min:5|string',
+            'phonenumber' => 'required|numeric|digits:11',
         ];
 
         return $validator = Validator::make($request->all(), $rules)->validate();

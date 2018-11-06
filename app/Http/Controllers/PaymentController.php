@@ -90,6 +90,7 @@ class PaymentController extends Controller
         try{
             $totalAmount = $request->amount * $request->qty * 100;
         } catch(\ErrorException $e) {
+            Log::error($e->getMessage());
             return back()->with('trn_error', 'You can only book tickets that have a price provided.');
         }
         

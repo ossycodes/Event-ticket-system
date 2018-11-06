@@ -103,7 +103,7 @@ Route::group(['prefix' => 'system-admin', 'as' => 'system-admin.', 'middleware' 
     Route::post('admin/eventsimagesliders', 'Admin\EventsliderimagesController@store')->name('eventsimagesliders.store');
 
     //all transactions in the system route
-    Route::get('admin/transactions', 'Admin\TransactionController@index')->name('admin.transactions');
+    Route::get('admin/transactions', 'Admin\TransactionController')->name('admin.transactions');
 
 });
 

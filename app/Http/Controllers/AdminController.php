@@ -9,15 +9,15 @@ use App\Category;
 
 class AdminController extends Controller
 {
-    public function getUsers(){
+    public function getUsers() {
         return User::where('role', 'user')->get();
     }
 
-    public function getEvents(){
+    public function getEvents() {
         return Event::all();
     }
 
-    public function getCategories(){
+    public function getCategories() {
         return Category::all();
     }
 }

@@ -139,7 +139,7 @@
         <div class="form-group">
             <div class="row">
             <label class="col-md-3">{{ optional($ticket)->tickettype }}</label>
-            <div class="col-md-6"><input type="number" name="{{ $ticket->tickettype }}" class="form-control"  value="{{ is_numeric($ticket->price) ? $ticket->price : '' }}" placeholder="{{ is_numeric($ticket->price) ? $ticket->price : 'Free' }}"></div>
+            <div class="col-md-6"><input type="number" name="{{ $ticket->tickettype }}" class="form-control"  value="{{ is_numeric($ticket->price) ? $ticket->price : '' }}" placeholder="{{ is_numeric($ticket->price) ? $ticket->price : 'Free' }}" disabled></div>
             <div class="clearfix"></div>
             </div>
           </div>

@@ -164,17 +164,24 @@ class EventsController extends Controller
      */
     public function update(StoreEvent $request, $id)
     {
-        dd($request->all());
+        if($request->has('image')) {
+            Cloudder::destroyImage($request->public_id);
+            Cloudder::delete($request->public_id);
+        }
+        
         //store all incoming request in a $data variable
         $data = $request->all();
-        //to get only the image name from the folder path and extension explode it
-        $formerImage = explode('/', $data['imagename']);
-       
-        $path = 'images/frontend_images/events';
-        
-        $data['image'] = $this->checkAndUploadUpdatedImage($data, $request);
+        try{
+            $imageDetails = $this->checkAndUploadImage($request, $data);
+        } catch(\Cloudinary\Error $e) {
+            Log::error($e->getMessage());
+            return back()->with('error', 'Something went wrong please try again');
+        }
 
-        $updateEvent = tap(Event::find($id))->update([
+        $data['image'] = $imageDetails[0];
+        $data['public_id'] = $imageDetails[1];
+
+        $updateEvent = Event::find($id)->update([
             
             'name' => $data['name'],
             'category_id' => $data['category_id'],
@@ -187,16 +194,10 @@ class EventsController extends Controller
             'age' => $data['age'],
             'dresscode' => $data['dresscode'],
             'image' => $data['image'],
+            'public_id' => $data['public_id'],
         
         ]);
 
-        Ticket::find($updateEvent->id)->update([
-            'regular' => $data['regular'],
-            'vip' => $data['vip'],
-            'tableforten' => $data['tableforten'],
-            'tableforhundred' => $data['tableforhundred'],
-        ]);
-        
         return redirect()->route('system-admin.events.index')->with('success', 'Event updated successfully');
    
     }

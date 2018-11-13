@@ -110,7 +110,7 @@
      <div class="form-group">
       <div class="row">
        <label class="col-md-3">Age</label>
-       <div class="col-md-6"><input type="text" name="age" class="form-control" value="{{ $event->age }}"></div>
+       <div class="col-md-6"><input type="number" name="age" class="form-control" value="{{ $event->age }}"></div>
        <div class="clearfix"></div>
        </div>
      </div>
@@ -139,13 +139,21 @@
         <div class="form-group">
             <div class="row">
             <label class="col-md-3">{{ optional($ticket)->tickettype }}</label>
-            <div class="col-md-6"><input type="number" name="{{ $ticket->tickettype }}" class="form-control"  value="{{ is_numeric($ticket->price) ? $ticket->price : '' }}" placeholder="{{ is_numeric($ticket->price) ? $ticket->price : 'Free' }}" disabled></div>
+            <div class="col-md-6"><input type="number" name="{{ $ticket->tickettype }}" class="form-control"  value="{{ is_numeric($ticket->price) ? $ticket->price : '' }}" placeholder="{{ is_numeric($ticket->price) ? $ticket->price : 'Free' }}"  disabled></div>
             <div class="clearfix"></div>
             </div>
           </div>
       @endforeach 
      @endif 
      
+
+     <div class="form-group">
+      <div class="row">
+       <label class="col-md-3">Quantity</label>
+       <div class="col-md-6"><input type="number" name="quantity" class="form-control" value="{{ $event->quantity }}"></div>
+       <div class="clearfix"></div>
+       </div>
+     </div>
      
 
     <input type="hidden" name="imagename" value="{{ $event->image }}" class="form-control"/>

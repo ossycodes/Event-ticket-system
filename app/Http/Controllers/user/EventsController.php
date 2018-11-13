@@ -145,10 +145,12 @@ class EventsController extends Controller
     {
         //Authourizing  edit action using policies via the user model
         if(Auth::user()->can('edit', Event::find($id))) {
+            $noOfTickets = Ticket::count();
             $event = Event::findOrFail($id);
-            $eventTicket = Ticket::findOrFail($id);
+            $ticket = Ticket::findOrFail($id);
+            $tickets = Ticket::where('event_id', '=', $id)->get();
             $categories = Category::all();
-            return view('users.events.edit',compact('event', 'categories', 'eventTicket'));
+            return view('users.events.edit',compact('event', 'categories', 'ticket', 'tickets', 'noOfTickets'));
         }   
     }
 
@@ -162,48 +164,46 @@ class EventsController extends Controller
     public function update(StoreEvent $request, $id)
     {
         //Authourizing  edit action using policies via the user model
-        //if(Auth::user()->can('update', Event::find($id))) {
+        if(Auth::user()->can('update', Event::find($id))) {
 
-            //store all incoming request in a $data variable
-            //dd("functionality not yet available");
-            //dd($data = $request->all());
+            if($request->has('image')) {
+                Cloudder::destroyImage($request->public_id);
+                Cloudder::delete($request->public_id);
+            }
 
-            //to get only the image name from the folder path and extension explode it
-            // $formerImage = explode('/', $data['imagename']);
-        
-            // $path = 'images/frontend_images/events';
+            $data = $request->all();
 
-            // $data['image'] = $this->checkAndUploadUpdatedImage($data, $request);
-
-            // //dd($data);
-
-            // $updateEvent = tap(Event::find($id))->update([
-                
-            //     'name' => $data['name'],
-            //     'category_id' => $data['category_id'],
-            //     'user_id' => Auth::user()->id,
-            //     'venue' => $data['venue'],
-            //     'description' => $data['description'],
-            //     'date' => $data['date'],
-            //     'time' => $data['time'],
-            //     'actors' => $data['actors'],
-            //     'age' => $data['age'],
-            //     'dresscode' => $data['dresscode'],
-            //     'image' => $data['image'],
-            //      'quantity' => $data['quaantity'],
+            try{
+                $imageDetails = $this->checkAndUploadImage($request, $data);
+            } catch(\Cloudinary\Error $e) {
+                Log::error($e->getMessage());
+                return back()->with('error', 'Something went wrong please try again');
+            }
             
-            // ]);
+            $data['image'] = $imageDetails[0];
+            $data['public_id'] = $imageDetails[1];
 
-            // Ticket::find($updateEvent->id)->update([
-            //     'regular' => $data['regular'],
-            //     'vip' => $data['vip'],
-            //     'tableforten' => $data['tableforten'],
-            //     'tableforhundred' => $data['tableforhundred'],
-            // ]);
+            $updateEvent = Event::find($id)->update([
+                
+                'name' => $data['name'],
+                'category_id' => $data['category_id'],
+                'user_id' => Auth::user()->id,
+                'venue' => $data['venue'],
+                'description' => $data['description'],
+                'date' => $data['date'],
+                'time' => $data['time'],
+                'actors' => $data['actors'],
+                'age' => $data['age'],
+                'dresscode' => $data['dresscode'],
+                'image' => $data['image'],
+                'public_id' => $data['public_id'],
+                'quantity' => $data['quantity'],
+            
+            ]);
 
-        //}    
+        }    
 
-        return redirect()->route('user.events.index')->with('success', 'Functionality not yet available');
+        return redirect()->route('user.events.index')->with('success', 'Event updated successfully');
     }
 
     /**

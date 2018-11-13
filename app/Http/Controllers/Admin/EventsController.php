@@ -195,6 +195,7 @@ class EventsController extends Controller
             'dresscode' => $data['dresscode'],
             'image' => $data['image'],
             'public_id' => $data['public_id'],
+            'quantity' => $data['quantity'],
         
         ]);
 

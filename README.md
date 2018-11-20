@@ -6,6 +6,7 @@
 
 #Create a database (with mysql or postgresql)
 #And update .env file with database credentials
+
     DB_CONNECTION=mysql
     DB_HOST=127.0.0.1
     DB_DATABASE=etms
@@ -13,15 +14,15 @@
     DB_PASSWORD=
 
 #Install Composer dependencies
+
     composer install
 
 #Run your migrations
+
     php artisan migrate
     php artisan serve
 
 #Features
-
-Online event ticket booking platform in laravel.
 
     Admin portal
         -perform crud operations on events

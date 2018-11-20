@@ -1,37 +1,25 @@
-# Online-Event-Ticket-System
+##Online-Event-Ticket-System
 
-Getting Started
+    git clone https://github.com/osaigbovoemmanuel1/Online-Event-Ticket-System.git
+    cp.env.example .env
+    php artisan key:generate
 
-Via Cloning The Repository:
-# Get the project
-git clone https://github.com/osaigbovoemmanuel1/Online-Event-Ticket-System.git
+#Create a database (with mysql or postgresql)
+#And update .env file with database credentials
+    DB_CONNECTION=mysql
+    DB_HOST=127.0.0.1
+    DB_DATABASE=etms
+    DB_USERNAME=root
+    DB_PASSWORD=
 
-# Change directory
-cd Online-Event-Ticket-System
+#Install Composer dependencies
+    composer install
 
-# Copy .env.example to .env
-cp .env.example .env
+#Run your migrations
+    php artisan migrate
+    php artisan serve
 
-# Generate application secure key (in .env file)
-php artisan key:generate
-
-# Create a database (with mysql or postgresql)
-# And update .env file with database credentials
-# DB_CONNECTION=mysql
-# DB_HOST=127.0.0.1
-# DB_DATABASE=etms
-# DB_USERNAME=root
-# DB_PASSWORD=
-
-# Install Composer dependencies
-composer install
-
-# Run your migrations
-php artisan migrate
-
-php artisan serve
-
-Features
+#Features
 
 Online event ticket booking platform in laravel.
 

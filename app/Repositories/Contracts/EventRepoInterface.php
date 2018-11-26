@@ -17,4 +17,6 @@ interface EventRepoInterface
     public function getEventWithComments(int $id);
 
     public function getTotalEvents();
+
+    
 }

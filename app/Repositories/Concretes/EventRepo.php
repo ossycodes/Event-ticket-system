@@ -42,4 +42,5 @@ class EventRepo implements EventRepoInterface
     {
         return Event::all()->count();
     }
+
 }

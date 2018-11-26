@@ -2,7 +2,9 @@
 
 namespace App\Repositories\Concretes;
 
+use App\Event;
 use App\Eventscomment;
+use Illuminate\Http\Request;
 use App\Repositories\Contracts\EventCommentRepoInterface;
 
 
@@ -15,4 +17,11 @@ class EventCommentRepo implements EventCommentRepoInterface
             ['status', '=', $status]
         ])->count();
     }
+    
+    public function addCommentForEvent(Request $request)
+    {
+        Event::find(decrypt($request->event_id))->eventscomment()
+            ->create($request->except('event_id'));
+    }
+    
 }

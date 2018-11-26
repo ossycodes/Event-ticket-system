@@ -4,6 +4,7 @@ namespace App\Repositories\Concretes;
 
 use App\Event;
 use App\Repositories\Contracts\EventRepoInterface;
+use App\Repositories\Contracts\EventCommentRepoInterface;
 
 
 class EventRepo implements EventRepoInterface

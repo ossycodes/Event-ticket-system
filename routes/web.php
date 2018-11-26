@@ -43,7 +43,7 @@ Route::post('/newsletter', 'NewslettersController@saveNewsletterSubscriber');
 Route::post('/add-comment-event', 'EventscommentController@store');
 
 //Route for category
-Route::get('/category/{id}', 'CategoryController@index');
+Route::get('/category/{id}', 'CategoryController');
 
 //Authentication routes
 Auth::routes();

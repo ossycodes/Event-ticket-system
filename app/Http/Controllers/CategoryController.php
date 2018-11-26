@@ -6,24 +6,33 @@ use App\Blog;
 use App\Event;
 use App\Category;
 use Illuminate\Http\Request;
+use App\Repositories\Contracts\EventRepoInterface;
+use App\Repositories\Contracts\BlogRepoInterface;
+use App\Repositories\Contracts\CategoryRepoInterface;
 
 class CategoryController extends Controller
 {
-    public function index($id)
+    protected $eventRepo;
+    protected $blogRepo;
+    protected $categoryRepo;
+
+    public function __construct(EventRepoInterface $eventRepo, BlogRepoInterface $blogRepo, CategoryRepoInterface $categoryRepo)
+    {
+        $this->eventRepo = $eventRepo;
+        $this->blogRepo = $blogRepo;
+        $this->categoryRepo = $categoryRepo;
+    }
+    //used __invoke since i have just a single method in this controller
+    public function __invoke($id)
     {
 
-        $eventsimage = Event::paginate(6);
-        $allBlogPosts1 = Blog::paginate(6);
-        $categoryDetails = Category::where('id', $id)->with('events')->orderBy('id', 'DESC')->paginate(1);
-        $maximumId = Category::all()->count();
-        $allCategories = Category::all();
+        $eventsimage = $this->eventRepo->getPaginatedEvents(6);
+        $allBlogPosts1 = $this->blogRepo->getPaginatedBlogPosts(6);
+        $categoryDetails = $this->categoryRepo->getCategoryWithEvent($id);
+        $maximumId = $this->categoryRepo->getTotalCategories();
+        $allCategories = $this->categoryRepo->getAllCategories();
         return view('events.eventviacategory')->with(compact('categoryDetails', 'eventsimage', 'allCategories', 'maximumId', 'allBlogPosts1'));
 
-    }
-
-    public function jsonResponse($data)
-    {
-        return response()->json($data);
     }
 
 }

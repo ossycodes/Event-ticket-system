@@ -18,4 +18,9 @@ class CategoryRepo implements CategoryRepoInterface
         return Category::all()->count();
     }
 
+    public function getCategoryWithEvent(int $id)
+    {
+        return Category::where('id', $id)->with('events')->orderBy('id', 'DESC')->paginate(1);
+    }
+
 }

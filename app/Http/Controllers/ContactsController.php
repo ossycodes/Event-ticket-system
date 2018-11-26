@@ -44,16 +44,6 @@ class ContactsController extends Controller
 
     public function validateMessage(Request $request)
     {
-        
-        // $messages = [
-        //     //custom validation error messages
-        //     'name.required' => 'Please fill in the name field',
-        //     'email.required' => 'Please fill in the email field',
-        //     'message.required' => 'Please fill in the message field',
-        //     'phonenumber.required' => 'Please fill in the phone field',
-        //     'message.between' => 'The attribute must be one ',
-        // ];
-
         $rules = [
             'name' => 'required|string',
             'email' => 'required|email',

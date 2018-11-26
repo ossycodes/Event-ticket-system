@@ -8,6 +8,7 @@ use Validator;
 use App\Blogsimage;
 use Illuminate\Http\Request;
 use App\Http\Requests\StorePost;
+use JD\Cloudder\Facades\Cloudder;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Input;
@@ -76,7 +77,7 @@ class BlogsController extends Controller
             $blog = Blog::create($data);
             Blog::find($blog->id)->blogimage()->create([
                 'imagename' => $data['image'],
-                'public_id' => 'ssssssss'
+                'public_id' => $data['public_id']
             ]);
 
         }catch(QueryException $e) {
@@ -156,10 +157,14 @@ class BlogsController extends Controller
     {
 
         $i = Blogsimage::where('blog_id', $id)->first();
-        if(file_exists($i->imagename)) {
-            unlink($i->imagename);
-        } 
-
+        try{
+            Cloudder::destroyImage($i->public_id);
+            Cloudder::delete($i->public_id);
+        } catch(\Cloudinary\Error $e) {
+            Log::error($e->getMessage());
+            return back()->with('error', 'Something went wrong please try again');
+        }
+        
         //delete post by primary key(id)
         Blog::destroy($id);
         
@@ -171,38 +176,4 @@ class BlogsController extends Controller
     
     }
 
-    // public function checkAndUploadImage(Request $request, $data)
-    // {
-
-    //         //if the request has an image
-    //         if($request->hasFile('image') and $request->file('image')->isValid()) {
-                
-    //             dd($data);
-    //             //Delete the previous image from the events folder, if a new image is uploaded
-    //             if (file_exists($data['imagename'])) {
-    //                 unlink($data['imagename']);
-    //             }
-
-    //             $path = 'images/frontend_images/posts';
-    //             $imageNameWithNoExtension = explode('.', $request->image->getClientOriginalName()); 
-    //             $imageName =  $imageNameWithNoExtension[0].rand(1, 99999).date('ymdhis').'.'.$request->image->getClientOriginalExtension();
-                
-    //             //Intervention resize image pakage starts here
-    //             //This resizes the image and stores it in th epath i specified.
-          
-    //             $fp = 'images/frontend_images/posts/'.$imageName;
-
-    //             Image::make(input::file('image'))->resize(640, 423)->save($fp);
-
-    //             //ends here
- 
-    //             return $imageName;          
-                
-    //         } else{
-
-    //              return $data['image'] = 'default.jpg';
-                 
-    //         }
-
-    // }
 }

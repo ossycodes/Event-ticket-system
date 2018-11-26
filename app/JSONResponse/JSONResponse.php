@@ -2,8 +2,10 @@
 
 namespace App\JSONResponse\JSONResponse;
 
-trait JSONResponse{
-    public function sendSuccessResponse($data){
+trait JSONResponse
+{
+    public function sendSuccessResponse($data)
+    {
         $response = [
             'status' => 'Success',
             'data' => $data

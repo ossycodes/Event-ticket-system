@@ -8,8 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Ticket extends Model
 {
     protected $guarded = [];
-    
-    public function event() {
+
+    public function event()
+    {
         return $this->belongsTo(Event::class);
     }
 }

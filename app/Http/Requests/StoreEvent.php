@@ -32,7 +32,7 @@ class StoreEvent extends FormRequest
             'description' => 'required',
             'date' => 'required',
             'time' => 'required',
-            'actors' =>'nullable|string',
+            'actors' => 'nullable|string',
             'age' => 'required|max:90',
             'dresscode' => 'nullable|string',
             'regular' => 'nullable|numeric',
@@ -44,16 +44,16 @@ class StoreEvent extends FormRequest
 
     public function messages()
     {
-       return [ 
+        return [ 
         //custom validation messages.
-        'category_id.required' => 'Please select a given category',
-        'name.required' => 'Please give the event a name',
-        'image.required' => 'Please choose an image for the event',
-        'venue.required' => 'Please what is the venue of the event?',
-        'description.required' => 'Please give a description of the event',
-        'date.required' => 'Please what date is the event?',
-        'time.required' => 'Please what time is the event?',
-        'age.required' => 'Please what is the age limit?',
-       ];
-    } 
+            'category_id.required' => 'Please select a given category',
+            'name.required' => 'Please give the event a name',
+            'image.required' => 'Please choose an image for the event',
+            'venue.required' => 'Please what is the venue of the event?',
+            'description.required' => 'Please give a description of the event',
+            'date.required' => 'Please what date is the event?',
+            'time.required' => 'Please what time is the event?',
+            'age.required' => 'Please what is the age limit?',
+        ];
+    }
 }

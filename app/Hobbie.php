@@ -6,7 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Hobbie extends Model
 {
-    public function customer(){
-    	return $this->belongsTo('App\Customer');
+    public function customer()
+    {
+        return $this->belongsTo('App\Customer');
     }
 }

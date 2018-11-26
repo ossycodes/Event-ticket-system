@@ -42,9 +42,9 @@ class ProfileController extends Controller
         $postComment = Postscomment::latest()->first();
         $latestEvent = Event::latest()->first();
 
-        try{
+        try {
             $commentOnEvent = Eventscomment::latest()->first();
-        }catch(\ErrorException $e) {
+        } catch (\ErrorException $e) {
             return $e->getMessage();
         }
 
@@ -52,7 +52,7 @@ class ProfileController extends Controller
         $registeredUsers = User::where('role', 'user')->Orderby('created_at', 'asc')->get();
         
         //logging event
-        Log::info('displayed User with email:' .' ' .Auth::user()->email .' ' .'and name:' .' ' .Auth::user()->name .' ' .'profile page');
+        Log::info('displayed User with email:' . ' ' . Auth::user()->email . ' ' . 'and name:' . ' ' . Auth::user()->name . ' ' . 'profile page');
 
         //returns profile view
         return view('admin.profile.index', compact('registeredUsers', 'message', 'commentOnEvent', 'latestEvent', 'postComment', 'usersOnline', 'noOfSubscribers', 'noOfRegisterdUsers', 'noOfEventsPosted'));
@@ -68,26 +68,28 @@ class ProfileController extends Controller
     public function update(Request $request, $id)
     {
 
-        if($request->has('name')) {
+        if ($request->has('name')) {
             //update the User field
             $this->updateName($request);
             //update the profile
             $this->updateProfile($request);
             return back()->with('success', 'Profile updated successfully');
-        }    
+        }
 
-            return back()->with('error', 'Something went wrong');
-            
+        return back()->with('error', 'Something went wrong');
+
     }
 
-    public function updateName(Request $request) {
+    public function updateName(Request $request)
+    {
         //update the user's name
         User::where('id', Auth::user()->id)->update([
             'name' => $request->name
         ]);
     }
 
-    public function updateProfile(Request $request) {
+    public function updateProfile(Request $request)
+    {
         //uupdate the user's profile,
         return User::find(Auth::user()->id)->profile()->update([
             'gender' => $request->gender,

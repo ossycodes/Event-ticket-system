@@ -18,30 +18,32 @@ use Illuminate\Support\Facades\Mail;
 
 class ContactsController extends Controller
 {
-    
-    public function store(Request $request, Contact $saveContactusMessage) {
 
-     if($request->isMethod('post')) {
+    public function store(Request $request, Contact $saveContactusMessage)
+    {
+
+        if ($request->isMethod('post')) {
         
         //validate request
-        $this->validateMessage($request);
+            $this->validateMessage($request);
         
         //then save
-        $this->saveMessage($request, $saveContactusMessage);
+            $this->saveMessage($request, $saveContactusMessage);
 
         //then send mail
-        $this->sendMail($request);
+            $this->sendMail($request);
 
         //redirect back to contactus page
-        return $this->normalResponse();
-        
-    }
-        
+            return $this->normalResponse();
+
+        }
+
         $allCategories = Category::all();
         return view('contactus')->with(compact('allCategories'));
     }
 
-    public function validateMessage(Request $request){
+    public function validateMessage(Request $request)
+    {
         
         // $messages = [
         //     //custom validation error messages
@@ -62,7 +64,8 @@ class ContactsController extends Controller
         return $validator = Validator::make($request->all(), $rules)->validate();
     }
 
-    public function saveMessage($request, Contact $saveContactusMessage){
+    public function saveMessage($request, Contact $saveContactusMessage)
+    {
 
         $saveContactusMessage = new Contact;
         $saveContactusMessage->name = $request->name;
@@ -70,20 +73,22 @@ class ContactsController extends Controller
         $saveContactusMessage->message = $request->message;
         $saveContactusMessage->phonenumber = $request->phonenumber;
 
-        try{ 
+        try {
             $saveContactusMessage->save();
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             Log::error('something went wrong');
             return back()->with('error', 'Something went wrong, please try again later.');
         }
 
     }
- 
-    public function normalResponse(){
+
+    public function normalResponse()
+    {
         return redirect()->back()->with('success', 'Message Sent Successfully');
     }
 
-    public function sendMail($request){
+    public function sendMail($request)
+    {
         return Mail::to($request)->send(new ContactusMail($request));
     }
 }

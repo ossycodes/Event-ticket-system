@@ -61,11 +61,4 @@ class EventsliderimagesController extends Controller
         return back()->with('success', 'Events image siders uploaded successfully');
     }
 
-    public function edit($request, $id) {
-        dd($id);
-    }
-    
-    public function destroy($id) {
-        dd($id);
-    }
 }

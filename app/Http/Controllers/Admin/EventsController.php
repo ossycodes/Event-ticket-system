@@ -33,7 +33,7 @@ class EventsController extends Controller
     public function index()
     {
         //log event
-        Log::info('Displayed a list of available events in database for user with email:' .' ' .Auth::user()->email .' ' .'to see');
+        Log::info('Displayed a list of available events in database for user with email:' . ' ' . Auth::user()->email . ' ' . 'to see');
         $events = Event::with('tickets')->get();
         return view('admin.events.index', compact('events'));
     }
@@ -46,7 +46,7 @@ class EventsController extends Controller
     public function create()
     {
         //log event
-        Log::info('Displayed a form to create an event for User with email:' .' ' .Auth::user()->email);
+        Log::info('Displayed a form to create an event for User with email:' . ' ' . Auth::user()->email);
         $categories = Category::all();
         return view('admin.events.create', compact('categories'));
     }
@@ -69,17 +69,17 @@ class EventsController extends Controller
         $height = 412;
 
          //upload  image to cloudinary
-         try{
+        try {
             $imageName = $this->checkAndUploadImage($request, $data, $path, $width, $height);
-         } catch(\Cloudinary\Error $e) {
-             Log::error($e->getMessage());
-             return back()->with('error', 'Something went wrong please try again');
-         }
-         
-         $data['image'] = $imageName[0];
-         $data['public_id'] = $imageName[1];
+        } catch (\Cloudinary\Error $e) {
+            Log::error($e->getMessage());
+            return back()->with('error', 'Something went wrong please try again');
+        }
+
+        $data['image'] = $imageName[0];
+        $data['public_id'] = $imageName[1];
          // dd($imageName);
-        
+
         $createdEvent = Event::create([
 
             'user_id' => $data['user_id'],
@@ -96,7 +96,7 @@ class EventsController extends Controller
             'dresscode' => $data['dresscode'],
             'quantity' => $data['quantity']
 
-         ]);
+        ]);
 
         //if the tickettype and price is equals to 1
         if ($data['key'] && $data['value'] === 1) {
@@ -107,10 +107,10 @@ class EventsController extends Controller
             $ticket->price = $data['value'];
             $ticket->save();
 
-        } elseif($data['key'] && $data['value'] > 1) {
+        } elseif ($data['key'] && $data['value'] > 1) {
 
             //if the tickettype and price is greater than 1
-            foreach($data['key'] as $key => $val) {
+            foreach ($data['key'] as $key => $val) {
                 $ticket = new Ticket;
                 $ticket->event_id = $createdEvent->id;
                 $ticket->tickettype = $val;
@@ -118,13 +118,13 @@ class EventsController extends Controller
                 $ticket->save();
 
             }
-            
-        } else{
+
+        } else {
             //no tickettype and price provided
             $ticket = new Ticket;
             $ticket->event_id = $createdEvent->id;
-            $ticket->tickettype = NULL;
-            $ticket->price = NULL;
+            $ticket->tickettype = null;
+            $ticket->price = null;
             $ticket->save();
         }
 
@@ -149,13 +149,13 @@ class EventsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
-    {       
+    {
 
         $event = Event::findOrFail($id);
         $noOfTickets = Ticket::where('event_id', '=', $id)->count();
         $tickets = Ticket::where('event_id', '=', $id)->get();
         $categories = Category::all();
-        return view('admin.events.edit',compact('event', 'categories', 'tickets', 'noOfTickets'));
+        return view('admin.events.edit', compact('event', 'categories', 'tickets', 'noOfTickets'));
     }
 
     /**
@@ -167,16 +167,20 @@ class EventsController extends Controller
      */
     public function update(StoreEvent $request, $id)
     {
-        if($request->has('image')) {
+        if ($request->has('image')) {
             Cloudder::destroyImage($request->public_id);
             Cloudder::delete($request->public_id);
         }
         
         //store all incoming request in a $data variable
         $data = $request->all();
-        try{
-            $imageDetails = $this->checkAndUploadImage($request, $data);
-        } catch(\Cloudinary\Error $e) {
+        $path = 'cinemaxii/events/';
+        $width = 287;
+        $height = 412;
+
+        try {
+            $imageDetails = $this->checkAndUploadImage($request, $data, $path, $width, $height);
+        } catch (\Cloudinary\Error $e) {
             Log::error($e->getMessage());
             return back()->with('error', 'Something went wrong please try again');
         }
@@ -185,7 +189,7 @@ class EventsController extends Controller
         $data['public_id'] = $imageDetails[1];
 
         $updateEvent = Event::find($id)->update([
-            
+
             'name' => $data['name'],
             'category_id' => $data['category_id'],
             'user_id' => Auth::user()->id,
@@ -199,11 +203,11 @@ class EventsController extends Controller
             'image' => $data['image'],
             'public_id' => $data['public_id'],
             'quantity' => $data['quantity'],
-        
+
         ]);
 
         return redirect()->route('system-admin.events.index')->with('success', 'Event updated successfully');
-   
+
     }
 
     /**
@@ -217,10 +221,10 @@ class EventsController extends Controller
         $event = Event::find($id);
         
         //deletes and destroy the image from cloudinary
-        try{
+        try {
             Cloudder::destroyImage($event->public_id);
             Cloudder::delete($event->public_id);
-        } catch(\Cloudinary\Error $e) {
+        } catch (\Cloudinary\Error $e) {
             Log::error($e->getMessage());
             return back()->with('error', 'Something went wrong please try again');
         }
@@ -229,74 +233,80 @@ class EventsController extends Controller
         Event::destroy($id);
 
         //log the event
-        log::info('User with email:' .' ' .Auth::user()->email .' ' .'just deleted an event with Id number' .' ' .$id);
+        log::info('User with email:' . ' ' . Auth::user()->email . ' ' . 'just deleted an event with Id number' . ' ' . $id);
 
         //return flash success message
         return redirect()->route('system-admin.events.index')->with('success', 'Event deleted successfully');
     }
 
-    
-    public function activate($id) {
+
+    public function activate($id)
+    {
         //find event with given id and activate it
         Event::find($id)->update([
             'status' => 1
         ]);
 
         //log the event
-        log::info('Event with id of' .' ' .$id .' ' .'just got activated');
+        log::info('Event with id of' . ' ' . $id . ' ' . 'just got activated');
 
         //return flash session success message back to the view.
         return back()->with('success', 'Event successfully activated');
     }
 
-    public function deActivate($id) {
+    public function deActivate($id)
+    {
         //find event with given id and activate it
         Event::find($id)->update([
             'status' => 0
         ]);
         //log the event
-        log::info('Event with id of' .' ' .$id .' ' .'just got de-activated');
+        log::info('Event with id of' . ' ' . $id . ' ' . 'just got de-activated');
         
         //return flash session success message back to the view.
         return back()->with('success', 'Event successfully De-activated');
     }
 
-    public function viewComments($id) {
+    public function viewComments($id)
+    {
         $eventComments = Eventscomment::where('event_id', '=', $id)->get();
-        $noOfComments =  EventsComment::count();
+        $noOfComments = EventsComment::count();
         return view('admin.events.comments', compact('eventComments', 'noOfComments'));
     }
 
-    public function activateComment($id) {
-        try{
+    public function activateComment($id)
+    {
+        try {
 
             Eventscomment::where('id', '=', $id)
-                        ->update([
-                            'status' => 1
-                        ]);
+                ->update([
+                    'status' => 1
+                ]);
 
-            } catch(Exception $e) {
-                return back()->with('success', 'Comment successfully de-activated');
-            }               
-        return back()->with('success', 'Comment successfully activated');                
+        } catch (Exception $e) {
+            return back()->with('success', 'Comment successfully de-activated');
+        }
+        return back()->with('success', 'Comment successfully activated');
     }
 
-    public function deactivateComment($id) {
-        try{
+    public function deactivateComment($id)
+    {
+        try {
 
-            Eventscomment::where('id', '=', $id) 
+            Eventscomment::where('id', '=', $id)
                 ->update([
                     'status' => 0
                 ]);
-        
-        } catch(Exception $e) {
+
+        } catch (Exception $e) {
             return back()->with('error', 'Something went wrong');
         }
-        
+
         return back()->with('success', 'Comment successfully de-activated');
     }
 
-    public function deleteComment($id) {
+    public function deleteComment($id)
+    {
         Eventscomment::destroy($id);
         return back()->with('success', 'Comment deleted successfully');
     }

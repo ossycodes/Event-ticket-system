@@ -22,7 +22,7 @@ use App\Helper\checkAndUploadUpdatedImage;
 
 class EventsController extends Controller
 {
-    use checkAndUploadImage, checkAndUploadUpdatedImage ;
+    use checkAndUploadImage, checkAndUploadUpdatedImage;
     /**
      * Display a listing of the resource.
      *
@@ -30,8 +30,8 @@ class EventsController extends Controller
      */
     public function index()
     {
-       $events = Auth::user()->events()->with('tickets')->get();
-       return view('users.events.index', compact('events')); 
+        $events = Auth::user()->events()->with('tickets')->get();
+        return view('users.events.index', compact('events'));
     }
 
     /**
@@ -58,18 +58,21 @@ class EventsController extends Controller
         //store the request in a $data variable
         $data = $request->all();
 
-         $data['user_id'] = Auth::user()->id;
+        $data['user_id'] = Auth::user()->id;
+        $path = 'cinemaxii/events/';
+        $width = 287;
+        $height = 412;
 
          //upload and store image
-         try{
-            $imageName = $this->checkAndUploadImage($request, $data);
-         } catch(\Cloudinary\Error $e) {
-             Log::error($e->getMessage());
-             return back()->with('error', 'Something went wrong please try again');
-         }
-       
-         $data['image'] = $imageName[0];
-         $data['public_id'] = $imageName[1];
+        try {
+            $imageName = $this->checkAndUploadImage($request, $data, $path, $width, $height);
+        } catch (\Cloudinary\Error $e) {
+            Log::error($e->getMessage());
+            return back()->with('error', 'Something went wrong please try again');
+        }
+
+        $data['image'] = $imageName[0];
+        $data['public_id'] = $imageName[1];
          //dd($imageName);
 
         $createdEvent = Event::create([
@@ -88,10 +91,10 @@ class EventsController extends Controller
             'dresscode' => $data['dresscode'],
             'quantity' => $data['quantity']
 
-         ]);
+        ]);
 
         //if the tickettype and price is equals to 1
-        if ($data['key'] && $data['value']   === 1) {
+        if ($data['key'] && $data['value'] === 1) {
 
             $ticket = new Ticket;
             $ticket->event_id = $createdEvent->id;
@@ -99,10 +102,10 @@ class EventsController extends Controller
             $ticket->price = $data['value'];
             $ticket->save();
 
-        } elseif($data['key'] && $data['value'] > 1) {
+        } elseif ($data['key'] && $data['value'] > 1) {
 
             //if the tickettype and price is greater than 1
-            foreach($data['key'] as $key => $val) {
+            foreach ($data['key'] as $key => $val) {
                 $ticket = new Ticket;
                 $ticket->event_id = $createdEvent->id;
                 $ticket->tickettype = $val;
@@ -111,12 +114,12 @@ class EventsController extends Controller
 
             }
 
-        } else{
+        } else {
             //no tickettype and price provided
             $ticket = new Ticket;
             $ticket->event_id = $createdEvent->id;
-            $ticket->tickettype = NULL;
-            $ticket->price = NULL;
+            $ticket->tickettype = null;
+            $ticket->price = null;
             $ticket->save();
         }
 
@@ -144,14 +147,14 @@ class EventsController extends Controller
     public function edit($id)
     {
         //Authourizing  edit action using policies via the user model
-        if(Auth::user()->can('edit', Event::find($id))) {
+        if (Auth::user()->can('edit', Event::find($id))) {
             $noOfTickets = Ticket::count();
             $event = Event::findOrFail($id);
             $ticket = Ticket::findOrFail($id);
             $tickets = Ticket::where('event_id', '=', $id)->get();
             $categories = Category::all();
-            return view('users.events.edit',compact('event', 'categories', 'ticket', 'tickets', 'noOfTickets'));
-        }   
+            return view('users.events.edit', compact('event', 'categories', 'ticket', 'tickets', 'noOfTickets'));
+        }
     }
 
     /**
@@ -164,27 +167,30 @@ class EventsController extends Controller
     public function update(StoreEvent $request, $id)
     {
         //Authourizing  edit action using policies via the user model
-        if(Auth::user()->can('update', Event::find($id))) {
+        if (Auth::user()->can('update', Event::find($id))) {
 
-            if($request->has('image')) {
+            if ($request->has('image')) {
                 Cloudder::destroyImage($request->public_id);
                 Cloudder::delete($request->public_id);
             }
 
             $data = $request->all();
+            $path = 'cinemaxii/events/';
+            $width = 287;
+            $height = 412;
 
-            try{
-                $imageDetails = $this->checkAndUploadImage($request, $data);
-            } catch(\Cloudinary\Error $e) {
+            try {
+                $imageDetails = $this->checkAndUploadImage($request, $data, $path, $width, $height);
+            } catch (\Cloudinary\Error $e) {
                 Log::error($e->getMessage());
                 return back()->with('error', 'Something went wrong please try again');
             }
-            
+
             $data['image'] = $imageDetails[0];
             $data['public_id'] = $imageDetails[1];
 
             $updateEvent = Event::find($id)->update([
-                
+
                 'name' => $data['name'],
                 'category_id' => $data['category_id'],
                 'user_id' => Auth::user()->id,
@@ -198,10 +204,10 @@ class EventsController extends Controller
                 'image' => $data['image'],
                 'public_id' => $data['public_id'],
                 'quantity' => $data['quantity'],
-            
+
             ]);
 
-        }    
+        }
 
         return redirect()->route('user.events.index')->with('success', 'Event updated successfully');
     }
@@ -217,25 +223,25 @@ class EventsController extends Controller
         $event = Event::find($id);
 
         //Authourizing  delete action using policies via the user model
-        if(Auth::user()->can('delete', Event::find($id))) {
+        if (Auth::user()->can('delete', Event::find($id))) {
             //deletes and destroy the image from cloudinary
-            try{
+            try {
                 Cloudder::destroyImage($event->public_id);
                 Cloudder::delete($event->public_id);
-            } catch(\Cloudinary\Error $e) {
+            } catch (\Cloudinary\Error $e) {
                 Log::error($e->getMessage());
                 return back()->with('error', 'Something went wrong please try again');
             }
 
             //delete the event
             Event::destroy($id);
-            
+
         }    
 
         //return flash session message back to user
         return back()->with('success', 'Event deleted successfully');
-        
+
     }
 
-    
+
 }

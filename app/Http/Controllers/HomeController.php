@@ -31,7 +31,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        
+
         $noOfEvents = Event::all()->count();
         $noOfPosts = Blog::all()->count();
         $noOfUsers = User::where('role', 'user')->count();
@@ -39,7 +39,7 @@ class HomeController extends Controller
         $noOfContactusMessages = Contact::all()->count();
         $noOfCategories = Category::all()->count();
         $noOfTransactions = Transaction::count();
-        
+
 
         return view('home', compact('noOfEvents', 'noOfPosts', 'noOfUsers', 'noOfSubscribers', 'noOfContactusMessages', 'noOfCategories', 'noOfTransactions'));
     }

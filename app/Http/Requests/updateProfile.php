@@ -30,7 +30,7 @@ class updateProfile extends FormRequest
             'gender' => [
                 'required',
                 Rule::in(['male', 'Male', 'Female', 'female', 'FEMALE', 'MALE']),
-             ],
+            ],
             'education' => 'required|string',
             'location' => 'required|string',
             'skills' => 'required|string',

@@ -10,20 +10,23 @@ class NewslettersController extends Controller
 {
 	protected $newsletter;
 	//constructor dependency injection, which would be resolved by lararvel service container
-	public function __construct(Newsletter $saveNewsletter) {
+	public function __construct(Newsletter $saveNewsletter)
+	{
 		$this->newsletter = $saveNewsletter;
 	}
-	
-    public function saveNewsletterSubscriber(Request $request) {
+
+	public function saveNewsletterSubscriber(Request $request)
+	{
 		//validate incoming request
 		$this->validateNewsletter($request);
 		//save the subscriber
 		$this->saveSubscriber($request);
 		//return response
 		return $this->normalMessage();
-    }
+	}
 
-	public function validateNewsletter($request) { 
+	public function validateNewsletter($request)
+	{ 
 		//validation rule
 		$rules = [
 			'email' => 'required|email|unique:newsletters|',
@@ -36,16 +39,18 @@ class NewslettersController extends Controller
 		Validator::make($request->all(), $rules, $message)->validate();
 	}
 
-    public function saveSubscriber(Request $request) {
+	public function saveSubscriber(Request $request)
+	{
 
-    	$this->newsletter->email = $request->email;
-    	return $this->newsletter->save();
+		$this->newsletter->email = $request->email;
+		return $this->newsletter->save();
 	}
-	
-    public function normalMessage() {
-    	return redirect()->back()->with('subscriptionsuccess', 'Successfully Subscribed.');
+
+	public function normalMessage()
+	{
+		return redirect()->back()->with('subscriptionsuccess', 'Successfully Subscribed.');
 	}
 	
 	//TOdo send email to subscribers method
-	
+
 }

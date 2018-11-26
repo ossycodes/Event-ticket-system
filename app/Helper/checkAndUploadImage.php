@@ -16,39 +16,39 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Input;
 use JD\Cloudder\Facades\Cloudder;
 
-Trait checkAndUploadImage 
+trait checkAndUploadImage
 {
-    
-    public function checkAndUploadImage(Request $request, $data, $path, $width, $height) {
+
+    public function checkAndUploadImage(Request $request, $data, $path, $width, $height)
+    {
 
                 //if the request has an image and was successfully uploaded
-                if($request->hasFile('image') and $request->file('image')->isValid()) {
+        if ($request->hasFile('image') and $request->file('image')->isValid()) {
                     
-                    // $path = 'images/frontend_images/events';
 
-                    $imageNameWithNoExtension = explode('.', $request->image->getClientOriginalName()); 
+            $imageNameWithNoExtension = explode('.', $request->image->getClientOriginalName()); 
                  
                     //upload to cloudinary
-                        $image_size = array("height"=>$height, "width"=>$width, "crop"=>"scale");
-                        $image_name = $request->file('image')->getRealPath();;
+            $image_size = array("height" => $height, "width" => $width, "crop" => "scale");
+            $image_name = $request->file('image')->getRealPath();;
                         // $path = "cinemaxii/events/";
-                        $uniqueid = Date('Ymdhis').rand(1,99999);
+            $uniqueid = Date('Ymdhis') . rand(1, 99999);
                         //uploads the image to cloudinary
-                        Cloudder::upload($image_name, $path.$uniqueid.$imageNameWithNoExtension[0], $image_size);
-                        $CloudderArray = Cloudder::getResult();
-                        $imageInformation = [];
-                        $image_url = $CloudderArray['url'];
-                        $image_publicid = $CloudderArray['public_id'];
+            Cloudder::upload($image_name, $path . $uniqueid . $imageNameWithNoExtension[0], $image_size);
+            $CloudderArray = Cloudder::getResult();
+            $imageInformation = [];
+            $image_url = $CloudderArray['url'];
+            $image_publicid = $CloudderArray['public_id'];
 
-                        return $imageInformation = [$image_url, $image_publicid];
+            return $imageInformation = [$image_url, $image_publicid];
                     //cloundinary ends here
 
-                    
-                } else{
-                    return $imageInformation = ['null', 'null'];
-                }
 
-   
+        } else {
+            return $imageInformation = ['null', 'null'];
+        }
+
+
 
     }
 

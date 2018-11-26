@@ -55,15 +55,15 @@ class ProfileController extends Controller
     public function update(updateProfile $request, $id)
     {
         //if the request has a name as part of the request;
-        if($request->has('name')) {
+        if ($request->has('name')) {
             //update user  name
             $this->updateName($request);
             //update user profile
             $this->updateProfile($request);
            //redirect the user back with flash seession success message
-           return back()->with('success', 'Profile updated successfully');
+            return back()->with('success', 'Profile updated successfully');
         }
-           return back()->with('error', 'Something went wrong');
+        return back()->with('error', 'Something went wrong');
     }
 
     /**
@@ -74,27 +74,31 @@ class ProfileController extends Controller
      */
     public function destroy($id)
     {
-        echo $id; die;
+        echo $id;
+        die;
     }
 
-    public function updateName(Request $request) {
+    public function updateName(Request $request)
+    {
         Auth::user()->update([
             'name' => $request->name
         ]);
     }
 
-    public function updateProfile(Request $request) {
+    public function updateProfile(Request $request)
+    {
         ///update the authenticated user's profile
         Auth::User()->profile()->update([
             'gender' => $request->gender,
             'phonenumber' => $request->phonenumber,
             'education' => $request->education,
-            'skills'=>  $request->skills,
+            'skills' => $request->skills,
             'location' => $request->location,
         ]);
     }
 
-    public function deleteAccount(Request $request, $id){
+    public function deleteAccount(Request $request, $id)
+    {
         //delete user
         User::destroy($id);
         //destroy user session

@@ -18,9 +18,9 @@ class Admin
     public function handle($request, Closure $next)
     {
         //check if user is authenticated
-        if(Auth::check()){
+        if (Auth::check()) {
             //if user is authenticated then check if user's role is admin
-            if(Auth::User()->checkRole()){
+            if (Auth::User()->checkRole()) {
                 return abort(404);
             }
         }

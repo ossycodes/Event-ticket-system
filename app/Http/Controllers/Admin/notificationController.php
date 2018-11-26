@@ -23,7 +23,7 @@ class notificationController extends Controller
         $noOfUsers = User::all()->count();
         $sentNotifcations = round(($noOfNotifications / $noOfUsers));
         $allNotifications = DB::table('notifications')->get();
-        $readNotifications = DB::table('notifications')->where('read_at', '!=', NULL)->count();
+        $readNotifications = DB::table('notifications')->where('read_at', '!=', null)->count();
         return view('admin.database_notification.create', compact('sentNotifcations', 'readNotifications', 'allNotifications'));
     }
 
@@ -48,22 +48,22 @@ class notificationController extends Controller
         return back()->with('success', 'Notification has been sent');
     }
 
-   public function markAsRead()
-   {
+    public function markAsRead()
+    {
         Auth::user()->unreadNotifications->markAsRead();
         return back();
-   } 
+    }
 
-   public function deleteNotification()
-   {
+    public function deleteNotification()
+    {
         DB::table('notifications')->delete();
         return back()->with('success', 'All notification deleted successfully');
-   }
+    }
 
-   public function viewNotifications()
-   {
-       $allNotifications = DB::table('notifications')->toArray();
-       return view('admin.database_notification.create', compact('allNotifications'));
-   }
+    public function viewNotifications()
+    {
+        $allNotifications = DB::table('notifications')->toArray();
+        return view('admin.database_notification.create', compact('allNotifications'));
+    }
 
 }

@@ -82,7 +82,8 @@ class NewslettersController extends Controller
      */
     public function destroy($id)
     {
-        echo $id; 
-        echo "delete"; die;
+        echo $id;
+        echo "delete";
+        die;
     }
 }

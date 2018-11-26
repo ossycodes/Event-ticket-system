@@ -30,7 +30,7 @@ class BlogsController extends Controller
     {
 
         //log event
-        Log::info('Displayed a list of available posts in database for user with email:' .' ' .Auth::user()->email .' ' .'to see');
+        Log::info('Displayed a list of available posts in database for user with email:' . ' ' . Auth::user()->email . ' ' . 'to see');
         //fetch all posts from database
         $posts = Blog::with(['postcomments' => function ($query) {
             $query->orderBy('created_at', 'desc');
@@ -48,7 +48,7 @@ class BlogsController extends Controller
     public function create()
     {
         //log event
-        Log::info('Displayed a form to create a post for User with email:' .' ' .Auth::user()->email);
+        Log::info('Displayed a form to create a post for User with email:' . ' ' . Auth::user()->email);
         //return create post form
         return view('admin.posts.create');
     }
@@ -72,7 +72,7 @@ class BlogsController extends Controller
         // dd($data);
 
         //create post via mass assignment
-        try{
+        try {
 
             $blog = Blog::create($data);
             Blog::find($blog->id)->blogimage()->create([
@@ -80,14 +80,14 @@ class BlogsController extends Controller
                 'public_id' => $data['public_id']
             ]);
 
-        }catch(QueryException $e) {
+        } catch (QueryException $e) {
             Log::error($e->getMessage());
             //return flash session error message to view
             return redirect()->route('system-admin.posts.create')->with('error', 'something went wrong');
         }
         
         //log event
-        Log::info('User with email:' .' ' .Auth::user()->email .' ' .'just created a post');
+        Log::info('User with email:' . ' ' . Auth::user()->email . ' ' . 'just created a post');
         //return flash success message
         return redirect()->route('system-admin.posts.create')->with('success', 'Post created successfully');
     }
@@ -127,14 +127,14 @@ class BlogsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(StorePost $request, $id)
-    {    
-        if($request->has('image')) {
+    {
+        if ($request->has('image')) {
             Cloudder::destroyImage($request->public_id);
             Cloudder::delete($request->public_id);
         }
 
         $data = $request->all();
-        
+
         $tp = tap(Blog::find($id))->update([
             'title' => $data['title'],
             'body' => $data['body'],
@@ -152,7 +152,7 @@ class BlogsController extends Controller
             'public_id' => $imageName[1]
         ]);
 
-        Log::info('Blog with ID:' .' ' .$tp->id .' ' .'just got uploaded');
+        Log::info('Blog with ID:' . ' ' . $tp->id . ' ' . 'just got uploaded');
 
         //return flash success session message to the view
         return redirect()->route('system-admin.posts.create')->with('success', 'Post updated successfully');
@@ -168,10 +168,10 @@ class BlogsController extends Controller
     {
 
         $i = Blogsimage::where('blog_id', $id)->first();
-        try{
+        try {
             Cloudder::destroyImage($i->public_id);
             Cloudder::delete($i->public_id);
-        } catch(\Cloudinary\Error $e) {
+        } catch (\Cloudinary\Error $e) {
             Log::error($e->getMessage());
             return back()->with('error', 'Something went wrong please try again');
         }
@@ -180,11 +180,11 @@ class BlogsController extends Controller
         Blog::destroy($id);
         
         //log the error
-        log::info('User with email:' .' ' .Auth::user()->email .' ' .'just deleted a post with Id number' .' ' .$id);
+        log::info('User with email:' . ' ' . Auth::user()->email . ' ' . 'just deleted a post with Id number' . ' ' . $id);
         
         //return flash success message
         return redirect()->route('system-admin.posts.index')->with('success', 'Post deleted successfully');
-    
+
     }
 
 }

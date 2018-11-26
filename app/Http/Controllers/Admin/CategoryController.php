@@ -35,7 +35,7 @@ class CategoryController extends Controller
     public function create()
     {   
         //log event to laravel.log
-        Log::info('Returned a form, where User with email:' .' ' .Auth::user()->email .' ' .' and name:' .Auth::user()->name .' ' .'can create a category');
+        Log::info('Returned a form, where User with email:' . ' ' . Auth::user()->email . ' ' . ' and name:' . Auth::user()->name . ' ' . 'can create a category');
         //return category create view
         return view('admin.categories.create');
     }
@@ -53,14 +53,14 @@ class CategoryController extends Controller
             'name' => 'required|unique:categories',
         ])->validate();
         //log event to laravel.log
-        Log::info( 'User with email:' .'  ' .Auth::user()->email .' '  .'and name:' .'  ' .Auth::user()->name .'  ' .'just created a category');
+        Log::info('User with email:' . '  ' . Auth::user()->email . ' ' . 'and name:' . '  ' . Auth::user()->name . '  ' . 'just created a category');
         //create the category
-        try{
-        Category::create($request->all());
-        }catch(QueryException $e){
+        try {
+            Category::create($request->all());
+        } catch (QueryException $e) {
             Log::error($e->getMessage());
             //return flash session error message to view
-            return redirect()->route('system-admin.categories.create')->with('error', 'something went wrong'); 
+            return redirect()->route('system-admin.categories.create')->with('error', 'something went wrong');
         }
 
         //redirect back 
@@ -87,7 +87,7 @@ class CategoryController extends Controller
     public function edit($id)
     {
         //log event
-        log::info('Displayed a category with Id number: ' .$id);
+        log::info('Displayed a category with Id number: ' . $id);
         //find category with $id
         $category = Category::findOrFail($id);
         return view('admin.categories.edit', compact('category'));
@@ -103,13 +103,13 @@ class CategoryController extends Controller
     public function update(Request $request, $id)
     {   
          //log event
-         log::info('User with email of:' .' ' .Auth::user()->email .' ' .'and name:' .Auth::user()->name .' ' .'updated a post with Id number: '.$id);
+        log::info('User with email of:' . ' ' . Auth::user()->email . ' ' . 'and name:' . Auth::user()->name . ' ' . 'updated a post with Id number: ' . $id);
          //mass update the category
-         Category::where('id', $id)->update([
-             'name' => $request->name
-         ]);
+        Category::where('id', $id)->update([
+            'name' => $request->name
+        ]);
          //return redirect back to edit page
-         return redirect()->route('system-admin.categories.edit', $id)->with('success', 'Category updated successfully');
+        return redirect()->route('system-admin.categories.edit', $id)->with('success', 'Category updated successfully');
     }
 
     /**
@@ -121,11 +121,11 @@ class CategoryController extends Controller
     public function destroy($id)
     {
             //log event
-            Log::info('category with Id number: ' .' ' .$id  .' '.'just got deleted by User with email:' .Auth::user()->email .' ' .'and name:' .Auth::user()->name );
+        Log::info('category with Id number: ' . ' ' . $id . ' ' . 'just got deleted by User with email:' . Auth::user()->email . ' ' . 'and name:' . Auth::user()->name);
             //delete category by id
-            Category::destroy($id);
+        Category::destroy($id);
             //return back to category index page
-            return redirect()->route('system-admin.categories.index')->with('success', 'Category deleted successfully');
-       
+        return redirect()->route('system-admin.categories.index')->with('success', 'Category deleted successfully');
+
     }
 }

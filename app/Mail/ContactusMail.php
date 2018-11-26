@@ -30,6 +30,6 @@ class ContactusMail extends Mailable
     public function build()
     {
         return $this->from('hello@cinemaxxi.com')
-        ->markdown('emails.contactusmail');
+            ->markdown('emails.contactusmail');
     }
 }

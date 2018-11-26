@@ -19,7 +19,6 @@ class EventPolicy
      */
     public function view(User $user, Event $event)
     {
-        //return $user->id === $event->user_id;
     }
 
     /**
@@ -41,7 +40,7 @@ class EventPolicy
      */
     public function edit(User $user, Event $event)
     {
-       return $user->id === $event->user_id;
+        return $user->id === $event->user_id;
     }
 
     /**

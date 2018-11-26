@@ -14,11 +14,12 @@ class IndexController extends Controller
     protected $path = 'images/frontend_images/events/';
 
     //use __invoke() since i have only one method in this controller.
-    public function __invoke() {
+    public function __invoke()
+    {
         $allCategories = Category::all();
-        $noofeventsimages =  Event::paginate(6);
+        $noofeventsimages = Event::paginate(6);
         $events = Event::where('status', '=', 1)->orderBy('id', 'DESC')->paginate(3);
-        $backgroundInfo =  Background::all();
+        $backgroundInfo = Background::all();
         return view('index', compact('events', 'backgroundInfo', 'noofeventsimages', 'allCategories'));
     }
 

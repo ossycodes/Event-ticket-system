@@ -114,8 +114,9 @@ class BlogsController extends Controller
         //find or fail
         $post = Blog::findOrFail($id);
         $postImage = Blog::findOrFail($id)->blogimage;
+        $blogImage = Blogsimage::where('blog_id', '=', $id)->first();
         //return view
-        return view('admin.posts.edit', compact('post', 'postImage'));
+        return view('admin.posts.edit', compact('post', 'postImage', 'blogImage'));
     }
 
     /**
@@ -127,6 +128,11 @@ class BlogsController extends Controller
      */
     public function update(StorePost $request, $id)
     {    
+        if($request->has('image')) {
+            Cloudder::destroyImage($request->public_id);
+            Cloudder::delete($request->public_id);
+        }
+
         $data = $request->all();
         
         $tp = tap(Blog::find($id))->update([
@@ -134,11 +140,16 @@ class BlogsController extends Controller
             'body' => $data['body'],
             'description' => $data['description'],
         ]);
-        
-        $data['imageName'] = $this->checkAndUploadUpdatedPostImage($request, $data);
+
+        $storagePath = 'cinemaxii/blogposts/';
+        $width = 640;
+        $height = 426;
+
+        $imageName = $this->checkAndUploadImage($request, $data, $storagePath, $width, $height);
 
         Blog::find($tp->id)->blogimage()->update([
-            'imagename' => $data['imageName']
+            'imagename' => $imageName[0],
+            'public_id' => $imageName[1]
         ]);
 
         Log::info('Blog with ID:' .' ' .$tp->id .' ' .'just got uploaded');

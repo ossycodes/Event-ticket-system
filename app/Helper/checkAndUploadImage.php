@@ -19,7 +19,7 @@ use JD\Cloudder\Facades\Cloudder;
 Trait checkAndUploadImage 
 {
     
-    public function checkAndUploadImage(Request $request, $data, $path, $width=287, $height=412) {
+    public function checkAndUploadImage(Request $request, $data, $path, $width, $height) {
 
                 //if the request has an image and was successfully uploaded
                 if($request->hasFile('image') and $request->file('image')->isValid()) {

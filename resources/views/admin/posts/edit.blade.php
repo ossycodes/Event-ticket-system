@@ -34,7 +34,7 @@
             <div class="col-md-3"></div>
             <div class="col-md-9">
             <br>
-              <img src="{{ asset(optional($postImage)->imagename) }}" style="width: 256px; height: 380px">
+              <img src="{{ asset(optional($postImage)->imagename) }}" style="width: 640px; height: 426px">
               </div>  
             <div class="clearfix"></div>
             @endif
@@ -66,7 +66,7 @@
        </div>
      </div> 
 
-     <input type="hidden" name="formerimage" value="{{ optional($postImage)->imagename }}" class="form-control"/>
+     <input type="hidden" name="public_id" value="{{ $blogImage->public_id }}" class="form-control"/>
 
 
      <div class="form-group">

@@ -6,21 +6,33 @@ use Illuminate\Http\Request;
 use App\User;
 use App\Event;
 use App\Category;
+use App\Repositories\Contracts\UserRepoInterface;
+use App\Repositories\Contracts\EventRepoInterface;
+use App\Repositories\Contracts\CategoryRepoInterface;
 
 class AdminController extends Controller
 {
+    protected $userRepo;
+
+    public function __construct(UserRepoInterface $userRepo, EventRepoInterface $eventRepo, CategoryRepoInterface $categoryRepo)
+    {
+        $this->userRepo = $userRepo;
+        $this->eventRepo = $eventRepo;
+        $this->categoryRepo = $categoryRepo;
+    }
+
     public function getUsers()
     {
-        return User::where('role', 'user')->get();
+        return $this->userRepo->getTotalUsers();
     }
 
     public function getEvents()
     {
-        return Event::all();
+        return $this->eventRepo->getAllEvents();
     }
 
     public function getCategories()
     {
-        return Category::all();
+        return $this->categoryRepo->getAllCategories();
     }
 }

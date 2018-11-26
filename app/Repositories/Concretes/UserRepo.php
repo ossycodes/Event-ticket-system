@@ -12,4 +12,10 @@ class UserRepo implements UserRepoInterface
     {
         return User::where('role', 'user')->count();
     }
+
+    public function getUser()
+    {
+        return User::where('role', 'user')->get();
+    }
+
 }

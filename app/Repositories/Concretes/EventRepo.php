@@ -8,6 +8,11 @@ use App\Repositories\Contracts\EventRepoInterface;
 
 class EventRepo implements EventRepoInterface
 {
+    public function getAllEvents()
+    {
+        return Event::all();
+    }
+
     public function getPaginatedEvents(int $amount)
     {
         return Event::paginate($amount);
@@ -15,7 +20,21 @@ class EventRepo implements EventRepoInterface
 
     public function getPaginatedActiveEvents(int $amount)
     {
-        return Event::where('status', '=', 1)->orderBy('id', 'DESC')->paginate($amount);    
+        return Event::where('status', '=', 1)->orderBy('id', 'DESC')->paginate($amount);
     }
-    
+
+    public function getEvent(int $id)
+    {
+        return Event::findOrFail($id);;
+    }
+
+    public function getPaginatedEventsDescendingOrder(int $amount)
+    {
+        return Event::orderBy('id', 'DESC')->paginate($amount);
+    }
+
+    public function getEventWithComments(int $id)
+    {
+        return Event::findOrFail($id)->eventscomment;
+    }
 }

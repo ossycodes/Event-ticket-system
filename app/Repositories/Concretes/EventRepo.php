@@ -37,4 +37,9 @@ class EventRepo implements EventRepoInterface
     {
         return Event::findOrFail($id)->eventscomment;
     }
+
+    public function getTotalEvents()
+    {
+        return Event::all()->count();
+    }
 }

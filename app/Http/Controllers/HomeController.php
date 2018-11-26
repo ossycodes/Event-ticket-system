@@ -10,18 +10,36 @@ use App\Category;
 use App\Newsletter;
 use App\Transaction;
 use Illuminate\Http\Request;
+use App\Repositories\Contracts\BlogRepoInterface;
+use App\Repositories\Contracts\EventRepoInterface;
+use Facades\App\Repositories\Contracts\ContactRepoInterface;
+use App\Repositories\Contracts\CategoryRepoInterface;
+use App\Repositories\Contracts\TransactionRepoInterface;
+use App\Repositories\Contracts\UserRepoInterface;
+use Facades\App\Repositories\Contracts\NewsletterRepoInterface;
 
 
 class HomeController extends Controller
 {
+    protected $blogRepo;
+    protected $categoryRepo;
+    protected $eventRepo;
+    protected $transactionRepo;
+    protected $userRepo;
+    
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(BlogRepoInterface $blogRepo, CategoryRepoInterface $categoryRepo, EventRepoInterface $eventRepo, TransactionRepoInterface $transactionRepo, UserRepoInterface $userRepo)
     {
         $this->middleware('auth');
+        $this->blogRepo = $blogRepo;
+        $this->categoryRepo = $categoryRepo;
+        $this->eventRepo = $eventRepo;
+        $this->transactionRepo = $transactionRepo;
+        $this->userRepo = $userRepo;
     }
 
     /**
@@ -29,18 +47,20 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+
+    //use __invoke() since i have just one method in this controller
+    public function __invoke()
     {
+        $noOfEvents = $this->eventRepo->getTotalEvents();
+        $noOfPosts = $this->blogRepo->getTotalEvents();
+        $noOfUsers = $this->userRepo->getTotalUsers();
+        $noOfCategories = $this->categoryRepo->getTotalCategories();
+        $noOfTransactions = $this->transactionRepo->getTotalTransaction();
 
-        $noOfEvents = Event::all()->count();
-        $noOfPosts = Blog::all()->count();
-        $noOfUsers = User::where('role', 'user')->count();
-        $noOfSubscribers = Newsletter::all()->count();
-        $noOfContactusMessages = Contact::all()->count();
-        $noOfCategories = Category::all()->count();
-        $noOfTransactions = Transaction::count();
-
-
+        //Real-time facades, allows me access methods on this object as though they were static methods
+        $noOfSubscribers = NewsletterRepoInterface::getTotalSubscribers();
+        $noOfContactusMessages = ContactRepoInterface::getTotalContacts();
+        
         return view('home', compact('noOfEvents', 'noOfPosts', 'noOfUsers', 'noOfSubscribers', 'noOfContactusMessages', 'noOfCategories', 'noOfTransactions'));
     }
 }

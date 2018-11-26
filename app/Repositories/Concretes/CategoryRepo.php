@@ -13,4 +13,9 @@ class CategoryRepo implements CategoryRepoInterface
         return Category::all();
     }
 
+    public function getTotalCategories()
+    {
+        return Category::all()->count();
+    }
+
 }

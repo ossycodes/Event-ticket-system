@@ -50,5 +50,21 @@ class CustomServiceProvider extends ServiceProvider
             'App\Repositories\Contracts\EventCommentRepoInterface',
             'App\Repositories\Concretes\EventCommentRepo'
         );
+        $this->app->bind(
+            'App\Repositories\Contracts\TransactionRepoInterface',
+            'App\Repositories\Concretes\TransactionRepo'
+        );
+        $this->app->bind(
+            'App\Repositories\Contracts\ContactRepoInterface',
+            'App\Repositories\Concretes\ContactRepo'
+        );
+        $this->app->bind(
+            'App\Repositories\Contracts\UserRepoInterface',
+            'App\Repositories\Concretes\UserRepo'
+        );
+        $this->app->bind(
+            'App\Repositories\Contracts\NewsletterRepoInterface',
+            'App\Repositories\Concretes\NewsletterRepo'
+        );
     }
 }

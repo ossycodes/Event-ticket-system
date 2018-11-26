@@ -17,4 +17,9 @@ class BlogRepo implements BlogRepoInterface
     {
         return Blog::paginate($amount);
     }
+
+    public function getTotalEvents()
+    {
+        return Blog::all()->count();   
+    }
 }

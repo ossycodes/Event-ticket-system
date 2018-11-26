@@ -15,4 +15,6 @@ interface EventRepoInterface
     public function getPaginatedEventsDescendingOrder(int $amount);
 
     public function getEventWithComments(int $id);
+
+    public function getTotalEvents();
 }

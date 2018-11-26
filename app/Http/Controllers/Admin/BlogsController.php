@@ -27,6 +27,7 @@ class BlogsController extends Controller
      */
     public function index()
     {
+
         //log event
         Log::info('Displayed a list of available posts in database for user with email:' .' ' .Auth::user()->email .' ' .'to see');
         //fetch all posts from database
@@ -60,17 +61,22 @@ class BlogsController extends Controller
     public function store(StorePost $request)
     {
         $data = $request->all();
-
+        $storagePath = 'cinemaxii/blogposts/';
+        $width = 640;
+        $height = 426;
         //upload and store image
-        $imageName = $this->checkAndUploadPostImage($request, $data);
-        $data['image'] = $imageName;
+        $imageName = $this->checkAndUploadImage($request, $data, $storagePath, $width, $height);
+        $data['image'] = $imageName[0];
+        $data['public_id'] = $imageName[1];
+        // dd($data);
 
         //create post via mass assignment
         try{
 
             $blog = Blog::create($data);
             Blog::find($blog->id)->blogimage()->create([
-                'imagename' => $data['image']
+                'imagename' => $data['image'],
+                'public_id' => 'ssssssss'
             ]);
 
         }catch(QueryException $e) {
@@ -165,38 +171,38 @@ class BlogsController extends Controller
     
     }
 
-    public function checkAndUploadImage(Request $request, $data)
-    {
+    // public function checkAndUploadImage(Request $request, $data)
+    // {
 
-            //if the request has an image
-            if($request->hasFile('image') and $request->file('image')->isValid()) {
+    //         //if the request has an image
+    //         if($request->hasFile('image') and $request->file('image')->isValid()) {
                 
-                dd($data);
-                //Delete the previous image from the events folder, if a new image is uploaded
-                if (file_exists($data['imagename'])) {
-                    unlink($data['imagename']);
-                }
+    //             dd($data);
+    //             //Delete the previous image from the events folder, if a new image is uploaded
+    //             if (file_exists($data['imagename'])) {
+    //                 unlink($data['imagename']);
+    //             }
 
-                $path = 'images/frontend_images/posts';
-                $imageNameWithNoExtension = explode('.', $request->image->getClientOriginalName()); 
-                $imageName =  $imageNameWithNoExtension[0].rand(1, 99999).date('ymdhis').'.'.$request->image->getClientOriginalExtension();
+    //             $path = 'images/frontend_images/posts';
+    //             $imageNameWithNoExtension = explode('.', $request->image->getClientOriginalName()); 
+    //             $imageName =  $imageNameWithNoExtension[0].rand(1, 99999).date('ymdhis').'.'.$request->image->getClientOriginalExtension();
                 
-                //Intervention resize image pakage starts here
-                //This resizes the image and stores it in th epath i specified.
+    //             //Intervention resize image pakage starts here
+    //             //This resizes the image and stores it in th epath i specified.
           
-                $fp = 'images/frontend_images/posts/'.$imageName;
+    //             $fp = 'images/frontend_images/posts/'.$imageName;
 
-                Image::make(input::file('image'))->resize(640, 423)->save($fp);
+    //             Image::make(input::file('image'))->resize(640, 423)->save($fp);
 
-                //ends here
+    //             //ends here
  
-                return $imageName;          
+    //             return $imageName;          
                 
-            } else{
+    //         } else{
 
-                 return $data['image'] = 'default.jpg';
+    //              return $data['image'] = 'default.jpg';
                  
-            }
+    //         }
 
-    }
+    // }
 }

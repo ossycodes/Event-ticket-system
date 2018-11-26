@@ -17,7 +17,7 @@ class CreateBlogsimagesTable extends Migration
             $table->increments('id');
             $table->integer('blog_id')->unsigned();
             $table->string('imagename');
-
+            $table->string('public_id');
 
             $table->foreign('blog_id')->references('id')->on('blogs')->onDelete('cascade');
             $table->timestamps();

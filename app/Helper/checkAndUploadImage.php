@@ -19,20 +19,19 @@ use JD\Cloudder\Facades\Cloudder;
 Trait checkAndUploadImage 
 {
     
-    public function checkAndUploadImage(Request $request, $data) {
+    public function checkAndUploadImage(Request $request, $data, $path, $width=287, $height=412) {
 
                 //if the request has an image and was successfully uploaded
                 if($request->hasFile('image') and $request->file('image')->isValid()) {
                     
-                    $path = 'images/frontend_images/events';
+                    // $path = 'images/frontend_images/events';
+
                     $imageNameWithNoExtension = explode('.', $request->image->getClientOriginalName()); 
                  
                     //upload to cloudinary
-                        $height = 412;
-                        $width = 287;
                         $image_size = array("height"=>$height, "width"=>$width, "crop"=>"scale");
                         $image_name = $request->file('image')->getRealPath();;
-                        $path = "cinemaxii/events/";
+                        // $path = "cinemaxii/events/";
                         $uniqueid = Date('Ymdhis').rand(1,99999);
                         //uploads the image to cloudinary
                         Cloudder::upload($image_name, $path.$uniqueid.$imageNameWithNoExtension[0], $image_size);

@@ -64,10 +64,13 @@ class EventsController extends Controller
         $data = $request->all();
 
         $data['user_id'] = Auth::user()->id;
+        $path = 'cinemaxii/events/';
+        $width = 287;
+        $height = 412;
 
          //upload  image to cloudinary
          try{
-            $imageName = $this->checkAndUploadImage($request, $data);
+            $imageName = $this->checkAndUploadImage($request, $data, $path, $width, $height);
          } catch(\Cloudinary\Error $e) {
              Log::error($e->getMessage());
              return back()->with('error', 'Something went wrong please try again');

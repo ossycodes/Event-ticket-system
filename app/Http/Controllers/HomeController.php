@@ -52,7 +52,7 @@ class HomeController extends Controller
     public function __invoke()
     {
         $noOfEvents = $this->eventRepo->getTotalEvents();
-        $noOfPosts = $this->blogRepo->getTotalEvents();
+        $noOfPosts = $this->blogRepo->getTotalBlogPosts();
         $noOfUsers = $this->userRepo->getTotalUsers();
         $noOfCategories = $this->categoryRepo->getTotalCategories();
         $noOfTransactions = $this->transactionRepo->getTotalTransaction();

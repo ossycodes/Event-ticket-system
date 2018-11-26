@@ -8,5 +8,11 @@ interface BlogRepoInterface
 
     public function getPaginatedBlogPosts(int $amount);
 
-    public function getTotalEvents();
+    public function getTotalBlogPosts();
+
+    public function getBlog(int $id);
+
+    public function getBlogComments(int $id);
+
+    public function getBlogImage(int $id);
 }

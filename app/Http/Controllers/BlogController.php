@@ -6,15 +6,20 @@ use Illuminate\Http\Request;
 use App\Blog;
 use App\Event;
 use App\Postscomment;
+use App\Repositories\Contracts\BlogRepoInterface;
 
 class BlogController extends Controller
 {
-    public function show($id)
+    public function __construct(BlogRepoInterface $blogRepo)
     {
+        $this->blogRepo = $blogRepo;
+    }
 
-        $postDetails = Blog::findOrFail($id);
-        $postComments = Blog::findOrFail($id)->postcomments;
-        $postImage = Blog::findOrFail($id)->blogimage;
+    public function __invoke($id)
+    {
+        $postDetails = $this->blogRepo->getBlog($id);
+        $postComments = $this->blogRepo->getBlogComments($id);
+        $postImage = $this->blogRepo->getBlogImage($id);
 
         return view('post', compact('postDetails', 'postComments', 'postImage'));
     }

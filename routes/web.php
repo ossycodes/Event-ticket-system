@@ -28,7 +28,7 @@ Route::get('aboutus', function(){
 //Route for index
 Route::get('/', 'IndexController')->name('/');
 
-Route::get('/posts/{id}', 'BlogController@show');
+Route::get('/posts/{id}', 'BlogController');
 
 //Route for Error page
 Route::get('404', 'UsersController@errorpage');

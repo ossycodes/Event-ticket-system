@@ -7,18 +7,29 @@ use App\Category;
 use App\Background;
 use Illuminate\Http\Request;
 use Intervention\Image\Facades\Image;
+use App\Repositories\Contracts\CategoryRepoInterface;
+use App\Repositories\Contracts\EventRepoInterface;
 
 
 class IndexController extends Controller
 {
+    protected $categoryRepo;
+    protected $eventRepo;
     protected $path = 'images/frontend_images/events/';
+
+    //constructor dependency injection of CategoryRepoInterface
+    public function __construct(CategoryRepoInterface $categoryRepo, EventRepoInterface $eventRepo)
+    {
+        $this->categoryRepo = $categoryRepo;
+        $this->eventRepo = $eventRepo;
+    }
 
     //use __invoke() since i have only one method in this controller.
     public function __invoke()
     {
-        $allCategories = Category::all();
-        $noofeventsimages = Event::paginate(6);
-        $events = Event::where('status', '=', 1)->orderBy('id', 'DESC')->paginate(3);
+        $allCategories = $this->categoryRepo->getAllCategories();
+        $noofeventsimages = $this->eventRepo->getPaginatedEvents(6);
+        $events = $this->eventRepo->getPaginatedActiveEvents(3);
         $backgroundInfo = Background::all();
         return view('index', compact('events', 'backgroundInfo', 'noofeventsimages', 'allCategories'));
     }

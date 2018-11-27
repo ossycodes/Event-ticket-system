@@ -24,4 +24,13 @@ class UserRepo implements UserRepoInterface
         return Auth::user()->profile;
     }
 
+    public function getUsersOnline()
+    {
+        return User::where('online', 1)->get();
+    }
+
+    public function getUsersInDescendingOrder()
+    {
+        return  User::where('role', 'user')->Orderby('created_at', 'asc')->get();
+    }
 }

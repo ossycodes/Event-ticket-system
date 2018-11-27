@@ -66,5 +66,9 @@ class CustomServiceProvider extends ServiceProvider
             'App\Repositories\Contracts\NewsletterRepoInterface',
             'App\Repositories\Concretes\NewsletterRepo'
         );
+        $this->app->bind(
+            'App\Repositories\Contracts\PostCommentInterface',
+            'App\Repositories\Concretes\PostCommentRepo'
+        );
     }
 }

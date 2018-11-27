@@ -2,54 +2,62 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Auth;
+use App\User;
+use App\Event;
+use App\Contact;
+use App\Profile;
+use App\Newsletter;
+use App\Postscomment;
+use App\Eventscomment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
-use App\User;
-use App\Profile;
-use Auth;
-use App\Event;
-use App\Contact;
-use App\Eventscomment;
-use App\Postscomment;
-use App\Newsletter;
+use App\Repositories\Contracts\UserRepoInterface;
+use App\Repositories\Contracts\EventRepoInterface;
+
+//Real-Time Facade
+use Facades\App\Repositories\Contracts\PostCommentInterface;
+use Facades\App\Repositories\Contracts\ContactRepoInterface;
+use Facades\App\Repositories\Contracts\NewsletterRepoInterface;
+use Facades\App\Repositories\Contracts\EventCommentRepoInterface;
 
 class ProfileController extends Controller
 {
+    protected $userRepo;
+    protected $eventRepo;
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-
-    //list of properties on profile database that can be mass assignable
-    protected $fillable = [
-        'name',
-        'email',
-        'phonenumber',
-        'education',
-        'location',
-        'skills',
-    ];
+    public function __construct(UserRepoInterface $userRepo, EventRepoInterface $eventRepo)
+    {
+        $this->userRepo = $userRepo;
+        $this->eventRepo = $eventRepo;
+    }
 
     public function index()
     {
 
-        $noOfSubscribers = Newsletter::count();
-        $noOfRegisterdUsers = User::count();
-        $noOfEventsPosted = Event::count();
-        $usersOnline = User::where('online', 1)->get();
-        $postComment = Postscomment::latest()->first();
-        $latestEvent = Event::latest()->first();
+        $noOfSubscribers = NewsletterRepoInterface::getTotalSubscribers();
+        $noOfRegisterdUsers = $this->userRepo->getTotalUsers();
+        $noOfEventsPosted = $this->eventRepo->getTotalEvents();
+        $usersOnline = $this->userRepo->getUsersOnline();
+        $postComment = PostCommentInterface::getLatestBlogPostComment();
+        $latestEvent = $this->eventRepo->getLatestUploadedEvent();
 
         try {
-            $commentOnEvent = Eventscomment::latest()->first();
+            //Real-Time Facade
+            $commentOnEvent = EventCommentRepoInterface::getLatestComment();
         } catch (\ErrorException $e) {
             return $e->getMessage();
         }
 
-        $message = Contact::latest()->first();
-        $registeredUsers = User::where('role', 'user')->Orderby('created_at', 'asc')->get();
+        //Real-Time Facade
+        $message = ContactRepoInterface::getLatestContactusMessage();
+        $registeredUsers = $this->userRepo->getUsersInDescendingOrder();
         
         //logging event
         Log::info('displayed User with email:' . ' ' . Auth::user()->email . ' ' . 'and name:' . ' ' . Auth::user()->name . ' ' . 'profile page');

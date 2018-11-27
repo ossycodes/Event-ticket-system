@@ -9,4 +9,8 @@ interface UserRepoInterface
     public function getUser();
 
     public function getUserProfile();
+
+    public function getUsersOnline();
+
+    public function getUsersInDescendingOrder();
 }

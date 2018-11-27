@@ -42,7 +42,7 @@ class EventRepo implements EventRepoInterface
 
     public function getTotalEvents()
     {
-        return Event::all()->count();
+        return Event::count();
     }
 
     public function getEventsUploadedByUser(int $id)
@@ -66,5 +66,9 @@ class EventRepo implements EventRepoInterface
         return Auth::user()->events()->with('tickets')->get();
     }
 
-
+    public function getLatestUploadedEvent()
+    {
+        return Event::latest()->first();
+    }
+    
 }

@@ -24,4 +24,8 @@ class EventCommentRepo implements EventCommentRepoInterface
             ->create($request->except('event_id'));
     }
     
+    public function getLatestComment()
+    {
+        return Eventscomment::latest()->first();
+    }
 }

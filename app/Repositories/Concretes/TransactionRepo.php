@@ -12,4 +12,9 @@ class TransactionRepo implements TransactionRepoInterface
     {
         return Transaction::count(); 
     }
+
+    public function getTransactionDescendingOrder(int $id)
+    {
+        return Transaction::where('user_id', '=', $id)->orderBy('id', 'DESC')->get();
+    }
 }

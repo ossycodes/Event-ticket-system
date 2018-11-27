@@ -34,7 +34,6 @@ Route::get('/posts/{id}', 'BlogController');
 Route::get('404', 'UsersController@errorpage');
 
 //Route for contactus query message
-// Route::match(['get', 'post'], '/contactus', 'ContactsController@store')->name('contactus');
 Route::get('/contactus', 'ContactsController@index')->name('contactus');
 Route::post('/contactus', 'ContactsController@store')->name('contactus');
 

@@ -12,4 +12,9 @@ class NewsletterRepo implements NewsletterRepoInterface
     {
         return Newsletter::count();
     }
+
+    public function getSubscribers()
+    {
+        return Newsletter::all();
+    }
 }

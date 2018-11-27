@@ -26,4 +26,9 @@ class TicketRepo implements TicketRepoInterface
     {
         return Ticket::count();
     }
+
+    public function getTotalTicketsForEvent(int $id)
+    {
+        return Ticket::where('event_id', '=', $id)->count();
+    }
 }

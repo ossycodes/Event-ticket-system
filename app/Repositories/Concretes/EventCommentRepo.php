@@ -28,4 +28,14 @@ class EventCommentRepo implements EventCommentRepoInterface
     {
         return Eventscomment::latest()->first();
     }
+
+    public function getCommentsForEvent(int $id)
+    {
+        return Eventscomment::where('event_id', '=', $id)->get();
+    }
+
+    public function getTotalComments()
+    {
+        return EventsComment::count();
+    }
 }

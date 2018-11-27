@@ -70,5 +70,10 @@ class EventRepo implements EventRepoInterface
     {
         return Event::latest()->first();
     }
+
+    public function getEventsWithTickets()
+    {
+        return Event::with('tickets')->get();
+    }
     
 }

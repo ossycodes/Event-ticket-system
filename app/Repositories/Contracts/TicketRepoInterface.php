@@ -8,4 +8,6 @@ interface TicketRepoInterface
 
     public function totalTicketsForEvent(int $id); 
 
+    public function getTotalTicketsForEvent(int $id);
+
 }

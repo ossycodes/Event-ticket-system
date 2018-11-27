@@ -19,12 +19,29 @@ use Illuminate\Support\Facades\Input;
 use Intervention\Image\Facades\Image;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Storage;
-use App\Helper\checkAndUploadUpdatedImage;
 use PHPUnit\Framework\MockObject\Stub\Exception;
+use App\Repositories\Contracts\EventRepoInterface;
+use App\Repositories\Contracts\CategoryRepoInterface;
+use App\Repositories\Contracts\TicketRepoInterface;
+use App\Repositories\Contracts\EventCommentRepoInterface;
 
 class EventsController extends Controller
 {
-    use checkAndUploadImage, checkAndUploadUpdatedImage;
+    use checkAndUploadImage;
+
+    protected $eventRepo;
+    protected $categoryRepo;
+    protected $ticketRepo;
+    protected $eventCommentRepo;
+
+    public function __construct(EventRepoInterface $eventRepo, CategoryRepoInterface $categoryRepo, TicketRepoInterface $ticketRepo, EventCommentRepoInterface $eventCommentRepo)
+    {
+        $this->eventRepo = $eventRepo;
+        $this->categoryRepo = $categoryRepo;
+        $this->ticketRepo = $ticketRepo;
+        $this->eventCommentRepo = $eventCommentRepo;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -34,7 +51,7 @@ class EventsController extends Controller
     {
         //log event
         Log::info('Displayed a list of available events in database for user with email:' . ' ' . Auth::user()->email . ' ' . 'to see');
-        $events = Event::with('tickets')->get();
+        $events = $this->eventRepo->getEventsWithTickets();
         return view('admin.events.index', compact('events'));
     }
 
@@ -47,7 +64,7 @@ class EventsController extends Controller
     {
         //log event
         Log::info('Displayed a form to create an event for User with email:' . ' ' . Auth::user()->email);
-        $categories = Category::all();
+        $categories = $this->categoryRepo->getAllCategories();
         return view('admin.events.create', compact('categories'));
     }
 
@@ -78,7 +95,6 @@ class EventsController extends Controller
 
         $data['image'] = $imageName[0];
         $data['public_id'] = $imageName[1];
-         // dd($imageName);
 
         $createdEvent = Event::create([
 
@@ -151,10 +167,10 @@ class EventsController extends Controller
     public function edit($id)
     {
 
-        $event = Event::findOrFail($id);
-        $noOfTickets = Ticket::where('event_id', '=', $id)->count();
-        $tickets = Ticket::where('event_id', '=', $id)->get();
-        $categories = Category::all();
+        $event = $this->eventRepo->getEvent($id);
+        $noOfTickets = $this->ticketRepo->getTotalTicketsForEvent($id);
+        $tickets = $this->ticketRepo->getTicketsForEvent($id);
+        $categories = $this->categoryRepo->getAllCategories();
         return view('admin.events.edit', compact('event', 'categories', 'tickets', 'noOfTickets'));
     }
 
@@ -218,7 +234,7 @@ class EventsController extends Controller
      */
     public function destroy($id)
     {
-        $event = Event::find($id);
+        $event = $this->eventRepo->getEvent($id);
         
         //deletes and destroy the image from cloudinary
         try {
@@ -269,8 +285,8 @@ class EventsController extends Controller
 
     public function viewComments($id)
     {
-        $eventComments = Eventscomment::where('event_id', '=', $id)->get();
-        $noOfComments = EventsComment::count();
+        $eventComments = $this->eventCommentRepo->getCommentsForEvent($id);
+        $noOfComments = $this->eventCommentRepo->getTotalComments();
         return view('admin.events.comments', compact('eventComments', 'noOfComments'));
     }
 

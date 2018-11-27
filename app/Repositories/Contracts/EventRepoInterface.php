@@ -25,5 +25,7 @@ interface EventRepoInterface
     public function getEventsUploadedByUserWithTheTickets();
 
     public function getLatestUploadedEvent();
+
+    public function getEventsWithTickets();
     
 }

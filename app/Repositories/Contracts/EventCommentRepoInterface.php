@@ -11,4 +11,8 @@ interface EventCommentRepoInterface
     public function addCommentForEvent(Request $request);
 
     public function getLatestComment();
+
+    public function getCommentsForEvent(int $id);
+
+    public function getTotalComments();
 }

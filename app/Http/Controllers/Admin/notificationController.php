@@ -9,9 +9,20 @@ use App\User;
 use App\Notifications\generalNotification;
 use Illuminate\Support\Facades\Notification;
 use Validator;
+use App\Repositories\Contracts\NotificationRepoInterface;
+use App\Repositories\Contracts\UserRepoInterface;
 
 class notificationController extends Controller
 {
+    protected $userRepo;
+    protected $notificationRepo;
+
+    public function __construct(NotificationRepoInterface $notificationRepo, UserRepoInterface $userRepo)
+    {
+        $this->notificationRepo = $notificationRepo;
+        $this->userRepo = $userRepo;
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -19,11 +30,11 @@ class notificationController extends Controller
      */
     public function create()
     {
-        $noOfNotifications = DB::table('notifications')->count();
-        $noOfUsers = User::all()->count();
-        $sentNotifcations = round(($noOfNotifications / $noOfUsers));
-        $allNotifications = DB::table('notifications')->get();
-        $readNotifications = DB::table('notifications')->where('read_at', '!=', null)->count();
+        $noOfNotifications = $this->notificationRepo->getTotalNotifications();
+        $noOfUsers = $this->userRepo->getTotalUsers();
+        $sentNotifcations = round(($noOfNotifications / $noOfUsers))/2;
+        $allNotifications = $this->notificationRepo->getNotifications();
+        $readNotifications = $this->notificationRepo->getReadNotifications();
         return view('admin.database_notification.create', compact('sentNotifcations', 'readNotifications', 'allNotifications'));
     }
 
@@ -43,7 +54,7 @@ class notificationController extends Controller
             'message' => 'required',
         ], $msg)->validate();
 
-        $users = User::all();
+        $users = $this->userRepo->getAllUsersPlusAdmin();
         Notification::send($users, new generalNotification($request->message, $users));
         return back()->with('success', 'Notification has been sent');
     }
@@ -62,7 +73,7 @@ class notificationController extends Controller
 
     public function viewNotifications()
     {
-        $allNotifications = DB::table('notifications')->toArray();
+        $allNotifications = $this->notificationRepo->getNotificationsInArrayFormat();
         return view('admin.database_notification.create', compact('allNotifications'));
     }
 

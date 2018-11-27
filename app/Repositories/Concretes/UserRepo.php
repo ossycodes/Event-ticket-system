@@ -33,4 +33,8 @@ class UserRepo implements UserRepoInterface
     {
         return  User::where('role', 'user')->Orderby('created_at', 'asc')->get();
     }
+
+    public function getAllUsersPlusAdmin() {
+        return User::all();
+    }
 }

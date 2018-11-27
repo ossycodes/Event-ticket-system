@@ -13,4 +13,6 @@ interface UserRepoInterface
     public function getUsersOnline();
 
     public function getUsersInDescendingOrder();
+
+    public function getAllUsersPlusAdmin();
 }

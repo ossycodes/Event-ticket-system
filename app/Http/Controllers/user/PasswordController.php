@@ -42,7 +42,6 @@ class PasswordController extends Controller
 
     public function validateRequest(Request $request)
     {
-        
         //custom error messages
         $msg = [
             'old_password.required' => 'Please provide your old password',

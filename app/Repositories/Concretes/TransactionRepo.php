@@ -10,7 +10,7 @@ class TransactionRepo implements TransactionRepoInterface
 {
     public function getTotalTransaction()
     {
-        return Transaction::count(); 
+        return Transaction::count();
     }
 
     public function getTransactionDescendingOrder(int $id)
@@ -26,7 +26,8 @@ class TransactionRepo implements TransactionRepoInterface
         ])->get();
     }
 
-    public function getTotalTicketsPurchasedByUser(int $id) {
+    public function getTotalTicketsPurchasedByUser(int $id)
+    {
         return Transaction::where([
             ['user_id', '=', $id],
             ['status', '=', 'success']

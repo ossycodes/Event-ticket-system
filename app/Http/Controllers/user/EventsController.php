@@ -18,11 +18,25 @@ use Illuminate\Support\Facades\Input;
 use Intervention\Image\Facades\Image;
 use Illuminate\Database\QueryException;
 use App\Helper\checkAndUploadUpdatedImage;
+use App\Repositories\Contracts\EventRepoInterface;
+use App\Repositories\Contracts\CategoryRepoInterface;
+use App\Repositories\Contracts\TicketRepoInterface;
 
 
 class EventsController extends Controller
 {
-    use checkAndUploadImage, checkAndUploadUpdatedImage;
+    use checkAndUploadImage;
+
+    protected $eventRepo;
+    protected $categoryRepo;
+    protected $ticketRepo;
+
+    public function __construct(EventRepoInterface $eventRepo, CategoryRepoInterface $categoryRepo, TicketRepoInterface $ticketRepo)
+    {
+        $this->eventRepo = $eventRepo;
+        $this->categoryRepo = $categoryRepo;
+        $this->ticketRepo = $ticketRepo;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -30,7 +44,7 @@ class EventsController extends Controller
      */
     public function index()
     {
-        $events = Auth::user()->events()->with('tickets')->get();
+        $events = $this->eventRepo->getEventsUploadedByUserWithTheTickets();
         return view('users.events.index', compact('events'));
     }
 
@@ -41,7 +55,7 @@ class EventsController extends Controller
      */
     public function create()
     {
-        $categories = Category::all();
+        $categories = $this->categoryRepo->getAllCategories();
         return view('users.events.create', compact('categories'));
     }
 
@@ -148,11 +162,11 @@ class EventsController extends Controller
     {
         //Authourizing  edit action using policies via the user model
         if (Auth::user()->can('edit', Event::find($id))) {
-            $noOfTickets = Ticket::count();
-            $event = Event::findOrFail($id);
-            $ticket = Ticket::findOrFail($id);
-            $tickets = Ticket::where('event_id', '=', $id)->get();
-            $categories = Category::all();
+            $noOfTickets = $this->ticketRepo->getTotalTickets();
+            $event = $this->eventRepo->getEvent($id);
+            $ticket = $this->ticketRepo->getTicketsForEvent($id);
+            $tickets = $this->ticketRepo->getTicketsForEvent($id);
+            $categories = $this->categoryRepo->getAllCategories();
             return view('users.events.edit', compact('event', 'categories', 'ticket', 'tickets', 'noOfTickets'));
         }
     }
@@ -220,7 +234,7 @@ class EventsController extends Controller
      */
     public function destroy($id)
     {
-        $event = Event::find($id);
+        $event = $this->eventRepo->getEvent($id);;
 
         //Authourizing  delete action using policies via the user model
         if (Auth::user()->can('delete', Event::find($id))) {

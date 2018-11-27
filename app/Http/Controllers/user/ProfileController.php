@@ -22,7 +22,7 @@ class ProfileController extends Controller
     protected $userRepo;
 
     public function __construct(EventRepoInterface $eventRepo, TransactionRepoInterface $transactionRepo, UserRepoInterface $userRepo)
-    {   
+    {
         $this->eventRepo = $eventRepo;
         $this->transactionRepo = $transactionRepo;
         $this->userRepo = $userRepo;
@@ -75,7 +75,7 @@ class ProfileController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    
+
     public function updateName(Request $request)
     {
         Auth::user()->update([

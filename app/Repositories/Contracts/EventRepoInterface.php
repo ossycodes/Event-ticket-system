@@ -21,5 +21,7 @@ interface EventRepoInterface
     public function getEventsUploadedByUser(int $id);
 
     public function getTotalEventsUploadedByUser(int $id);
+
+    public function getEventsUploadedByUserWithTheTickets();
     
 }

@@ -9,9 +9,17 @@ use App\Http\Controllers\Controller;
 use App\Category;
 use Validator;
 use Auth;
+use App\Repositories\Contracts\CategoryRepoInterface;
 
 class CategoryController extends Controller
 {
+    protected $categoryRepo;
+
+    public function __construct(CategoryRepoInterface $categoryRepo)
+    {
+        $this->categoryRepo = $categoryRepo;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -22,7 +30,7 @@ class CategoryController extends Controller
         //log event to laravel.log
         Log::info('Displayed a list of the available categories in database');
         //get all categories from database
-        $categories = Category::all(); 
+        $categories = $this->categoryRepo->getAllCategories();
         //return the index view
         return view('admin.categories.index', compact('categories'));
     }
@@ -68,17 +76,6 @@ class CategoryController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
@@ -89,7 +86,7 @@ class CategoryController extends Controller
         //log event
         log::info('Displayed a category with Id number: ' . $id);
         //find category with $id
-        $category = Category::findOrFail($id);
+        $category = $this->categoryRepo->getCategory($id);
         return view('admin.categories.edit', compact('category'));
     }
 

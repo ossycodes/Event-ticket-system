@@ -9,5 +9,7 @@ interface CategoryRepoInterface
     public function getTotalCategories();
 
     public function getCategoryWithEvent(int $id); 
+
+    public function getCategory(int $id);
     
 }

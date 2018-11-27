@@ -17,4 +17,9 @@ class ContactRepo implements ContactRepoInterface
     {
         return Contact::latest()->first();
     }
+
+    public function getContactusMessages()
+    {
+        return Contact::all();
+    }
 }

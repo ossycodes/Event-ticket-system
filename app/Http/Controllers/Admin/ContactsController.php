@@ -2,12 +2,19 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Contact;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Contact;
+use App\Repositories\Contracts\ContactRepoInterface;
 
 class ContactsController extends Controller
 {
+    protected $contactRepo;
+
+    public function __construct(ContactRepoInterface $contactRepo)
+    {
+        $this->contactRepo = $contactRepo;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -15,7 +22,7 @@ class ContactsController extends Controller
      */
     public function index()
     {
-        $messages = Contact::all();
+        $messages = $this->contactRepo->getContactusMessages();
         return view('admin.messages.index', compact('messages'));
     }
 

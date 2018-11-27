@@ -22,18 +22,14 @@ trait checkAndUploadImage
     public function checkAndUploadImage(Request $request, $data, $path, $width, $height)
     {
 
-                //if the request has an image and was successfully uploaded
+        //if the request has an image and was successfully uploaded
         if ($request->hasFile('image') and $request->file('image')->isValid()) {
-                    
 
             $imageNameWithNoExtension = explode('.', $request->image->getClientOriginalName()); 
-                 
-                    //upload to cloudinary
+           //upload to cloudinary
             $image_size = array("height" => $height, "width" => $width, "crop" => "scale");
             $image_name = $request->file('image')->getRealPath();;
-                        // $path = "cinemaxii/events/";
             $uniqueid = Date('Ymdhis') . rand(1, 99999);
-                        //uploads the image to cloudinary
             Cloudder::upload($image_name, $path . $uniqueid . $imageNameWithNoExtension[0], $image_size);
             $CloudderArray = Cloudder::getResult();
             $imageInformation = [];
@@ -41,14 +37,12 @@ trait checkAndUploadImage
             $image_publicid = $CloudderArray['public_id'];
 
             return $imageInformation = [$image_url, $image_publicid];
-                    //cloundinary ends here
+           //cloundinary ends here
 
 
         } else {
             return $imageInformation = ['null', 'null'];
         }
-
-
 
     }
 

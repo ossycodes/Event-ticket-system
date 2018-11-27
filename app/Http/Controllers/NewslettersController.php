@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Newsletter;
 use Validator;
+use App\Newsletter;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class NewslettersController extends Controller
 {
 	protected $newsletter;
-	
+
 	public function __construct(Newsletter $newsletter)
 	{
 		$this->newsletter = $newsletter;
@@ -19,7 +20,12 @@ class NewslettersController extends Controller
 	{
 		$this->validateRequest($request);
 
-		$this->newsletter->store($request->all());
+		try {
+			$this->newsletter->store($request->all());
+		} catch (\Exception $e) {
+			Log::error($e->getMessage());
+			return back()->with('error', 'Something went wrong.');
+		}
 
 		return back()->with('subscriptionsuccess', 'Successfully Subscribed.');
 

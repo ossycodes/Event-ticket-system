@@ -44,4 +44,21 @@ class EventRepo implements EventRepoInterface
         return Event::all()->count();
     }
 
+    public function getEventsUploadedByUser(int $id)
+    {
+        return Event::where([
+            ['user_id', '=', $id],
+            ['status', '=', '1']
+        ])->get();
+    }
+
+    public function getTotalEventsUploadedByUser(int $id)
+    {
+        return Event::where([
+            ['user_id', '=', $id],
+            ['status', '=', '1']
+        ])->count();
+    }
+
+
 }

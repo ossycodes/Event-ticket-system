@@ -11,9 +11,23 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\updateProfile;
 use Illuminate\Support\Facades\Auth;
+use App\Repositories\Contracts\EventRepoInterface;
+use App\Repositories\Contracts\TransactionRepoInterface;
+use App\Repositories\Contracts\UserRepoInterface;
 
 class ProfileController extends Controller
 {
+    protected $eventRepo;
+    protected $transactionRepo;
+    protected $userRepo;
+
+    public function __construct(EventRepoInterface $eventRepo, TransactionRepoInterface $transactionRepo, UserRepoInterface $userRepo)
+    {   
+        $this->eventRepo = $eventRepo;
+        $this->transactionRepo = $transactionRepo;
+        $this->userRepo = $userRepo;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -21,27 +35,16 @@ class ProfileController extends Controller
      */
     public function index()
     {
-        $eventsuploaded = Event::where([
-            ['user_id', '=', Auth::user()->id],
-            ['status', '=', '1']
-        ])->get();
+        $eventsuploaded = $this->eventRepo->getEventsUploadedByUser(Auth::user()->id);
 
-        $noOfEventUploaded = Event::where([
-            ['user_id', '=', Auth::user()->id],
-            ['status', '=', '1']
-        ])->count();
+        $noOfEventUploaded = $this->eventRepo->getTotalEventsUploadedByUser(Auth::user()->id);
 
-        $latestEventTicketsPurchased = Transaction::where([
-            ['user_id', '=', Auth::user()->id],
-            ['status', '=', 'success']
-        ])->get();
+        $latestEventTicketsPurchased = $this->transactionRepo->getLatestTicketPurchasedByUser(Auth::user()->id);
 
-        $noOfEventTicketsPurchased = Transaction::where([
-            ['user_id', '=', Auth::user()->id],
-            ['status', '=', 'success']
-        ])->count();
+        $noOfEventTicketsPurchased = $this->transactionRepo->getTotalTicketsPurchasedByUser(Auth::user()->id);
 
-        $profile = Auth::user()->profile;
+        $profile = $this->userRepo->getUserProfile();
+
         return view('users.profile.index', compact('eventsuploaded', 'noOfEventUploaded', 'noOfEventTicketsPurchased', 'latestEventTicketsPurchased', 'profile'));
     }
 
@@ -60,7 +63,7 @@ class ProfileController extends Controller
             $this->updateName($request);
             //update user profile
             $this->updateProfile($request);
-           //redirect the user back with flash seession success message
+            //redirect the user back with flash seession success message
             return back()->with('success', 'Profile updated successfully');
         }
         return back()->with('error', 'Something went wrong');
@@ -72,12 +75,7 @@ class ProfileController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
-        echo $id;
-        die;
-    }
-
+    
     public function updateName(Request $request)
     {
         Auth::user()->update([

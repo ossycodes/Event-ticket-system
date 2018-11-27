@@ -18,5 +18,8 @@ interface EventRepoInterface
 
     public function getTotalEvents();
 
+    public function getEventsUploadedByUser(int $id);
+
+    public function getTotalEventsUploadedByUser(int $id);
     
 }

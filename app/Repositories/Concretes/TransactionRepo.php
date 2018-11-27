@@ -17,4 +17,19 @@ class TransactionRepo implements TransactionRepoInterface
     {
         return Transaction::where('user_id', '=', $id)->orderBy('id', 'DESC')->get();
     }
+
+    public function getLatestTicketPurchasedByUser(int $id)
+    {
+        return Transaction::where([
+            ['user_id', '=', $id],
+            ['status', '=', 'success']
+        ])->get();
+    }
+
+    public function getTotalTicketsPurchasedByUser(int $id) {
+        return Transaction::where([
+            ['user_id', '=', $id],
+            ['status', '=', 'success']
+        ])->count();
+    }
 }

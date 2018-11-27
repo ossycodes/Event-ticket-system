@@ -7,4 +7,6 @@ interface UserRepoInterface
     public function getTotalUsers();
 
     public function getUser();
+
+    public function getUserProfile();
 }

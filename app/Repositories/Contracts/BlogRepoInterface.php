@@ -15,4 +15,8 @@ interface BlogRepoInterface
     public function getBlogComments(int $id);
 
     public function getBlogImage(int $id);
+
+    public function getImageForBlogPost(int $id);
+
+    public function getCommentsForBlogPostDescendingOrder();
 }

@@ -16,11 +16,20 @@ use Intervention\Image\Facades\Image;
 use App\Helper\checkAndUploadPostImage;
 use Illuminate\Database\QueryException;
 use App\Helper\checkAndUploadUpdatedPostImage;
+use App\Repositories\Contracts\BlogRepoInterface;
 
 
 class BlogsController extends Controller
 {
-    use checkAndUploadPostImage, checkAndUploadUpdatedPostImage;
+    use checkAndUploadPostImage;
+
+    protected $blogRepo;
+
+    public function __construct(BlogRepoInterface $blogRepo)
+    {
+        $this->blogRepo = $blogRepo;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -32,10 +41,7 @@ class BlogsController extends Controller
         //log event
         Log::info('Displayed a list of available posts in database for user with email:' . ' ' . Auth::user()->email . ' ' . 'to see');
         //fetch all posts from database
-        $posts = Blog::with(['postcomments' => function ($query) {
-            $query->orderBy('created_at', 'desc');
-        }])->get();
-        //dd($posts);
+        $posts = $this->blogRepo->getCommentsForBlogPostDescendingOrder();
         //return to the index page posts fetched
         return view('admin.posts.index', compact('posts'));
     }
@@ -93,17 +99,6 @@ class BlogsController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
@@ -111,11 +106,9 @@ class BlogsController extends Controller
      */
     public function edit($id)
     {   
-        //find or fail
-        $post = Blog::findOrFail($id);
-        $postImage = Blog::findOrFail($id)->blogimage;
-        $blogImage = Blogsimage::where('blog_id', '=', $id)->first();
-        //return view
+        $post = $this->blogRepo->getBlog($id);
+        $postImage = $this->blogRepo->getBlogImage($id);
+        $blogImage = $this->blogRepo->getImageForBlogPost($id);
         return view('admin.posts.edit', compact('post', 'postImage', 'blogImage'));
     }
 
@@ -167,7 +160,7 @@ class BlogsController extends Controller
     public function destroy($id)
     {
 
-        $i = Blogsimage::where('blog_id', $id)->first();
+        $i = $this->blogRepo->getImageForBlogPost($id);
         try {
             Cloudder::destroyImage($i->public_id);
             Cloudder::delete($i->public_id);

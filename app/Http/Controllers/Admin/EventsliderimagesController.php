@@ -7,12 +7,13 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Validator;
+use Facades\App\Repositories\Contracts\EventSliderRepoInterface;
 
 class EventsliderimagesController extends Controller
 {
     public function index() {
-        $noOfSliders = EventsliderImages::count();
-        $sliders = Eventsliderimages::orderBy('id', 'desc')->get();
+        $noOfSliders = EventSliderRepoInterface::getTotalSliders();
+        $sliders = EventSliderRepoInterface::getSlidersInDescendingOrder();
         return view('admin.eventsimagesliders.index', compact('sliders', 'noOfSliders'));
     }
 
@@ -22,7 +23,7 @@ class EventsliderimagesController extends Controller
 
     public function store(Request $request) {
         //check if the maximum number of sliders has been reached
-        if(Eventsliderimages::count() === 6) {
+        if(EventSliderRepoInterface::getTotalSliders() === 6) {
             return back()->with('error', 'Number of Imagesliders uploaded already at maximum (6)'); 
         }
 

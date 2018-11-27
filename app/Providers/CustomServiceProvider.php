@@ -74,5 +74,9 @@ class CustomServiceProvider extends ServiceProvider
             'App\Repositories\Contracts\NotificationRepoInterface',
             'App\Repositories\Concretes\NotificationRepo'
         );
+        $this->app->bind(
+            'App\Repositories\Contracts\EventSliderRepoInterface',
+            'App\Repositories\Concretes\EventSliderRepo'
+        );
     }
 }

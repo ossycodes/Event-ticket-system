@@ -33,4 +33,8 @@ class TransactionRepo implements TransactionRepoInterface
             ['status', '=', 'success']
         ])->count();
     }
+
+    public function getUsersTransactions() {
+        return Transaction::with('user')->get();
+    }
 }

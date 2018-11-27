@@ -11,4 +11,6 @@ interface TransactionRepoInterface
     public function getLatestTicketPurchasedByUser(int $id);
 
     public function getTotalTicketsPurchasedByUser(int $id);
+
+    public function getUsersTransactions();
 }

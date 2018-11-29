@@ -69,11 +69,15 @@ Route::group(['prefix' => 'system-admin', 'as' => 'system-admin.', 'middleware' 
     Route::resource('admin/categories', 'Admin\CategoryController', ['except' => 'show']);
     Route::resource('admin/events', 'Admin\EventsController', ['except' => 'show']);
     Route::resource('admin/posts', 'Admin\BlogsController', ['except' => 'show']);
-    Route::resource('admin/users', 'Admin\UsersController');
-    Route::resource('admin/subscribers', 'Admin\NewslettersController');
     Route::resource('admin/messages', 'Admin\ContactsController', ['only' => ['index', 'destroy']]);
-    Route::resource('admin/profile', 'Admin\ProfileController');
-    Route::resource('admin/notification', 'Admin\notificationController');
+
+    Route::resources([
+        'admin/users' => 'Admin\UsersController',
+        'admin/subscribers' => 'Admin\NewslettersController',
+        'admin/profile' => 'Admin\ProfileController',
+        'admin/notification' => 'Admin\notificationController'
+    ]);
+
     Route::get('system-admin/admin/delete-notification', 'Admin\NotificationController@deleteNotification')->name('admin.delete-notification');
     Route::get('system-admin/admin/view-notifications', 'Admin\NotificationController@viewNotifications')->name('admin.view-notifications');
 
@@ -110,8 +114,10 @@ Route::group(['prefix' => 'system-admin', 'as' => 'system-admin.', 'middleware' 
 
 //User's Routes
 Route::group(['prefix' => 'user', 'as' => 'user.', 'middleware' => ['isUser', 'auth', 'can:is-User']], function(){
-     Route::resource('profile', 'user\ProfileController');
-     Route::resource('events', 'user\EventsController');
+     Route::resources([
+        'profile' => 'user\ProfileController',
+        'events' => 'user\EventsController'
+     ]);
 });
 
 //User's Routes

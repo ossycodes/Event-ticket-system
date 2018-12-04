@@ -1,5 +1,5 @@
 @component('mail::message')
-# Dear {{ $data->name }}
+# Dear {{ $data }}
 
 Thanks For your feedback, we would get back to you shortly.
 

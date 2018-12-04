@@ -17,7 +17,8 @@ class ContactusMail extends Mailable
      * @return void
      */
     public $data;
-    public function __construct($data)
+    
+    public function __construct(Array $data)
     {
         $this->data = $data;
     }

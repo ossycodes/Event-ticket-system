@@ -41,7 +41,7 @@ class ContactsController extends Controller
             Log::error($e->getMessage());
             return back()->with('error', 'Something went wrong');
         }
-        $this->dispatch(new SendContactUsMailJob($request->all()));
+        dispatch(new SendContactUsMailJob($request->all()));
         return back()->with('success', 'Message Sent Successfully');
 
     }

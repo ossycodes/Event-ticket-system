@@ -7,8 +7,8 @@ use App\Category;
 use App\Background;
 use Illuminate\Http\Request;
 use Intervention\Image\Facades\Image;
-use App\Repositories\Contracts\CategoryRepoInterface;
 use App\Repositories\Contracts\EventRepoInterface;
+use App\Repositories\Contracts\CategoryRepoInterface;
 
 
 class IndexController extends Controller
@@ -30,7 +30,7 @@ class IndexController extends Controller
         $allCategories = $this->categoryRepo->getAllCategories();
         $noofeventsimages = $this->eventRepo->getPaginatedEvents(6);
         $events = $this->eventRepo->getPaginatedActiveEvents(3);
-        $backgroundInfo = Background::all();
+       
         return view('index', compact('events', 'backgroundInfo', 'noofeventsimages', 'allCategories'));
     }
 

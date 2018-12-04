@@ -4,6 +4,7 @@ namespace App\Repositories\Concretes;
 
 use App\Event;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use App\Repositories\Contracts\EventRepoInterface;
 use App\Repositories\Contracts\EventCommentRepoInterface;
 
@@ -17,12 +18,21 @@ class EventRepo implements EventRepoInterface
 
     public function getPaginatedEvents(int $amount)
     {
-        return Event::paginate($amount);
+        $result = Cache::remember('paginated_events_cache', 1440, function () use($amount) {
+            return Event::paginate($amount);
+        });
+
+        return $result;
+        
     }
 
     public function getPaginatedActiveEvents(int $amount)
     {
-        return Event::where('status', '=', 1)->orderBy('id', 'DESC')->paginate($amount);
+        $result = Cache::remember('paginated_active_events_cache', 1440, function () use($amount) {
+            return Event::where('status', '=', 1)->orderBy('id', 'DESC')->paginate($amount);
+        });
+
+        return $result;
     }
 
     public function getEvent(int $id)

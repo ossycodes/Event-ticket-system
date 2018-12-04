@@ -2,15 +2,21 @@
 
 namespace App\Repositories\Concretes;
 
-use App\Repositories\Contracts\CategoryRepoInterface;
 use App\Category;
+use Illuminate\Support\Facades\Cache;
+use App\Repositories\Contracts\CategoryRepoInterface;
 
 class CategoryRepo implements CategoryRepoInterface
 {
 
     public function getAllCategories()
     {
-        return Category::all();
+        $result = Cache::remember('all_categories_cache', 1440, function () {
+            return Category::all();
+        });
+
+        return $result;
+        
     }
 
     public function getTotalCategories()

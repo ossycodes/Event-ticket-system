@@ -158,9 +158,8 @@ class PaymentController extends Controller
 
     public function setKey()
     {
-        //Todo use config to fetch the key
         $key = config('paystack.paystack_secret_key');
-        return $key[0];
+        return $key;
     }
 
 }

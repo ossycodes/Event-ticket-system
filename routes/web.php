@@ -2,6 +2,7 @@
 use App\Newsletter;
 use Intervention\Image\Image;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Notification;
 
 
@@ -138,7 +139,6 @@ Route::group(['middleware' => 'auth'], function() {
     Route::post('/makepayment', 'PaymentController@redirectToProvider');
     Route::get('/payment/callback', 'PaymentController@handleGatewayCallback');    
 });
-
 
 
 

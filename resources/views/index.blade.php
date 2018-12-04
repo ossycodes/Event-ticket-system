@@ -16,9 +16,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				
 			@include('layouts.frontLayout.front_mainheader')
 			
-			<!--@foreach($backgroundInfo as $info)	
+			{{-- <!--@foreach($backgroundInfo as $info)	
 				@include('layouts.frontLayout.front_header')
-			@endforeach-->
+			@endforeach--> --}}
 		
 				<div class="review-slider">
 					

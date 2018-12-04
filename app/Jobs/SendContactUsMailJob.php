@@ -22,7 +22,7 @@ class SendContactUsMailJob implements ShouldQueue
      */
     protected $data;
 
-    public function __construct(Array $request)
+    public function __construct($request)
     {
         $this->data = $request;
     }

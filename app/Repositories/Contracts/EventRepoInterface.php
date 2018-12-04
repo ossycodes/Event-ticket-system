@@ -27,5 +27,7 @@ interface EventRepoInterface
     public function getLatestUploadedEvent();
 
     public function getEventsWithTickets();
+
+    public function getPaginatedActiveEventsWithTickets(int $amount);
     
 }

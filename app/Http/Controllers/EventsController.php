@@ -37,7 +37,7 @@ class EventsController extends Controller
 		$allBlogPosts1 = $this->blogRepo->getPaginatedBlogPosts(6);
 		$allCategories = $this->categoryRepo->getAllCategories();
 		$noofevents = $this->eventRepo->getAllEvents();
-		$events = $this->eventRepo->getPaginatedActiveEvents(3);
+		$events = $this->eventRepo->getPaginatedActiveEventsWithTickets(3);
 		return view('events.events')->with(compact('events', 'noofevents', 'allCategories', 'allBlogPosts1'));
 	}
 

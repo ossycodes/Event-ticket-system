@@ -85,5 +85,14 @@ class EventRepo implements EventRepoInterface
     {
         return Event::with('tickets')->get();
     }
+
+    public function getPaginatedActiveEventsWithTickets(int $amount)
+    {
+        $result = Cache::remember('paginated_active_events_with_tickets_cache', 1440, function () use($amount) {
+            return Event::with('tickets')->where('status', '=', 1)->orderBy('id', 'DESC')->paginate($amount);
+        });
+        
+        return $result;
+    }
     
 }

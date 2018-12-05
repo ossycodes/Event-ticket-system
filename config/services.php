@@ -41,4 +41,16 @@ return [
         'sms_from' => env('NEXMO_FROM'),
     ],
 
+    'facebook' => [
+        'client_id' => env('FACEBOOK_ID'),
+        'client_secret' => env('FACEBOOK_SECRET'),
+        'redirect' => env('FACEBOOK_REDIRECT')
+    ],
+
+    'google' => [
+        'client_id' => env('GOOGLE_CLIENT_ID'),         
+        'client_secret' => env('GOOGLE_CLIENT_SECRET'),
+        'redirect' => 'http://localhost:8000/login/google/callback',
+    ],
+
 ];

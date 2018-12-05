@@ -117,11 +117,11 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-            //log event
+        //log event
         Log::info('category with Id number: ' . ' ' . $id . ' ' . 'just got deleted by User with email:' . Auth::user()->email . ' ' . 'and name:' . Auth::user()->name);
-            //delete category by id
+        //delete category by id
         Category::destroy($id);
-            //return back to category index page
+        //return back to category index page
         return redirect()->route('system-admin.categories.index')->with('success', 'Category deleted successfully');
 
     }

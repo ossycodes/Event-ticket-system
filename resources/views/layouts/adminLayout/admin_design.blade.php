@@ -382,12 +382,18 @@
                   <p>View Profile</p>
                 </a>
               </li>
+
+              <!-- If the user logged in via facebook hide this button -->
+              @if(Auth::user()->password !== '')
               <li class="nav-item">
                 <a href="{{ route('user.password') }}" class="nav-link">
                   <i class="fa fa-circle-o nav-icon"></i>
                   <p>Change Password</p>
                 </a>
               </li>
+              @endif
+              <!-- ends here-->
+
               <li class="nav-item">
                 <a href="{{ url('user/delete-account/'.Auth::user()->id) }}" class="nav-link">
                   <i class="fa fa-circle-o nav-icon"></i>

@@ -15,14 +15,14 @@ use Illuminate\Support\Facades\Notification;
 | routes are loaded by the RouteServiceProvider within a group which
 | contains the "web" middleware group. Now create something great!
 |
-*/
+ */
 
 //route to send mail
 Route::get('/sendmail', 'ContactsController@sendMail');
 
 //about us page route
-Route::get('aboutus', function(){
- return view('aboutus');
+Route::get('aboutus', function () {
+    return view('aboutus');
 })->name('aboutus');
 
 
@@ -55,7 +55,7 @@ Route::get('/home', 'HomeController')->name('home');
 
 
 //Event routes
-Route::group(['prefix' => 'events'], function() {
+Route::group(['prefix' => 'events'], function () {
 
     Route::get('', 'EventsController@index')->name('events');
     //Route for single page events
@@ -64,7 +64,7 @@ Route::group(['prefix' => 'events'], function() {
 });
 
 //Admin Routes
-Route::group(['prefix' => 'system-admin', 'as' => 'system-admin.', 'middleware' => ['auth', 'isAdmin', 'can:is-Admin']], function() {
+Route::group(['prefix' => 'system-admin', 'as' => 'system-admin.', 'middleware' => ['auth', 'isAdmin', 'can:is-Admin']], function () {
 
     //Resourceful routes
     Route::resource('admin/categories', 'Admin\CategoryController', ['except' => 'show']);
@@ -87,8 +87,8 @@ Route::group(['prefix' => 'system-admin', 'as' => 'system-admin.', 'middleware' 
     Route::post('admin/update-password', 'Admin\PasswordController@update');
     
     //to-do
-    Route::get('admin/compose-mail', function() {
-            return view('admin.subscribers.composemail');
+    Route::get('admin/compose-mail', function () {
+        return view('admin.subscribers.composemail');
     });
 
     //activate and de-activate event's routes
@@ -114,19 +114,19 @@ Route::group(['prefix' => 'system-admin', 'as' => 'system-admin.', 'middleware' 
 });
 
 //User's Routes
-Route::group(['prefix' => 'user', 'as' => 'user.', 'middleware' => ['isUser', 'auth', 'can:is-User']], function(){
-     Route::resources([
+Route::group(['prefix' => 'user', 'as' => 'user.', 'middleware' => ['isUser', 'auth', 'can:is-User']], function () {
+    Route::resources([
         'profile' => 'user\ProfileController',
         'events' => 'user\EventsController'
-     ]);
+    ]);
 });
 
 //User's Routes
-Route::group(['middleware' => ['isUser', 'auth', 'can:is-User']], function() {
-     Route::get('change-password', 'user\PasswordController@index')->name('user.password');
-     Route::post('change-password', 'user\PasswordController@update')->name('user.password.update');
-     Route::get('user/delete-account/{id}', 'user\ProfileController@deleteAccount')->name('user.account.delete');
-     Route::get('user/read-notification', function(){
+Route::group(['middleware' => ['isUser', 'auth', 'can:is-User']], function () {
+    Route::get('change-password', 'user\PasswordController@index')->name('user.password');
+    Route::post('change-password', 'user\PasswordController@update')->name('user.password.update');
+    Route::get('user/delete-account/{id}', 'user\ProfileController@deleteAccount')->name('user.account.delete');
+    Route::get('user/read-notification', function () {
         Auth::user()->unreadNotifications->markAsRead();
         return back();
     });
@@ -134,12 +134,14 @@ Route::group(['middleware' => ['isUser', 'auth', 'can:is-User']], function() {
 });
 
 
-Route::group(['middleware' => 'auth'], function() {
+Route::group(['middleware' => 'auth'], function () {
     //paymentcontroller routes
     Route::post('/makepayment', 'PaymentController@redirectToProvider');
-    Route::get('/payment/callback', 'PaymentController@handleGatewayCallback');    
+    Route::get('/payment/callback', 'PaymentController@handleGatewayCallback');
 });
 
+Route::get('login/{provider}', 'Auth\SocialaccountController@redirectToProvider');
+Route::get('login/{provider}/callback', 'Auth\SocialaccountController@handleProviderCallback');
 
 
 

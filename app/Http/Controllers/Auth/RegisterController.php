@@ -92,10 +92,18 @@ class RegisterController extends Controller
             'location' => '',
         ]);
         
-        Session(['clue', $user->email]);
-        User::where('email', $user->email)->update([
-            'online' => '1',
-        ]);
+        if(!Session::has('clue')) {
+            User::where('email', $user->email)->update([
+                'online' => '1',
+            ]);
+            $request->session()->get('clue');
+        } else {
+            Session(['clue', $user->email]);
+            User::where('email', $user->email)->update([
+                'online' => '1',
+            ]);
+        }
+    
     }
 
     public function sendRegisteredUserMail($user) {

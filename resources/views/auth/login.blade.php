@@ -64,6 +64,20 @@
                         </div>
                     </form>
                 </div>
+
+                <div class="panel-footer">
+                    <a href="{{ url('login/facebook') }}" class="btn btn-social btn-facebook">
+                      <i class="fa fa-facebook"></i>
+                      Login with Facebook
+                    </a>
+                    <a href="{{ url('login/google') }}" class="btn btn-social btn-facebook">
+                        <i class="fa fa-google"></i>
+                        Login with Google
+                      </a>
+                </div>
+
+                
+
             </div>
         </div>
     </div>

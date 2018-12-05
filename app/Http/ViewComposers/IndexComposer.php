@@ -4,21 +4,23 @@ namespace App\Http\ViewComposers;
 
 use Illuminate\View\View;
 use App\Eventsliderimages;
+use Illuminate\Support\Facades\Cache;
+use App\Repositories\Concretes\EventSliderRepo;
 
 class IndexComposer
 
 {
 
-    protected $eventImages;
+    protected $eventRepo;
 
-    public function __construct(Eventsliderimages $eventImages)
+    public function __construct(EventSliderRepo $eventRepo)
     {
-        $this->eventImages = $eventImages;
+        $this->eventRepo = $eventRepo;
     }
 
     public function compose(View $view)
     {
-        $eventImages = $this->eventImages::select('slider_imagename')->paginate(6);
+        $eventImages = $this->eventRepo->getEventImageSliders(6);
         $view->with('eventSliderImages', $eventImages);
     }
 }

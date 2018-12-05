@@ -12,11 +12,10 @@ class User extends Authenticatable
 
     public function routeNotificationForNexmo()
     {
-        //should return $this->phone
-        return '2349023802591';
+        return $this->phone;
     }
     /**
-     * The attributes that are mass assignable.
+     * The attributes that are mass assignable
      *
      * @var array
      */

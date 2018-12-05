@@ -54,7 +54,7 @@ class notificationController extends Controller
             'message' => 'required',
         ], $msg)->validate();
 
-        $users = $this->userRepo->getAllUsersPlusAdmin();
+        $users = $this->userRepo->getUser();
         Notification::send($users, new generalNotification($request->message, $users));
         return back()->with('success', 'Notification has been sent');
     }

@@ -17,9 +17,8 @@ class SocialaccountController extends Controller
         return Socialite::driver($provider)->redirect();
     }
     public function handleProviderCallback($provider)
-    
+
     {
-        
         try {
             $user = Socialite::driver($provider)->stateless()->user();
         } catch (\Exception $e) {
@@ -66,12 +65,13 @@ class SocialaccountController extends Controller
             'skills' => '',
             'location' => '',
         ]);
-        
-        $this->putUserOnline($user);       
+
+        $this->putUserOnline($user);
     }
 
-    public function putUserOnline($user) {
-        if(!Session::has('clue')) {
+    public function putUserOnline($user)
+    {
+        if (!Session::has('clue')) {
             User::where('email', $user->email)->update([
                 'online' => '1',
             ]);

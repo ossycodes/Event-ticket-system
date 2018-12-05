@@ -72,18 +72,15 @@
                     </form>
                 </div>
 
-                {{-- <div class="panel-footer">
+                <div class="panel-footer">
                     <a href="{{ url('login/facebook') }}" class="btn btn-social btn-facebook">
                       <i class="fa fa-facebook"></i>
                       Sign Up with Facebook
                     </a>
-                </div> --}}
-
-                <div class="panel-footer">
                     <a href="{{ url('login/google') }}" class="btn btn-social btn-facebook">
-                      <i class="fa fa-google"></i>
-                      Sign Up with Google
-                    </a>
+                        <i class="fa fa-google"></i>
+                        Sign Up with Google
+                      </a>
                 </div>
 
             </div>

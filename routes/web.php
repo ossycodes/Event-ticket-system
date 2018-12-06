@@ -140,9 +140,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/payment/callback', 'PaymentController@handleGatewayCallback');
 });
 
+//Socialite auth routes
 Route::get('login/{provider}', 'Auth\SocialaccountController@redirectToProvider');
 Route::get('login/{provider}/callback', 'Auth\SocialaccountController@handleProviderCallback');
 
-
+//search event route
+Route::get('search/events', 'SearchController')->name('search.events');
 
 

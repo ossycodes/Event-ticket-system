@@ -3,11 +3,14 @@
 namespace App;
 
 use App\Ticket;
+use Laravel\Scout\Searchable;
 use Illuminate\Database\Eloquent\Model;
 
 
 class Event extends Model
 {
+    use Searchable;
+    
     protected $path = 'images/frontend_images/events/';
 
     protected $guarded = [];
@@ -28,21 +31,6 @@ class Event extends Model
     {
         return $this->hasMany(Ticket::class);
     }
-
-    //defines an Accessors that automatically concatenates
-    //the image path to the nam eof the image from the database
-    // public function getImageAttribute($image){
-    //     return $this->path.$image;
-    // }
-
-    /*
-    A mutator that does something similar to the accessor above
-    public function setImageAttribute($image){
-        if(!empty($image)){
-            $this->attributes['image'] = 'images/frontend_images/events/'.($image);
-        }
-    }
-     */
 
     public function user()
     {

@@ -41,8 +41,10 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 							<h3>Don’t be late,</h3>
 							<h2>Book your ticket now!</h2>
 							<h4>Easy, simple & fast.</h4>
+							<a href="{{ route('search.events') }}"><i class="eye"></i>SEARCH FOR EVENTS</a>
+							<br><br><br>
 							<a href="{{ url('events') }}"><i class="book"></i>BOOK TICKET</a>
-							<!--<p>Get Discount up to <strong>10%</strong> if you are a member!</p>-->
+						
 
 								<div class="contact-form">
 					

@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Event;
 use Illuminate\Http\Request;
-use App\Repositories\Contracts\BlogRepoInterface;
-use App\Repositories\Contracts\EventRepoInterface;
+
+use App\Repositories\Contracts\{
+    BlogRepoInterface, 
+    EventRepoInterface
+}; //php7 grouping use statements
 
 class SearchController extends Controller
 {
@@ -22,7 +25,7 @@ class SearchController extends Controller
         if ($request->has('q') && is_string($request->query('q'))) {
             $request->flashOnly('q');
             $allBlogPosts1 = $this->blogRepo->getPaginatedBlogPosts(6);
-            $events = Event::search($request->q)->paginate(6);
+            $events = $this->eventRepo->searchEvent($request->q, 6);
         } else {
             $events = [];
         }

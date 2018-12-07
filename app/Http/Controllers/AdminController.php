@@ -3,12 +3,17 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\User;
-use App\Event;
-use App\Category;
-use App\Repositories\Contracts\UserRepoInterface;
-use App\Repositories\Contracts\EventRepoInterface;
-use App\Repositories\Contracts\CategoryRepoInterface;
+use App\{
+    User,
+    Event,
+    Category
+}; //php7 grouping use statements
+
+use App\Repositories\Contracts\{
+    UserRepoInterface,
+    EventRepoInterface,
+    CategoryRepoInterface
+}; //php7 grouping use statements
 
 class AdminController extends Controller
 {

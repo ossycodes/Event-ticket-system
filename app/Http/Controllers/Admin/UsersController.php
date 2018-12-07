@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\User;
-use App\Repositories\Contracts\UserRepoInterface;
+
+use App \{
+    User,
+        Http\Controllers\Controller,
+        Repositories\Contracts\UserRepoInterface
+}; //php7 grouping use statements
 
 class UsersController extends Controller
 {

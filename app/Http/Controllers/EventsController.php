@@ -2,18 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use App\Blog;
-use App\Event;
-use App\Ticket;
-use App\Category;
-use App\Blogsimage;
-use App\Eventscomment;
 use Illuminate\Http\Request;
-use App\Repositories\Contracts\CategoryRepoInterface;
-use App\Repositories\Contracts\EventRepoInterface;
-use App\Repositories\Contracts\BlogRepoInterface;
-use App\Repositories\Contracts\TicketRepoInterface;
-use Facades\App\Repositories\Contracts\EventCommentRepoInterface;
+
+use App \{
+		Blog,
+		Event,
+		Ticket,
+		Category,
+		Blogsimage,
+		Eventscomment
+}; //php7 grouping use statements
+
+use App\Repositories\Contracts \{
+	CategoryRepoInterface,
+		EventRepoInterface,
+		BlogRepoInterface,
+		TicketRepoInterface,
+		EventCommentRepoInterface
+}; //php7 grouping use statements
 
 class EventsController extends Controller
 {
@@ -44,21 +50,21 @@ class EventsController extends Controller
 	public function show($id)
 	{
 
-			$allCategories = $this->categoryRepo->getAllCategories();
-			$allBlogPosts = $this->blogRepo->getAllBlogPosts();
-			$noofevents = $this->eventRepo->getAllEvents();
-			$noOfTickets = $this->ticketRepo->totalTicketsForEvent($id);
-			$tickets = $this->ticketRepo->getTicketsForEvent($id);
-			$eventcomments = $this->eventRepo->getEventWithComments($id);
-			$noComments = EventCommentRepoInterface::totalNumberOfComments($id, 1);
-			$eventsimage = $this->eventRepo->getPaginatedEvents(6);
-			$noofevents = $this->eventRepo->getAllEvents();
-			$events = $this->eventRepo->getPaginatedEventsDescendingOrder(6);
-			$eventDetails = $this->eventRepo->getEvent($id);
-			
-			return view('events.single', compact('noComments', 'events', 'noofevents', 'eventsimage', 'eventDetails', 'eventcomments', 'allBlogPosts', 'allCategories', 'eventTickets', 'tickets', 'noOfTickets'));
+		$allCategories = $this->categoryRepo->getAllCategories();
+		$allBlogPosts = $this->blogRepo->getAllBlogPosts();
+		$noofevents = $this->eventRepo->getAllEvents();
+		$noOfTickets = $this->ticketRepo->totalTicketsForEvent($id);
+		$tickets = $this->ticketRepo->getTicketsForEvent($id);
+		$eventcomments = $this->eventRepo->getEventWithComments($id);
+		$noComments = EventCommentRepoInterface::totalNumberOfComments($id, 1);
+		$eventsimage = $this->eventRepo->getPaginatedEvents(6);
+		$noofevents = $this->eventRepo->getAllEvents();
+		$events = $this->eventRepo->getPaginatedEventsDescendingOrder(6);
+		$eventDetails = $this->eventRepo->getEvent($id);
 
-		
+		return view('events.single', compact('noComments', 'events', 'noofevents', 'eventsimage', 'eventDetails', 'eventcomments', 'allBlogPosts', 'allCategories', 'eventTickets', 'tickets', 'noOfTickets'));
+
+
 	}
 
 }

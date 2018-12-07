@@ -2,14 +2,20 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\Database\QueryException;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
-use App\Http\Controllers\Controller;
-use App\Category;
 use Validator;
 use Auth;
-use App\Repositories\Contracts\CategoryRepoInterface;
+
+use Illuminate \{
+    Database\QueryException,
+        Http\Request,
+        Support\Facades\Log
+}; //php7 grouping use statements
+
+use App \{
+    Category,
+        Http\Controllers\Controller,
+        Repositories\Contracts\CategoryRepoInterface
+}; //php7 grouping use statements
 
 class CategoryController extends Controller
 {

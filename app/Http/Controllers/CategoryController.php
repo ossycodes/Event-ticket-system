@@ -2,13 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Blog;
-use App\Event;
-use App\Category;
 use Illuminate\Http\Request;
-use App\Repositories\Contracts\EventRepoInterface;
-use App\Repositories\Contracts\BlogRepoInterface;
-use App\Repositories\Contracts\CategoryRepoInterface;
+
+use App \{
+        Blog,
+        Event,
+        Category
+}; //php7 grouping use statements
+
+use App\Repositories\Contracts \{
+    EventRepoInterface,
+        BlogRepoInterface,
+        CategoryRepoInterface
+}; //php7 grouping use statements
 
 class CategoryController extends Controller
 {

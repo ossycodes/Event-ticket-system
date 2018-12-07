@@ -2,18 +2,27 @@
 
 namespace App\Http\Controllers\User;
 
-use App\User;
-use App\Event;
-use App\Profile;
-use App\Transaction;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use App\Http\Controllers\Controller;
-use App\Http\Requests\updateProfile;
-use Illuminate\Support\Facades\Auth;
-use App\Repositories\Contracts\EventRepoInterface;
-use App\Repositories\Contracts\TransactionRepoInterface;
-use App\Repositories\Contracts\UserRepoInterface;
+
+use App \{
+    User,
+        Event,
+        Profile,
+        Transaction,
+        Http\Controllers\Controller,
+        Http\Requests\updateProfile
+}; //php7 grouping use statements
+
+use Illuminate\Support\Facades \{
+    DB,
+        Auth
+}; //php7 grouping use statements
+
+use App\Repositories\Contracts \{
+    EventRepoInterface,
+        TransactionRepoInterface,
+        UserRepoInterface
+}; //php7 grouping use statements
 
 class ProfileController extends Controller
 {

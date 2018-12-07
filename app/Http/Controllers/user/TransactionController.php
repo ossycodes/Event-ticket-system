@@ -2,10 +2,16 @@
 
 namespace App\Http\Controllers\user;
 
-use App\Transaction;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
+use App \{
+    Transaction,
+        Http\Controllers\Controller
+}; //php7 grouping use statements
+
+use Illuminate \{
+    Http\Request,
+        Support\Facades\Auth
+}; //php7 grouping use statements
+
 //Real-time facade
 use Facades\App\Repositories\Contracts\TransactionRepoInterface;
 

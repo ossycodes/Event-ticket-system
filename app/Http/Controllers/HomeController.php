@@ -2,20 +2,27 @@
 
 namespace App\Http\Controllers;
 
-use App\Blog;
-use App\User;
-use App\Event;
-use App\Contact;
-use App\Category;
-use App\Newsletter;
-use App\Transaction;
 use Illuminate\Http\Request;
-use App\Repositories\Contracts\BlogRepoInterface;
-use App\Repositories\Contracts\EventRepoInterface;
-use Facades\App\Repositories\Contracts\ContactRepoInterface;
-use App\Repositories\Contracts\CategoryRepoInterface;
-use App\Repositories\Contracts\TransactionRepoInterface;
-use App\Repositories\Contracts\UserRepoInterface;
+
+use App \{
+        Blog,
+        User,
+        Event,
+        Contact,
+        Category,
+        Newsletter,
+        Transaction
+}; //php7 grouping use statements
+
+use App\Repositories\Contracts \{
+        BlogRepoInterface,
+        EventRepoInterface,
+        ContactRepoInterface,
+        TransactionRepoInterface,
+        UserRepoInterface
+}; //php7 grouping use statements
+
+//Real-time facade
 use Facades\App\Repositories\Contracts\NewsletterRepoInterface;
 
 
@@ -26,7 +33,7 @@ class HomeController extends Controller
     protected $eventRepo;
     protected $transactionRepo;
     protected $userRepo;
-    
+
     /**
      * Create a new controller instance.
      *
@@ -60,7 +67,7 @@ class HomeController extends Controller
         //Real-time facades, allows me access methods on this object as though they were static methods
         $noOfSubscribers = NewsletterRepoInterface::getTotalSubscribers();
         $noOfContactusMessages = ContactRepoInterface::getTotalContacts();
-        
+
         return view('home', compact('noOfEvents', 'noOfPosts', 'noOfUsers', 'noOfSubscribers', 'noOfContactusMessages', 'noOfCategories', 'noOfTransactions'));
     }
 }

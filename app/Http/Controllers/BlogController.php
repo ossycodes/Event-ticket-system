@@ -3,9 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Blog;
-use App\Event;
-use App\Postscomment;
+
+use App\{
+    Blog, 
+    Event,
+    Postscomment
+}; //php7 grouping use statements
+
 use App\Repositories\Contracts\BlogRepoInterface;
 
 class BlogController extends Controller

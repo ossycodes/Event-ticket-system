@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Event;
-
 use validator;
 use Illuminate\Http\Request;
 

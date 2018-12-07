@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Contact;
+use App \{
+    Contact,
+        Http\Controllers\Controller,
+        Repositories\Contracts\ContactRepoInterface
+}; //php7 grouping use statements
+
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Repositories\Contracts\ContactRepoInterface;
 
 class ContactsController extends Controller
 {

@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers\User;
 
+use Validator;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
-use Validator;
+
+use Illuminate\Support\Facades \{
+    Hash,
+        Auth,
+        Log
+}; //php7 grouping use statements
+
 
 class PasswordController extends Controller
 {

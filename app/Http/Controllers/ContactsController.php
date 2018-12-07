@@ -2,22 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use App\Error;
-
 use Validator;
-use App\Contact;
-
-use App\Category;
-use App\Mail\ContactusMail;
 use Illuminate\Http\Request;
-use App\Jobs\SendContactUsMailJob;
 
+use App \{
+        Contact,
+        Category,
+        Mail\ContactusMail,
+        Jobs\SendContactUsMailJob,
+        Http\Requests\ContactusRequest,
+        Repositories\Contracts\CategoryRepoInterface
+}; //php7 grouping use statements
 
-use App\JSONResponse\JSONResponse;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Mail;
-use App\Http\Requests\ContactusRequest;
-use App\Repositories\Contracts\CategoryRepoInterface;
+use Illuminate\Support\Facades \{
+        Log,
+        Mail
+}; //php7 grouping use statements
+
 
 class ContactsController extends Controller
 {

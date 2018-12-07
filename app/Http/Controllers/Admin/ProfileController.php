@@ -3,24 +3,36 @@
 namespace App\Http\Controllers\Admin;
 
 use Auth;
-use App\User;
-use App\Event;
-use App\Contact;
-use App\Profile;
-use App\Newsletter;
-use App\Postscomment;
-use App\Eventscomment;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
-use App\Http\Controllers\Controller;
-use App\Repositories\Contracts\UserRepoInterface;
-use App\Repositories\Contracts\EventRepoInterface;
 
-//Real-Time Facade
-use Facades\App\Repositories\Contracts\PostCommentInterface;
-use Facades\App\Repositories\Contracts\ContactRepoInterface;
-use Facades\App\Repositories\Contracts\NewsletterRepoInterface;
-use Facades\App\Repositories\Contracts\EventCommentRepoInterface;
+use App \{
+    User,
+        Event,
+        Contact,
+        Profile,
+        Newsletter,
+        Postscomment,
+        Eventscomment,
+        Http\Controllers\Controller
+}; //php7 grouping use statements
+
+use Illuminate \{
+    Http\Request,
+        Support\Facades\Log
+}; //php7 grouping use statements
+
+use App\Repositories\Contracts \{
+    UserRepoInterface,
+        EventRepoInterface
+}; //php7 grouping use statements
+
+//Real-Time Facades
+use Facades\App\Repositories\Contracts \{
+    PostCommentInterface,
+        ContactRepoInterface,
+        NewsletterRepoInterface,
+        EventCommentRepoInterface
+}; //php7 grouping use statements
+
 
 class ProfileController extends Controller
 {

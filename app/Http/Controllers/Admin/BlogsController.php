@@ -3,20 +3,26 @@
 namespace App\Http\Controllers\Admin;
 
 use Auth;
-use App\Blog;
 use Validator;
-use App\Blogsimage;
-use Illuminate\Http\Request;
-use App\Http\Requests\StorePost;
+
+use App \{
+    Blog,
+        Blogsimage,
+        Http\Requests\StorePost,
+        Http\Controllers\Controller,
+        Helper\checkAndUploadPostImage,
+        Repositories\Contracts\BlogRepoInterface
+}; //php7 grouping use statements
+
+use Illuminate \{
+    Http\Request,
+        Support\Facades\Input,
+        Database\QueryException,
+        Support\Facades\Log
+}; //php7 grouping use statements
+
 use JD\Cloudder\Facades\Cloudder;
-use Illuminate\Support\Facades\Log;
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Input;
 use Intervention\Image\Facades\Image;
-use App\Helper\checkAndUploadPostImage;
-use Illuminate\Database\QueryException;
-use App\Helper\checkAndUploadUpdatedPostImage;
-use App\Repositories\Contracts\BlogRepoInterface;
 
 
 class BlogsController extends Controller
@@ -105,7 +111,7 @@ class BlogsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
-    {   
+    {
         $post = $this->blogRepo->getBlog($id);
         $postImage = $this->blogRepo->getBlogImage($id);
         $blogImage = $this->blogRepo->getImageForBlogPost($id);

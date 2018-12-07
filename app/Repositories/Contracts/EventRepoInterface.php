@@ -29,5 +29,7 @@ interface EventRepoInterface
     public function getEventsWithTickets();
 
     public function getPaginatedActiveEventsWithTickets(int $amount);
+
+    public function searchEvent(string $param, int $amount);
     
 }

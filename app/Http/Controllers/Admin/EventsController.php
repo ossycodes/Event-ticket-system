@@ -3,27 +3,38 @@
 namespace App\Http\Controllers\Admin;
 
 use Auth;
-use App\Event;
 use Validator;
-use App\Ticket;
-use App\Category;
-use App\Eventscomment;
-use Illuminate\Http\Request;
-use App\Http\Requests\StoreEvent;
-use Illuminate\Http\UploadedFile;
+
+use App \{
+    Event,
+        Ticket,
+        Category,
+        Eventscomment,
+        Helper\checkAndUploadImage,
+        Http\Controllers\Controller,
+        Http\Requests\StoreEvent
+}; //php7 grouping use statements
+
+use Illuminate \{
+    Http\Request,
+        Http\UploadedFile,
+        Support\Facades\Log,
+        Support\Facades\Input,
+        Database\QueryException,
+        Support\Facades\Storage
+}; //php7 grouping use statements
+
+use App\Repositories\Contracts \{
+    EventRepoInterface,
+        CategoryRepoInterface,
+        TicketRepoInterface,
+        EventCommentRepoInterface
+}; //php7 grouping use statements
+
 use JD\Cloudder\Facades\Cloudder;
-use App\Helper\checkAndUploadImage;
-use Illuminate\Support\Facades\Log;
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Input;
 use Intervention\Image\Facades\Image;
-use Illuminate\Database\QueryException;
-use Illuminate\Support\Facades\Storage;
 use PHPUnit\Framework\MockObject\Stub\Exception;
-use App\Repositories\Contracts\EventRepoInterface;
-use App\Repositories\Contracts\CategoryRepoInterface;
-use App\Repositories\Contracts\TicketRepoInterface;
-use App\Repositories\Contracts\EventCommentRepoInterface;
+
 
 class EventsController extends Controller
 {

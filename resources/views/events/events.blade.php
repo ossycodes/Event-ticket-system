@@ -1,10 +1,3 @@
-<!--
-Author: W3layouts
-Author URL: http://w3layouts.com
-License: Creative Commons Attribution 3.0 Unported
-License URL: http://creativecommons.org/licenses/by/3.0/
--->
-
 @extends('layouts.frontLayout.front_design')
 
 @section('content')
@@ -44,17 +37,6 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
 									<div class="clearfix"></div>
 
-									{{-- <form class="form-inline ml-3">
-										<div class="input-group input-group-sm">
-										  <input class="form-control form-control-navbar" type="search" placeholder="Event name" aria-label="Search">
-										  <div class="input-group-append">
-											<button class="btn btn-danger" type="submit">
-											  Search
-											</button>
-										  </div>
-										</div>
-									</form>  --}}
-							
 							</div>
 						
 							<div class="reviews-section">
@@ -82,15 +64,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 																					
 																					<a class="span" href="{{ url('/events/'.$event->id) }}">{{ $event->name }}</a>
 																					<br>
-
-																					<?php
-																						//me just testing the transform() helper method
-																						$res = transform(null, function($value){
-																							return $value * 2;
-																						}, 'gets return if value is returns null');
-																				
-																					?>
-																						
+																					
 																					<p class="">VENUE:&nbsp; {{ $event->venue ?? 'Venue was not provided' }} {{-- ?? php 7 null coalesce operator --}}</p>
 																					<p class="">DATE:&nbsp; {{ $event->date ?? 'No date was set' }} {{-- ?? php 7 null coalesce operator --}}</p>
 																					<p class="">TIME:&nbsp; {{ $event->time ?? 'No time was set' }} {{-- ?? php 7 null coalesce operator --}}</p>

@@ -2,13 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Event;
-use App\Category;
-use App\Background;
 use Illuminate\Http\Request;
 use Intervention\Image\Facades\Image;
-use App\Repositories\Contracts\EventRepoInterface;
-use App\Repositories\Contracts\CategoryRepoInterface;
+
+use App \{
+        Event,
+        Category,
+        Background
+};  //php7 grouping use statements
+
+use App\Repositories\Contracts \{
+        EventRepoInterface,
+        CategoryRepoInterface
+};  //php7 grouping use statements
+
 
 
 class IndexController extends Controller
@@ -30,7 +37,7 @@ class IndexController extends Controller
         $allCategories = $this->categoryRepo->getAllCategories();
         $noofeventsimages = $this->eventRepo->getPaginatedEvents(6);
         $events = $this->eventRepo->getPaginatedActiveEvents(3);
-       
+
         return view('index', compact('events', 'backgroundInfo', 'noofeventsimages', 'allCategories'));
     }
 

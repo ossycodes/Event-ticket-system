@@ -18,17 +18,17 @@ class EventRepo implements EventRepoInterface
 
     public function getPaginatedEvents(int $amount)
     {
-        $result = Cache::remember('paginated_events_cache', 1440, function () use($amount) {
+        $result = Cache::remember('paginated_events_cache', 1440, function () use ($amount) {
             return Event::paginate($amount);
         });
 
         return $result;
-        
+
     }
 
     public function getPaginatedActiveEvents(int $amount)
     {
-        $result = Cache::remember('paginated_active_events_cache', 1440, function () use($amount) {
+        $result = Cache::remember('paginated_active_events_cache', 1440, function () use ($amount) {
             return Event::where('status', '=', 1)->orderBy('id', 'DESC')->paginate($amount);
         });
 
@@ -88,11 +88,16 @@ class EventRepo implements EventRepoInterface
 
     public function getPaginatedActiveEventsWithTickets(int $amount)
     {
-        $result = Cache::remember('paginated_active_events_with_tickets_cache', 1440, function () use($amount) {
+        $result = Cache::remember('paginated_active_events_with_tickets_cache', 1440, function () use ($amount) {
             return Event::with('tickets')->where('status', '=', 1)->orderBy('id', 'DESC')->paginate($amount);
         });
-        
+
         return $result;
     }
-    
+
+    public function searchEvent(string $param, int $amount)
+    {
+        return Event::search($param)->paginate($amount);
+    }
+
 }

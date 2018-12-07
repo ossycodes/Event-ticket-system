@@ -2,25 +2,37 @@
 
 namespace App\Http\Controllers\user;
 
-use App\User;
-use App\Event;
 use Validator;
-use App\Ticket;
-use App\Category;
-use Illuminate\Http\Request;
-use App\Http\Requests\StoreEvent;
 use JD\Cloudder\Facades\Cloudder;
-use App\Helper\checkAndUploadImage;
-use Illuminate\Support\Facades\Log;
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Input;
-use Intervention\Image\Facades\Image;
-use Illuminate\Database\QueryException;
-use App\Helper\checkAndUploadUpdatedImage;
-use App\Repositories\Contracts\EventRepoInterface;
-use App\Repositories\Contracts\CategoryRepoInterface;
-use App\Repositories\Contracts\TicketRepoInterface;
+
+use App \{
+    User,
+        Event,
+        Ticket,
+        Category,
+        Helper\checkAndUploadImage,
+        Http\Controllers\Controller,
+        Http\Requests\StoreEvent
+}; //php7 grouping use statements
+
+use Illuminate \{
+    Http\Request,
+        Database\QueryException
+}; //php7 grouping use statements
+
+use Illuminate\Support\Facades \{
+    Auth,
+        Log,
+        Input,
+        Image
+}; //php7 grouping use statements
+
+
+use App\Repositories\Contracts \{
+    EventRepoInterface,
+        CategoryRepoInterface,
+        TicketRepoInterface
+}; //php7 grouping use statements
 
 
 class EventsController extends Controller

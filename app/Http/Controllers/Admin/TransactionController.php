@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Transaction;
+use App\{
+    Transaction,
+    Http\Controllers\Controller,
+    Repositories\Contracts\TransactionRepoInterface
+}; //php7 grouping use statements
+
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Repositories\Contracts\TransactionRepoInterface;
 
 class TransactionController extends Controller
 {

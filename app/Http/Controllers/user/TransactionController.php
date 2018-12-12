@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\user;
 
 use App \{
-    Transaction,
+        Transaction,
         Http\Controllers\Controller
 }; //php7 grouping use statements
 
 use Illuminate \{
-    Http\Request,
+        Http\Request,
         Support\Facades\Auth
 }; //php7 grouping use statements
 

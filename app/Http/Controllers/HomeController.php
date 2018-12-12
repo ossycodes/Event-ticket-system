@@ -17,13 +17,14 @@ use App \{
 use App\Repositories\Contracts \{
         BlogRepoInterface,
         EventRepoInterface,
-        ContactRepoInterface,
+        CategoryRepoInterface,
         TransactionRepoInterface,
-        UserRepoInterface
+        UserRepoInterface,
 }; //php7 grouping use statements
 
 //Real-time facade
 use Facades\App\Repositories\Contracts\NewsletterRepoInterface;
+use Facades\App\Repositories\Contracts\ContactRepoInterface;
 
 
 class HomeController extends Controller

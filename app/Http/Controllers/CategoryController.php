@@ -11,7 +11,7 @@ use App \{
 }; //php7 grouping use statements
 
 use App\Repositories\Contracts \{
-    EventRepoInterface,
+        EventRepoInterface,
         BlogRepoInterface,
         CategoryRepoInterface
 }; //php7 grouping use statements

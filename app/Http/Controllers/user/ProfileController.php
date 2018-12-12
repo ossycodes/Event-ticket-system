@@ -5,7 +5,7 @@ namespace App\Http\Controllers\User;
 use Illuminate\Http\Request;
 
 use App \{
-    User,
+        User,
         Event,
         Profile,
         Transaction,
@@ -14,12 +14,12 @@ use App \{
 }; //php7 grouping use statements
 
 use Illuminate\Support\Facades \{
-    DB,
+        DB,
         Auth
 }; //php7 grouping use statements
 
 use App\Repositories\Contracts \{
-    EventRepoInterface,
+        EventRepoInterface,
         TransactionRepoInterface,
         UserRepoInterface
 }; //php7 grouping use statements

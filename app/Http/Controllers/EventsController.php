@@ -14,12 +14,13 @@ use App \{
 }; //php7 grouping use statements
 
 use App\Repositories\Contracts \{
-	CategoryRepoInterface,
+		CategoryRepoInterface,
 		EventRepoInterface,
 		BlogRepoInterface,
 		TicketRepoInterface,
-		EventCommentRepoInterface
 }; //php7 grouping use statements
+
+use Facades\App\Repositories\Contracts\EventCommentRepoInterface;
 
 class EventsController extends Controller
 {

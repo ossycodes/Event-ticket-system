@@ -6,19 +6,19 @@ namespace App\Http\Controllers\Admin;
 use Validator;
 
 use Illuminate \{
-    Http\Request,
+        Http\Request,
         Support\Facades\DB,
         Support\Facades\Notification
 };  //php7 grouping use statements
 
 use App \{
-    User,
+        User,
         Notifications\generalNotification,
         Http\Controllers\Controller
 };  //php7 grouping use statements
 
 use App\Repositories\Contracts \{
-    NotificationRepoInterface,
+        NotificationRepoInterface,
         UserRepoInterface
 }; //php7 grouping use statements
 

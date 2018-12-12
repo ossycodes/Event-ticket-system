@@ -7,12 +7,12 @@ use Auth;
 use Illuminate\Http\Request;
 
 use Illuminate\Support \{
-    Facades\Log,
+        Facades\Log,
         Facades\Hash
 }; //php7 grouping use statements
 
 use App \{
-    User,
+        User,
         Http\Controllers\Controller
 };  //php7 grouping use statements
 

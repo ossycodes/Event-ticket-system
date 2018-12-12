@@ -6,7 +6,7 @@ use Auth;
 use Validator;
 
 use App \{
-    Event,
+        Event,
         Ticket,
         Category,
         Eventscomment,
@@ -16,7 +16,7 @@ use App \{
 }; //php7 grouping use statements
 
 use Illuminate \{
-    Http\Request,
+        Http\Request,
         Http\UploadedFile,
         Support\Facades\Log,
         Support\Facades\Input,
@@ -25,7 +25,7 @@ use Illuminate \{
 }; //php7 grouping use statements
 
 use App\Repositories\Contracts \{
-    EventRepoInterface,
+        EventRepoInterface,
         CategoryRepoInterface,
         TicketRepoInterface,
         EventCommentRepoInterface

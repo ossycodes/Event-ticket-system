@@ -16,6 +16,7 @@ class NewslettersController extends Controller
      */
     public function index()
     {
+                       //Real-time facade
         $subscribers = NewsletterRepoInterface::getSubscribers();
         return view('admin.subscribers.index', compact('subscribers'));
     }

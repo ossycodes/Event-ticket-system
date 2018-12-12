@@ -6,7 +6,7 @@ use Validator;
 use JD\Cloudder\Facades\Cloudder;
 
 use App \{
-    User,
+        User,
         Event,
         Ticket,
         Category,
@@ -16,12 +16,12 @@ use App \{
 }; //php7 grouping use statements
 
 use Illuminate \{
-    Http\Request,
+        Http\Request,
         Database\QueryException
 }; //php7 grouping use statements
 
 use Illuminate\Support\Facades \{
-    Auth,
+        Auth,
         Log,
         Input,
         Image
@@ -29,7 +29,7 @@ use Illuminate\Support\Facades \{
 
 
 use App\Repositories\Contracts \{
-    EventRepoInterface,
+        EventRepoInterface,
         CategoryRepoInterface,
         TicketRepoInterface
 }; //php7 grouping use statements

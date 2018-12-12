@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use Auth;
 
 use App \{
-    User,
+        User,
         Event,
         Contact,
         Profile,
@@ -16,18 +16,18 @@ use App \{
 }; //php7 grouping use statements
 
 use Illuminate \{
-    Http\Request,
+        Http\Request,
         Support\Facades\Log
 }; //php7 grouping use statements
 
 use App\Repositories\Contracts \{
-    UserRepoInterface,
+        UserRepoInterface,
         EventRepoInterface
 }; //php7 grouping use statements
 
 //Real-Time Facades
 use Facades\App\Repositories\Contracts \{
-    PostCommentInterface,
+        PostCommentInterface,
         ContactRepoInterface,
         NewsletterRepoInterface,
         EventCommentRepoInterface

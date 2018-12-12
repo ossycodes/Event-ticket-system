@@ -19,7 +19,7 @@ use App\Repositories\Contracts \{
         EventRepoInterface,
         CategoryRepoInterface,
         TransactionRepoInterface,
-        UserRepoInterface,
+        UserRepoInterface
 }; //php7 grouping use statements
 
 //Real-time facade

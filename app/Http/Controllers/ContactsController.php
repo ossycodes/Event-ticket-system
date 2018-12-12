@@ -11,7 +11,8 @@ use App \{
         Mail\ContactusMail,
         Jobs\SendContactUsMailJob,
         Http\Requests\ContactusRequest,
-        Repositories\Contracts\CategoryRepoInterface
+        Repositories\Contracts\CategoryRepoInterface,
+        Repositories\Contracts\ContactRepoInterface
 }; //php7 grouping use statements
 
 use Illuminate\Support\Facades \{
@@ -22,9 +23,13 @@ use Illuminate\Support\Facades \{
 
 class ContactsController extends Controller
 {
-    public function __construct(CategoryRepoInterface $categoryRepo)
+    public $contactRepo;
+    public $categoryRepo;
+
+    public function __construct(CategoryRepoInterface $categoryRepo, ContactRepoInterface $contactRepo)
     {
         $this->categoryRepo = $categoryRepo;
+        $this->contactRepo = $contactRepo;
     }
 
     public function index()
@@ -33,11 +38,11 @@ class ContactsController extends Controller
         return view('contactus')->with(compact('allCategories'));
     }
 
-    public function store(ContactusRequest $request, Contact $contact)
+    public function store(ContactusRequest $request)
     {
 
         try {
-            $contact->create($request->all());
+            $this->contactRepo->storeContactusMessage($request->all());
         } catch (\Exception $e) {
             Log::error($e->getMessage());
             return back()->with('error', 'Something went wrong');

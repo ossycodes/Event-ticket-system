@@ -10,8 +10,4 @@ class Contact extends Model
         'name', 'email', 'phonenumber', 'message',
     ];
 
-    public function store(array $data) {
-        $this->create($data);
-    }
-
 }

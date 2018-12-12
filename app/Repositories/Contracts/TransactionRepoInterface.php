@@ -13,4 +13,6 @@ interface TransactionRepoInterface
     public function getTotalTicketsPurchasedByUser(int $id);
 
     public function getUsersTransactions();
+
+    public function storeTransaction(Object $data, int $id);
 }

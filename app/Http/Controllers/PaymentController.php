@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Ixudra\Curl\Facades\Curl;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
+use App\Repositories\Contracts\TransactionRepoInterface;
 
 class PaymentController extends Controller
 {
@@ -15,6 +16,12 @@ class PaymentController extends Controller
      * @var string
      */
     protected $secretKey;
+    protected $transactionRepo;
+
+    public function __construct(TransactionRepoInterface $transactionRepo)
+    {
+        $this->transactionRepo = $transactionRepo;
+    }
 
     public function genTranxRef()
     {
@@ -137,15 +144,7 @@ class PaymentController extends Controller
 
         if ($response->status === true) {
 
-            Transaction::create([
-                'status' => $response->data->status,
-                'user_id' => Auth::user()->id,
-                'reference_id' => $response->data->reference,
-                'tran_id' => $response->data->id,
-                'amount' => $response->data->amount,
-                'paid_through' => $response->data->channel,
-                'event_name' => $response->data->metadata->custom_fields[0]->event_name,
-            ]);
+            $this->transactionRepo->storeTransaction($response, Auth::user()->id);
 
             return redirect()->route('user.transaction')->with('success', 'Event Booked Successfully');
 

@@ -9,4 +9,6 @@ interface ContactRepoInterface
     public function getLatestContactusMessage();
 
     public function getContactusMessages();
+
+    public function storeContactusMessage(array $data);
 }

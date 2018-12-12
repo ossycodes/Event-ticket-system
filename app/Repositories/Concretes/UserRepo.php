@@ -31,10 +31,16 @@ class UserRepo implements UserRepoInterface
 
     public function getUsersInDescendingOrder()
     {
-        return  User::where('role', 'user')->Orderby('created_at', 'asc')->get();
+        return User::where('role', 'user')->Orderby('created_at', 'asc')->get();
     }
 
-    public function getAllUsersPlusAdmin() {
+    public function getAllUsersPlusAdmin()
+    {
         return User::all();
+    }
+
+    public function deleteUser(int $id)
+    {
+        return User::destroy($id);
     }
 }

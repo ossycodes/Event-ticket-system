@@ -34,7 +34,21 @@ class TransactionRepo implements TransactionRepoInterface
         ])->count();
     }
 
-    public function getUsersTransactions() {
+    public function getUsersTransactions()
+    {
         return Transaction::with('user')->get();
+    }
+
+    public function storeTransaction(Object $data, int $id)
+    {
+        Transaction::create([
+            'status' => $data->data->status,
+            'user_id' => $id,
+            'reference_id' => $data->data->reference,
+            'tran_id' => $data->data->id,
+            'amount' => $data->data->amount,
+            'paid_through' => $data->data->channel,
+            'event_name' => $data->data->metadata->custom_fields[0]->event_name,
+        ]);
     }
 }

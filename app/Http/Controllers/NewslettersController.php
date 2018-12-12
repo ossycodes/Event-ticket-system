@@ -6,14 +6,15 @@ use Validator;
 use App\Newsletter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use App\Repositories\Contracts\NewsletterRepoInterface;
 
 class NewslettersController extends Controller
 {
-	protected $newsletter;
+	protected $newsletterRepo;
 
-	public function __construct(Newsletter $newsletter)
+	public function __construct(NewsletterRepoInterface $newsletterRepo)
 	{
-		$this->newsletter = $newsletter;
+		$this->newsletterRepo = $newsletterRepo;
 	}
 
 	public function saveNewsletterSubscriber(Request $request)
@@ -21,7 +22,7 @@ class NewslettersController extends Controller
 		$this->validateRequest($request);
 
 		try {
-			$this->newsletter->store($request->all());
+			$this->newsletterRepo->storeNewsletterSubscriber($request->all());
 		} catch (\Exception $e) {
 			Log::error($e->getMessage());
 			return back()->with('error', 'Something went wrong.');

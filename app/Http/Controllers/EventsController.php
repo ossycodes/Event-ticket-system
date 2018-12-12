@@ -17,7 +17,7 @@ use App\Repositories\Contracts \{
 		CategoryRepoInterface,
 		EventRepoInterface,
 		BlogRepoInterface,
-		TicketRepoInterface,
+		TicketRepoInterface
 }; //php7 grouping use statements
 
 use Facades\App\Repositories\Contracts\EventCommentRepoInterface;

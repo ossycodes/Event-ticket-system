@@ -17,4 +17,9 @@ class NewsletterRepo implements NewsletterRepoInterface
     {
         return Newsletter::all();
     }
+
+    public function storeNewsletterSubscriber(Array $data)
+    {
+        Newsletter::create($data);
+    }
 }

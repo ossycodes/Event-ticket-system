@@ -15,4 +15,6 @@ interface UserRepoInterface
     public function getUsersInDescendingOrder();
 
     public function getAllUsersPlusAdmin();
+
+    public function deleteUser(int $id);
 }

@@ -22,4 +22,8 @@ class ContactRepo implements ContactRepoInterface
     {
         return Contact::all();
     }
+
+    public function storeContactusMessage(array $data) {
+        Contact::create($data);
+    }
 }

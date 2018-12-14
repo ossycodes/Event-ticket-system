@@ -8,6 +8,7 @@ use Ixudra\Curl\Facades\Curl;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use App\Repositories\Contracts\TransactionRepoInterface;
+use App\Events\TicketPurchased;
 
 class PaymentController extends Controller
 {
@@ -145,6 +146,8 @@ class PaymentController extends Controller
         if ($response->status === true) {
 
             $this->transactionRepo->storeTransaction($response, Auth::user()->id);
+
+            event(new TicketPurchased($response, Auth::user()));
 
             return redirect()->route('user.transaction')->with('success', 'Event Booked Successfully');
 

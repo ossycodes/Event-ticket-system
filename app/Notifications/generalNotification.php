@@ -8,7 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Messages\NexmoMessage;
 
-class generalNotification extends Notification
+class generalNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -32,7 +32,6 @@ class generalNotification extends Notification
      */
     public function via($notifiable)
     {
-        //return ['mail'];
         return ['database', 'nexmo', 'mail'];
     }
 

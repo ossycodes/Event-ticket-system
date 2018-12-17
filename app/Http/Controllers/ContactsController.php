@@ -6,7 +6,7 @@ use Validator;
 use Illuminate\Http\Request;
 
 use App \{
-        Contact,
+    Contact,
         Category,
         Mail\ContactusMail,
         Jobs\SendContactUsMailJob,
@@ -16,7 +16,7 @@ use App \{
 }; //php7 grouping use statements
 
 use Illuminate\Support\Facades \{
-        Log,
+    Log,
         Mail
 }; //php7 grouping use statements
 

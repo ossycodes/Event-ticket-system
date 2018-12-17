@@ -19,6 +19,8 @@ class PaymentController extends Controller
     protected $secretKey;
     protected $transactionRepo;
 
+    CONST KOBO = 100;
+
     public function __construct(TransactionRepoInterface $transactionRepo)
     {
         $this->transactionRepo = $transactionRepo;
@@ -97,7 +99,7 @@ class PaymentController extends Controller
     {
 
         try {
-            $totalAmount = $request->amount * $request->qty * 100;
+            $totalAmount = $request->amount * $request->qty * SELF::KOBO;
         } catch (\ErrorException $e) {
             Log::error($e->getMessage());
             return back()->with('trn_error', 'You can only book tickets that have a price provided.');
@@ -145,8 +147,10 @@ class PaymentController extends Controller
 
         if ($response->status === true) {
 
+            //store the user transaction details in database
             $this->transactionRepo->storeTransaction($response, Auth::user()->id);
 
+            //send a ticketPurchased email to the user
             event(new TicketPurchased($response, Auth::user()));
 
             return redirect()->route('user.transaction')->with('success', 'Event Booked Successfully');

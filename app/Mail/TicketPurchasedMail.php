@@ -16,7 +16,7 @@ class TicketPurchasedMail extends Mailable
      *
      * @return void
      */
-    CONST KOBO = 100;
+    const KOBO = 100;
     protected $data;
     protected $userName;
 
@@ -35,14 +35,14 @@ class TicketPurchasedMail extends Mailable
     {
         $transactionDashboardUrl = 'http://localhost:8000/user/transactions';
         return $this->from('hello@cinemaxii.com')
-                ->markdown('emails.ticketPurchased')
-                ->with([
-                    'ticketAmount' => $this->ticketInfo->data->amount/SELF::KOBO,
-                    'ticketReference' => $this->ticketInfo->data->reference,
-                    'ticketName' => $this->ticketInfo->data->metadata->custom_fields[0]->event_name,
-                    'ticketId' => $this->ticketInfo->data->id,
-                    'userName' => $this->userName,
-                    'url' => $transactionDashboardUrl
-                ]);
+            ->markdown('emails.ticketPurchased')
+            ->with([
+                'ticketAmount' => $this->ticketInfo->data->amount / SELF::KOBO,
+                'ticketReference' => $this->ticketInfo->data->reference,
+                'ticketName' => $this->ticketInfo->data->metadata->custom_fields[0]->event_name,
+                'ticketId' => $this->ticketInfo->data->id,
+                'userName' => $this->userName,
+                'url' => $transactionDashboardUrl
+            ]);
     }
 }

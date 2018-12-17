@@ -6,9 +6,11 @@ use Tests\TestCase;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class ViewBlogPostTest extends TestCase
 {
+    use DatabaseMigrations;
     /**
      * @group create-post
      */

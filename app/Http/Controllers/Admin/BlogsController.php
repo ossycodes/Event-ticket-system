@@ -77,11 +77,17 @@ class BlogsController extends Controller
         $storagePath = 'cinemaxii/blogposts/';
         $width = 640;
         $height = 426;
+        
         //upload and store image
-        $imageName = $this->checkAndUploadImage($request, $data, $storagePath, $width, $height);
+        try{
+            $imageName = $this->checkAndUploadImage($request, $data, $storagePath, $width, $height);
+        } catch (\Cloudinary\Error $e) {
+            Log::error($e->getMessage());
+            return back()->with('error', 'Something went wrong please try again');
+        }
+
         $data['image'] = $imageName[0];
         $data['public_id'] = $imageName[1];
-        // dd($data);
 
         //create post via mass assignment
         try {

@@ -17,9 +17,11 @@
 
 										<a href="index.html"><img src="{{ asset('images/frontend_images/logo.png') }}" alt="" /></a>
 										<p>For All Events</p>
+
 									</div>
 
 									<div class="search v-search">
+
 										@guest
 										
 											<a href="{{ route('login') }}"><button type="button" class="btn btn-default" style="margin-bottom: 15px;">Login</button></a>
@@ -39,12 +41,14 @@
 
 									<form action="{{ route('search.events') }}" method="get">
                                         {{ csrf_field() }}
-                                        <input type="text" name="q" value="{{ old('q') }}" />
+                                        <input type="text" name="q" value="{{ old('q') }}" required/>
                                         <button type="submit" value="Search" class="btn btn-danger"> Search </button>
                                     </form>
 							
 							</div>
 						
+							@include('layouts.errors2')
+							
 							<div class="reviews-section">
 									
 													<div class="col-md-9 reviews-grids">

@@ -3,17 +3,27 @@
 namespace App\Helper;
 
 use Auth;
-use App\Event;
 use Validator;
-use App\Category;
-use Illuminate\Http\Request;
-use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Log;
-use App\Http\Controllers\Controller;
+
+use App\{
+    Event,
+    Category,
+    Http\Controllers\Controller
+}; //php7 grouping use statements
+
+use Illuminate\Http\{
+    Request,
+    UploadedFile
+}; //php7 grouping use statements
+
+use Illuminate\Support\Facades\{
+    Log,
+    Storage,
+    Input
+}; //php7 grouping use statements
+
 use Intervention\Image\Facades\Image;
 use Illuminate\Database\QueryException;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Input;
 use JD\Cloudder\Facades\Cloudder;
 
 trait checkAndUploadImage

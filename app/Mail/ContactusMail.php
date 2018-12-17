@@ -16,11 +16,11 @@ class ContactusMail extends Mailable
      *
      * @return void
      */
-    public $data;
+    public $userName;
 
     public function __construct(String $data)
     {
-        $this->data = $data;
+        $this->userName = $data;
     }
 
     /**

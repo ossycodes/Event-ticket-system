@@ -14,7 +14,13 @@ class SocialaccountController extends Controller
 {
     public function redirectToProvider($provider)
     {
-        return Socialite::driver($provider)->redirect();
+        try{
+            return Socialite::driver($provider)->redirect();
+        } catch(\Exception $e) {
+            \Log::error($e->getMessage());
+            return back()->with('error', "Error connecting to {$provider} service");
+        }
+        
     }
     public function handleProviderCallback($provider)
 

@@ -18,13 +18,13 @@ use App\Repositories\Contracts \{
         BlogRepoInterface,
         EventRepoInterface,
         CategoryRepoInterface,
-        TransactionRepoInterface,
         UserRepoInterface
 }; //php7 grouping use statements
 
 //Real-time facade
 use Facades\App\Repositories\Contracts\NewsletterRepoInterface;
 use Facades\App\Repositories\Contracts\ContactRepoInterface;
+use Facades\App\Repositories\Contracts\TransactionRepoInterface;
 
 
 class HomeController extends Controller
@@ -40,13 +40,12 @@ class HomeController extends Controller
      *
      * @return void
      */
-    public function __construct(BlogRepoInterface $blogRepo, CategoryRepoInterface $categoryRepo, EventRepoInterface $eventRepo, TransactionRepoInterface $transactionRepo, UserRepoInterface $userRepo)
+    public function __construct(BlogRepoInterface $blogRepo, CategoryRepoInterface $categoryRepo, EventRepoInterface $eventRepo, UserRepoInterface $userRepo)
     {
         $this->middleware('auth');
         $this->blogRepo = $blogRepo;
         $this->categoryRepo = $categoryRepo;
         $this->eventRepo = $eventRepo;
-        $this->transactionRepo = $transactionRepo;
         $this->userRepo = $userRepo;
     }
 
@@ -63,9 +62,10 @@ class HomeController extends Controller
         $noOfPosts = $this->blogRepo->getTotalBlogPosts();
         $noOfUsers = $this->userRepo->getTotalUsers();
         $noOfCategories = $this->categoryRepo->getTotalCategories();
-        $noOfTransactions = $this->transactionRepo->getTotalTransaction();
 
+        //since i can't go pass Four dependency injections i refactored to real-time facades
         //Real-time facades, allows me access methods on this object as though they were static methods
+        $noOfTransactions = TransactionRepoInterface::getTotalTransaction();
         $noOfSubscribers = NewsletterRepoInterface::getTotalSubscribers();
         $noOfContactusMessages = ContactRepoInterface::getTotalContacts();
 

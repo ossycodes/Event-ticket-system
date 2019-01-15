@@ -20,6 +20,8 @@ class PaymentController extends Controller
     protected $transactionRepo;
 
     CONST KOBO = 100;
+    CONST INITIALIZEPAYMENTURL = 'https://api.paystack.co/transaction/initialize';
+    CONST VERIFYPAYMENTURL = 'https://api.paystack.co/transaction/verify/';
 
     public function __construct(TransactionRepoInterface $transactionRepo)
     {
@@ -105,7 +107,7 @@ class PaymentController extends Controller
             return back()->with('trn_error', 'You can only book tickets that have a price provided.');
         }
 
-        $initializePayment = 'https://api.paystack.co/transaction/initialize';
+        $initializePayment = SELF::INITIALIZEPAYMENTURL;
         $authBearer = 'Bearer ' . $this->setKey();
 
         try {
@@ -138,7 +140,7 @@ class PaymentController extends Controller
 
         $transactionRef = request()->query('trxref');
 
-        $verifyPayment = 'https://api.paystack.co/transaction/verify/' . $transactionRef;
+        $verifyPayment = SELF::VERIFYPAYMENTURL . $transactionRef;
         $response = Curl::to($verifyPayment)
             ->withHeader('Authorization: Bearer ' . $this->SetKey())
             ->get();

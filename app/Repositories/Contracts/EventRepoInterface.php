@@ -32,4 +32,9 @@ interface EventRepoInterface
 
     public function searchEvent(string $param, int $amount);
     
+    public function createEvent($data);
+
+    public function updateEvent($eventId, $data);
+
+    public function deleteEvent($eventId);
 }

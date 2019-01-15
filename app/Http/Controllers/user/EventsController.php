@@ -6,7 +6,7 @@ use Validator;
 use JD\Cloudder\Facades\Cloudder;
 
 use App \{
-        User,
+    User,
         Event,
         Ticket,
         Category,
@@ -16,12 +16,12 @@ use App \{
 }; //php7 grouping use statements
 
 use Illuminate \{
-        Http\Request,
+    Http\Request,
         Database\QueryException
 }; //php7 grouping use statements
 
 use Illuminate\Support\Facades \{
-        Auth,
+    Auth,
         Log,
         Input,
         Image
@@ -29,7 +29,7 @@ use Illuminate\Support\Facades \{
 
 
 use App\Repositories\Contracts \{
-        EventRepoInterface,
+    EventRepoInterface,
         CategoryRepoInterface,
         TicketRepoInterface
 }; //php7 grouping use statements
@@ -80,7 +80,6 @@ class EventsController extends Controller
 
     public function store(StoreEvent $request)
     {
-
         //store the request in a $data variable
         $data = $request->all();
 
@@ -99,39 +98,23 @@ class EventsController extends Controller
 
         $data['image'] = $imageName[0];
         $data['public_id'] = $imageName[1];
-         //dd($imageName);
 
-        $createdEvent = Event::create([
-
-            'user_id' => $data['user_id'],
-            'category_id' => $data['category_id'],
-            'image' => $data['image'],
-            'public_id' => $data['public_id'],
-            'name' => $data['name'],
-            'venue' => $data['venue'],
-            'description' => $data['description'],
-            'actors' => $data['actors'],
-            'time' => $data['time'],
-            'date' => $data['date'],
-            'age' => $data['age'],
-            'dresscode' => $data['dresscode'],
-            'quantity' => $data['quantity']
-
-        ]);
+        $createdEvent = $this->eventRepo->createEvent($data);
 
         //if the tickettype and price is equals to 1
         if ($data['key'] && $data['value'] === 1) {
 
-            $ticket = new Ticket;
-            $ticket->event_id = $createdEvent->id;
-            $ticket->tickettype = $data['key'];
-            $ticket->price = $data['value'];
-            $ticket->save();
+            $this->ticketRepo->createEventWithOneTicket($data['key'], $data['value']);
 
         } elseif ($data['key'] && $data['value'] > 1) {
 
             //if the tickettype and price is greater than 1
+            // $this->ticketRepo->createEventWithMultipleTicket($data);
+
             foreach ($data['key'] as $key => $val) {
+                
+            
+
                 $ticket = new Ticket;
                 $ticket->event_id = $createdEvent->id;
                 $ticket->tickettype = $val;
@@ -142,26 +125,11 @@ class EventsController extends Controller
 
         } else {
             //no tickettype and price provided
-            $ticket = new Ticket;
-            $ticket->event_id = $createdEvent->id;
-            $ticket->tickettype = null;
-            $ticket->price = null;
-            $ticket->save();
+            $this->ticketRepo->createEventWithNoTicket();
         }
 
         //return back
         return redirect()->back()->with('success', 'Event created successfully');
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-
     }
 
     /**
@@ -215,23 +183,25 @@ class EventsController extends Controller
             $data['image'] = $imageDetails[0];
             $data['public_id'] = $imageDetails[1];
 
-            $updateEvent = Event::find($id)->update([
+            // $this->eventRepo->updateEvent($id, $data);
 
-                'name' => $data['name'],
-                'category_id' => $data['category_id'],
-                'user_id' => Auth::user()->id,
-                'venue' => $data['venue'],
-                'description' => $data['description'],
-                'date' => $data['date'],
-                'time' => $data['time'],
-                'actors' => $data['actors'],
-                'age' => $data['age'],
-                'dresscode' => $data['dresscode'],
-                'image' => $data['image'],
-                'public_id' => $data['public_id'],
-                'quantity' => $data['quantity'],
+            // $updateEvent = Event::find($id)->update([
 
-            ]);
+            //     'name' => $data['name'],
+            //     'category_id' => $data['category_id'],
+            //     'user_id' => Auth::user()->id,
+            //     'venue' => $data['venue'],
+            //     'description' => $data['description'],
+            //     'date' => $data['date'],
+            //     'time' => $data['time'],
+            //     'actors' => $data['actors'],
+            //     'age' => $data['age'],
+            //     'dresscode' => $data['dresscode'],
+            //     'image' => $data['image'],
+            //     'public_id' => $data['public_id'],
+            //     'quantity' => $data['quantity'],
+
+            // ]);
 
         }
 
@@ -247,7 +217,8 @@ class EventsController extends Controller
     public function destroy($id)
     {
         $event = $this->eventRepo->getEvent($id);;
-
+        //$this->eventRepo->getEvent($id);
+        
         //Authourizing  delete action using policies via the user model
         if (Auth::user()->can('delete', Event::find($id))) {
             //deletes and destroy the image from cloudinary
@@ -259,8 +230,16 @@ class EventsController extends Controller
                 return back()->with('error', 'Something went wrong please try again');
             }
 
-            //delete the event
-            Event::destroy($id);
+            try {
+                //delete the event
+                Log::info("Event with {$id} deleted successfully");
+                // $this->eventRepo->deleteEvent($id);
+                Event::destroy($id);
+            } catch (\Exception $e) {
+                Log::errro($e->getMessage());
+                return back()->with('error', 'Something went wrong please try again');
+            }
+
 
         }    
 

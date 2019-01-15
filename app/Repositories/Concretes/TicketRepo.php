@@ -31,4 +31,38 @@ class TicketRepo implements TicketRepoInterface
     {
         return Ticket::where('event_id', '=', $id)->count();
     }
+
+    public function createEventWithOneTicket($ticketType, $ticketPrice)
+    {
+        return
+            $ticket = new Ticket;
+            $ticket->event_id = $createdEvent->id;
+            $ticket->tickettype = $ticketType;
+            $ticket->price = $ticketPrice;
+            $ticket->save();
+    }
+
+    public function createEventWithMultipleTicket($data)
+    {
+        // dd($data);
+        foreach ($data['key'] as $key => $val) {
+         
+        return 
+            $ticket = new Ticket;
+            $ticket->event_id = $createdEvent->id;
+            $ticket->tickettype = $val;
+            $ticket->price = $data['value'][$key];
+            $ticket->save();
+        }
+    }
+
+    public function createEventWithNoTicket()
+    {
+        return 
+            $ticket = new Ticket;
+            $ticket->event_id = $createdEvent->id;
+            $ticket->tickettype = null;
+            $ticket->price = null;
+            $ticket->save();
+    }
 }

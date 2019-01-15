@@ -28,7 +28,6 @@ use JD\Cloudder\Facades\Cloudder;
 
 trait checkAndUploadImage
 {
-
     public function checkAndUploadImage(Request $request, $data, $path, $width, $height)
     {
 

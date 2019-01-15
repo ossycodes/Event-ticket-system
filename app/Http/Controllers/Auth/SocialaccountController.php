@@ -9,9 +9,20 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Laravel\Socialite\Facades\Socialite;
+use App\Repositories\Contracts\UserRepoInterface;
+use App\Repositories\Contracts\SocialaccountRepoInterface;
 
 class SocialaccountController extends Controller
 {
+    protected $socialAccount;
+    protected $userRepo;
+
+    public function __construct(SocialaccountRepoInterface $socialAccount, UserRepoInterface $userRepo)
+    {
+        $this->socialAccount = $socialAccount;    
+        $this->userRepo = $userRepo;
+    }
+
     public function redirectToProvider($provider)
     {
         try{
@@ -38,11 +49,13 @@ class SocialaccountController extends Controller
 
     public function findOrCreateUser($user, $provider)
     {
-        $account = Socialaccount::where('provider_name', $provider)->where('provider_id', $user->getId())->first();
+        $account = $socialAccount->getUserSocialAccount($provider, $user->getId());
+        // $account = Socialaccount::where('provider_name', $provider)->where('provider_id', $user->getId())->first();
         if ($account) {
             return $account->user;
         } else {
-            $authUser = User::where('email', $user->getEmail())->first();
+            // $authUser = User::where('email', $user->getEmail())->first();
+            $authUser = $userRepo->getUserViaEmail($user->getEmail());
             if (!$authUser) {
                 $authUser = User::create([
                     'email' => $user->getEmail(),

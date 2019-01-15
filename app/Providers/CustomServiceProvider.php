@@ -78,5 +78,9 @@ class CustomServiceProvider extends ServiceProvider
             'App\Repositories\Contracts\EventSliderRepoInterface',
             'App\Repositories\Concretes\EventSliderRepo'
         );
+        $this->app->bind(
+            'App\Repositories\Contracts\SocialaccountRepoInterface',
+            'App\Repositories\Concretes\SocialaccountRepo'
+        );
     }
 }

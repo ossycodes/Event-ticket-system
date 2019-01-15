@@ -100,4 +100,50 @@ class EventRepo implements EventRepoInterface
         return Event::search($param)->paginate($amount);
     }
 
+    public function createEvent($data)
+    {
+        return Event::create([
+
+            'user_id' => $data['user_id'],
+            'category_id' => $data['category_id'],
+            'image' => $data['image'],
+            'public_id' => $data['public_id'],
+            'name' => $data['name'],
+            'venue' => $data['venue'],
+            'description' => $data['description'],
+            'actors' => $data['actors'],
+            'time' => $data['time'],
+            'date' => $data['date'],
+            'age' => $data['age'],
+            'dresscode' => $data['dresscode'],
+            'quantity' => $data['quantity'] ?? '0'
+
+        ]);
+    }
+
+    public function updateEvent($eventId, $data)
+    {
+        return Event::find($id)->update([
+
+            'name' => $data['name'],
+            'category_id' => $data['category_id'],
+            'user_id' => Auth::user()->id,
+            'venue' => $data['venue'],
+            'description' => $data['description'],
+            'date' => $data['date'],
+            'time' => $data['time'],
+            'actors' => $data['actors'],
+            'age' => $data['age'],
+            'dresscode' => $data['dresscode'],
+            'image' => $data['image'],
+            'public_id' => $data['public_id'],
+            'quantity' => $data['quantity'],
+
+        ]);
+    }
+
+    public function deleteEvent($eventId)
+    {
+        return Event::destroy($eventId);
+    }
 }

@@ -43,4 +43,16 @@ class UserRepo implements UserRepoInterface
     {
         return User::destroy($id);
     }
+
+    public function getUserViaEmail($userEmail)
+    {
+        return User::where('email', $user->getEmail())->first();
+    }
+
+    public function updatePassword($newPassword)
+    {
+        return Auth::User()->update([
+            'password' => \Illuminate\Support\Facades\Hash::make($newPassword)
+        ]);
+    }
 }

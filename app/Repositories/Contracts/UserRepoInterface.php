@@ -17,4 +17,8 @@ interface UserRepoInterface
     public function getAllUsersPlusAdmin();
 
     public function deleteUser(int $id);
+
+    public function getUserViaEmail($userEmail);
+
+    public function updatePassword($newPassword);
 }

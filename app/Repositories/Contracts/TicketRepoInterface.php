@@ -10,4 +10,9 @@ interface TicketRepoInterface
 
     public function getTotalTicketsForEvent(int $id);
 
+    public function createEventWithOneTicket($ticketType, $ticketPrice);
+
+    public function createEventWithMultipleTicket($data);
+
+    public function createEventWithNoTicket();
 }

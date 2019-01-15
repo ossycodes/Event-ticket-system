@@ -267,6 +267,10 @@ class EventsController extends Controller
     }
 
 
+    /**
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function activate($id)
     {
         //find event with given id and activate it
@@ -281,6 +285,10 @@ class EventsController extends Controller
         return back()->with('success', 'Event successfully activated');
     }
 
+    /**
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function deActivate($id)
     {
         //find event with given id and activate it
@@ -294,6 +302,10 @@ class EventsController extends Controller
         return back()->with('success', 'Event successfully De-activated');
     }
 
+    /**
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function viewComments($id)
     {
         $eventComments = $this->eventCommentRepo->getCommentsForEvent($id);
@@ -301,6 +313,10 @@ class EventsController extends Controller
         return view('admin.events.comments', compact('eventComments', 'noOfComments'));
     }
 
+    /**
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function activateComment($id)
     {
         try {
@@ -316,6 +332,10 @@ class EventsController extends Controller
         return back()->with('success', 'Comment successfully activated');
     }
 
+    /**
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function deactivateComment($id)
     {
         try {
@@ -332,6 +352,10 @@ class EventsController extends Controller
         return back()->with('success', 'Comment successfully de-activated');
     }
 
+    /**
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function deleteComment($id)
     {
         Eventscomment::destroy($id);

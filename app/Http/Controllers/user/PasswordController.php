@@ -10,11 +10,19 @@ use Illuminate\Support\Facades \{
         Hash,
         Auth,
         Log
-}; //php7 grouping use statements
+};
+use App\Repositories\Contracts\UserRepoInterface; //php7 grouping use statements
 
 
 class PasswordController extends Controller
 {
+    protected $userRepo;
+
+    public function __construct(UserRepoInterface $userRepo)
+    {
+        $this->userRepo = $userRepo;
+    }
+
     public function index()
     {
         return view('users.password.index');
@@ -27,19 +35,18 @@ class PasswordController extends Controller
 
         try {
             if (Hash::check($request->old_password, Auth::user()->password)) {
+                $this->userRepo->updatePassword($request->new_password);
                 log::info('password updated succcessfully');
-                Auth::User()->update([
-                    'password' => bcrypt($request->new_password)
-                ]);
                 return back()->with('success', 'Password changed successfully');
             }
 
         } catch (\Exception $e) {
             Log::info($e->getMessage());
-                    //something goes wrong
+            //something goes wrong
             return back()->with('error', 'Something went wrong');
         }
-            //something went wrong
+        
+        //something went wrong
         Log::info('something went wrong');
         return back()->with('error', 'Old password is incorrect');
     }

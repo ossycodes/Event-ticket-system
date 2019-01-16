@@ -35,6 +35,6 @@ class SearchController extends Controller
         } else {
             $events = [];
         }
-        return view('search')->with(compact('events', 'allCategories', 'allBlogPosts1'));
+        return view('search')->with(compact('events', 'allBlogPosts1'));
     }
 }

@@ -22,10 +22,9 @@ class SearchController extends Controller
     }
     public function __invoke(Request $request)
     {
-        dd('reaching');
         if ($request->has('q') && is_string($request->query('q'))) {
             $request->flashOnly('q');
-            $allBlogPosts1 = $this->blogRepo->getPaginatedBlogPosts(6);
+            // $allBlogPosts1 = $this->blogRepo->getPaginatedBlogPosts(6);
             try{
                 $events = $this->eventRepo->searchEvent($request->q, 6);
             } catch(\Exception $e) {
@@ -36,6 +35,6 @@ class SearchController extends Controller
         } else {
             $events = [];
         }
-        return view('search')->with(compact('events', 'allBlogPosts1'));
+        return view('search')->with(compact('events'));
     }
 }

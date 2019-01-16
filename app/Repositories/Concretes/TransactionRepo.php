@@ -51,4 +51,12 @@ class TransactionRepo implements TransactionRepoInterface
             'event_name' => $data->data->metadata->custom_fields[0]->event_name,
         ]);
     }
+
+    public function getTicketTransactionReceipt($userid, $id)
+    {
+        return Transaction::where([
+            ['id', $id],
+            ['user_id', $userid]
+        ])->first();
+    }
 }

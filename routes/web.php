@@ -131,6 +131,7 @@ Route::group(['middleware' => ['isUser', 'auth', 'can:is-User']], function () {
         return back();
     });
     Route::get('user/transactions', 'user\TransactionController')->name('user.transaction');
+    Route::get('user/{userid}/download-ticket/{id}', 'TicketController@downloadTicketReciept');
 });
 
 

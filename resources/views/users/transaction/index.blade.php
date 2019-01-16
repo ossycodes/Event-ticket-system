@@ -55,6 +55,7 @@
                   <th>Paid via</th>
                   <th>Event Name</th>
                   <th>Paid</th>
+                  <th>Action</th>
 
                 </tr>
 
@@ -62,6 +63,9 @@
 
                 <tbody>
                 
+                  @php 
+                    $userid = Auth::id();
+                  @endphp
                   
                   @foreach($transactions as $transaction) 
                 <tr>
@@ -75,6 +79,7 @@
                   <td>{{ $transaction->paid_through }}</td>
                   <td>{{ $transaction->event_name }}</td>
                   <td>{{ $transaction->created_at->diffForHumans() }}</td>
+                <td><a href="{{ url("user/{$userid}/download-ticket/{$transaction->id}") }}"><button type="button" class="btn btn-primary">Download Ticket Receipt</button></a></td>
                  
                   
 
@@ -94,6 +99,7 @@
                     <th>Paid via</th>
                     <th>Event Name</th>
                     <th>Paid</th>
+                    <th>Action</th>
       
                 
                 </tr>

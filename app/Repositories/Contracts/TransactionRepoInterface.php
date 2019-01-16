@@ -15,4 +15,6 @@ interface TransactionRepoInterface
     public function getUsersTransactions();
 
     public function storeTransaction(Object $data, int $id);
+
+    public function getTicketTransactionReceipt($userid, $id); 
 }

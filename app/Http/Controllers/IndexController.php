@@ -38,7 +38,7 @@ class IndexController extends Controller
         $noofeventsimages = $this->eventRepo->getPaginatedEvents(6);
         $events = $this->eventRepo->getPaginatedActiveEvents(3);
 
-        return view('index', compact('events', 'backgroundInfo', 'noofeventsimages', 'allCategories'));
+        return view('index', compact('events', 'noofeventsimages', 'allCategories'));
     }
 
 }

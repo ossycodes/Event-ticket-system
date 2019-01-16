@@ -15,6 +15,7 @@ class Blog extends Model
         'body',
     ];
 
+    
 
     public function postcomments(){
         return $this->hasMany(Postscomment::class);

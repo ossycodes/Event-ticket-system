@@ -10,7 +10,7 @@ use App \{
         Blogsimage,
         Http\Requests\StorePost,
         Http\Controllers\Controller,
-        Helper\checkAndUploadPostImage,
+        Helper\checkAndUploadImage,
         Repositories\Contracts\BlogRepoInterface
 }; //php7 grouping use statements
 
@@ -27,7 +27,7 @@ use Intervention\Image\Facades\Image;
 
 class BlogsController extends Controller
 {
-    use checkAndUploadPostImage;
+    use checkAndUploadImage;
 
     protected $blogRepo;
 

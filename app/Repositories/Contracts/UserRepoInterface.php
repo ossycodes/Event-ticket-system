@@ -2,6 +2,8 @@
 
 namespace App\Repositories\Contracts;
 
+use Illuminate\Http\Request;
+
 interface UserRepoInterface
 {
     public function getTotalUsers();
@@ -21,4 +23,8 @@ interface UserRepoInterface
     public function getUserViaEmail($userEmail);
 
     public function updatePassword($newPassword);
+
+    public function updateUserName(Request $request);
+
+    public function updateUserProfile(Request $request);
 }

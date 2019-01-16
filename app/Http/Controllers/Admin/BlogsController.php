@@ -43,7 +43,6 @@ class BlogsController extends Controller
      */
     public function index()
     {
-
         //log event
         Log::info('Displayed a list of available posts in database for user with email:' . ' ' . Auth::user()->email . ' ' . 'to see');
         //fetch all posts from database
@@ -92,11 +91,10 @@ class BlogsController extends Controller
         //create post via mass assignment
         try {
 
-            $blog = Blog::create($data);
-            Blog::find($blog->id)->blogimage()->create([
-                'imagename' => $data['image'],
-                'public_id' => $data['public_id']
-            ]);
+            $blog = $this->blogRepo->createBlogPost($data);
+
+            $this->blogRepo->createImageForBlogPost($blog->id, $data);
+
 
         } catch (QueryException $e) {
             Log::error($e->getMessage());
@@ -140,11 +138,7 @@ class BlogsController extends Controller
 
         $data = $request->all();
 
-        $tp = tap(Blog::find($id))->update([
-            'title' => $data['title'],
-            'body' => $data['body'],
-            'description' => $data['description'],
-        ]);
+        $tp = $this->blogRepo->updateBlogPost($id, $data);
 
         $storagePath = 'cinemaxii/blogposts/';
         $width = 640;
@@ -152,10 +146,7 @@ class BlogsController extends Controller
 
         $imageName = $this->checkAndUploadImage($request, $data, $storagePath, $width, $height);
 
-        Blog::find($tp->id)->blogimage()->update([
-            'imagename' => $imageName[0],
-            'public_id' => $imageName[1]
-        ]);
+        $this->blogRepo->updateImageForBlogPost($tp->id, $imageName);
 
         Log::info('Blog with ID:' . ' ' . $tp->id . ' ' . 'just got uploaded');
 
@@ -182,7 +173,7 @@ class BlogsController extends Controller
         }
         
         //delete post by primary key(id)
-        Blog::destroy($id);
+        $this->blogRepo->deleteBlogPost($id);
         
         //log the error
         log::info('User with email:' . ' ' . Auth::user()->email . ' ' . 'just deleted a post with Id number' . ' ' . $id);

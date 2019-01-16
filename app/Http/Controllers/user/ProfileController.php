@@ -5,7 +5,7 @@ namespace App\Http\Controllers\User;
 use Illuminate\Http\Request;
 
 use App \{
-        User,
+    User,
         Event,
         Profile,
         Transaction,
@@ -14,12 +14,12 @@ use App \{
 }; //php7 grouping use statements
 
 use Illuminate\Support\Facades \{
-        DB,
+    DB,
         Auth
 }; //php7 grouping use statements
 
 use App\Repositories\Contracts \{
-        EventRepoInterface,
+    EventRepoInterface,
         TransactionRepoInterface,
         UserRepoInterface
 }; //php7 grouping use statements
@@ -45,25 +45,14 @@ class ProfileController extends Controller
     public function index()
     {
         $eventsuploaded = $this->eventRepo->getEventsUploadedByUser(Auth::user()->id);
-
         $noOfEventUploaded = $this->eventRepo->getTotalEventsUploadedByUser(Auth::user()->id);
-
         $latestEventTicketsPurchased = $this->transactionRepo->getLatestTicketPurchasedByUser(Auth::user()->id);
-
         $noOfEventTicketsPurchased = $this->transactionRepo->getTotalTicketsPurchasedByUser(Auth::user()->id);
-
         $profile = $this->userRepo->getUserProfile();
 
         return view('users.profile.index', compact('eventsuploaded', 'noOfEventUploaded', 'noOfEventTicketsPurchased', 'latestEventTicketsPurchased', 'profile'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(updateProfile $request, $id)
     {
         //if the request has a name as part of the request;
@@ -78,36 +67,21 @@ class ProfileController extends Controller
         return back()->with('error', 'Something went wrong');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
 
     public function updateName(Request $request)
     {
-        Auth::user()->update([
-            'name' => $request->name
-        ]);
+        $this->userRepo->updateUserName($request);
     }
 
     public function updateProfile(Request $request)
     {
-        ///update the authenticated user's profile
-        Auth::User()->profile()->update([
-            'gender' => $request->gender,
-            'phonenumber' => $request->phonenumber,
-            'education' => $request->education,
-            'skills' => $request->skills,
-            'location' => $request->location,
-        ]);
+        $this->userRepo->updateUserProfile($request);
     }
 
     public function deleteAccount(Request $request, $id)
     {
         //delete user
-        User::destroy($id);
+        $this->userRepo->deleteUser($id);
         //destroy user session
         $request->session()->flush();
         //redirect back to home

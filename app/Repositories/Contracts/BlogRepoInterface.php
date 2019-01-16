@@ -19,4 +19,14 @@ interface BlogRepoInterface
     public function getImageForBlogPost(int $id);
 
     public function getCommentsForBlogPostDescendingOrder();
+
+    public function deleteBlogPost(int $id);
+
+    public function createBlogPost($data);
+
+    public function createImageForBlogPost(int $blogId, $data);
+
+    public function updateBlogPost(int $id, $data);
+
+    public function updateImageForBlogPost(int $id, $data);
 }

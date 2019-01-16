@@ -55,4 +55,22 @@ class UserRepo implements UserRepoInterface
             'password' => \Illuminate\Support\Facades\Hash::make($newPassword)
         ]);
     }
+
+    public function updateUserName(\Illuminate\Http\Request $request)
+    {
+        return Auth::user()->update([
+            'name' => $request->name
+        ]);
+    }
+
+    public function updateUserProfile(\Illuminate\Http\Request $request)
+    {
+        return Auth::User()->profile()->update([
+            'gender' => $request->gender,
+            'phonenumber' => $request->phonenumber,
+            'education' => $request->education,
+            'skills' => $request->skills,
+            'location' => $request->location,
+        ]);
+    }
 }

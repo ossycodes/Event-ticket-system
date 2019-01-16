@@ -51,4 +51,38 @@ class BlogRepo implements BlogRepoInterface
         }])->get();
     }
 
+    public function deleteBlogPost(int $id)
+    {
+        Blog::destroy($id);
+    }
+
+    public function createBlogPost($data)
+    {
+        return Blog::create($data);
+    }
+
+    public function createImageForBlogPost(int $blogId, $data)
+    {
+        return Blog::find($blogId)->blogimage()->create([
+            'imagename' => $data['image'],
+            'public_id' => $data['public_id']
+        ]);
+    }
+
+    public function updateBlogPost(int $id, $data)
+    {
+        return tap(Blog::find($id))->update([
+            'title' => $data['title'],
+            'body' => $data['body'],
+            'description' => $data['description'],
+        ]);
+    }
+
+    public function updateImageForBlogPost(int $id, $data)
+    {
+        return Blog::find($id)->blogimage()->update([
+            'imagename' => $data[0],
+            'public_id' => $data[1]
+        ]);
+    }
 }

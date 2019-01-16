@@ -16,18 +16,13 @@ class TicketController extends Controller
     public function __construct(TransactionRepoInterface $transaction)
     {
         $this->transaction = $transaction;
-
     }
 
     public function downloadTicketReciept($userid, $id)
     {
         $receipt = $this->transaction->getTicketTransactionReceipt($userid, $id);
         $user = User::findOrFail(Auth::id());
-       
-        // load view for pdf
         $pdf = PDF::loadView('pdfs.ticket', compact('receipt', 'user'));
- 
-        //download pdf
         return $pdf->download('ticket-receipt.pdf');
     }
 }

@@ -49,13 +49,13 @@ class SocialaccountController extends Controller
 
     public function findOrCreateUser($user, $provider)
     {
-        $account = $socialAccount->getUserSocialAccount($provider, $user->getId());
+        $account = $this->socialAccount->getUserSocialAccount($provider, $user->getId());
         // $account = Socialaccount::where('provider_name', $provider)->where('provider_id', $user->getId())->first();
         if ($account) {
             return $account->user;
         } else {
             // $authUser = User::where('email', $user->getEmail())->first();
-            $authUser = $userRepo->getUserViaEmail($user->getEmail());
+            $authUser = $this->userRepo->getUserViaEmail($user->getEmail());
             if (!$authUser) {
                 $authUser = User::create([
                     'email' => $user->getEmail(),

@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Concretes;
 
+use App\Socialaccount;
 use App\Repositories\Contracts\SocialaccountRepoInterface;
 
 

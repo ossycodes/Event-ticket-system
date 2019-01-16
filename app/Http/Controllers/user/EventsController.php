@@ -109,17 +109,13 @@ class EventsController extends Controller
         } elseif ($data['key'] && $data['value'] > 1) {
 
             //if the tickettype and price is greater than 1
-            // $this->ticketRepo->createEventWithMultipleTicket($data);
-
             foreach ($data['key'] as $key => $val) {
-                
-            
-
-                $ticket = new Ticket;
-                $ticket->event_id = $createdEvent->id;
-                $ticket->tickettype = $val;
-                $ticket->price = $data['value'][$key];
-                $ticket->save();
+                // $this->ticketRepo->createEventWithMultipleTicket($data);
+                // $ticket = new Ticket;
+                // $ticket->event_id = $createdEvent->id;
+                // $ticket->tickettype = $val;
+                // $ticket->price = $data['value'][$key];
+                // $ticket->save();
 
             }
 

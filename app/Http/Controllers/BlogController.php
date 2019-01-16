@@ -22,6 +22,7 @@ class BlogController extends Controller
     public function __invoke($id)
     {
         $postDetails = $this->blogRepo->getBlog($id);
+        dd($postDetails->image_name);
         $postComments = $this->blogRepo->getBlogComments($id);
         $postImage = $this->blogRepo->getBlogImage($id);
 

@@ -31,7 +31,6 @@ class EventRepo implements EventRepoInterface
         $result = Cache::remember('paginated_active_events_cache', 1440, function () use ($amount) {
             return Event::where('status', '=', 1)->orderBy('id', 'DESC')->paginate($amount);
         });
-
         return $result;
     }
 

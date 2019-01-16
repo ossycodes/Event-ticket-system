@@ -111,11 +111,11 @@ class EventsController extends Controller
             //if the tickettype and price is greater than 1
             foreach ($data['key'] as $key => $val) {
                 // $this->ticketRepo->createEventWithMultipleTicket($data);
-                // $ticket = new Ticket;
-                // $ticket->event_id = $createdEvent->id;
-                // $ticket->tickettype = $val;
-                // $ticket->price = $data['value'][$key];
-                // $ticket->save();
+                $ticket = new Ticket;
+                $ticket->event_id = $createdEvent->id;
+                $ticket->tickettype = $val;
+                $ticket->price = $data['value'][$key];
+                $ticket->save();
 
             }
 
@@ -179,25 +179,7 @@ class EventsController extends Controller
             $data['image'] = $imageDetails[0];
             $data['public_id'] = $imageDetails[1];
 
-            // $this->eventRepo->updateEvent($id, $data);
-
-            // $updateEvent = Event::find($id)->update([
-
-            //     'name' => $data['name'],
-            //     'category_id' => $data['category_id'],
-            //     'user_id' => Auth::user()->id,
-            //     'venue' => $data['venue'],
-            //     'description' => $data['description'],
-            //     'date' => $data['date'],
-            //     'time' => $data['time'],
-            //     'actors' => $data['actors'],
-            //     'age' => $data['age'],
-            //     'dresscode' => $data['dresscode'],
-            //     'image' => $data['image'],
-            //     'public_id' => $data['public_id'],
-            //     'quantity' => $data['quantity'],
-
-            // ]);
+            $updateEvent = $this->eventRepo->updateEvent($id, $data);
 
         }
 
@@ -212,11 +194,10 @@ class EventsController extends Controller
      */
     public function destroy($id)
     {
-        $event = $this->eventRepo->getEvent($id);;
-        //$this->eventRepo->getEvent($id);
+        $event = $this->eventRepo->getEvent($id);
         
         //Authourizing  delete action using policies via the user model
-        if (Auth::user()->can('delete', Event::find($id))) {
+        if (Auth::user()->can('delete', $event)) {
             //deletes and destroy the image from cloudinary
             try {
                 Cloudder::destroyImage($event->public_id);
@@ -229,10 +210,9 @@ class EventsController extends Controller
             try {
                 //delete the event
                 Log::info("Event with {$id} deleted successfully");
-                // $this->eventRepo->deleteEvent($id);
-                Event::destroy($id);
+                $this->eventRepo->deleteEvent($id);
             } catch (\Exception $e) {
-                Log::errro($e->getMessage());
+                Log::error($e->getMessage());
                 return back()->with('error', 'Something went wrong please try again');
             }
 

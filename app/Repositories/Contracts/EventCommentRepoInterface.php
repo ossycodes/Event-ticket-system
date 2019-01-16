@@ -15,4 +15,10 @@ interface EventCommentRepoInterface
     public function getCommentsForEvent(int $id);
 
     public function getTotalComments();
+
+    public function activateComment(int $commentId);
+
+    public function deActivateComment(int $commentId);
+
+    public function deleteComment(int $commentId);
 }

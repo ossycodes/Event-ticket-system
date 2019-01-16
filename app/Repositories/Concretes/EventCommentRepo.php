@@ -17,13 +17,13 @@ class EventCommentRepo implements EventCommentRepoInterface
             ['status', '=', $status]
         ])->count();
     }
-    
+
     public function addCommentForEvent(Request $request)
     {
         Event::find(decrypt($request->event_id))->eventscomment()
             ->create($request->except('event_id'));
     }
-    
+
     public function getLatestComment()
     {
         return Eventscomment::latest()->first();
@@ -37,5 +37,27 @@ class EventCommentRepo implements EventCommentRepoInterface
     public function getTotalComments()
     {
         return EventsComment::count();
+    }
+
+    public function activateComment(int $commentId)
+    {
+        return Eventscomment::where('id', '=', $commentId)
+            ->update([
+                'status' => 1
+            ]);
+
+    }
+
+    public function deActivateComment(int $commentId)
+    {
+        return Eventscomment::where('id', '=', $commentId)
+            ->update([
+                'status' => 0
+            ]);
+    }
+
+    public function deleteComment($commentId)
+    {
+        return Eventscomment::destroy($commentid);
     }
 }

@@ -141,8 +141,22 @@ class EventRepo implements EventRepoInterface
         ]);
     }
 
-    public function deleteEvent($eventId)
+    public function deleteEvent(int $eventId)
     {
         return Event::destroy($eventId);
+    }
+
+    public function deActivateEvent(int $eventId)
+    {
+        return Event::find($eventId)->update([
+            'status' => 0
+        ]);   
+    }
+
+    public function activateEvent(int $eventId)
+    {
+        return Event::find($eventId)->update([
+            'status' => 1
+        ]);
     }
 }

@@ -6,7 +6,7 @@ use Auth;
 use Validator;
 
 use App \{
-        Event,
+    Event,
         Ticket,
         Category,
         Eventscomment,
@@ -16,7 +16,7 @@ use App \{
 }; //php7 grouping use statements
 
 use Illuminate \{
-        Http\Request,
+    Http\Request,
         Http\UploadedFile,
         Support\Facades\Log,
         Support\Facades\Input,
@@ -25,7 +25,7 @@ use Illuminate \{
 }; //php7 grouping use statements
 
 use App\Repositories\Contracts \{
-        EventRepoInterface,
+    EventRepoInterface,
         CategoryRepoInterface,
         TicketRepoInterface,
         EventCommentRepoInterface
@@ -107,37 +107,18 @@ class EventsController extends Controller
         $data['image'] = $imageName[0];
         $data['public_id'] = $imageName[1];
 
-        $createdEvent = Event::create([
-
-            'user_id' => $data['user_id'],
-            'category_id' => $data['category_id'],
-            'image' => $data['image'],
-            'public_id' => $data['public_id'],
-            'name' => $data['name'],
-            'venue' => $data['venue'],
-            'description' => $data['description'],
-            'actors' => $data['actors'],
-            'time' => $data['time'],
-            'date' => $data['date'],
-            'age' => $data['age'],
-            'dresscode' => $data['dresscode'],
-            'quantity' => $data['quantity']
-
-        ]);
+        $createdEvent = $this->eventRepo->createEvent($data);
 
         //if the tickettype and price is equals to 1
         if ($data['key'] && $data['value'] === 1) {
 
-            $ticket = new Ticket;
-            $ticket->event_id = $createdEvent->id;
-            $ticket->tickettype = $data['key'];
-            $ticket->price = $data['value'];
-            $ticket->save();
+            $this->ticketRepo->createEventWithOneTicket($data['key'], $data['value']);
 
         } elseif ($data['key'] && $data['value'] > 1) {
 
             //if the tickettype and price is greater than 1
             foreach ($data['key'] as $key => $val) {
+                // $this->ticketRepo->createEventWithMultipleTicket($data);
                 $ticket = new Ticket;
                 $ticket->event_id = $createdEvent->id;
                 $ticket->tickettype = $val;
@@ -148,25 +129,10 @@ class EventsController extends Controller
 
         } else {
             //no tickettype and price provided
-            $ticket = new Ticket;
-            $ticket->event_id = $createdEvent->id;
-            $ticket->tickettype = null;
-            $ticket->price = null;
-            $ticket->save();
+            $this->ticketRepo->createEventWithNoTicket();
         }
 
         return redirect()->route('system-admin.events.create')->with('success', 'Event created successfully');
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
     }
 
     /**
@@ -215,23 +181,7 @@ class EventsController extends Controller
         $data['image'] = $imageDetails[0];
         $data['public_id'] = $imageDetails[1];
 
-        $updateEvent = Event::find($id)->update([
-
-            'name' => $data['name'],
-            'category_id' => $data['category_id'],
-            'user_id' => Auth::user()->id,
-            'venue' => $data['venue'],
-            'description' => $data['description'],
-            'date' => $data['date'],
-            'time' => $data['time'],
-            'actors' => $data['actors'],
-            'age' => $data['age'],
-            'dresscode' => $data['dresscode'],
-            'image' => $data['image'],
-            'public_id' => $data['public_id'],
-            'quantity' => $data['quantity'],
-
-        ]);
+        $updateEvent = $this->eventRepo->updateEvent($id, $data);
 
         return redirect()->route('system-admin.events.index')->with('success', 'Event updated successfully');
 
@@ -246,7 +196,7 @@ class EventsController extends Controller
     public function destroy($id)
     {
         $event = $this->eventRepo->getEvent($id);
-        
+
         //deletes and destroy the image from cloudinary
         try {
             Cloudder::destroyImage($event->public_id);
@@ -255,9 +205,15 @@ class EventsController extends Controller
             Log::error($e->getMessage());
             return back()->with('error', 'Something went wrong please try again');
         }
-        
-        //delete the event
-        Event::destroy($id);
+
+        try {
+            //delete the event
+            Log::info("Event with {$id} deleted successfully");
+            $this->eventRepo->deleteEvent($id);
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+            return back()->with('error', 'Something went wrong please try again');
+        }
 
         //log the event
         log::info('User with email:' . ' ' . Auth::user()->email . ' ' . 'just deleted an event with Id number' . ' ' . $id);
@@ -273,11 +229,12 @@ class EventsController extends Controller
      */
     public function activate($id)
     {
-        //find event with given id and activate it
-        Event::find($id)->update([
-            'status' => 1
-        ]);
-
+        try {
+            $this->eventRepo->deActivateEvent($id);
+        } catch (Exception $e) {
+            return back()->with('error', 'Something went wrong');
+        }
+       
         //log the event
         log::info('Event with id of' . ' ' . $id . ' ' . 'just got activated');
 
@@ -291,10 +248,13 @@ class EventsController extends Controller
      */
     public function deActivate($id)
     {
-        //find event with given id and activate it
-        Event::find($id)->update([
-            'status' => 0
-        ]);
+        try {
+            $this->eventRepo->deActivateEvent($id);
+        } catch (Exception $e) {
+            return back()->with('error', 'Something went wrong');
+        }
+        
+
         //log the event
         log::info('Event with id of' . ' ' . $id . ' ' . 'just got de-activated');
         
@@ -302,63 +262,5 @@ class EventsController extends Controller
         return back()->with('success', 'Event successfully De-activated');
     }
 
-    /**
-     * @param $id
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    public function viewComments($id)
-    {
-        $eventComments = $this->eventCommentRepo->getCommentsForEvent($id);
-        $noOfComments = $this->eventCommentRepo->getTotalComments();
-        return view('admin.events.comments', compact('eventComments', 'noOfComments'));
-    }
 
-    /**
-     * @param $id
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function activateComment($id)
-    {
-        try {
-
-            Eventscomment::where('id', '=', $id)
-                ->update([
-                    'status' => 1
-                ]);
-
-        } catch (Exception $e) {
-            return back()->with('success', 'Comment successfully de-activated');
-        }
-        return back()->with('success', 'Comment successfully activated');
-    }
-
-    /**
-     * @param $id
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function deactivateComment($id)
-    {
-        try {
-
-            Eventscomment::where('id', '=', $id)
-                ->update([
-                    'status' => 0
-                ]);
-
-        } catch (Exception $e) {
-            return back()->with('error', 'Something went wrong');
-        }
-
-        return back()->with('success', 'Comment successfully de-activated');
-    }
-
-    /**
-     * @param $id
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function deleteComment($id)
-    {
-        Eventscomment::destroy($id);
-        return back()->with('success', 'Comment deleted successfully');
-    }
 }

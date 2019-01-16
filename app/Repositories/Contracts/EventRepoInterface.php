@@ -36,5 +36,9 @@ interface EventRepoInterface
 
     public function updateEvent($eventId, $data);
 
-    public function deleteEvent($eventId);
+    public function deleteEvent(int $eventId);
+
+    public function deActivateEvent(int $eventId);
+
+    public function activateEvent(int $eventId);
 }

@@ -22,6 +22,7 @@ class SearchController extends Controller
     }
     public function __invoke(Request $request)
     {
+        dd('reaching');
         if ($request->has('q') && is_string($request->query('q'))) {
             $request->flashOnly('q');
             $allBlogPosts1 = $this->blogRepo->getPaginatedBlogPosts(6);

@@ -29,19 +29,17 @@
         <!-- Main content -->
         <div class="card">
             <div class="card-header">
-            <p>
+          
+              <p>
  			<a href="{{ route('system-admin.categories.create') }}" class="btn btn-primary">Add New Category</a>
- 		</p>
-              <h3 class="card-title">Data Table With Full Features</h3>
+ 		          </p>
+             
             </div>
             <!-- /.card-header -->
             <div class="card-body">
 
-              <?php
-                $noOfCategories = count($categories);
-              ?>
               
-              @if($noOfCategories)
+              @if($categories->count() > 0)
             
               <table id="example1" class="table table-bordered table-striped table-responsive">
                 <thead>

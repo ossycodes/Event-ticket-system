@@ -30,13 +30,9 @@
         <div class="card">
             <!-- /.card-header -->
             <div class="card-body">
-                <?php
-                    //counts the number of messages in database
-                    $noOfMessages = count($messages);
-                    //dd($noOfMessages);
-                ?>
+               
+            @if($messages->count() > 0)
 
-            @if($noOfMessages)
               <table id="example1" class="table table-bordered table-striped table-responsive">
                 <thead>
 
@@ -96,7 +92,7 @@
 
               </table>
             @else
-                <h3>No Messages At The Moment.</h3>
+                <p>No Contactus Queries At The Moment.</p>
             @endif
             </div>
             <!-- /.card-body -->

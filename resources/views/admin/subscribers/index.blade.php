@@ -31,11 +31,7 @@
             <!-- /.card-header -->
             <div class="card-body">
               
-              <?php
-                $noOfSubscribers = count($subscribers);
-              ?>
-              
-              @if($noOfSubscribers)
+              @if($subscribers->count() > 0)
             
               <table id="example1" class="table table-bordered table-striped table-responsive">
                 <thead>

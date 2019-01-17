@@ -30,10 +30,7 @@
             <!-- /.card-header -->
             <div class="card-body">
 
-              <?php
-                $noOfUsers = count($users);
-              ?>
-              @if($noOfUsers)
+              @if($users->count() > 0)
 
               <table id="example1" class="table table-bordered table-striped table-responsive">
                 <thead>
@@ -44,7 +41,6 @@
                   <th>Name</th>
                   <th>Email</th>
                   <th>Registered At</th>
-                  <th>Action</th>
 
                 </tr>
 
@@ -60,7 +56,6 @@
                   <td>{{ $user->name }}</td>
                   <td>{{ $user->email }}</td>
                   <td>{{ $user->created_at->toDayDateTimeString() }}</td>
-                  <td>Delete | Edit</td>
                    
                 </tr>
                
@@ -75,7 +70,6 @@
                   <th>Name</th>
                   <th>Email</th>
                   <th>Registered At</th>
-                  <th>Action</th>
                 
                 </tr>
                 </tfoot>

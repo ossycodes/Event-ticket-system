@@ -31,19 +31,13 @@
             <div class="card-header">
             <p>
  			<a href="{{ route('system-admin.events.create') }}" class="btn btn-primary">Add New Event</a>
- 	        	</p>
+       
+       @if($events->count() > 0)
+            </p>
               <h3 class="card-title">All available events</h3>
             </div>
             <!-- /.card-header -->
             <div class="card-body">
-
-            
-            <?php
-              //counts the number of events in database
-              $noOfEvents = count($events);     
-            ?>
-
-            @if($noOfEvents > 0)
 
               <table id="example1" class="table table-bordered table-striped table-responsive">
                 <thead>
@@ -149,30 +143,5 @@
             </div>
             <!-- /.card-body -->
           </div>		
-
-          <!-- View Comments Modal -->
-          {{-- <div id="myModal" class="modal fade" role="dialog">
-            <div class="modal-dialog">
-
-              <!-- Modal content-->
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h4 class="modal-title">Comments on {{ $event->name }}</h4>
-                  <button type="button" class="close" data-dismiss="modal">&times;</button>
-                </div>
-
-                <div class="modal-body">
-                  @foreach($events as $comment)
-                    <p>{{ $comment->eventscomment }}</p>
-                  @endforeach
-                </div>
-                
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                </div>
-              </div>
-
-            </div>
-          </div> --}}
           
 @endsection

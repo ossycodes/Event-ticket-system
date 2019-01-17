@@ -13,9 +13,8 @@ class EventsliderimagesController extends Controller
 {
     public function index()
     {
-        $noOfSliders = EventSliderRepoInterface::getTotalSliders();
         $sliders = EventSliderRepoInterface::getSlidersInDescendingOrder();
-        return view('admin.eventsimagesliders.index', compact('sliders', 'noOfSliders'));
+        return view('admin.eventsimagesliders.index', compact('sliders'));
     }
 
     public function create()

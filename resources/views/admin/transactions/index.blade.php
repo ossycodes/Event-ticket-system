@@ -99,7 +99,7 @@
                 </table>
             
             @else
-               <h3 class="card-title">No transactions  at the moment</h3>
+               <h3 class="card-title">No transactions at the moment</h3>
             @endif
 
           </div>

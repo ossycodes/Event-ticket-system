@@ -7,7 +7,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0 text-dark">Transactions</h1>
+            <h1 class="m-0 text-dark">Transaction History</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -31,17 +31,12 @@
             
             <div class="card-header">
              
-             <?php
-                //counts the number of events in database
-                 //$noOfEvents = count($events);     
-              ?> 
-
-            {{-- @if($noOfEvents > 0) --}}
-
-            <h3 class="card-title">Transaction History</h3>
             </div>
             <!-- /.card-header -->
+
             <div class="card-body">
+
+              @if($transactions->count() > 0)
 
               <table id="example1" class="table table-bordered table-striped table-responsive">
                 <thead>
@@ -68,23 +63,21 @@
                   @endphp
                   
                   @foreach($transactions as $transaction) 
-                <tr>
+                    
+                   <tr>
 
-                  
-                  
-                  <td>{{ $transaction->status }}</td>
-                  <td>{{ $transaction->reference_id }}</td>
-                  <td>{{ $transaction->tran_id }}</td>
-                  <td>{{ $transaction->amount/100 }}</td>
-                  <td>{{ $transaction->paid_through }}</td>
-                  <td>{{ $transaction->event_name }}</td>
-                  <td>{{ $transaction->created_at->diffForHumans() }}</td>
-                <td><a href="{{ url("user/{$userid}/download-ticket/{$transaction->id}") }}"><button type="button" class="btn btn-primary">Download Ticket Receipt</button></a></td>
-                 
-                  
+                      <td>{{ $transaction->status }}</td>
+                      <td>{{ $transaction->reference_id }}</td>
+                      <td>{{ $transaction->tran_id }}</td>
+                      <td>{{ $transaction->amount/100 }}</td>
+                      <td>{{ $transaction->paid_through }}</td>
+                      <td>{{ $transaction->event_name }}</td>
+                      <td>{{ $transaction->created_at->diffForHumans() }}</td>
+                      <td><a href="{{ url("user/{$userid}/download-ticket/{$transaction->id}") }}"><button type="button" class="btn btn-primary">Download Ticket Receipt</button></a></td>
 
-                </tr>
-                @endforeach 
+                    </tr>
+                
+                 @endforeach 
                 
                 
                 </tbody>
@@ -107,11 +100,9 @@
 
               </table>
 
-              {{-- @else --}}
-
-                {{-- <p>You have not uploaded any event yet.</p> --}}
-
-              {{-- @endif --}}
+              @else
+                <h3 class="card-title">No transactions at the moment</h3>
+              @endif
 
 
             </div>

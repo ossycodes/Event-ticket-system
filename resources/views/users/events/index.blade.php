@@ -35,12 +35,7 @@
  			    <a href="{{ route('user.events.create') }}" class="btn btn-primary">Add New Event</a>
  		    </p>
              
-             <?php
-                //counts the number of events in database
-                 $noOfEvents = count($events);     
-              ?>
-
-            @if($noOfEvents > 0)
+            @if($events->count() > 0)
 
             <h3 class="card-title">Uploaded Events History</h3>
             </div>

@@ -29,7 +29,6 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                     
                         <p>Posted {{ $postDetails->created_at->diffForHumans() }} </p>
 
-                        <!-- TODO HAD A PPOST PICTURE FROM DB, USING MODELS-->
 
                         <br>
 						<img src="{{ asset(optional($postImage)->imagename ?? 'images/frontend_images/posts/default.jpg') }}" alt="" />
@@ -88,8 +87,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 								
                                 <form action="{{ url('/add-comment-event') }}" method="post">{{ csrf_field() }}
                                     <input type="hidden" name="post_id" value="{{ encrypt($postDetails->id) }}">
-                                    <input type="text" class="text" placeholder="{{ Auth::user() ? Auth::user()->name : 'Enter name' }}" value="" name="name" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Enter Name';}" required>
-                                    <input type="text" class="text" placeholder = "{{ Auth::user() ? Auth::user()->email : 'Enter Email' }}" value="" name="email" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Enter Email';}" required>
+                                    <input type="text" class="text" placeholder="{{  Auth::user()->name ?? 'Enter name' }}" value="" name="name" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Enter Name';}" required>
+                                    <input type="text" class="text" placeholder = "{{  Auth::user()->email ?? 'Enter Email' }}" value="" name="email" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Enter Email';}" required>
                                     <textarea name="message" required></textarea>
                                     <input type="submit" value="SUBMIT COMMENT" class="btn btn-warning">
                                 </form>

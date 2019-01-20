@@ -4,6 +4,9 @@
 
 	<!-- header-section-starts -->
 	<div class="full">
+		{{-- @inject('user', 'App\User')
+		
+		{{ dd($user->all()) }} --}}
 		
 		@include('layouts.frontLayout.front_menu')
 			

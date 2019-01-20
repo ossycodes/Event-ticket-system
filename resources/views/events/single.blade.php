@@ -113,9 +113,10 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 											</div>
 
 										<div class="comments-section-grids">
-										
+												
 												@foreach($eventcomments as $comments)
-												@if($comments->status == 1) 
+											
+													@commentForEventIsActive($comments)
 													
 														<div class="comments-section-grid">
 															
@@ -134,7 +135,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 														
 														</div>
 
-												@endif
+													@endif
+													
 												@endforeach 
 
 
@@ -181,13 +183,6 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 									@include('layouts.frontLayout.front_entertainment')
 								@endforeach
 							</div>
-
-							{{-- <!---->
-							<div class="grid-top">
-								<h4>Other Events</h4>
-									@include('layouts.frontLayout.front_otherevents')
-							</div>
-							<!----> --}}
 
 						</div>
 

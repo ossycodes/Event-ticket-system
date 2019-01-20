@@ -31,8 +31,6 @@ Route::get('/', 'IndexController')->name('/');
 
 Route::get('/posts/{id}', 'BlogController');
 
-//Route for Error page
-Route::get('404', 'UsersController@errorpage');
 
 //Route for contactus query message
 Route::get('/contactus', 'ContactsController@index')->name('contactus');

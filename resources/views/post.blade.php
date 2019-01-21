@@ -27,10 +27,13 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 						
                         <h3>{{ $postDetails->title }}</h3>
                     
-                        <p>Posted {{ $postDetails->created_at->diffForHumans() }} </p>
-
-
+                        <p>Posted - {{ $postDetails->created_at->diffForHumans() }} </p>
+                        
+                        @inject('redisService', 'App\Services\RedisService')
+                        
+                        <p>Views - {{ $redisService->countNoOfBlogPageViews() }} </p>
                         <br>
+
 						<img src="{{ asset(optional($postImage)->imagename ?? 'images/frontend_images/posts/default.jpg') }}" alt="" />
 						
 						

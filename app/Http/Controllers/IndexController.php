@@ -6,15 +6,16 @@ use Illuminate\Http\Request;
 use Intervention\Image\Facades\Image;
 
 use App \{
-        Event,
+    Event,
         Category,
         Background
 };  //php7 grouping use statements
 
 use App\Repositories\Contracts \{
-        EventRepoInterface,
+    EventRepoInterface,
         CategoryRepoInterface
-};  //php7 grouping use statements
+};
+use App\Services\RedisService;  //php7 grouping use statements
 
 
 
@@ -23,22 +24,30 @@ class IndexController extends Controller
     protected $categoryRepo;
     protected $eventRepo;
     protected $path = 'images/frontend_images/events/';
+    protected $redisService;
 
     //constructor dependency injection of CategoryRepoInterface
-    public function __construct(CategoryRepoInterface $categoryRepo, EventRepoInterface $eventRepo)
+    public function __construct(CategoryRepoInterface $categoryRepo, EventRepoInterface $eventRepo, RedisService $redisService)
     {
         $this->categoryRepo = $categoryRepo;
         $this->eventRepo = $eventRepo;
+        $this->redisService = $redisService;
     }
 
-    //use __invoke() since i have only one method in this controller.
-    public function __invoke()
+    public function showIndexPage(Request $request)
     {
+        $this->redisService->storeIpAddressOfSiteVisitors($request);
+
         $allCategories = $this->categoryRepo->getAllCategories();
         $noofeventsimages = $this->eventRepo->getPaginatedEvents(6);
         $events = $this->eventRepo->getPaginatedActiveEvents(3);
 
         return view('index', compact('events', 'noofeventsimages', 'allCategories'));
+    }
+
+    public function showAboutusPage()
+    {
+        return view('aboutus');
     }
 
 }

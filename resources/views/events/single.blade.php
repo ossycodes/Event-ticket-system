@@ -50,6 +50,10 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 								<h3 class="head">{{ optional($eventDetails)->name ?? 'No description provided' }} Full Description</h3>
 								<br>
 								<p>Posted on - {{ optional($eventDetails)->created_at->toDayDateTimeString() ?? 'No date provided' }}</p>
+								<br>
+								@inject('redisService', 'App\Services\RedisService')
+								
+								<p>Views - {{ $redisService->countNoOfEventPageViews() }} </p>
 									
 								
 									<div class="col-md-9 reviews-grids">

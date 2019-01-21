@@ -75,7 +75,7 @@
      <div class="form-group">
       <div class="row">
        <label class="col-md-3">Date</label>
-       <div class="col-md-6"><input type="text" name="date" class="form-control" value="{{ old('date') }}" required></div>
+       <div class="col-md-6"><input type="date" name="date" class="form-control" value="{{ old('date') }}" required></div>
        <div class="clearfix"></div>
        </div>
      </div>
@@ -83,7 +83,7 @@
      <div class="form-group">
       <div class="row">
        <label class="col-md-3">Time</label>
-       <div class="col-md-6"><input type="text" name="time" class="form-control" value="{{ old('time') }}" required></div>
+       <div class="col-md-6"><input type="time" name="time" class="form-control" value="{{ old('time') }}" required></div>
        <div class="clearfix"></div>
        </div>
      </div>
@@ -99,7 +99,7 @@
      <div class="form-group">
       <div class="row">
        <label class="col-md-3">Age</label>
-       <div class="col-md-6"><input type="text" name="age" class="form-control" value="{{ old('age') }}" required></div>
+       <div class="col-md-6"><input type="number" name="age" class="form-control" value="{{ old('age') }}" required></div>
        <div class="clearfix"></div>
        </div>
      </div>
@@ -118,7 +118,7 @@
 
      <div class="field_wrapper">
         <div>
-            <input type="text" name="key[]" value="" placeholder="Ticket Type" style="color: black; font-size: 13px; margin-right: 20px;" /> <input type="text" name="value[]" value="" placeholder="Price" style="color: black; font-size: 13px"/> <br>
+            <input type="text" name="key[]" value="" placeholder="Ticket Type" style="color: black; font-size: 13px; margin-right: 20px;" /> <input type="number" name="value[]" value="" placeholder="Price" style="color: black; font-size: 13px"/> <br>
             <a href="javascript:void(0);" class="add_button" title="Add field"><i class="fa fa-plus" aria-hidden="true"></i></a>
         </div>
      </div> 

@@ -23,6 +23,11 @@
 
                 <ul class="list-group list-group-unbordered mb-3">
                   <li class="list-group-item">
+                      @inject('redisService', 'App\Services\RedisService')
+                      <b>Number Of Site Visitors</b> <a class="float-right"> {{ $redisService->countNoOfSiteVisitors() }}
+                      </a>
+                  </li>
+                  <li class="list-group-item">
                     <b>Newsletter Subscribers</b> <a class="float-right">{{ $noOfSubscribers }}</a>
                   </li>
                   <li class="list-group-item">

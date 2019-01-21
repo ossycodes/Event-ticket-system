@@ -21,6 +21,7 @@ use App\Repositories\Contracts \{
 }; //php7 grouping use statements
 
 use Facades\App\Repositories\Contracts\EventCommentRepoInterface;
+use App\Services\RedisService;
 
 class EventsController extends Controller
 {
@@ -46,10 +47,13 @@ class EventsController extends Controller
 		$noofevents = $this->eventRepo->getAllEvents();
 		$events = $this->eventRepo->getPaginatedActiveEventsWithTickets(3);
 		return view('events.events')->with(compact('events', 'noofevents', 'allCategories', 'allBlogPosts1'));
+	
 	}
 
-	public function show($id)
+	public function show(Request $request, RedisService $redisService,  $id)
 	{
+
+		$redisService->storeEventPageViews($request);
 
 		$allCategories = $this->categoryRepo->getAllCategories();
 		$allBlogPosts = $this->blogRepo->getAllBlogPosts();

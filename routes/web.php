@@ -21,13 +21,11 @@ use Illuminate\Support\Facades\Notification;
 Route::get('/sendmail', 'ContactsController@sendMail');
 
 //about us page route
-Route::get('aboutus', function () {
-    return view('aboutus');
-})->name('aboutus');
+Route::get('aboutus', 'IndexController@showAboutusPage')->name('aboutus');
 
 
 //Route for index
-Route::get('/', 'IndexController')->name('/');
+Route::get('/', 'IndexController@showIndexPage')->name('/');
 
 Route::get('/posts/{id}', 'BlogController');
 

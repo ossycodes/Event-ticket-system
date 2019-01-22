@@ -21,7 +21,7 @@ class Event extends Model
         return $this->hasMany(Eventscomment::class);
     }
 
-    //defines an invers one to many relationship(an event has one category)
+    //defines an inverse one to many relationship(an event has one category)
     public function category()
     {
         return $this->belongsTo(Category::class);

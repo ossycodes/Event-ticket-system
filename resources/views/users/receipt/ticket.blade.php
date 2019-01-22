@@ -24,7 +24,7 @@
     <div class="row">
         <div class="col-xs-12">
     		<div class="invoice-title">
-        <h2>Invoice</h2><h3 class="pull-right">Unique Reference: {{ $receipt->reference_id }}</h3>
+        <h2>Receipt</h2><h3 class="pull-right">Unique Reference: {{ $receipt->reference_id }}</h3>
     		</div>
     		<hr>
     		<div class="row">
@@ -64,16 +64,10 @@
     					<table class="table table-condensed">
     						<thead>
                                 <tr>
-        							<td class="text-center"><strong>Amount Paid</strong></td>
-        							<td class="text-center"><strong>Event Name</strong></td>
+        							<td class="text-center"><strong>Amount Paid</strong> {{  $receipt->amount }} Naira </td>
+        							<td class="text-center"><strong>Event Name</strong> {{ $receipt->event_name }} </td>
                                 </tr>
     						</thead>
-    						<tbody>
-    						    <tr>
-                        <td>{{  $receipt->amount }}</td>
-                        <td class="text-center">{{ $receipt->event_name }}</td>
-    							  </tr>
-    						</tbody>
     					</table>
     				</div>
     			</div>

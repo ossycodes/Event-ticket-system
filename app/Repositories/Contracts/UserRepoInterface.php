@@ -27,4 +27,6 @@ interface UserRepoInterface
     public function updateUserName(Request $request);
 
     public function updateUserProfile(Request $request);
+
+    public function findUser(int $id);
 }

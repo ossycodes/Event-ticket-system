@@ -46,7 +46,7 @@
                   <th>Status</th>
                   <th>Reference</th>
                   <th>Transaction_id</th>
-                  <th>Amount Paid</th>
+                  <th>Amount Paid (Naira)</th>
                   <th>Paid via</th>
                   <th>Event Name</th>
                   <th>Paid</th>
@@ -73,7 +73,10 @@
                       <td>{{ $transaction->paid_through }}</td>
                       <td>{{ $transaction->event_name }}</td>
                       <td>{{ $transaction->created_at->diffForHumans() }}</td>
-                      <td><a href="{{ url("user/{$userid}/download-ticket/{$transaction->id}") }}"><button type="button" class="btn btn-primary">Download Ticket Receipt</button></a></td>
+                      <td><a href="{{ url("user/{$userid}/download-ticket/{$transaction->id}") }}"><button type="button" class="btn btn-success"> <i class="fa fa-download"></i> Download Receipt</button></a></td>
+                      <td><a href="{{ route("view.receipt", $transaction->id) }}"><button type="button" class="btn btn-primary float-right" style="margin-right: 5px;">
+                        <i class="fa fa-eye"></i> View Receipt
+                      </button></a></td>
 
                     </tr>
                 

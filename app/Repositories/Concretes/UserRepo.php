@@ -73,4 +73,9 @@ class UserRepo implements UserRepoInterface
             'location' => $request->location,
         ]);
     }
+
+    public function findUser(int $id)
+    {
+        return User::findOrFail($id);
+    }
 }

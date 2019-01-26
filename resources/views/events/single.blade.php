@@ -53,7 +53,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 								<br>
 								@inject('redisService', 'App\Services\RedisService')
 								
-								<p>Views - {{ $redisService->countNoOfEventPageViews() }} </p>
+								<p>Views - {{ $redisService->countNoOfEventPageViews($eventDetails->id) }} </p>
 									
 								
 									<div class="col-md-9 reviews-grids">

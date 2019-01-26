@@ -18,24 +18,24 @@ class RedisService
         return count(Redis::smembers('pagevisitors'));
     }
 
-    public function storeEventPageViews(Request $request)
+    public function storeEventPageViews(Request $request, $eventId)
     {
-        Redis::sadd('eventpageviews', $request->ip());
+        Redis::sadd('eventpageviews'.$eventId, $request->ip());
     }
 
-    public function countNoOfEventPageViews()
+    public function countNoOfEventPageViews($eventId)
     {
-        return count(Redis::smembers('eventpageviews'));
+        return count(Redis::smembers('eventpageviews'.$eventId));
     }
 
-    public function storeBlogPageViews($request)
+    public function storeBlogPageViews($request, $blogId)
     {
-        Redis::sadd('blogpageviews', $request->ip());
+        Redis::sadd('blogpageviews'.$blogId, $request->ip());
     }
 
-    public function countNoOfBlogPageViews()
+    public function countNoOfBlogPageViews($blogId)
     {
-        return count(Redis::smembers('blogpageviews'));
+        return count(Redis::smembers('blogpageviews'.$blogId));
     }
 
 }

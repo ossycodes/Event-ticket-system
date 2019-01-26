@@ -53,7 +53,7 @@ class EventsController extends Controller
 	public function show(Request $request, RedisService $redisService,  $id)
 	{
 
-		$redisService->storeEventPageViews($request);
+		$redisService->storeEventPageViews($request, $id);
 
 		$allCategories = $this->categoryRepo->getAllCategories();
 		$allBlogPosts = $this->blogRepo->getAllBlogPosts();

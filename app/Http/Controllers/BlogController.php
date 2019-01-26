@@ -26,7 +26,7 @@ class BlogController extends Controller
 
     public function __invoke(Request $request, $id)
     {
-        $this->redisService->storeBlogPageViews($request);
+        $this->redisService->storeBlogPageViews($request, $id);
 
         $postDetails = $this->blogRepo->getBlog($id);
         $postComments = $this->blogRepo->getBlogComments($id);

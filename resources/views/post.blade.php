@@ -31,7 +31,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                         
                         @inject('redisService', 'App\Services\RedisService')
                         
-                        <p>Views - {{ $redisService->countNoOfBlogPageViews() }} </p>
+                        <p>Views - {{ $redisService->countNoOfBlogPageViews($postDetails->id) }} </p>
                         <br>
 
 						<img src="{{ asset(optional($postImage)->imagename ?? 'images/frontend_images/posts/default.jpg') }}" alt="" />

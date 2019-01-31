@@ -82,5 +82,9 @@ class CustomServiceProvider extends ServiceProvider
             'App\Repositories\Contracts\SocialaccountRepoInterface',
             'App\Repositories\Concretes\SocialaccountRepo'
         );
+        $this->app->bind(
+            'App\Services\Contracts\PaymentInterface',
+            'App\Services\Concretes\PaystackService'
+        );
     }
 }

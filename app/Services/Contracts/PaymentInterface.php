@@ -8,5 +8,5 @@ interface PaymentInterface
 {
     public function initalizePayment(Request $request);
 
-    public function verifyPayment();
+    // public function verifyPayment();
 }

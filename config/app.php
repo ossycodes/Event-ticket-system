@@ -168,6 +168,7 @@ return [
          * Application Custom Service Providers...
          */
         App\Providers\CustomServiceProvider::class,
+        App\Providers\PaymentServiceProvider::class,
 
     ],
 

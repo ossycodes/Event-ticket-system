@@ -5,35 +5,19 @@ namespace App\Http\Controllers\User;
 use Illuminate\Http\Request;
 
 use App \{
-    User,
-        Event,
-        Profile,
-        Transaction,
         Http\Controllers\Controller,
         Http\Requests\updateProfile
 }; //php7 grouping use statements
 
-use Illuminate\Support\Facades \{
-    DB,
-        Auth
-}; //php7 grouping use statements
+use App\Repositories\Contracts\UserRepoInterface;
 
-use App\Repositories\Contracts \{
-    EventRepoInterface,
-        TransactionRepoInterface,
-        UserRepoInterface
-}; //php7 grouping use statements
 
 class ProfileController extends Controller
 {
-    protected $eventRepo;
-    protected $transactionRepo;
     protected $userRepo;
 
-    public function __construct(EventRepoInterface $eventRepo, TransactionRepoInterface $transactionRepo, UserRepoInterface $userRepo)
+    public function __construct(UserRepoInterface $userRepo)
     {
-        $this->eventRepo = $eventRepo;
-        $this->transactionRepo = $transactionRepo;
         $this->userRepo = $userRepo;
     }
 
@@ -44,13 +28,8 @@ class ProfileController extends Controller
      */
     public function index()
     {
-        $eventsuploaded = $this->eventRepo->getEventsUploadedByUser(Auth::user()->id);
-        $noOfEventUploaded = $this->eventRepo->getTotalEventsUploadedByUser(Auth::user()->id);
-        $latestEventTicketsPurchased = $this->transactionRepo->getLatestTicketPurchasedByUser(Auth::user()->id);
-        $noOfEventTicketsPurchased = $this->transactionRepo->getTotalTicketsPurchasedByUser(Auth::user()->id);
-        $profile = $this->userRepo->getUserProfile();
-
-        return view('users.profile.index', compact('eventsuploaded', 'noOfEventUploaded', 'noOfEventTicketsPurchased', 'latestEventTicketsPurchased', 'profile'));
+        //please refer to userprofileindexcomposer for data passed to this views
+        return view('users.profile.index');
     }
 
     public function update(updateProfile $request, $id)
@@ -81,9 +60,16 @@ class ProfileController extends Controller
     public function deleteAccount(Request $request, $id)
     {
         //delete user
-        $this->userRepo->deleteUser($id);
+        try {
+            $this->userRepo->deleteUser($id);
+        } catch (\Exception $e) {
+            \Log::error($e->getMessage());
+            return back()->with('error', 'Something went wrong');
+        }
+
         //destroy user session
         $request->session()->flush();
+
         //redirect back to home
         return redirect()->route('login')->with('success', 'Account deleted successfully');
     }

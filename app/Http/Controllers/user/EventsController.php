@@ -78,6 +78,7 @@ class EventsController extends Controller
      * @return \Illuminate\Http\Response
      */
 
+     //see if i can succeed in moving this to the storeevent form request
     public function store(StoreEvent $request)
     {
         //store the request in a $data variable
@@ -138,12 +139,8 @@ class EventsController extends Controller
     {
         //Authourizing  edit action using policies via the user model
         if (Auth::user()->can('edit', Event::find($id))) {
-            $noOfTickets = $this->ticketRepo->getTotalTickets();
-            $event = $this->eventRepo->getEvent($id);
-            $ticket = $this->ticketRepo->getTicketsForEvent($id);
-            $tickets = $this->ticketRepo->getTicketsForEvent($id);
-            $categories = $this->categoryRepo->getAllCategories();
-            return view('users.events.edit', compact('event', 'categories', 'ticket', 'tickets', 'noOfTickets'));
+            //refer to usereventeditcomposer for the data passed to this view
+            return view('users.events.edit');
         }
     }
 
@@ -154,6 +151,7 @@ class EventsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    //TO-do use a clodinary service
     public function update(StoreEvent $request, $id)
     {
         //Authourizing  edit action using policies via the user model

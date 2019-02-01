@@ -30,25 +30,17 @@ class PasswordController extends Controller
 
     public function update(Request $request)
     {
-        //validate the incoming request
         $this->validateRequest($request);
 
-        try {
-            if (Hash::check($request->old_password, Auth::user()->password)) {
-                $this->userRepo->updatePassword($request->new_password);
-                log::info('password updated succcessfully');
+        if ($this->verifyUserPassword($request)) {
+            if($this->updateUserPassword($request)) {
                 return back()->with('success', 'Password changed successfully');
+            }else {
+                return back()->with('error', 'Something went wrong');
             }
-
-        } catch (\Exception $e) {
-            Log::info($e->getMessage());
-            //something goes wrong
-            return back()->with('error', 'Something went wrong');
+        }else{
+            return back()->with('error', 'Old password is incorrect');
         }
-        
-        //something went wrong
-        Log::info('something went wrong');
-        return back()->with('error', 'Old password is incorrect');
     }
 
     public function validateRequest(Request $request)
@@ -64,4 +56,23 @@ class PasswordController extends Controller
             'new_password' => 'required|min:6',
         ], $msg)->validate();
     }
+
+    public function verifyUserPassword($request)
+    {
+        if (Hash::check($request->old_password, Auth::user()->password)) {
+            return true;
+        }
+    }
+    
+    public function updateUserPassword($request)
+    {
+        try{
+            return $this->userRepo->updatePassword($request->new_password);
+        }catch(\Exception $e) {
+            \Log::error($e->getMessage());
+            return false;
+        }
+        
+    }
+
 }

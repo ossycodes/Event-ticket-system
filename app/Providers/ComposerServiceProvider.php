@@ -40,6 +40,15 @@ class ComposerServiceProvider extends ServiceProvider
         View::composer(
             'post', 'App\Http\ViewComposers\PostComposer'
         );
+        View::composer(
+            'users.transaction.index', 'App\Http\ViewComposers\UserTransactionIndexComposer'
+        );
+        View::composer(
+            'users.profile.index', 'App\Http\ViewComposers\UserProfileIndexComposer'
+        );
+        View::composer(
+            'users.events.edit', 'App\Http\ViewComposers\UserEventEditComposer'
+        );
     }
 
     /**

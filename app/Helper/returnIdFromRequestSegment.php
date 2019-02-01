@@ -4,7 +4,7 @@ namespace App\Helper;
 
 trait returnIdFromRequestSegment
 {
-    public function returnIdFromRequestSegment() {
-        return (int) app('Illuminate\Http\Request')->segment('2');
+    public function returnIdFromRequestSegment(int $number = 2) {
+        return (int) app('Illuminate\Http\Request')->segment(3);
     }
 }

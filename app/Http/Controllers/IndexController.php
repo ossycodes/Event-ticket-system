@@ -21,16 +21,11 @@ use App\Services\RedisService;  //php7 grouping use statements
 
 class IndexController extends Controller
 {
-    protected $categoryRepo;
-    protected $eventRepo;
-    protected $path = 'images/frontend_images/events/';
     protected $redisService;
 
-    //constructor dependency injection of CategoryRepoInterface
-    public function __construct(CategoryRepoInterface $categoryRepo, EventRepoInterface $eventRepo, RedisService $redisService)
+    //constructor dependency injection of redisService
+    public function __construct(RedisService $redisService)
     {
-        $this->categoryRepo = $categoryRepo;
-        $this->eventRepo = $eventRepo;
         $this->redisService = $redisService;
     }
 
@@ -38,10 +33,7 @@ class IndexController extends Controller
     {
         $this->redisService->storeIpAddressOfSiteVisitors($request);
 
-        $allCategories = $this->categoryRepo->getAllCategories();
-        $noofeventsimages = $this->eventRepo->getPaginatedEvents(6);
-        $events = $this->eventRepo->getPaginatedActiveEvents(3);
-
+        //please refer to IndexComposer for data passed to this view
         return view('index', compact('events', 'noofeventsimages', 'allCategories'));
     }
 

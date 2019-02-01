@@ -3,7 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use App\Services\PaymentProviderFactory;
+use App\Services\Contracts\PaymentInterface;
 
 class PaymentServiceProvider extends ServiceProvider
 {
@@ -27,11 +27,11 @@ class PaymentServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->bind(
-            'App\Services\Contracts\PaymentInterface',
-            // 'App\Services\Concretes\PaystackService'
-            function($app) {
-                dd('yeah');
-            }
+            PaymentInterface::class,
+            'App\Services\Concretes\PaystackService'
+            // function($app) {
+            //     dd('reaching');
+            // }
          );
     }
 }

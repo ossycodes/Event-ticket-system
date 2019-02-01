@@ -30,7 +30,7 @@ class TicketController extends Controller
     }
 
     public function showReceiptPage($id) {
-        $receipt = $this->transaction->getTicketTransactionReceipt(Auth::id(), $id);
+        //refer to ticketcomposer fot hte data passed to this view
         return view('users.receipt.receipt', compact('receipt'));
     }
 }

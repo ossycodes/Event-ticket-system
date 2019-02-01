@@ -5,20 +5,16 @@ namespace App\Http\Controllers;
 use App\Event;
 use Illuminate\Http\Request;
 
-use App\Repositories\Contracts\{
-    BlogRepoInterface, 
-    EventRepoInterface
-}; //php7 grouping use statements
+use App\Repositories\Contracts\EventRepoInterface;
+
 
 class SearchController extends Controller
 {
     protected $eventRepo;
-    protected $blogRepo;
 
-    public function __construct(EventRepoInterface $eventRepo, BlogRepoInterface $blogRepo)
+    public function __construct(EventRepoInterface $eventRepo)
     {
         $this->eventRepo = $eventRepo;
-        $this->blogRepo = $blogRepo;
     }
     public function __invoke(Request $request)
     {
@@ -27,7 +23,7 @@ class SearchController extends Controller
             try{
                 $events = $this->eventRepo->searchEvent($request->q, 6);
             } catch(\Exception $e) {
-                info($e->getMessage());
+                Log::error($e->getMessage());
                 return back()->with('error', 'Error connecting to Algolia Server');
             }
             

@@ -29,4 +29,6 @@ interface UserRepoInterface
     public function updateUserProfile(Request $request);
 
     public function findUser(int $id);
+
+    public function getUserPassword();
 }

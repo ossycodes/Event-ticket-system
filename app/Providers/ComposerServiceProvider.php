@@ -49,6 +49,18 @@ class ComposerServiceProvider extends ServiceProvider
         View::composer(
             'users.events.edit', 'App\Http\ViewComposers\UserEventEditComposer'
         );
+        View::composer(
+            'admin.profile.index', 'App\Http\ViewComposers\AdminProfileIndexComposer'
+        );
+        View::composer(
+            'admin.database_notification.create', 'App\Http\ViewComposers\AdminDatabaseNotificationCreateComposer'
+        );
+        View::composer(
+            'admin.events.edit', 'App\Http\ViewComposers\AdminEventsEditComposer'
+        );
+        View::composer(
+            'admin.posts.edit', 'App\Http\ViewComposers\AdminPostEditComposer'
+        );
     }
 
     /**

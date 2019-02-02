@@ -37,7 +37,7 @@ class ContactsController extends Controller
      */
     public function destroy($id)
     {
-        Contact::destroy($id);
+        $this->contactRepo->deleteContactusMessage($id);
         return redirect()->route('system-admin.messages.index')->with('success', 'Message deleted successfully');
     }
 }

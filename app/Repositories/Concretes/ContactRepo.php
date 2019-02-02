@@ -24,6 +24,10 @@ class ContactRepo implements ContactRepoInterface
     }
 
     public function storeContactusMessage(array $data) {
-        Contact::create($data);
+        return Contact::create($data);
+    }
+
+    public function deleteContactusMessage(int $id) {
+        return Contact::destroy($id);
     }
 }

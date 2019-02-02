@@ -43,11 +43,7 @@ class BlogsController extends Controller
      */
     public function index()
     {
-        //log event
-        Log::info('Displayed a list of available posts in database for user with email:' . ' ' . Auth::user()->email . ' ' . 'to see');
-        //fetch all posts from database
         $posts = $this->blogRepo->getCommentsForBlogPostDescendingOrder();
-        //return to the index page posts fetched
         return view('admin.posts.index', compact('posts'));
     }
 
@@ -58,8 +54,6 @@ class BlogsController extends Controller
      */
     public function create()
     {
-        //log event
-        Log::info('Displayed a form to create a post for User with email:' . ' ' . Auth::user()->email);
         //return create post form
         return view('admin.posts.create');
     }
@@ -76,8 +70,6 @@ class BlogsController extends Controller
         $storagePath = 'cinemaxii/blogposts/';
         $width = 640;
         $height = 426;
-        
-        //upload and store image
         try{
             $imageName = $this->checkAndUploadImage($request, $data, $storagePath, $width, $height);
         } catch (\Cloudinary\Error $e) {
@@ -88,23 +80,14 @@ class BlogsController extends Controller
         $data['image'] = $imageName[0];
         $data['public_id'] = $imageName[1];
 
-        //create post via mass assignment
         try {
-
             $blog = $this->blogRepo->createBlogPost($data);
-
             $this->blogRepo->createImageForBlogPost($blog->id, $data);
-
-
         } catch (QueryException $e) {
             Log::error($e->getMessage());
-            //return flash session error message to view
             return redirect()->route('system-admin.posts.create')->with('error', 'something went wrong');
         }
         
-        //log event
-        Log::info('User with email:' . ' ' . Auth::user()->email . ' ' . 'just created a post');
-        //return flash success message
         return redirect()->route('system-admin.posts.create')->with('success', 'Post created successfully');
     }
 
@@ -116,10 +99,8 @@ class BlogsController extends Controller
      */
     public function edit($id)
     {
-        $post = $this->blogRepo->getBlog($id);
-        $postImage = $this->blogRepo->getBlogImage($id);
-        $blogImage = $this->blogRepo->getImageForBlogPost($id);
-        return view('admin.posts.edit', compact('post', 'postImage', 'blogImage'));
+        //refer to the adminposteditcomposer for data passed to this view
+        return view('admin.posts.edit');
     }
 
     /**
@@ -137,20 +118,13 @@ class BlogsController extends Controller
         }
 
         $data = $request->all();
-
         $tp = $this->blogRepo->updateBlogPost($id, $data);
-
         $storagePath = 'cinemaxii/blogposts/';
         $width = 640;
         $height = 426;
-
         $imageName = $this->checkAndUploadImage($request, $data, $storagePath, $width, $height);
-
+        
         $this->blogRepo->updateImageForBlogPost($tp->id, $imageName);
-
-        Log::info('Blog with ID:' . ' ' . $tp->id . ' ' . 'just got uploaded');
-
-        //return flash success session message to the view
         return redirect()->route('system-admin.posts.create')->with('success', 'Post updated successfully');
     }
 
@@ -172,15 +146,8 @@ class BlogsController extends Controller
             return back()->with('error', 'Something went wrong please try again');
         }
         
-        //delete post by primary key(id)
         $this->blogRepo->deleteBlogPost($id);
-        
-        //log the error
-        log::info('User with email:' . ' ' . Auth::user()->email . ' ' . 'just deleted a post with Id number' . ' ' . $id);
-        
-        //return flash success message
         return redirect()->route('system-admin.posts.index')->with('success', 'Post deleted successfully');
-
     }
 
 }

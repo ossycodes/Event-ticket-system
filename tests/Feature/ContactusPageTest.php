@@ -8,6 +8,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ContactusPageTest extends TestCase
 {
+    use RefreshDatabase;
     /**
      * @group view-contactuspage
      */
@@ -19,5 +20,20 @@ class ContactusPageTest extends TestCase
         $resp->assertSee('CONTACT');
         $resp->assertSee('WE\'RE ALWAYS HERE TO HELP YOU');
 
+    }
+    
+    public function testCanSendAcontactUsMessage() {
+
+        $attributes = [
+            'name' => 'testname',
+            'email' => 'test@gmail.com',
+            'phonenmuber' => '08027332873',
+            'message' => 'testing hehee'
+        ];
+
+        $resp = $this->post('/contactus', $attributes);
+            $resp->assertSessionHas('success'); 
+
+         
     }
 }

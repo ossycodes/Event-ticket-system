@@ -32,7 +32,7 @@ trait checkAndUploadImage
     {
 
         //if the request has an image and was successfully uploaded
-        if ($request->hasFile('image') and $request->file('image')->isValid()) {
+        if ($request->hasFile('image') && $request->file('image')->isValid()) {
 
             $imageNameWithNoExtension = explode('.', $request->image->getClientOriginalName()); 
            //upload to cloudinary

@@ -2,6 +2,8 @@
 
 namespace App\Repositories\Contracts;
 
+use Illuminate\Http\Request;
+
 interface CategoryRepoInterface
 {
     public function getAllCategories();
@@ -12,4 +14,9 @@ interface CategoryRepoInterface
 
     public function getCategory(int $id);
     
+    public function updateCategory(int $id, Request $request);
+
+    public function getCategoriesForAdminPage();
+
+    public function deleteCategory(int $id);
 }

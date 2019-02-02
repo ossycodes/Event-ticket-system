@@ -11,4 +11,6 @@ interface ContactRepoInterface
     public function getContactusMessages();
 
     public function storeContactusMessage(array $data);
+    
+    public function deleteContactusMessage(int $id);
 }

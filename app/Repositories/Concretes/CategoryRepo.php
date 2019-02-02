@@ -15,8 +15,7 @@ class CategoryRepo implements CategoryRepoInterface
             return Category::all();
         });
 
-        return $result;
-        
+        return $result;        
     }
 
     public function getTotalCategories()
@@ -34,4 +33,18 @@ class CategoryRepo implements CategoryRepoInterface
         return Category::findOrFail($id);
     }
 
+    public function updateCategory(int $id, $request)
+    {
+        return Category::where('id', $id)->update([
+            'name' => $request->name
+        ]);
+    }
+
+    public function getCategoriesForAdminPage() {
+        return Category::all();
+    }
+
+    public function deleteCategory(int $id) {
+        return Category::destroy($id);
+    }
 }

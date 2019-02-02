@@ -11,4 +11,8 @@ interface NotificationRepoInterface
     public function getReadNotifications();
 
     public function getNotificationsInArrayFormat();
+
+    public function markAsReadUnreadNotification();
+
+    public function deleteNotification();
 }

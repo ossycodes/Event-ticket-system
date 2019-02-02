@@ -143,12 +143,8 @@ class EventsController extends Controller
      */
     public function edit($id)
     {
-
-        $event = $this->eventRepo->getEvent($id);
-        $noOfTickets = $this->ticketRepo->getTotalTicketsForEvent($id);
-        $tickets = $this->ticketRepo->getTicketsForEvent($id);
-        $categories = $this->categoryRepo->getAllCategories();
-        return view('admin.events.edit', compact('event', 'categories', 'tickets', 'noOfTickets'));
+        //refer to admineventseditcomposer for data passed to this view
+        return view('admin.events.edit');
     }
 
     /**
@@ -187,6 +183,8 @@ class EventsController extends Controller
 
     }
 
+
+    //create a cloudinary service
     /**
      * Remove the specified resource from storage.
      *
@@ -254,7 +252,6 @@ class EventsController extends Controller
             return back()->with('error', 'Something went wrong');
         }
         
-
         //log the event
         log::info('Event with id of' . ' ' . $id . ' ' . 'just got de-activated');
         

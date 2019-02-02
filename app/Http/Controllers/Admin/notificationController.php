@@ -5,12 +5,8 @@ namespace App\Http\Controllers\Admin;
 
 use Validator;
 
-use Illuminate \{
-        Http\Request,
-        Support\Facades\DB,
-        Support\Facades\Notification
-};  //php7 grouping use statements
-
+use Illuminate\Http\Request;
+    
 use App \{
         User,
         Notifications\generalNotification,
@@ -18,11 +14,11 @@ use App \{
 };  //php7 grouping use statements
 
 use App\Repositories\Contracts \{
-        NotificationRepoInterface,
+    NotificationRepoInterface,
         UserRepoInterface
 }; //php7 grouping use statements
 
-class notificationController extends Controller
+class notificationController extends App\Http\Controllers\ControllerController
 {
     protected $userRepo;
     protected $notificationRepo;
@@ -40,12 +36,8 @@ class notificationController extends Controller
      */
     public function create()
     {
-        $noOfNotifications = $this->notificationRepo->getTotalNotifications();
-        $noOfUsers = $this->userRepo->getTotalUsers();
-        $sentNotifcations = round(($noOfNotifications / $noOfUsers)) / 2;
-        $allNotifications = $this->notificationRepo->getNotifications();
-        $readNotifications = $this->notificationRepo->getReadNotifications();
-        return view('admin.database_notification.create', compact('sentNotifcations', 'readNotifications', 'allNotifications'));
+        //refer to AdminDatabaseNotificationCreateComposer for data passed to this view.
+        return view('admin.database_notification.create');
     }
 
     /**
@@ -56,14 +48,6 @@ class notificationController extends Controller
      */
     public function store(Request $request)
     {
-        $msg = [
-            'message.required' => 'Please enter the message to be sent'
-        ];
-
-        Validator::make($request->all(), [
-            'message' => 'required',
-        ], $msg)->validate();
-
         $users = $this->userRepo->getUser();
         Notification::send($users, new generalNotification($request->message, $users));
         return back()->with('success', 'Notification has been sent');
@@ -71,13 +55,13 @@ class notificationController extends Controller
 
     public function markAsRead()
     {
-        Auth::user()->unreadNotifications->markAsRead();
+        $this->notificationRepo->markAsReadUnreadNotification();
         return back();
     }
 
     public function deleteNotification()
     {
-        DB::table('notifications')->delete();
+        $this->notificationRepo->deleteNotification();
         return back()->with('success', 'All notification deleted successfully');
     }
 
@@ -85,6 +69,17 @@ class notificationController extends Controller
     {
         $allNotifications = $this->notificationRepo->getNotificationsInArrayFormat();
         return view('admin.database_notification.create', compact('allNotifications'));
+    }
+
+    public function validateRequest($request)
+    {
+        $msg = [
+            'message.required' => 'Please enter the message to be sent'
+        ];
+
+        return Validator::make($request->all(), [
+            'message' => 'required|min:5',
+        ], $msg)->validate();
     }
 
 }

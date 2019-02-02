@@ -78,4 +78,9 @@ class UserRepo implements UserRepoInterface
     {
         return User::findOrFail($id);
     }
+
+    public function getUserPassword()
+    {
+        return Auth::user()->password;
+    }
 }

@@ -10,10 +10,13 @@ class ContactusPageTest extends TestCase
 {
     use RefreshDatabase;
     /**
-     * @group view-contactuspage
+     * @test
      */
-    public function testCanViewContactUsPage()
+    public function user_can_view_contact_us_page()
     {
+
+        $this->withoutExceptionHandling();
+
         $resp = $this->get('/contactus');
 
         $resp->assertStatus(200);
@@ -21,19 +24,25 @@ class ContactusPageTest extends TestCase
         $resp->assertSee('WE\'RE ALWAYS HERE TO HELP YOU');
 
     }
-    
-    public function testCanSendAcontactUsMessage() {
+
+    /** 
+     * @test
+    */
+    public function user_can_send_contact_us_message()
+    {
 
         $attributes = [
             'name' => 'testname',
             'email' => 'test@gmail.com',
-            'phonenmuber' => '08027332873',
-            'message' => 'testing hehee'
+            'phonenumber' => '08027332873',
+            'message' => 'testing hehee',
         ];
 
-        $resp = $this->post('/contactus', $attributes);
-            $resp->assertSessionHas('success'); 
+        $this->post('/contactus',$attributes);
 
-         
+        $this->assertDatabaseHas('contacts', $attributes);
+
+
     }
+
 }

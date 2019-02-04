@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 
@@ -66,6 +67,8 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        // dd($data);
+        
         $user =  User::create([
             'name' => $data['name'],
             'email' => $data['email'],
@@ -73,7 +76,7 @@ class RegisterController extends Controller
         ]);
        
         //send welcome mail to user
-        Mail::to($user)->send(new registeredUser($user));
+        // Mail::to($user)->send(new registeredUser($user));
        
         //update user's profile
         $this->updateProfile($user);
@@ -92,17 +95,19 @@ class RegisterController extends Controller
             'location' => '',
         ]);
         
-        if(!Session::has('clue')) {
-            User::where('email', $user->email)->update([
-                'online' => '1',
-            ]);
-            $request->session()->get('clue');
-        } else {
-            Session(['clue', $user->email]);
-            User::where('email', $user->email)->update([
-                'online' => '1',
-            ]);
-        }
+
+        //this cannot be test, find another way out
+        // if(!Session::has('clue')) {
+        //     User::where('email', $user->email)->update([
+        //         'online' => '1',
+        //     ]);
+        //     $request->session()->get('clue');
+        // } else {
+        //     Session(['clue', $user->email]);
+        //     User::where('email', $user->email)->update([
+        //         'online' => '1',
+        //     ]);
+        // }
     
     }
 

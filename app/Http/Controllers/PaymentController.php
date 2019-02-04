@@ -43,7 +43,6 @@ class PaymentController extends Controller
         $response = $this->paystackService->verifyPayment();
 
         if ($response) {
-            //store the user transaction details in database
             try {
                 $this->transactionRepo->storeTransaction($response, Auth::user()->id);
             } catch (\ErrorException $e) {

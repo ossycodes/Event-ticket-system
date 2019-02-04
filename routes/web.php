@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\Notification;
 Route::get('/sendmail', 'ContactsController@sendMail');
 
 //about us page route
-Route::get('aboutus', 'IndexController@showAboutusPage')->name('aboutus');
+Route::get('/aboutus', 'IndexController@showAboutusPage')->name('aboutus');
 
 
 //Route for index

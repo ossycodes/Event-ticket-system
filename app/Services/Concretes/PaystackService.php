@@ -47,8 +47,24 @@ class PaystackService implements PaymentInterface
             ->get();
 
         $response = json_decode($response);
-
+        
         if ($response->status === true && $response->data->status === "success") {
+            //return new paymentInfo(
+                //$response
+            //);
+            //class paymentInfo {
+                //protected $response;
+                //public function __construct($response) {
+                //     $this->response = $response;
+                // }
+                // public function paymentInfo() {
+                //     return $this->$response;
+                // }
+            //}
+            
+            //according to Colin Decarlo, i am gluing myself to $response from paystack,
+            //so what if its attribute changes later, then that means we have to change everywhere
+            //$response is used(such as in the payment controller, and ticketPurchased event and SendTicketPurchasedMail listner) 
             return $response;
         } else {
             return false;

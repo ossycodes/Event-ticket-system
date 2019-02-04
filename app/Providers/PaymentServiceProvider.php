@@ -24,14 +24,14 @@ class PaymentServiceProvider extends ServiceProvider
         //
     }
 
-    public function register()
-    {
-        $this->app->bind(
-            PaymentInterface::class,
-            'App\Services\Concretes\PaystackService'
-            // function($app) {
-            //     dd('reaching');
-            // }
-         );
-    }
+    // public function register()
+    // {
+    //     $this->app->bind(
+    //         PaymentInterface::class,
+    //         'App\Services\Concretes\PaystackService'
+    //         // function($app) {
+    //         //     dd('reaching');
+    //         // }
+    //      );
+    // }
 }

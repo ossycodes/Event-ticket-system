@@ -32,6 +32,15 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+     /**
+     * The event map for the model.
+     *
+     * @var array
+     */
+    protected $dispatchesEvents = [
+        'created' => 'App\Events\UserCreated',
+    ];
+
     //checks if the user has an admin role
     public function checkRole()
     {

@@ -31,4 +31,10 @@ interface UserRepoInterface
     public function findUser(int $id);
 
     public function getUserPassword();
+
+    public function setUserProfileToDefault(int $userId);
+
+    public function putUserOnline(int $userId);
+
+    public function putUserOfline(int $userId);
 }

@@ -16,6 +16,16 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\TicketPurchased' => [
             'App\Listeners\SendTicketPurchasedMail',
         ],
+
+        'App\Events\UserCreated' => [
+            'App\Listeners\SendWelcomeMail',
+            'App\Listeners\UpdateUserProfile',
+            'App\Listeners\PutUserOnline',
+        ],
+
+        'Illuminate\Auth\Events\Logout' => [
+            'App\Listeners\UserLoggedOut',
+        ],
     ];
 
     /**

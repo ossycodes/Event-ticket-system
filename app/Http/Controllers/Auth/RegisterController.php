@@ -23,7 +23,7 @@ class RegisterController extends Controller
     | validation and creation. By default this controller uses a trait to
     | provide this functionality without requiring any additional code.
     |
-    */
+     */
 
     use RegistersUsers;
 
@@ -67,51 +67,14 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        // dd($data);
-        
-        $user =  User::create([
+        $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
-       
-        //send welcome mail to user
-        // Mail::to($user)->send(new registeredUser($user));
-       
-        //update user's profile
-        $this->updateProfile($user);
-            
+
         return $user;
 
     }
 
-    public function updateProfile($user) {
-
-        User::find($user->id)->profile()->create([
-            'gender' => '',
-            'phonenumber' => '',
-            'education' => '',
-            'skills' => '',
-            'location' => '',
-        ]);
-        
-
-        //this cannot be test, find another way out
-        // if(!Session::has('clue')) {
-        //     User::where('email', $user->email)->update([
-        //         'online' => '1',
-        //     ]);
-        //     $request->session()->get('clue');
-        // } else {
-        //     Session(['clue', $user->email]);
-        //     User::where('email', $user->email)->update([
-        //         'online' => '1',
-        //     ]);
-        // }
-    
-    }
-
-    public function sendRegisteredUserMail($user) {
-        Mail::to($user)->send(new registeredUser($user));
-    }
 }

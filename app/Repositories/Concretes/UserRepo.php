@@ -83,4 +83,29 @@ class UserRepo implements UserRepoInterface
     {
         return Auth::user()->password;
     }
+
+    public function setUserProfileToDefault(int $userId)
+    {
+        return User::find($userId)->profile()->create([
+            'gender' => '',
+            'phonenumber' => '',
+            'education' => '',
+            'skills' => '',
+            'location' => '',
+        ]);
+    }
+
+    public function putUserOnline(int $userId)
+    {
+        return User::find($userId)->update([
+            'online' => 1
+        ]);
+    }
+
+    public function putUserOfline(int $userId)
+    {
+        return User::find($userId)->update([
+            'online' => 0
+        ]);
+    }
 }

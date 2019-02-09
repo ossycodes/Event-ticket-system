@@ -59,7 +59,6 @@ class ProfileController extends Controller
 
     public function deleteAccount(Request $request, $id)
     {
-        //delete user
         try {
             $this->userRepo->deleteUser($id);
         } catch (\Exception $e) {
@@ -67,10 +66,6 @@ class ProfileController extends Controller
             return back()->with('error', 'Something went wrong');
         }
 
-        //destroy user session
-        $request->session()->flush();
-
-        //redirect back to home
         return redirect()->route('login')->with('success', 'Account deleted successfully');
     }
 }

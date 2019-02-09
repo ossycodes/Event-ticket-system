@@ -82,6 +82,12 @@ class RegisterTest extends TestCase
         $response->assertSessionHasErrors(['password']);
     }
 
+
+    public function registerUser($attributes)
+    {
+        return $response = $this->post('/register', $attributes);
+    }   
+
     /** @test */
     public function guest_can_register()
     {
@@ -150,7 +156,7 @@ class RegisterTest extends TestCase
         ];
 
         $response = $this->post('/register', $user);
-       
+
         Mail::assertQueued(registeredUser::class, 1);
         Mail::assertQueued(registeredUser::class, function ($mail) use ($user) {
             return $mail->user->email === $user['email'];

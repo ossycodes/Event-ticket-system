@@ -27,6 +27,7 @@ class updateProfile extends FormRequest
         return [
             'name' => 'required|string',
             'phonenumber' => 'required|digits:11',
+            'email' => 'required|email',
             'gender' => [
                 'required',
                 Rule::in(['male', 'Male', 'Female', 'female', 'FEMALE', 'MALE']),

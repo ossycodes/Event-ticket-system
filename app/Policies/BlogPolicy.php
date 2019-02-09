@@ -10,6 +10,12 @@ class BlogPolicy
 {
     use HandlesAuthorization;
 
+    public function before($user, $ability)
+    {
+        if(Auth::user()-role === 'user') {
+            return false;
+        }
+    }
     /**
      * Determine whether the user can view the blog.
      *
@@ -41,7 +47,7 @@ class BlogPolicy
      */
     public function edit(User $user, Blog $blog)
     {
-       //return $user->id === $blog->user_id;
+
     }
 
     /**

@@ -18,7 +18,7 @@ use App\Repositories\Contracts \{
         UserRepoInterface
 }; //php7 grouping use statements
 
-class notificationController extends App\Http\Controllers\ControllerController
+class notificationController extends \App\Http\Controllers\Controller
 {
     protected $userRepo;
     protected $notificationRepo;

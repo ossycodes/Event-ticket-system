@@ -51,7 +51,7 @@ class UserRepo implements UserRepoInterface
 
     public function updatePassword($newPassword)
     {
-        return Auth::User()->update([
+        Auth::User()->update([
             'password' => \Illuminate\Support\Facades\Hash::make($newPassword)
         ]);
     }

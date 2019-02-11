@@ -34,13 +34,13 @@ class UserTest extends TestCase
     {
         $this->actingAs($this->user);
 
-        $response = $this->get('/home');
-        $response->assertDontSee('Posts');
-        $response->assertDontSee('User Registered');
-        $response->assertDontSee('Newsletter Subscribers');
-        $response->assertDontSee('Contactus Query');
-        $response->assertDontSee('Categories');
-        $response->assertDontSee('All Transactions');
+        $response = $this->get('/home')
+            ->assertDontSee('Posts')
+            ->assertDontSee('User Registered')
+            ->assertDontSee('Newsletter Subscribers')
+            ->assertDontSee('Contactus Query')
+            ->assertDontSee('Categories')
+            ->assertDontSee('All Transactions');
 
     }
 
@@ -49,12 +49,23 @@ class UserTest extends TestCase
     {
         $this->actingAs($this->user);
 
-        $response = $this->get('/home');
-        $response->assertSee('Book Event');
-        $response->assertSee('Upload Event');
-        $response->assertSee('View Profile');
-        $response->assertSee('Transactions');
+        $response = $this->get('/home')
+            ->assertSee('Book Event')
+            ->assertSee('Upload Event')
+            ->assertSee('View Profile')
+            ->assertSee('Transactions');
+    }
+
+    /** @test */
+    public function user_can_delete_account()
+    {
+        $this->actingAs($this->user);
+
+        $response = $this->get("/user/delete-account/{$this->user->id}");
+
+        $response->assertSessionHas('success')
+            ->assertStatus(302);
 
     }
-    
+
 }

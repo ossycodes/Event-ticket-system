@@ -33,19 +33,18 @@ class PasswordController extends Controller
         $this->validateRequest($request);
 
         if ($this->verifyUserPassword($request)) {
-            if($this->updateUserPassword($request)) {
+            if ($this->updateUserPassword($request)) {
                 return back()->with('success', 'Password changed successfully');
-            }else {
+            } else {
                 return back()->with('error', 'Something went wrong');
             }
-        }else{
+        } else {
             return back()->with('error', 'Old password is incorrect');
         }
     }
 
     public function validateRequest(Request $request)
     {
-        //custom error messages
         $msg = [
             'old_password.required' => 'Please provide your old password',
             'new_password.required' => 'Please provide your new password',
@@ -63,16 +62,17 @@ class PasswordController extends Controller
             return true;
         }
     }
-    
+
     public function updateUserPassword($request)
     {
-        try{
+
+        try {
             return $this->userRepo->updatePassword($request->new_password);
-        }catch(\Exception $e) {
+        } catch (\Exception $e) {
             \Log::error($e->getMessage());
             return false;
         }
-        
+
     }
 
 }

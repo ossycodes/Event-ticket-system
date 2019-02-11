@@ -25,7 +25,9 @@ class UserProfileTest extends TestCase
 
         $response = $this->get('/user/profile');
 
-        $response->assertStatus(200);
+        $response->assertStatus(200)
+            ->assertSee($this->user->name)
+            ->assertSee($this->user->email);
     }
 
     /** @test */
@@ -41,9 +43,9 @@ class UserProfileTest extends TestCase
             'location' => 'Ilorem',
             'skills' => 'php',
         ]);
-        
-        $response->assertSessionHas('errors');
-        $response->assertSessionHasErrors('phonenumber');
+
+        $response->assertSessionHas('errors')
+            ->assertSessionHasErrors('phonenumber');
     }
 
 
@@ -60,8 +62,8 @@ class UserProfileTest extends TestCase
             'skills' => 'php',
         ]);
 
-        $response->assertSessionHas('errors');
-        $response->assertSessionHasErrors('name');
+        $response->assertSessionHas('errors')
+            ->assertSessionHasErrors('name');
     }
 
     /** @test */
@@ -78,8 +80,8 @@ class UserProfileTest extends TestCase
             'skills' => 'php',
         ]);
 
-        $response->assertSessionHas('errors');
-        $response->assertSessionHasErrors('email');
+        $response->assertSessionHas('errors')
+            ->assertSessionHasErrors('email');
     }
 
     /** @test */
@@ -97,8 +99,8 @@ class UserProfileTest extends TestCase
             'skills' => 'php',
         ]);
 
-        $response->assertSessionHas('errors');
-        $response->assertSessionHasErrors('email');
+        $response->assertSessionHas('errors')
+            ->assertSessionHasErrors('email');
     }
 
     /** @test */
@@ -115,8 +117,8 @@ class UserProfileTest extends TestCase
             'skills' => 'php',
         ]);
 
-        $response->assertSessionHas('errors');
-        $response->assertSessionHasErrors('gender');
+        $response->assertSessionHas('errors')
+            ->assertSessionHasErrors('gender');
     }
 
     /** @test */
@@ -134,8 +136,8 @@ class UserProfileTest extends TestCase
             'skills' => 'php',
         ]);
 
-        $response->assertSessionHas('errors');
-        $response->assertSessionHasErrors('gender');
+        $response->assertSessionHas('errors')
+            ->assertSessionHasErrors('gender');
     }
 
     /** @test */
@@ -154,8 +156,8 @@ class UserProfileTest extends TestCase
             'skills' => 'php',
         ]);
 
-        $response->assertSessionHas('errors');
-        $response->assertSessionHasErrors('phonenumber');
+        $response->assertSessionHas('errors')
+            ->assertSessionHasErrors('phonenumber');
     }
 
     /** @test */

@@ -24,7 +24,7 @@ class TicketComposer
 
     public function compose(View $view)
     {
-        $id = $this->returnIdFromRequestSegment();
+        $id = $this->returnIdFromRequestSegment(3);
         $receipt = $this->transactionRepo->getTicketTransactionReceipt(Auth::id(), $id);
         $view->with(compact('receipt'));
     }

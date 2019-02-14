@@ -41,13 +41,11 @@ class EventsController extends Controller
 
     protected $eventRepo;
     protected $categoryRepo;
-    protected $ticketRepo;
 
-    public function __construct(EventRepoInterface $eventRepo, CategoryRepoInterface $categoryRepo, TicketRepoInterface $ticketRepo)
+    public function __construct(EventRepoInterface $eventRepo, CategoryRepoInterface $categoryRepo)
     {
         $this->eventRepo = $eventRepo;
         $this->categoryRepo = $categoryRepo;
-        $this->ticketRepo = $ticketRepo;
     }
     /**
      * Display a listing of the resource.
@@ -56,8 +54,8 @@ class EventsController extends Controller
      */
     public function index()
     {
-        $events = $this->eventRepo->getEventsUploadedByUserWithTheTickets();
-        return view('users.events.index', compact('events'));
+        $eventsUploadedByUser = $this->eventRepo->getEventsUploadedByUserWithTheTickets();
+        return view('users.events.index', compact('eventsUploadedByUser'));
     }
 
     /**
@@ -81,59 +79,11 @@ class EventsController extends Controller
      //see if i can succeed in moving this to the storeevent form request
     public function store(StoreEvent $request)
     {
-        // //store the request in a $data variable
-        // $data = $request->all();
-
-        // $data['user_id'] = Auth::user()->id;
-        // $path = 'cinemaxii/events/';
-        // $width = 287;
-        // $height = 412;
-
-        //  //upload and store image
-        // try {
-        //     $imageName = $this->checkAndUploadImage($request, $data, $path, $width, $height);
-        // } catch (\Cloudinary\Error $e) {
-        //     Log::error($e->getMessage());
-        //     return back()->with('error', 'Something went wrong please try again');
-        // }
-
-        // $data['image'] = $imageName[0];
-        // $data['public_id'] = $imageName[1];
-
-        // $createdEvent = $this->eventRepo->createEvent($data);
-
-        // //if the tickettype and price is equals to 1
-        // if ($data['key'] && $data['value'] === 1) {
-
-        //     $this->ticketRepo->createEventWithOneTicket($data['key'], $data['value']);
-
-        // } elseif ($data['key'] && $data['value'] > 1) {
-
-        //     //if the tickettype and price is greater than 1
-        //     foreach ($data['key'] as $key => $val) {
-        //         // $this->ticketRepo->createEventWithMultipleTicket($data);
-        //         $ticket = new Ticket;
-        //         $ticket->event_id = $createdEvent->id;
-        //         $ticket->tickettype = $val;
-        //         $ticket->price = $data['value'][$key];
-        //         $ticket->save();
-
-        //     }
-
-        // } else {
-        //     //no tickettype and price provided
-        //     $this->ticketRepo->createEventWithNoTicket();
-        // }
-
-        $stored = $storeEvent->uploadEvent();
-        if ($stored) {
-            return redirect()->back()->with('success', 'Event created successfully');
-        } else {
+        $stored = $request->uploadEvent();
+        if (!$stored) {
             return redirect()->back()->with('error', 'Something went wrong');
         }
-        
-        // //return back
-        // return redirect()->back()->with('success', 'Event created successfully');
+        return redirect()->back()->with('success', 'Event created successfully');
     }
 
     /**
@@ -161,35 +111,13 @@ class EventsController extends Controller
      */
     public function update(StoreEvent $request, $id)
     {
-        // //Authourizing  edit action using policies via the user model
-        // if (Auth::user()->can('update', Event::find($id))) {
-
-        //     if ($request->has('image')) {
-        //         Cloudder::destroyImage($request->public_id);
-        //         Cloudder::delete($request->public_id);
-        //     }
-
-        //     $data = $request->all();
-        //     $path = 'cinemaxii/events/';
-        //     $width = 287;
-        //     $height = 412;
-
-        //     try {
-        //         $imageDetails = $this->checkAndUploadImage($request, $data, $path, $width, $height);
-        //     } catch (\Cloudinary\Error $e) {
-        //         Log::error($e->getMessage());
-        //         return back()->with('error', 'Something went wrong please try again');
-        //     }
-
-        //     $data['image'] = $imageDetails[0];
-        //     $data['public_id'] = $imageDetails[1];
-
-        //     $updateEvent = $this->eventRepo->updateEvent($id, $data);
-
-        // }
-
-        $storeEvent->updateEvent($this->eventRepo);
-        return redirect()->route('user.events.index')->with('success', 'Event updated successfully');
+        if (Auth::user()->can('update', Event::find($id))) {
+            $updateEvent = $request->updateEvent();
+            if (!$updateEvent) {
+                return redirect()->back()->with('error', 'Something went wrong');
+            }
+            return redirect()->route('user.events.index')->with('success', 'Event updated successfully');
+        }
     }
 
     /**
@@ -198,37 +126,14 @@ class EventsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(StoreEvent $event, $id)
     {
-        // $event = $this->eventRepo->getEvent($id);
-        
-        // //Authourizing  delete action using policies via the user model
-        // if (Auth::user()->can('delete', $event)) {
-        //     //deletes and destroy the image from cloudinary
-        //     try {
-        //         //todo put this in a service
-        //         Cloudder::destroyImage($event->public_id);
-        //         Cloudder::delete($event->public_id);
-        //     } catch (\Cloudinary\Error $e) {
-        //         Log::error($e->getMessage());
-        //         return back()->with('error', 'Something went wrong please try again');
-        //     }
-
-        //     try {
-        //         //delete the event
-        //         Log::info("Event with {$id} deleted successfully");
-        //         $this->eventRepo->deleteEvent($id);
-        //     } catch (\Exception $e) {
-        //         Log::error($e->getMessage());
-        //         return back()->with('error', 'Something went wrong please try again');
-        //     }
-
-
-        // }    
-        
-
-        //return flash session message back to user
-        return back()->with('success', 'Event deleted successfully');
+        if (Auth::user()->can('delete', $event)) {
+            if (!$deleteEvent) {
+                return back()->with('error', 'Something went wrong please try again');
+            }
+            return back()->with('success', 'Event deleted successfully');
+        }
 
     }
 

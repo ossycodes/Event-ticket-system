@@ -5,21 +5,21 @@ namespace App\Helper;
 use Auth;
 use Validator;
 
-use App\{
+use App \{
     Event,
-    Category,
-    Http\Controllers\Controller
+        Category,
+        Http\Controllers\Controller
 }; //php7 grouping use statements
 
-use Illuminate\Http\{
+use Illuminate\Http \{
     Request,
-    UploadedFile
+        UploadedFile
 }; //php7 grouping use statements
 
-use Illuminate\Support\Facades\{
+use Illuminate\Support\Facades \{
     Log,
-    Storage,
-    Input
+        Storage,
+        Input
 }; //php7 grouping use statements
 
 use Intervention\Image\Facades\Image;
@@ -30,12 +30,10 @@ trait checkAndUploadImage
 {
     public function checkAndUploadImage(Request $request, $data, $path, $width, $height)
     {
-
-        //if the request has an image and was successfully uploaded
         if ($request->hasFile('image') && $request->file('image')->isValid()) {
 
-            $imageNameWithNoExtension = explode('.', $request->image->getClientOriginalName()); 
-           //upload to cloudinary
+            $imageNameWithNoExtension = explode('.', $request->image->getClientOriginalName());
+
             $image_size = array("height" => $height, "width" => $width, "crop" => "scale");
             $image_name = $request->file('image')->getRealPath();;
             $uniqueid = Date('Ymdhis') . rand(1, 99999);
@@ -46,8 +44,6 @@ trait checkAndUploadImage
             $image_publicid = $CloudderArray['public_id'];
 
             return $imageInformation = [$image_url, $image_publicid];
-           //cloundinary ends here
-
 
         } else {
             return $imageInformation = ['null', 'null'];

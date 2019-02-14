@@ -106,9 +106,9 @@ class BlogsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(StorePost $post, $id)
     {
-        $deletePost = (new StorePost)->deletePost();
+        $deletePost = $post->deletePost();
         if (!$deletePost) {
             return redirect()->route('system-admin.posts.create')->with('error', 'something went wrong');
         }

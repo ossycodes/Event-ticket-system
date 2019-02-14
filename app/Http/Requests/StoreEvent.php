@@ -2,16 +2,32 @@
 
 namespace App\Http\Requests;
 
+use App\Ticket;
+use JD\Cloudder\Facades\Cloudder;
 use App\Helper\checkAndUploadImage;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Foundation\Http\FormRequest;
-use App\Repositories\Contracts\TicketRepoInterface;
 use App\Repositories\Concretes\EventRepo;
+use Illuminate\Foundation\Http\FormRequest;
+use App\Repositories\Contracts\BlogRepoInterface;
+use App\Repositories\Contracts\EventRepoInterface;
+use App\Repositories\Contracts\TicketRepoInterface;
+use App\Helper\returnIdFromRequestSegment;
 
 class StoreEvent extends FormRequest
 {
-    use checkAndUploadImage;
+    use checkAndUploadImage, returnIdFromRequestSegment;
 
+    protected $ticketRepo;
+    protected $blogRepo;
+    protected $eventRepo;
+
+    public function __construct(TicketRepoInterface $ticketRepo, BlogRepoInterface $blogRepo, EventRepoInterface $eventRepo)
+    {
+
+        $this->eventRepo = $eventRepo;
+        $this->ticketRepo = $ticketRepo;
+        $this->blogRepo = $blogRepo;
+    }
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -63,17 +79,16 @@ class StoreEvent extends FormRequest
         ];
     }
 
-    public function uploadEvent(TicketRepoInterface $ticketRepo, EventRepo $eventRepo)
+    public function uploadEvent()
     {
         $data = $this->all();
-
         $data['user_id'] = Auth::user()->id;
         $path = 'cinemaxii/events/';
         $width = 287;
         $height = 412;
 
         try {
-            $imageName = $this->checkAndUploadImage($request, $data, $path, $width, $height);
+            $imageName = $this->checkAndUploadImage($this, $data, $path, $width, $height);
         } catch (\Cloudinary\Error $e) {
             Log::error($e->getMessage());
             return false;
@@ -82,18 +97,18 @@ class StoreEvent extends FormRequest
         $data['image'] = $imageName[0];
         $data['public_id'] = $imageName[1];
 
-        $createdEvent = $eventRepo->createEvent($data);
+        $createdEvent = $this->eventRepo->createEvent($data);
  
         //if the tickettype and price is equals to 1
         if ($data['key'] && $data['value'] === 1) {
-            $ticketRepo->createEventWithOneTicket($data['key'], $data['value']);
+            $this->ticketRepo->createEventWithOneTicket($data['key'], $data['value']);
             return true;
 
         } elseif ($data['key'] && $data['value'] > 1) {
         
             //if the tickettype and price is greater than 1
             foreach ($data['key'] as $key => $val) {
-                // $this->ticketRepo->createEventWithMultipleTicket($data);
+                // $this->this->ticketRepo->createEventWithMultipleTicket($data);
                 $ticket = new Ticket;
                 $ticket->event_id = $createdEvent->id;
                 $ticket->tickettype = $val;
@@ -104,44 +119,63 @@ class StoreEvent extends FormRequest
 
         } else {
             //no tickettype and price provided
-            $ticketRepo->createEventWithNoTicket();
+            $this->ticketRepo->createEventWithNoTicket();
             return true;
         }
 
         return false;
     }
 
-    public function updateEvent(EventRepo $eventRepo)
+    public function updateEvent()
     {
-        //Authourizing  edit action using policies via the user model
-        if (Auth::user()->can('update', Event::find($id))) {
+        $id = $this->returnIdFromRequestSegment(3);
+        if ($this->has('image')) {
+            Cloudder::destroyImage($this->public_id);
+            Cloudder::delete($this->public_id);
+        }
 
-            if ($request->has('image')) {
-                Cloudder::destroyImage($request->public_id);
-                Cloudder::delete($request->public_id);
-            }
+        $data = $this->all();
+        $path = 'cinemaxii/events/';
+        $width = 287;
+        $height = 412;
 
-            $data = $request->all();
-            $path = 'cinemaxii/events/';
-            $width = 287;
-            $height = 412;
+        try {
+            $imageDetails = $this->checkAndUploadImage($this, $data, $path, $width, $height);
+        } catch (\Cloudinary\Error $e) {
+            Log::error($e->getMessage());
+            return false;
+        }
 
-            try {
-                $imageDetails = $this->checkAndUploadImage($request, $data, $path, $width, $height);
-            } catch (\Cloudinary\Error $e) {
-                Log::error($e->getMessage());
-                return false;
-            }
+        $data['image'] = $imageDetails[0];
+        $data['public_id'] = $imageDetails[1];
 
-            $data['image'] = $imageDetails[0];
-            $data['public_id'] = $imageDetails[1];
+        $updateEvent = $this->eventRepo->updateEvent($id, $data);
+        if (!$updateEvent) {
+            return false;
+        }
+        return true;
 
-            $updateEvent = $this->eventRepo->updateEvent($id, $data);
-            if (!$updateEvent) {
-                return false;
-            }
+    }
+
+    public function deleteEvent()
+    {
+        $id = $this->returnIdFromRequestSegment(3);
+        $event = $this->eventRepo->getEvent($id);
+        try {
+            Cloudder::destroyImage($event->public_id);
+            Cloudder::delete($event->public_id);
+        } catch (\Cloudinary\Error $e) {
+            Log::error($e->getMessage());
+            return false;
+        }
+
+        try {
+            Log::info("Event with {$id} deleted successfully");
+            $this->eventRepo->deleteEvent($id);
             return true;
-
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+            return false;
         }
     }
 }

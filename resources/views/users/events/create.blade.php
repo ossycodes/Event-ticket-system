@@ -75,7 +75,7 @@
      <div class="form-group">
       <div class="row">
        <label class="col-md-3">Date</label>
-       <div class="col-md-6"><input type="date" name="date" class="form-control" value="{{ old('date') }}" required></div>
+       <div class="col-md-6"><input type="text" name="date" class="form-control" value="{{ old('date') }}" required></div>
        <div class="clearfix"></div>
        </div>
      </div>
@@ -83,7 +83,7 @@
      <div class="form-group">
       <div class="row">
        <label class="col-md-3">Time</label>
-       <div class="col-md-6"><input type="time" name="time" class="form-control" value="{{ old('time') }}" required></div>
+       <div class="col-md-6"><input type="text" name="time" class="form-control" value="{{ old('time') }}" required></div>
        <div class="clearfix"></div>
        </div>
      </div>

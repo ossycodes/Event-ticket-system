@@ -69,8 +69,8 @@
 
                 <tbody>
                 
-                @foreach($events as $event)
-                  @foreach($event->tickets as $t)
+                @foreach($eventsUploadedByUser as $event)
+                  {{-- @foreach($event->tickets as $t) --}}
 
                 <tr>
 
@@ -84,7 +84,9 @@
                   <td>{{ $event->time }}</td>
                   <td>{{ $event->date }}</td>
                   <td>{{ $event->age }}</td>
-                  <td>{{ optional($t)->tickettype }} {{ optional($t)->price }}</td>
+                  @foreach($event->tickets as $t)
+                  <td>{{ $t->tickettype && $t->price ? $t->tickettype | $t->price : 'No Ticket Details Provided'    }}</td>
+                  @endforeach
                   <td>{{ $event->dresscode }}</td>
                   <td>{{ $event->created_at->toDayDateTimeString() }}</td>
                   <td>{{ $event->updated_at->toDayDateTimeString() }}</td>
@@ -103,7 +105,7 @@
                    
                 </tr>
                   
-                 @endforeach
+                 {{-- @endforeach --}}
                 @endforeach 
                 
                 </tbody>

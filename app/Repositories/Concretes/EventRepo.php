@@ -72,7 +72,7 @@ class EventRepo implements EventRepoInterface
 
     public function getEventsUploadedByUserWithTheTickets()
     {
-        return Auth::user()->events()->with('tickets')->get();
+        return Event::where('user_id', Auth::id())->with('tickets')->get();
     }
 
     public function getLatestUploadedEvent()
@@ -122,7 +122,7 @@ class EventRepo implements EventRepoInterface
 
     public function updateEvent($eventId, $data)
     {
-        return Event::find($id)->update([
+        return Event::find($eventId)->update([
 
             'name' => $data['name'],
             'category_id' => $data['category_id'],

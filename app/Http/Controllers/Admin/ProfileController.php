@@ -26,6 +26,9 @@ class ProfileController extends \App\Http\Controllers\Controller
         $this->userRepo = $userRepo;
     }
 
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function index()
     {
         //please refer to adminprofileindexcomposer for data passed to this view
@@ -41,22 +44,27 @@ class ProfileController extends \App\Http\Controllers\Controller
      */
     public function update(Request $request, $id)
     {
-
         if ($request->has('name')) {
             $this->updateName($request);
             $this->updateProfile($request);
             return back()->with('success', 'Profile updated successfully');
         }
-
         return back()->with('error', 'Something went wrong');
-
     }
 
+    /**
+     * @param Request $request
+     * @return mixed
+     */
     public function updateName(Request $request)
     {
         return $this->userRepo->updateUserName($request);
     }
 
+    /**
+     * @param Request $request
+     * @return mixed
+     */
     public function updateProfile(Request $request)
     {
         return $this->userRepo->updateUserProfile($request);

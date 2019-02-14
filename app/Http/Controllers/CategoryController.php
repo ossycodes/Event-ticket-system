@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 class CategoryController extends Controller
 {
-    //used __invoke since i have just a single method in this controller
+    /**
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function __invoke($id)
     {
         //please refer to EventsViaCategoryComposer for data based  to this view

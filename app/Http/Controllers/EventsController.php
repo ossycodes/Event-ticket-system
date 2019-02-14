@@ -10,22 +10,34 @@ class EventsController extends Controller
 {
 
 
-	public function __construct()
+    /**
+     * EventsController constructor.
+     */
+    public function __construct()
 	{
 		$this->middleware('auth')->only('show');
 	}
 
-	public function index()
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function index()
 	{
-		//please refer to eventcompoer for data passed to this view.
+		//please refer to eventcomposer for data passed to this view.
 		return view('events.events');
 	}
 
-	public function show(Request $request, RedisService $redisService, $id)
+    /**
+     * @param Request $request
+     * @param RedisService $redisService
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function show(Request $request, RedisService $redisService, $id)
 	{
 		$redisService->storeEventPageViews($request, $id);
 
-		//please refer to eventcompoer for data passed to this view.
+		//please refer to eventcomposer for data passed to this view.
 		return view('events.single');
 
 	}

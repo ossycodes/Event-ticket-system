@@ -18,13 +18,21 @@ class PaymentController extends Controller
     protected $paystackService;
 
 
-
+    /**
+     * PaymentController constructor.
+     * @param TransactionRepoInterface $transactionRepo
+     * @param PaymentInterface $paystackService
+     */
     public function __construct(TransactionRepoInterface $transactionRepo, PaymentInterface $paystackService)
     {
         $this->transactionRepo = $transactionRepo;
         $this->paystackService = $paystackService;
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function redirectToProvider(Request $request)
     {
         
@@ -38,6 +46,10 @@ class PaymentController extends Controller
     }
 
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function handleGatewayCallback(Request $request)
     {
         $response = $this->paystackService->verifyPayment();

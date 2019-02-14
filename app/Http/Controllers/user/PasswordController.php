@@ -18,16 +18,27 @@ class PasswordController extends Controller
 {
     protected $userRepo;
 
+    /**
+     * PasswordController constructor.
+     * @param UserRepoInterface $userRepo
+     */
     public function __construct(UserRepoInterface $userRepo)
     {
         $this->userRepo = $userRepo;
     }
 
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function index()
     {
         return view('users.password.index');
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function update(Request $request)
     {
         $this->validateRequest($request);
@@ -43,6 +54,10 @@ class PasswordController extends Controller
         }
     }
 
+    /**
+     * @param Request $request
+     * @return mixed
+     */
     public function validateRequest(Request $request)
     {
         $msg = [
@@ -56,6 +71,10 @@ class PasswordController extends Controller
         ], $msg)->validate();
     }
 
+    /**
+     * @param $request
+     * @return bool
+     */
     public function verifyUserPassword($request)
     {
         if (Hash::check($request->old_password, Auth::user()->password)) {
@@ -63,6 +82,10 @@ class PasswordController extends Controller
         }
     }
 
+    /**
+     * @param $request
+     * @return bool
+     */
     public function updateUserPassword($request)
     {
 

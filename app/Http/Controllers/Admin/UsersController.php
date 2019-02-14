@@ -14,6 +14,10 @@ class UsersController extends Controller
 {
     protected $userRepo;
 
+    /**
+     * UsersController constructor.
+     * @param UserRepoInterface $userRepo
+     */
     public function __construct(UserRepoInterface $userRepo)
     {
         $this->userRepo = $userRepo;

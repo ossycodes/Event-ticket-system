@@ -19,4 +19,6 @@ interface CategoryRepoInterface
     public function getCategoriesForAdminPage();
 
     public function deleteCategory(int $id);
+
+    public function createCategory(Array $request);
 }

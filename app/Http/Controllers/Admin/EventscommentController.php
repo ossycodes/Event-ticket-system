@@ -12,11 +12,19 @@ class EventscommentController extends \App\Http\Controllers\Controller
 {
     protected $eventComment;
 
+    /**
+     * EventscommentController constructor.
+     * @param EventCommentRepoInterface $eventComment
+     */
     public function __construct(EventCommentRepoInterface $eventComment)
     {
         $this->eventComment = $eventComment;
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function store(Request $request)
     {
         try {

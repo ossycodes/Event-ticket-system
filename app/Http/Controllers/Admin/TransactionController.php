@@ -14,11 +14,18 @@ class TransactionController extends Controller
 {
     protected $transactionRepo;
 
+    /**
+     * TransactionController constructor.
+     * @param TransactionRepoInterface $transactionRepo
+     */
     public function __construct(TransactionRepoInterface $transactionRepo)
     {
         $this->transactionRepo = $transactionRepo;
     }
-    //used invoke since i have only one method in this class
+
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function __invoke()
     {
         $allTransactions = $this->transactionRepo->getUsersTransactions();

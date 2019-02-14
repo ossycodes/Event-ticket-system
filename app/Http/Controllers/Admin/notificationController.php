@@ -53,24 +53,37 @@ class notificationController extends \App\Http\Controllers\Controller
         return back()->with('success', 'Notification has been sent');
     }
 
+    /**
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function markAsRead()
     {
         $this->notificationRepo->markAsReadUnreadNotification();
         return back();
     }
 
+    /**
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function deleteNotification()
     {
         $this->notificationRepo->deleteNotification();
         return back()->with('success', 'All notification deleted successfully');
     }
 
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function viewNotifications()
     {
         $allNotifications = $this->notificationRepo->getNotificationsInArrayFormat();
         return view('admin.database_notification.create', compact('allNotifications'));
     }
 
+    /**
+     * @param $request
+     * @return mixed
+     */
     public function validateRequest($request)
     {
         $msg = [

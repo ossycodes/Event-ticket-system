@@ -16,6 +16,10 @@ class ProfileController extends Controller
 {
     protected $userRepo;
 
+    /**
+     * ProfileController constructor.
+     * @param UserRepoInterface $userRepo
+     */
     public function __construct(UserRepoInterface $userRepo)
     {
         $this->userRepo = $userRepo;
@@ -32,31 +36,43 @@ class ProfileController extends Controller
         return view('users.profile.index');
     }
 
+    /**
+     * @param updateProfile $request
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function update(updateProfile $request, $id)
     {
-        //if the request has a name as part of the request;
         if ($request->has('name')) {
-            //update user  name
             $this->updateName($request);
-            //update user profile
             $this->updateProfile($request);
-            //redirect the user back with flash seession success message
             return back()->with('success', 'Profile updated successfully');
         }
         return back()->with('error', 'Something went wrong');
     }
 
 
+    /**
+     * @param Request $request
+     */
     public function updateName(Request $request)
     {
         $this->userRepo->updateUserName($request);
     }
 
+    /**
+     * @param Request $request
+     */
     public function updateProfile(Request $request)
     {
         $this->userRepo->updateUserProfile($request);
     }
 
+    /**
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function deleteAccount(Request $request, $id)
     {
         try {

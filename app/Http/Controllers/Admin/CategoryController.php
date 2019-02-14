@@ -21,6 +21,10 @@ class CategoryController extends Controller
 {
     protected $categoryRepo;
 
+    /**
+     * CategoryController constructor.
+     * @param CategoryRepoInterface $categoryRepo
+     */
     public function __construct(CategoryRepoInterface $categoryRepo)
     {
         $this->categoryRepo = $categoryRepo;
@@ -57,7 +61,7 @@ class CategoryController extends Controller
     {
         $this->validateRequest($request);
         try {
-            Category::create($request->all());
+            $this->categoryRepo->createCategory($request->all());
         } catch (QueryException $e) {
             Log::error($e->getMessage());
             return redirect()->route('system-admin.categories.create')->with('error', 'something went wrong');

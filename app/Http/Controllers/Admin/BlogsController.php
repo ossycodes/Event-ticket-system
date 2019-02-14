@@ -6,8 +6,6 @@ use Auth;
 use Validator;
 
 use App \{
-    Blog,
-        Blogsimage,
         Http\Requests\StorePost,
         Http\Controllers\Controller,
         Helper\checkAndUploadImage,
@@ -21,16 +19,16 @@ use Illuminate \{
         Support\Facades\Log
 }; //php7 grouping use statements
 
-use JD\Cloudder\Facades\Cloudder;
-use Intervention\Image\Facades\Image;
 
 
 class BlogsController extends Controller
 {
-    use checkAndUploadImage;
-
     protected $blogRepo;
 
+    /**
+     * BlogsController constructor.
+     * @param BlogRepoInterface $blogRepo
+     */
     public function __construct(BlogRepoInterface $blogRepo)
     {
         $this->blogRepo = $blogRepo;
@@ -66,28 +64,11 @@ class BlogsController extends Controller
      */
     public function store(StorePost $request)
     {
-        $data = $request->all();
-        $storagePath = 'cinemaxii/blogposts/';
-        $width = 640;
-        $height = 426;
-        try{
-            $imageName = $this->checkAndUploadImage($request, $data, $storagePath, $width, $height);
-        } catch (\Cloudinary\Error $e) {
-            Log::error($e->getMessage());
-            return back()->with('error', 'Something went wrong please try again');
-        }
+        $postUploaded = $request->uploadPost();
 
-        $data['image'] = $imageName[0];
-        $data['public_id'] = $imageName[1];
-
-        try {
-            $blog = $this->blogRepo->createBlogPost($data);
-            $this->blogRepo->createImageForBlogPost($blog->id, $data);
-        } catch (QueryException $e) {
-            Log::error($e->getMessage());
+        if (!$postUploaded) {
             return redirect()->route('system-admin.posts.create')->with('error', 'something went wrong');
         }
-        
         return redirect()->route('system-admin.posts.create')->with('success', 'Post created successfully');
     }
 
@@ -112,19 +93,10 @@ class BlogsController extends Controller
      */
     public function update(StorePost $request, $id)
     {
-        if ($request->has('image')) {
-            Cloudder::destroyImage($request->public_id);
-            Cloudder::delete($request->public_id);
+        $updatePost = $request->updatepost();
+        if (!$updatePost) {
+            return redirect()->route('system-admin.posts.create')->with('error', 'something went wrong');
         }
-
-        $data = $request->all();
-        $tp = $this->blogRepo->updateBlogPost($id, $data);
-        $storagePath = 'cinemaxii/blogposts/';
-        $width = 640;
-        $height = 426;
-        $imageName = $this->checkAndUploadImage($request, $data, $storagePath, $width, $height);
-        
-        $this->blogRepo->updateImageForBlogPost($tp->id, $imageName);
         return redirect()->route('system-admin.posts.create')->with('success', 'Post updated successfully');
     }
 
@@ -136,17 +108,10 @@ class BlogsController extends Controller
      */
     public function destroy($id)
     {
-
-        $i = $this->blogRepo->getImageForBlogPost($id);
-        try {
-            Cloudder::destroyImage($i->public_id);
-            Cloudder::delete($i->public_id);
-        } catch (\Cloudinary\Error $e) {
-            Log::error($e->getMessage());
-            return back()->with('error', 'Something went wrong please try again');
+        $deletePost = (new StorePost)->deletePost();
+        if (!$deletePost) {
+            return redirect()->route('system-admin.posts.create')->with('error', 'something went wrong');
         }
-        
-        $this->blogRepo->deleteBlogPost($id);
         return redirect()->route('system-admin.posts.index')->with('success', 'Post deleted successfully');
     }
 

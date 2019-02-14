@@ -2,22 +2,30 @@
 
 namespace App\Http\Controllers;
 
-use Validator;
 use App\Newsletter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Repositories\Contracts\NewsletterRepoInterface;
+use Illuminate\Support\Facades\Validator;
 
 class NewslettersController extends Controller
 {
 	protected $newsletterRepo;
 
-	public function __construct(NewsletterRepoInterface $newsletterRepo)
+    /**
+     * NewslettersController constructor.
+     * @param NewsletterRepoInterface $newsletterRepo
+     */
+    public function __construct(NewsletterRepoInterface $newsletterRepo)
 	{
 		$this->newsletterRepo = $newsletterRepo;
 	}
 
-	public function saveNewsletterSubscriber(Request $request)
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function saveNewsletterSubscriber(Request $request)
 	{
 		$this->validateRequest($request);
 
@@ -32,7 +40,10 @@ class NewslettersController extends Controller
 
 	}
 
-	public function validateRequest($request)
+    /**
+     * @param $request
+     */
+    public function validateRequest($request)
 	{ 
 		//validation rule
 		$rules = [

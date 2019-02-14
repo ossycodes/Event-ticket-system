@@ -12,11 +12,18 @@ class AdminPostEditComposer
     
     protected $blogRepo;
 
+    /**
+     * AdminPostEditComposer constructor.
+     * @param BlogRepoInterface $blogRepo
+     */
     public function __construct(BlogRepoInterface $blogRepo)
     {
         $this->blogRepo = $blogRepo;
     }
-    
+
+    /**
+     * @param View $view
+     */
     public function compose(View $view)
     {
         $id = (int) $this->returnIdFromRequestSegment(4);

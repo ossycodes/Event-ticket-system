@@ -19,8 +19,6 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-
-    //use __invoke() since i have just one method in this controller
     public function __invoke()
     {
         //please refer to homecomposer for data passed to this view.

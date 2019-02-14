@@ -12,10 +12,19 @@ class SearchController extends Controller
 {
     protected $eventRepo;
 
+    /**
+     * SearchController constructor.
+     * @param EventRepoInterface $eventRepo
+     */
     public function __construct(EventRepoInterface $eventRepo)
     {
         $this->eventRepo = $eventRepo;
     }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
+     */
     public function __invoke(Request $request)
     {
         if ($request->has('q') && is_string($request->query('q'))) {

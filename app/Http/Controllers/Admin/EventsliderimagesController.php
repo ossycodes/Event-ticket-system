@@ -18,11 +18,18 @@ class EventsliderimagesController extends Controller
         return view('admin.eventsimagesliders.index', compact('sliders'));
     }
 
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function create()
     {
         return view('admin.eventsimagesliders.create');
     }
 
+    /**
+     * @param EventSliderRequest $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function store(EventSliderRequest $request)
     {
         if (EventSliderRepoInterface::getTotalSliders() === 6) {

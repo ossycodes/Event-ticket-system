@@ -23,12 +23,19 @@ class IndexController extends Controller
 {
     protected $redisService;
 
-    //constructor dependency injection of redisService
+    /**
+     * IndexController constructor.
+     * @param RedisService $redisService
+     */
     public function __construct(RedisService $redisService)
     {
         $this->redisService = $redisService;
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function showIndexPage(Request $request)
     {
         $this->redisService->storeIpAddressOfSiteVisitors($request);
@@ -37,6 +44,9 @@ class IndexController extends Controller
         return view('index', compact('events', 'noofeventsimages', 'allCategories'));
     }
 
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function showAboutusPage()
     {
         return view('aboutus');

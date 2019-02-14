@@ -26,18 +26,30 @@ class ContactsController extends Controller
     public $contactRepo;
     public $categoryRepo;
 
+    /**
+     * ContactsController constructor.
+     * @param CategoryRepoInterface $categoryRepo
+     * @param ContactRepoInterface $contactRepo
+     */
     public function __construct(CategoryRepoInterface $categoryRepo, ContactRepoInterface $contactRepo)
     {
         $this->categoryRepo = $categoryRepo;
         $this->contactRepo = $contactRepo;
     }
 
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function index()
     {
         $allCategories = $this->categoryRepo->getAllCategories();
         return view('contactus')->with(compact('allCategories'));
     }
 
+    /**
+     * @param ContactusRequest $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function store(ContactusRequest $request)
     {
         try {
@@ -47,7 +59,8 @@ class ContactsController extends Controller
             return back()->with('error', 'Something went wrong');
         }
        
-        // dispatch(new SendContactUsMailJob($request->all()));
+        dispatch(new SendContactUsMailJob($request->all()));
+
         return back()->with('success', 'Message Sent Successfully');
 
     }

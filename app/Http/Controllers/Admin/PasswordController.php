@@ -15,47 +15,69 @@ use App\Repositories\Contracts\UserRepoInterface;
 class PasswordController extends \App\Http\Controllers\Controller
 {
     protected $userRepo;
+    protected $request;
 
-    public function __construct(UserRepoInterface $userRepo)
+    /**
+     * PasswordController constructor.
+     * @param UserRepoInterface $userRepo
+     */
+    public function __construct(UserRepoInterface $userRepo, Request $request)
     {
         $this->userRepo = $userRepo;
+        $this->request = $request;
     }
 
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function index()
     {
         //return view
         return view('admin.password.index');
     }
 
-    public function update(Request $request)
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function update()
     {
-        $this->validateRequest($request);
-
-        //verify if password matches
-        $data = $this->verifyPassword($request);
+        $this->validateRequest();
+        $data = $this->verifyPassword();
 
         if ($data) {
-            return redirect('system-admin/admin/change-password')->with('success', 'Password updated successfully');
+            if($this->userRepo->updatePassword($this->request->new_password)){
+                return redirect('system-admin/admin/change-password')->with('success', 'Password updated successfully');
+            }else{
+                return redirect('system-admin/admin/change-password')->with('error', 'Something went wrong');
+            }
         } else {
             return redirect('system-admin/admin/change-password')->with('error', 'Incorrect password');
         }
 
     }
 
-    public function verifyPassword($request)
+    /**
+     * @param $request
+     * @return bool
+     */
+    public function verifyPassword()
     {
         $hashedPassowrd = $this->userRepo->getUserPassword();
-        if (Hash::check($request->old_password, $hashedPassowrd)) {
+        if (Hash::check($this->request->old_password, $hashedPassowrd)) {
             return true;
         } else {
             return false;
         }
     }
 
-    public function validateRequest($request)
+    /**
+     * @return mixed
+     */
+    public function validateRequest()
     {
         return
-            Validator::make($request->all(), [
+            Validator::make($this->request->all(), [
             'old_password' => 'required',
             'new_password' => 'required|min:6',
         ])->validate();

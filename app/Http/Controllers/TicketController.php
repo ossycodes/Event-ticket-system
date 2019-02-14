@@ -15,13 +15,23 @@ class TicketController extends Controller
     protected $transaction;
     protected $userRepo;
 
+    /**
+     * TicketController constructor.
+     * @param TransactionRepoInterface $transaction
+     * @param UserRepoInterface $userRepo
+     */
     public function __construct(TransactionRepoInterface $transaction, UserRepoInterface $userRepo)
     {
         $this->transaction = $transaction;
         $this->userRepo = $userRepo;
     }
 
-    public function downloadTicketReciept($userid, $id)
+    /**
+     * @param $userid
+     * @param $id
+     * @return mixed
+     */
+    public function downloadTicketReciept(int $userid, int $id)
     {
         $receipt = $this->transaction->getTicketTransactionReceipt($userid, $id);
         $user = $this->userRepo->findUser(Auth::id());
@@ -29,6 +39,10 @@ class TicketController extends Controller
         return $pdf->download('ticket-receipt.pdf');
     }
 
+    /**
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function showReceiptPage($id) {
         //refer to ticketcomposer fot hte data passed to this view
         return view('users.receipt.receipt', compact('receipt'));

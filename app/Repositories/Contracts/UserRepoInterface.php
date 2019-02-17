@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 
 interface UserRepoInterface
 {
+    public function createUser($userEmail, $userName);
+
     public function getTotalUsers();
 
     public function getUser();

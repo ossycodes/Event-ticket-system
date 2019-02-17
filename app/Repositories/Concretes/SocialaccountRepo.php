@@ -12,4 +12,12 @@ class SocialaccountRepo implements SocialaccountRepoInterface
     {
         return Socialaccount::where('provider_name', $provider)->where('provider_id', $userId)->first();
     }
+
+    public function createSocialAccountForUser($authUser, $user, $provider)
+    {
+         $authUser->socialAccounts()->create([
+            'provider_id' => $user->getId(),
+            'provider_name' => $provider,
+        ]);
+    }
 }

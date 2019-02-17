@@ -23,12 +23,17 @@ Route::get('/sendmail', 'ContactsController@sendMail');
 //about us page route
 Route::get('/aboutus', 'IndexController@showAboutusPage')->name('aboutus');
 
-
 //Route for index
 Route::get('/', 'IndexController@showIndexPage')->name('/');
 
 Route::get('/posts/{id}', 'BlogController');
 
+//Socialite auth routes
+Route::get('login/{provider}', 'Auth\SocialaccountController@redirectToProvider');
+Route::get('login/{provider}/callback', 'Auth\SocialaccountController@handleProviderCallback');
+
+//search event route
+Route::get('search/events', 'SearchController')->name('search.events');
 
 //Route for contactus query message
 Route::get('/contactus', 'ContactsController@index')->name('contactus');
@@ -38,7 +43,7 @@ Route::post('/contactus', 'ContactsController@store')->name('contactus');
 Route::post('/newsletter', 'NewslettersController@saveNewsletterSubscriber');
 
 //Route for comments
-Route::post('/add-comment-event', 'EventscommentController@store');
+Route::post('/events/{eventId}/comments', 'EventscommentController@store');
 
 //Route for category
 Route::get('/category/{id}', 'CategoryController');
@@ -48,7 +53,6 @@ Auth::routes();
 
 //home route
 Route::get('/home', 'HomeController')->name('home');
-
 
 //Event routes
 Route::group(['prefix' => 'events'], function () {
@@ -62,7 +66,6 @@ Route::group(['prefix' => 'events'], function () {
 //Admin Routes
 Route::group(['prefix' => 'system-admin', 'as' => 'system-admin.', 'middleware' => ['auth', 'isAdmin', 'can:is-Admin']], function () {
 
-    //Resourceful routes
     Route::resource('admin/categories', 'Admin\CategoryController', ['except' => 'show']);
     Route::resource('admin/events', 'Admin\EventsController', ['except' => 'show']);
     Route::resource('admin/posts', 'Admin\BlogsController', ['except' => 'show']);
@@ -113,14 +116,17 @@ Route::group(['prefix' => 'system-admin', 'as' => 'system-admin.', 'middleware' 
 
 //User's Routes
 Route::group(['prefix' => 'user', 'as' => 'user.', 'middleware' => ['isUser', 'auth', 'can:is-User']], function () {
+
     Route::resources([
         'profile' => 'user\ProfileController',
         'events' => 'user\EventsController'
     ]);
+
 });
 
 //User's Routes
 Route::group(['middleware' => ['isUser', 'auth', 'can:is-User']], function () {
+
     Route::get('change-password', 'user\PasswordController@index')->name('user.password');
     Route::post('change-password', 'user\PasswordController@update')->name('user.password.update');
     Route::get('user/delete-account/{id}', 'user\ProfileController@deleteAccount')->name('user.account.delete');
@@ -128,11 +134,12 @@ Route::group(['middleware' => ['isUser', 'auth', 'can:is-User']], function () {
         Auth::user()->unreadNotifications->markAsRead();
         return back();
     });
+
     Route::get('user/transactions', 'user\TransactionController')->name('user.transaction');
     Route::get('user/{userid}/download-ticket/{id}', 'TicketController@downloadTicketReciept');
     Route::get('user/receipt/{id}', 'TicketController@showReceiptPage')->name('view.receipt');
-});
 
+});
 
 Route::group(['middleware' => 'auth'], function () {
     //paymentcontroller routes
@@ -140,11 +147,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/payment/callback', 'PaymentController@handleGatewayCallback');
 });
 
-//Socialite auth routes
-Route::get('login/{provider}', 'Auth\SocialaccountController@redirectToProvider');
-Route::get('login/{provider}/callback', 'Auth\SocialaccountController@handleProviderCallback');
 
-//search event route
-Route::get('search/events', 'SearchController')->name('search.events');
 
 

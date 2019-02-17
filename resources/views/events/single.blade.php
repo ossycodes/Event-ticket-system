@@ -110,7 +110,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 											<div class="comments-section-head">
 												
 												<div class="comments-section-head-text">
-														<h3>{{ $noComments }} @if($noComments > 1) {{str_plural('Comment')}} @else Comment @endif</h3>
+														<h3>{{ $noComments }} {{ str_plural('Comment', $noComments) }}</h3>
 												</div>
 												<div class="clearfix"></div>
 											
@@ -163,9 +163,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 									
 									</div> 
 								
-									<div class="blog-form">
-								
-										<form action="{{ url('/add-comment-event') }}" method="post">{{ csrf_field() }}
+									<div class="blog-form" id="formhere">
+										@php $eventId = encrypt($eventDetails->id)  @endphp
+										<form action="{{ url("/events/{$eventId}/comments") }}" method="post">{{ csrf_field() }}
 											<input type="hidden" name="event_id" value="{{ encrypt($eventDetails->id) }}">
 											<input type="text" class="text" placeholder="{{ Auth::user()->name ?? 'Enter name' }}" value="" name="name" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Enter Name';}" required>
 											<input type="text" class="text" placeholder = "{{ Auth::user() ? Auth::user()->email : 'Enter Email' }}" value="" name="email" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Enter Email';}" required>
@@ -233,22 +233,22 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <div id="myModal" class="modal fade" role="dialog">
 	<div class="modal-dialog">
   
-	  <!-- Modal content-->
 	  <div class="modal-content">
 		<div class="modal-header">
 		  <button type="button" class="close" data-dismiss="modal">&times;</button>
 		  <h4 class="modal-title">Book Ticket for {{ $eventDetails->name }}</h4>
 		</div>
 		    <div class="modal-body">
+					
 					@foreach($tickets as $ticket)
 						<strong><p> {{ $ticket->tickettype }} : {{ is_numeric($ticket->price) ? $ticket->price.' '.'Naira' : 'Free' }}</p></strong>
 					@endforeach
+
 					<br><br>
 
 			<form action="{{ url('/makepayment') }}" method="post" role="form">{{ csrf_field() }}
 
 				<?php
-
 					$metadata = [
 						'custom_fields' => [
 							['event_name' => $eventDetails->name ],
@@ -256,7 +256,6 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 						 ]
 		        	];
 			
-
 				?> 
 					
 					    <select class="form-control" id="sel1" name="amount">
@@ -268,12 +267,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 							  @endforeach
 						</select>
 
-						<br>
-
-						<br>
+						<br><br>
 
 						<select class="form-control" id="sel1" name="qty">
-						
 							<?php 
 								for ($x = 1; $x <= $eventDetails->quantity; $x++) {
 									echo "<option value=$x>$x</option>";
@@ -281,16 +277,11 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 							?>
 						</select>
 
-
-						
-						
 						<input type="hidden" name="metadata" value="{{ json_encode($metadata) }}" >
 
-						{{-- <input type="hidden" name="metadata" value="{{ json_encode($array = ['event_name' => $eventDetails->name]) }}" > --}}
-						
-						
 						<br><br>
-					<input type="submit" class="btn btn-green" value="Pay Now" style="background-color:green; color:white;">
+					
+						<input type="submit" class="btn btn-green" value="Pay Now" style="background-color:green; color:white;">
 
 				</form>
 

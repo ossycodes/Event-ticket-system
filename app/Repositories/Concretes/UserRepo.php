@@ -9,6 +9,15 @@ use App\Repositories\Contracts\UserRepoInterface;
 
 class UserRepo implements UserRepoInterface
 {
+    public function createUser($userEmail, $userName)
+    {
+        return User::create([
+            'email' => $userEmail,
+            'name' => $userName,
+            'password' => ''
+        ]);
+    }
+
     public function getTotalUsers()
     {
         return User::where('role', 'user')->count();
@@ -46,7 +55,7 @@ class UserRepo implements UserRepoInterface
 
     public function getUserViaEmail($userEmail)
     {
-        return User::where('email', $user->getEmail())->first();
+        return User::where('email', $userEmail)->first();
     }
 
     public function updatePassword($newPassword)

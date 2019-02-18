@@ -28,7 +28,6 @@ class PutUserOnline
      */
     public function handle(UserCreated $event)
     {
-        dump($event->user->id);
         $this->userRepo->putUserOnline($event->user->id);
     }
 }

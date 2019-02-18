@@ -56,10 +56,9 @@ class SocialaccountController extends Controller
         } else {
             $authUser = $this->userRepo->getUserViaEmail($user->getEmail());
             if (!$authUser) {
-                $this->userRepo->createUser($user->getEmail(), $user->getName());
-                //this should trigger the update user profile event
+                $authUser = $this->userRepo->createUser($user->getEmail(), $user->getName());
             }
-            $authUser = $this->socialAccount->createSocialAccountForUser($authUser, $user->getId(), $provider);
+            $this->socialAccount->createSocialAccountForUser($authUser, $user->getId(), $provider);
             return $authUser;
         }
     }

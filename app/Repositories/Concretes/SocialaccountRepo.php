@@ -15,8 +15,8 @@ class SocialaccountRepo implements SocialaccountRepoInterface
 
     public function createSocialAccountForUser($authUser, $user, $provider)
     {
-         $authUser->socialAccounts()->create([
-            'provider_id' => $user->getId(),
+         return $authUser->socialAccounts()->create([
+            'provider_id' => $user,
             'provider_name' => $provider,
         ]);
     }

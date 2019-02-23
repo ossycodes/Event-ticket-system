@@ -36,7 +36,7 @@ class EventRepo implements EventRepoInterface
 
     public function getEvent(int $id)
     {
-        return Event::findOrFail($id);;
+        return Event::where('id', $id)->with(['eventscomment', 'tickets'])->first();
     }
 
     public function getPaginatedEventsDescendingOrder(int $amount)

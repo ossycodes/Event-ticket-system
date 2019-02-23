@@ -9,8 +9,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use App\Repositories\Contracts\TransactionRepoInterface;
 use App\Events\TicketPurchased;
-// use App\Services\Concretes\PaystackService;
-use App\Services\Contracts\PaymentInterface;
+use App\Services\Concretes\PaystackService;
 
 class PaymentController extends Controller
 {
@@ -23,7 +22,7 @@ class PaymentController extends Controller
      * @param TransactionRepoInterface $transactionRepo
      * @param PaymentInterface $paystackService
      */
-    public function __construct(TransactionRepoInterface $transactionRepo, PaymentInterface $paystackService)
+    public function __construct(TransactionRepoInterface $transactionRepo, PaystackService $paystackService)
     {
         $this->transactionRepo = $transactionRepo;
         $this->paystackService = $paystackService;

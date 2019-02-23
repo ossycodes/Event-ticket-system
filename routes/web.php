@@ -26,7 +26,7 @@ Route::get('/aboutus', 'IndexController@showAboutusPage')->name('aboutus');
 //Route for index
 Route::get('/', 'IndexController@showIndexPage')->name('/');
 
-Route::get('/posts/{id}', 'BlogController');
+Route::get('/posts/{id}', 'BlogController')->name('posts.index');
 
 //Socialite auth routes
 Route::get('login/{provider}', 'Auth\SocialaccountController@redirectToProvider');

@@ -1,11 +1,4 @@
-<!--
-Author: W3layouts
-Author URL: http://w3layouts.com
-License: Creative Commons Attribution 3.0 Unported
-License URL: http://creativecommons.org/licenses/by/3.0/
--->
-
-@extends('layouts.frontLayout.front_design')
+E@extends('layouts.frontLayout.front_design')
 
 @section('content')
 
@@ -94,7 +87,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
 											<div class="story-review">
 													<h4>Available Tickets</h4>
-													  @foreach($tickets as $ticket)
+													  @foreach($eventDetails->tickets as $ticket)
 														<strong><p> {{ $ticket->tickettype.' ' ?? 'Ticket type not provided' }} : {{ is_numeric($ticket->price) ? $ticket->price.' '.'Naira' : 'Free' }}</p></strong>
 													  @endforeach
 											</div>
@@ -118,7 +111,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
 										<div class="comments-section-grids">
 												
-												@foreach($eventcomments as $comments)
+												@foreach($eventDetails->eventscomment as $comments)
 											
 													@commentForEventIsActive($comments)
 													
@@ -143,7 +136,6 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 													
 												@endforeach 
 
-
 										</div>
 							</div>
 
@@ -153,10 +145,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 									<div class="reply-section-head">
 									
 											<div class="reply-section-head-text">
-											
 												<h3>Leave A Comment</h3>
 												<br><br>
-												<!-- displays flash error messages if any -->
 													@include('layouts.errors')
 												<br>	
 											</div>
@@ -164,7 +154,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 									</div> 
 								
 									<div class="blog-form" id="formhere">
+										
 										@php $eventId = encrypt($eventDetails->id)  @endphp
+
 										<form action="{{ url("/events/{$eventId}/comments") }}" method="post">{{ csrf_field() }}
 											<input type="hidden" name="event_id" value="{{ encrypt($eventDetails->id) }}">
 											<input type="text" class="text" placeholder="{{ Auth::user()->name ?? 'Enter name' }}" value="" name="name" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Enter Name';}" required>
@@ -183,7 +175,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 								
 							<div class="entertainment">
 								<h3>Event Blog</h3>
-								@foreach($allBlogPosts as $posts)
+								@foreach($allPosts as $posts)
 									@include('layouts.frontLayout.front_entertainment')
 								@endforeach
 							</div>
@@ -199,9 +191,11 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 			<div class="review-slider">
 				
 				<ul id="flexiselDemo1">
-					@foreach($eventsimage as $eventimage)
-						<li><img src="{{ asset($eventimage->image) }}" alt="{{ $eventimage->description }}"/></li>
+
+					@foreach($eventSliderImages as $image)
+						<li><img src="{{ asset($image->slider_imagename) }}" alt="{{ $image->slider_imagename }}"/></li>
 					@endforeach
+		
 				</ul>
 			
 				@include('layouts.frontLayout.front_scripts2')	
@@ -212,6 +206,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 			<div class ="container" style="background:#f3f3f3;">
 			
 				<strong> Categories: </strong>
+
 				@foreach($allCategories as $category)
 					<a href="{{ url('category/'.$category->id) }}" style="text-decoration:none;"><span class="label label-warning">{{ $category->name }}</span></a>
 				@endforeach
@@ -229,74 +224,112 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 @auth
 
 
-@if($noOfTickets  > 0)
-<div id="myModal" class="modal fade" role="dialog">
-	<div class="modal-dialog">
-  
-	  <div class="modal-content">
-		<div class="modal-header">
-		  <button type="button" class="close" data-dismiss="modal">&times;</button>
-		  <h4 class="modal-title">Book Ticket for {{ $eventDetails->name }}</h4>
-		</div>
-		    <div class="modal-body">
-					
-					@foreach($tickets as $ticket)
-						<strong><p> {{ $ticket->tickettype }} : {{ is_numeric($ticket->price) ? $ticket->price.' '.'Naira' : 'Free' }}</p></strong>
-					@endforeach
-
-					<br><br>
-
-			<form action="{{ url('/makepayment') }}" method="post" role="form">{{ csrf_field() }}
-
-				<?php
-					$metadata = [
-						'custom_fields' => [
-							['event_name' => $eventDetails->name ],
+		@if($noOfTickets  > 0)
+		<div id="myModal" class="modal fade" role="dialog">
+			<div class="modal-dialog">
+		
+			<div class="modal-content">
+				<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">Book Ticket for {{ $eventDetails->name }}</h4>
+				<br><br>
+				</div>
+					<div class="modal-body">
 							
-						 ]
-		        	];
-			
-				?> 
+							@foreach($eventDetails->tickets as $ticket)
+								<strong><p> {{ $ticket->tickettype }} : {{ is_numeric($ticket->price) ? $ticket->price.' '.'Naira' : 'Free' }}</p></strong>
+							@endforeach
+
+							<br>
+
+							<strong><p id="total-pay"></p></strong>
+
+							<br><br>
+
+					<form action="{{ url('/makepayment') }}" method="post" role="form">{{ csrf_field() }}
+
+						<?php
+							$metadata = [
+								'custom_fields' => [
+									['event_name' => $eventDetails->name ],
+									
+								]
+							];
 					
-					    <select class="form-control" id="sel1" name="amount">
-							<option disabled>--- Select Tickets ---</option>
-							  @foreach($tickets as $ticket)
-							   @if(is_numeric($ticket->price)) 
-								 <option value="{{$ticket->price}}">{{$ticket->tickettype}}</option>
-							   @endif
-							  @endforeach
-						</select>
+						?> 
+							
+								<select class="form-control" id="sel1" name="amount">
+									<option disabled>--- Select Tickets ---</option>
+									@foreach($eventDetails->tickets as $ticket)
+										@if(is_numeric($ticket->price)) 
+												<option value="{{$ticket->price}}">{{$ticket->tickettype}}</option>
+										@endif
+									@endforeach
+								</select>
 
-						<br><br>
+								<br><br>
 
-						<select class="form-control" id="sel1" name="qty">
-							<?php 
-								for ($x = 1; $x <= $eventDetails->quantity; $x++) {
-									echo "<option value=$x>$x</option>";
-								} 
-							?>
-						</select>
+								<select class="form-control" id="sel2" name="qty">
+									<?php 
+										for ($x = 1; $x <= $eventDetails->quantity; $x++) {
+											echo "<option value=$x>$x</option>";
+										} 
+									?>
+								</select>
 
-						<input type="hidden" name="metadata" value="{{ json_encode($metadata) }}" >
+								<input type="hidden" name="metadata" value="{{ json_encode($metadata) }}" >
 
-						<br><br>
-					
-						<input type="submit" class="btn btn-green" value="Pay Now" style="background-color:green; color:white;">
+								<br><br>
+							
+								<input type="submit" class="btn btn-green" value="Pay Now" style="background-color:green; color:white;">
 
-				</form>
+						</form>
 
+						{{-- payment button for stripe --}}
+						{{-- <form action="your-server-side-code" method="POST">
+							<script
+							var tickets = {{ json_encode($tickets) }}
+							src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+							data-key="pk_test_TYooMQauvdEDq54NiTphI7jx"
+							data-amount="999"
+							data-name="Stripe.com"
+							data-description="Example charge"
+							data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+							data-locale="auto"
+							data-zip-code="true">
+							</script>
+						</form> --}}
+
+					</div>
+				<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
 			</div>
-		<div class="modal-footer">
-		  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		
+			</div>
 		</div>
-	  </div>
-  
-	</div>
-</div>
-@endif
+		@endif
 
-  @endauth
+  @endauth	
 
+		<script>
+			document.getElementById('sel2').addEventListener('click', function() {
+				var ticketPrice = document.getElementById('sel1').value;
+				var ticketQuantity = document.getElementById('sel2').value;
+				var totalAmount = ticketPrice * ticketQuantity;
+				document.getElementById('total-pay').innerHTML = 'Ticket Quantity - ' + ticketQuantity + '<br>' + 
+				'Ticket Price - ' + ticketPrice + ' ' + 'Naira' + '<br>' +
+				'Amount To Be Paid' + ' ' +  totalAmount + ' ' + 'Naira';
+			});
+			document.getElementById('sel2').addEventListener('change', function() {
+				var ticketPrice = document.getElementById('sel1').value;
+				var ticketQuantity = document.getElementById('sel2').value;
+				var totalAmount = ticketPrice * ticketQuantity;
+				document.getElementById('total-pay').innerHTML = 'Ticket Quantity - ' + ticketQuantity + '<br>' + 
+				'Ticket Price - ' + ticketPrice + ' ' + 'Naira' + '<br>' +
+				'Amount To Be Paid' + ' ' +  totalAmount + ' ' + 'Naira';
+			});
+		</script>
 @endsection
 
 

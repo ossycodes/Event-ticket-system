@@ -1,10 +1,3 @@
-<!--
-Author: W3layouts
-Author URL: http://w3layouts.com
-License: Creative Commons Attribution 3.0 Unported
-License URL: http://creativecommons.org/licenses/by/3.0/
--->
-
 @extends('layouts.frontLayout.front_design')
 
 @section('content')
@@ -16,10 +9,6 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				
 			@include('layouts.frontLayout.front_mainheader')
 			
-			{{-- <!--@foreach($backgroundInfo as $info)	
-				@include('layouts.frontLayout.front_header')
-			@endforeach--> --}}
-		
 				<div class="review-slider">
 					
 					<ul id="flexiselDemo1">
@@ -104,10 +93,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				<div class="more-reviews">
 				
 					<ul id="flexiselDemo2">
-						
-					@foreach($eventSliderImages as $image)
-					<li><img src="{{ asset($image->slider_imagename) }}" alt="{{ $image->slider_imagename }}"/></li>
-					@endforeach
+						@foreach($eventSliderImages as $image)
+							<li><img src="{{ asset($image->slider_imagename) }}" alt="{{ $image->slider_imagename }}"/></li>
+						@endforeach
 					</ul>
 					
 					@include('layouts.frontLayout.front_scripts')	

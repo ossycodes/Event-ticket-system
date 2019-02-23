@@ -16,7 +16,11 @@ class BlogRepo implements BlogRepoInterface
 
     public function getPaginatedBlogPosts(int $amount)
     {
-        return Blog::paginate($amount);
+        $result = \Cache::remember('paginated_blog_posts_cache', 1440, function () use ($amount) {
+            return Blog::paginate($amount);
+        });
+
+        return $result;
     }
 
     public function getTotalBlogPosts()

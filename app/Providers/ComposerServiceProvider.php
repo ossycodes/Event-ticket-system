@@ -20,46 +20,64 @@ class ComposerServiceProvider extends ServiceProvider
             'App\Http\ViewComposers\IndexComposer'
         );
         View::composer(
-            'index', 'App\Http\ViewComposers\IndexComposer'
+            'index',
+            'App\Http\ViewComposers\IndexComposer'
         );
         View::composer(
-            'home', 'App\Http\ViewComposers\HomeComposer'
+            'home',
+            'App\Http\ViewComposers\HomeComposer'
         );
         View::composer(
-            'users.receipt.receipt', 'App\Http\ViewComposers\TicketComposer'
+            'users.receipt.receipt',
+            'App\Http\ViewComposers\TicketComposer'
         );
         View::composer(
-            'events.events', 'App\Http\ViewComposers\EventComposer'
+            'events.events',
+            'App\Http\ViewComposers\EventComposer'
         );
         View::composer(
-            'events.single', 'App\Http\ViewComposers\EventSingleComposer'
+            'events.single',
+            'App\Http\ViewComposers\EventSingleComposer'
         );
         View::composer(
-            'events.eventviacategory', 'App\Http\ViewComposers\EventViaCategoryComposer'
+            'events.eventviacategory',
+            'App\Http\ViewComposers\EventViaCategoryComposer'
         );
         View::composer(
-            'post', 'App\Http\ViewComposers\PostComposer'
+            'post',
+            'App\Http\ViewComposers\PostComposer'
         );
         View::composer(
-            'users.transaction.index', 'App\Http\ViewComposers\UserTransactionIndexComposer'
+            'users.transaction.index',
+            'App\Http\ViewComposers\UserTransactionIndexComposer'
         );
         View::composer(
-            'users.profile.index', 'App\Http\ViewComposers\UserProfileIndexComposer'
+            'users.profile.index',
+            'App\Http\ViewComposers\UserProfileIndexComposer'
         );
         View::composer(
-            'users.events.edit', 'App\Http\ViewComposers\UserEventEditComposer'
+            'users.events.edit',
+            'App\Http\ViewComposers\UserEventEditComposer'
         );
         View::composer(
-            'admin.profile.index', 'App\Http\ViewComposers\AdminProfileIndexComposer'
+            'admin.profile.index',
+            'App\Http\ViewComposers\AdminProfileIndexComposer'
         );
         View::composer(
-            'admin.database_notification.create', 'App\Http\ViewComposers\AdminDatabaseNotificationCreateComposer'
+            'admin.database_notification.create',
+            'App\Http\ViewComposers\AdminDatabaseNotificationCreateComposer'
         );
         View::composer(
-            'admin.events.edit', 'App\Http\ViewComposers\AdminEventsEditComposer'
+            'admin.events.edit',
+            'App\Http\ViewComposers\AdminEventsEditComposer'
         );
         View::composer(
-            'admin.posts.edit', 'App\Http\ViewComposers\AdminPostEditComposer'
+            'admin.posts.edit',
+            'App\Http\ViewComposers\AdminPostEditComposer'
+        );
+        view::composer(
+            ['events.events', 'events.single'],
+            'App\Http\ViewComposers\BlogPostComposer'
         );
     }
 

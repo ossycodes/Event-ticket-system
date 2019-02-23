@@ -129,6 +129,7 @@ class EventsController extends Controller
     public function destroy(StoreEvent $event, $id)
     {
         if (Auth::user()->can('delete', $event)) {
+            $deleteEvent = $event->deleteEvent();
             if (!$deleteEvent) {
                 return back()->with('error', 'Something went wrong please try again');
             }

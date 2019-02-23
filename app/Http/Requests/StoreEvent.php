@@ -170,7 +170,6 @@ class StoreEvent extends FormRequest
         }
 
         try {
-            Log::info("Event with {$id} deleted successfully");
             $this->eventRepo->deleteEvent($id);
             return true;
         } catch (\Exception $e) {

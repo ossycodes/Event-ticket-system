@@ -26,9 +26,7 @@ use Illuminate \{
 
 use App\Repositories\Contracts \{
     EventRepoInterface,
-        CategoryRepoInterface,
-        TicketRepoInterface,
-        EventCommentRepoInterface
+    CategoryRepoInterface,
 }; //php7 grouping use statements
 
 use JD\Cloudder\Facades\Cloudder;
@@ -42,15 +40,11 @@ class EventsController extends Controller
 
     protected $eventRepo;
     protected $categoryRepo;
-    protected $ticketRepo;
-    protected $eventCommentRepo;
 
-    public function __construct(EventRepoInterface $eventRepo, CategoryRepoInterface $categoryRepo, TicketRepoInterface $ticketRepo, EventCommentRepoInterface $eventCommentRepo)
+    public function __construct(EventRepoInterface $eventRepo, CategoryRepoInterface $categoryRepo)
     {
         $this->eventRepo = $eventRepo;
         $this->categoryRepo = $categoryRepo;
-        $this->ticketRepo = $ticketRepo;
-        $this->eventCommentRepo = $eventCommentRepo;
     }
 
     /**
@@ -60,8 +54,6 @@ class EventsController extends Controller
      */
     public function index()
     {
-        //log event
-        Log::info('Displayed a list of available events in database for user with email:' . ' ' . Auth::user()->email . ' ' . 'to see');
         $events = $this->eventRepo->getEventsWithTickets();
         return view('admin.events.index', compact('events'));
     }
@@ -73,8 +65,6 @@ class EventsController extends Controller
      */
     public function create()
     {
-        //log event
-        Log::info('Displayed a form to create an event for User with email:' . ' ' . Auth::user()->email);
         $categories = $this->categoryRepo->getAllCategories();
         return view('admin.events.create', compact('categories'));
     }
@@ -87,52 +77,11 @@ class EventsController extends Controller
      */
     public function store(StoreEvent $request)
     {
-
-        //store the request in a $data variable
-        $data = $request->all();
-
-        $data['user_id'] = Auth::user()->id;
-        $path = 'cinemaxii/events/';
-        $width = 287;
-        $height = 412;
-
-         //upload  image to cloudinary
-        try {
-            $imageName = $this->checkAndUploadImage($request, $data, $path, $width, $height);
-        } catch (\Cloudinary\Error $e) {
-            Log::error($e->getMessage());
-            return back()->with('error', 'Something went wrong please try again');
+        $stored = $request->uploadEvent();
+        if (!$stored) {
+            return redirect()->back()->with('error', 'Something went wrong');
         }
-
-        $data['image'] = $imageName[0];
-        $data['public_id'] = $imageName[1];
-
-        $createdEvent = $this->eventRepo->createEvent($data);
-
-        //if the tickettype and price is equals to 1
-        if ($data['key'] && $data['value'] === 1) {
-
-            $this->ticketRepo->createEventWithOneTicket($data['key'], $data['value']);
-
-        } elseif ($data['key'] && $data['value'] > 1) {
-
-            //if the tickettype and price is greater than 1
-            foreach ($data['key'] as $key => $val) {
-                // $this->ticketRepo->createEventWithMultipleTicket($data);
-                $ticket = new Ticket;
-                $ticket->event_id = $createdEvent->id;
-                $ticket->tickettype = $val;
-                $ticket->price = $data['value'][$key];
-                $ticket->save();
-
-            }
-
-        } else {
-            //no tickettype and price provided
-            $this->ticketRepo->createEventWithNoTicket();
-        }
-
-        return redirect()->route('system-admin.events.create')->with('success', 'Event created successfully');
+        return redirect()->back()->with('success', 'Event created successfully');
     }
 
     /**
@@ -156,29 +105,10 @@ class EventsController extends Controller
      */
     public function update(StoreEvent $request, $id)
     {
-        if ($request->has('image')) {
-            Cloudder::destroyImage($request->public_id);
-            Cloudder::delete($request->public_id);
+        $updateEvent = $request->updateEvent();
+        if (!$updateEvent) {
+            return redirect()->back()->with('error', 'Something went wrong');
         }
-        
-        //store all incoming request in a $data variable
-        $data = $request->all();
-        $path = 'cinemaxii/events/';
-        $width = 287;
-        $height = 412;
-
-        try {
-            $imageDetails = $this->checkAndUploadImage($request, $data, $path, $width, $height);
-        } catch (\Cloudinary\Error $e) {
-            Log::error($e->getMessage());
-            return back()->with('error', 'Something went wrong please try again');
-        }
-
-        $data['image'] = $imageDetails[0];
-        $data['public_id'] = $imageDetails[1];
-
-        $updateEvent = $this->eventRepo->updateEvent($id, $data);
-
         return redirect()->route('system-admin.events.index')->with('success', 'Event updated successfully');
 
     }
@@ -191,32 +121,12 @@ class EventsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(StoreEvent $event, $id)
     {
-        $event = $this->eventRepo->getEvent($id);
-
-        //deletes and destroy the image from cloudinary
-        try {
-            Cloudder::destroyImage($event->public_id);
-            Cloudder::delete($event->public_id);
-        } catch (\Cloudinary\Error $e) {
-            Log::error($e->getMessage());
+        $deleteEvent = $event->deleteEvent();
+        if (!$deleteEvent) {
             return back()->with('error', 'Something went wrong please try again');
         }
-
-        try {
-            //delete the event
-            Log::info("Event with {$id} deleted successfully");
-            $this->eventRepo->deleteEvent($id);
-        } catch (\Exception $e) {
-            Log::error($e->getMessage());
-            return back()->with('error', 'Something went wrong please try again');
-        }
-
-        //log the event
-        log::info('User with email:' . ' ' . Auth::user()->email . ' ' . 'just deleted an event with Id number' . ' ' . $id);
-
-        //return flash success message
         return redirect()->route('system-admin.events.index')->with('success', 'Event deleted successfully');
     }
 
@@ -233,9 +143,6 @@ class EventsController extends Controller
             return back()->with('error', 'Something went wrong');
         }
        
-        //log the event
-        log::info('Event with id of' . ' ' . $id . ' ' . 'just got activated');
-
         //return flash session success message back to the view.
         return back()->with('success', 'Event successfully activated');
     }
@@ -251,11 +158,7 @@ class EventsController extends Controller
         } catch (Exception $e) {
             return back()->with('error', 'Something went wrong');
         }
-        
-        //log the event
-        log::info('Event with id of' . ' ' . $id . ' ' . 'just got de-activated');
-        
-        //return flash session success message back to the view.
+         
         return back()->with('success', 'Event successfully De-activated');
     }
 

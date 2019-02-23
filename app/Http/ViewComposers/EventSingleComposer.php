@@ -5,9 +5,7 @@ namespace App\Http\ViewComposers;
 use Illuminate\View\View;
 
 use App\Repositories\Contracts \{
-    CategoryRepoInterface,
     EventRepoInterface,
-    BlogRepoInterface,
     TicketRepoInterface
 }; //php7 grouping use statements
 
@@ -18,16 +16,12 @@ class EventSingleComposer
 {
 	use returnIdFromRequestSegment;
 
-    protected $categoryRepo;
 	protected $eventRepo;
-	protected $blogRepo;
 	protected $ticketRepo;
 
-	public function __construct(CategoryRepoInterface $categoryRepo, EventRepoInterface $eventRepo, BlogRepoInterface $blogRepo, TicketRepoInterface $ticketRepo)
+	public function __construct(EventRepoInterface $eventRepo, TicketRepoInterface $ticketRepo)
 	{
-		$this->categoryRepo = $categoryRepo;
 		$this->eventRepo = $eventRepo;
-		$this->blogRepo = $blogRepo;
 		$this->ticketRepo = $ticketRepo;
     }
 
@@ -35,18 +29,9 @@ class EventSingleComposer
     {
         $id = $this->returnIdFromRequestSegment();
 
-        $allCategories = $this->categoryRepo->getAllCategories();
-		$allBlogPosts = $this->blogRepo->getAllBlogPosts();
-		$noofevents = $this->eventRepo->getAllEvents();
-		$noOfTickets = $this->ticketRepo->totalTicketsForEvent($id);
-		$tickets = $this->ticketRepo->getTicketsForEvent($id);
-		$eventcomments = $this->eventRepo->getEventWithComments($id);
+        $noOfTickets = $this->ticketRepo->totalTicketsForEvent($id);
 		$noComments = EventCommentRepoInterface::totalNumberOfComments($id, 1);
-		$eventsimage = $this->eventRepo->getPaginatedEvents(6);
-		$noofevents = $this->eventRepo->getAllEvents();
-		$events = $this->eventRepo->getPaginatedEventsDescendingOrder(6);
 		$eventDetails = $this->eventRepo->getEvent($id);
-       
-        $view->with(compact('noComments', 'events', 'noofevents', 'eventsimage', 'eventDetails', 'eventcomments', 'allBlogPosts', 'allCategories', 'eventTickets', 'tickets', 'noOfTickets'));
+		$view->with(compact('noComments', 'eventDetails', 'noOfTickets'));
     }
 }

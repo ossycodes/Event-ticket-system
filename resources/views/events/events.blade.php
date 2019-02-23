@@ -50,7 +50,6 @@
 													
 														<?php 
 															$noOfEvents = count($noofevents);
-															//echo $noOfReviews; die;
 														?>
 
 															@if($noOfEvents)
@@ -159,21 +158,13 @@
 
 													<div class="col-md-3 side-bar">
 													
-																<div class="entertainment">
-																	<h3>Event Blog</h3>
-																	@foreach($allBlogPosts1 as $event)
-																		@include('layouts.frontLayout.front_entertainment2')
-																	@endforeach
-																</div>	
-														
-																
-																<!---->
-																{{-- <div class="grid-top">
-																	<h4>Other Events</h4>
-																		@include('layouts.frontLayout.front_otherevents')
-																</div> --}}
-																<!---->
-
+															<div class="entertainment">
+																<h3>Event Blog</h3>
+																@foreach($allPosts as $event)
+																	@include('layouts.frontLayout.front_entertainment2')
+																@endforeach
+															</div>	
+													
 													</div>
 
 													<div class="clearfix"></div>

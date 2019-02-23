@@ -37,7 +37,7 @@ class EventsController extends Controller
 	{
 		$redisService->storeEventPageViews($request, $id);
 
-		//please refer to eventcomposer for data passed to this view.
+		//please refer to eventSinglecomposer for data passed to this view.
 		return view('events.single');
 
 	}

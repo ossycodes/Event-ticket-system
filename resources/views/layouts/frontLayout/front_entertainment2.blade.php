@@ -4,7 +4,7 @@
        
     </li>
     <li>
-        <a href="{{ url('/posts/'.$event->id) }}">{{ $event->title }}</a>
+        <a href="{{ route('posts.index', $event->id) }}">{{ $event->title }}</a>
 
     </li>
     <div class="clearfix"></div>

@@ -15,13 +15,11 @@ class Event extends Model
 
     protected $guarded = [];
 
-    //defines a one to many relationship(an event as many comments)
     public function eventscomment()
     {
         return $this->hasMany(Eventscomment::class);
     }
 
-    //defines an inverse one to many relationship(an event has one category)
     public function category()
     {
         return $this->belongsTo(Category::class);

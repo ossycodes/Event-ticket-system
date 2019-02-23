@@ -52,7 +52,6 @@ class BlogsController extends Controller
      */
     public function create()
     {
-        //return create post form
         return view('admin.posts.create');
     }
 

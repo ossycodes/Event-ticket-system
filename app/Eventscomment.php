@@ -9,7 +9,6 @@ class Eventscomment extends Model
 {
     protected $guarded = [];
     
-    //defines an inverse one to many relationship
     public function event()
     {
         return $this->belongsTo(Event::class);

@@ -32,16 +32,6 @@
          <div class="clearfix"></div>
          </div>
        </div> 
-
-
-      {{-- <div class="form-group">
-         <div class="row">
-          <label class="col-md-3"> Alternative text to be displayed </label>
-            <div class="col-md-6"><input type="text" name="title" class="form-control" required></div>
-              <div class="clearfix">
-              </div>
-        </div>
-      </div>  --}}
       
      <div class="form-group">
        <input type="submit" class="btn btn-info" value="Upload">

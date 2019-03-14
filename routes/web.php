@@ -1,9 +1,4 @@
 <?php
-use App\Newsletter;
-use Intervention\Image\Image;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Redis;
-use Illuminate\Support\Facades\Notification;
 
 
 /*
@@ -58,7 +53,6 @@ Route::get('/home', 'HomeController')->name('home');
 Route::group(['prefix' => 'events'], function () {
 
     Route::get('', 'EventsController@index')->name('events');
-    //Route for single page events
     Route::get('{id}', 'EventsController@show');
 
 });
@@ -130,11 +124,11 @@ Route::group(['middleware' => ['isUser', 'auth', 'can:is-User']], function () {
     Route::get('change-password', 'user\PasswordController@index')->name('user.password');
     Route::post('change-password', 'user\PasswordController@update')->name('user.password.update');
     Route::get('user/delete-account/{id}', 'user\ProfileController@deleteAccount')->name('user.account.delete');
-    Route::get('user/read-notification', function () {
-        Auth::user()->unreadNotifications->markAsRead();
-        return back();
-    });
-
+    // Route::get('user/read-notification', function () {
+    //     Auth::user()->unreadNotifications->markAsRead();
+    //     return back();
+    // });
+    Route::get('user/read-notification', 'user/NotificationController@update');
     Route::get('user/transactions', 'user\TransactionController')->name('user.transaction');
     Route::get('user/{userid}/download-ticket/{id}', 'TicketController@downloadTicketReciept');
     Route::get('user/receipt/{id}', 'TicketController@showReceiptPage')->name('view.receipt');

@@ -132,7 +132,7 @@ class StoreEvent extends FormRequest
         if ($this->has('image')) {
             Cloudder::destroyImage($this->public_id);
             Cloudder::delete($this->public_id);
-        }
+        } 
 
         $data = $this->all();
         $path = 'cinemaxii/events/';

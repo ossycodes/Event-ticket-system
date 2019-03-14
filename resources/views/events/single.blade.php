@@ -1,4 +1,4 @@
-E@extends('layouts.frontLayout.front_design')
+@extends('layouts.frontLayout.front_design')
 
 @section('content')
 
@@ -100,44 +100,46 @@ E@extends('layouts.frontLayout.front_design')
 										<!-- comments-section-starts -->
 										<div class="comments-section">
 						
-											<div class="comments-section-head">
+												<div class="comments-section-head">
+													
+													<div class="comments-section-head-text">
+															<h3>{{ $noComments }} {{ str_plural('Comment', $noComments) }}</h3>
+													</div>
+													<div class="clearfix"></div>
 												
-												<div class="comments-section-head-text">
-														<h3>{{ $noComments }} {{ str_plural('Comment', $noComments) }}</h3>
 												</div>
-												<div class="clearfix"></div>
-											
-											</div>
 
-										<div class="comments-section-grids">
+											<div class="comments-section-grids">
+													
+													@foreach($eventDetails->eventscomment as $comments)
 												
-												@foreach($eventDetails->eventscomment as $comments)
-											
-													@commentForEventIsActive($comments)
-													
-														<div class="comments-section-grid">
-															
-															<div class="col-md-2 comments-section-grid-image">
-																<img src="{{ asset('images/frontend_images/eye-brow.jpg') }}" class="img-responsive" alt="" />
-															</div>
-											
-															<div class="col-md-10 comments-section-grid-text">
-																<h4><a href="#">{{ optional($comments)->name ?? 'No name provided' }}</a></h4>
-																<label>{{ optional($comments->created_at)->diffForHumans() ?? 'No date provided' }}</label>
-																<p>{{ optional($comments)->email ?? 'No email provided' }}</p>
-																<label>{{ optional($comments)->message ?? 'No comment provided' }}</label>
-																<i class="rply-arrow"></i>
-															</div>
-															<div class="clearfix"></div>
+														@commentForEventIsActive($comments)
 														
-														</div>
+															<div class="comments-section-grid">
+																
+																<div class="col-md-2 comments-section-grid-image">
+																	<img src="{{ asset('images/frontend_images/eye-brow.jpg') }}" class="img-responsive" alt="" />
+																</div>
+												
+																<div class="col-md-10 comments-section-grid-text">
+																	<h4><a href="#">{{ optional($comments)->name ?? 'No name provided' }}</a></h4>
+																	<label>{{ optional($comments->created_at)->diffForHumans() ?? 'No date provided' }}</label>
+																	<p>{{ optional($comments)->email ?? 'No email provided' }}</p>
+																	<label>{{ optional($comments)->message ?? 'No comment provided' }}</label>
+																	<i class="rply-arrow"></i>
+																</div>
 
-													@endif
-													
-												@endforeach 
+																<div class="clearfix"></div>
+															
+															</div>
 
+														@endif
+														
+													@endforeach 
+
+											</div>
+										
 										</div>
-							</div>
 
 							<!-- comments-section-ends -->
 							<div class="reply-section">
@@ -258,32 +260,32 @@ E@extends('layouts.frontLayout.front_design')
 					
 						?> 
 							
-								<select class="form-control" id="sel1" name="amount">
-									<option disabled>--- Select Tickets ---</option>
-									@foreach($eventDetails->tickets as $ticket)
-										@if(is_numeric($ticket->price)) 
-												<option value="{{$ticket->price}}">{{$ticket->tickettype}}</option>
-										@endif
-									@endforeach
-								</select>
+						<select class="form-control" id="sel1" name="amount">
+							<option disabled>--- Select Tickets ---</option>
+							@foreach($eventDetails->tickets as $ticket)
+								@if(is_numeric($ticket->price)) 
+										<option value="{{$ticket->price}}">{{$ticket->tickettype}}</option>
+								@endif
+							@endforeach
+						</select>
 
-								<br><br>
+						<br><br>
 
-								<select class="form-control" id="sel2" name="qty">
-									<?php 
-										for ($x = 1; $x <= $eventDetails->quantity; $x++) {
-											echo "<option value=$x>$x</option>";
-										} 
-									?>
-								</select>
+						<select class="form-control" id="sel2" name="qty">
+							<?php 
+								for ($x = 1; $x <= $eventDetails->quantity; $x++) {
+									echo "<option value=$x>$x</option>";
+								} 
+							?>
+						</select>
 
-								<input type="hidden" name="metadata" value="{{ json_encode($metadata) }}" >
+						<input type="hidden" name="metadata" value="{{ json_encode($metadata) }}" >
 
-								<br><br>
-							
-								<input type="submit" class="btn btn-green" value="Pay Now" style="background-color:green; color:white;">
+						<br><br>
+					
+						<input type="submit" class="btn btn-green" value="Pay Now" style="background-color:green; color:white;">
 
-						</form>
+					</form>
 
 						{{-- payment button for stripe --}}
 						{{-- <form action="your-server-side-code" method="POST">
@@ -313,22 +315,17 @@ E@extends('layouts.frontLayout.front_design')
   @endauth	
 
 		<script>
-			document.getElementById('sel2').addEventListener('click', function() {
-				var ticketPrice = document.getElementById('sel1').value;
-				var ticketQuantity = document.getElementById('sel2').value;
-				var totalAmount = ticketPrice * ticketQuantity;
-				document.getElementById('total-pay').innerHTML = 'Ticket Quantity - ' + ticketQuantity + '<br>' + 
-				'Ticket Price - ' + ticketPrice + ' ' + 'Naira' + '<br>' +
-				'Amount To Be Paid' + ' ' +  totalAmount + ' ' + 'Naira';
-			});
-			document.getElementById('sel2').addEventListener('change', function() {
-				var ticketPrice = document.getElementById('sel1').value;
-				var ticketQuantity = document.getElementById('sel2').value;
-				var totalAmount = ticketPrice * ticketQuantity;
-				document.getElementById('total-pay').innerHTML = 'Ticket Quantity - ' + ticketQuantity + '<br>' + 
-				'Ticket Price - ' + ticketPrice + ' ' + 'Naira' + '<br>' +
-				'Amount To Be Paid' + ' ' +  totalAmount + ' ' + 'Naira';
-			});
+			document.getElementById('sel2').addEventListener('click', showTotalTicketAmount);
+			document.getElementById('sel2').addEventListener('change', showTotalTicketAmount);
+			function showTotalTicketAmount() {
+				var ticketPrice, ticketQuantity, totalAmount;
+				ticketPrice = document.getElementById('sel1').value;
+				ticketQuantity = document.getElementById('sel2').value;
+				totalAmount = ticketPrice * ticketQuantity;
+				document.getElementById('total-pay').innerHTML = `Ticket Quantity - ${ticketQuantity} <br>  
+				Ticket Price -  ${ticketPrice} Naira <br>
+				Amount To Be Paid - ${totalAmount} Naira`;
+			}
 		</script>
 @endsection
 

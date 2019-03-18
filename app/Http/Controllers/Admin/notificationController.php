@@ -49,7 +49,7 @@ class notificationController extends \App\Http\Controllers\Controller
     public function store(Request $request)
     {
         $users = $this->userRepo->getUser();
-        Notification::send($users, new generalNotification($request->message, $users));
+        \Illuminate\Support\Facades\Notification::send($users, new generalNotification($request->message, $users));
         return back()->with('success', 'Notification has been sent');
     }
 

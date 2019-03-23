@@ -51,3 +51,21 @@ $factory->define(Contact::class, function (Faker $faker) {
         'message' => $faker->sentence(), 
     ];
 });
+
+$factory->define(Event::class, function (Faker $faker) {
+    $amPm = ['AM', 'PM'];
+    $randomamPm = array_rand($amPm, 1);
+    return [
+        'user_id' => factory('App\User')->create()->id,
+        'category_id' => factory('App\Category')->create()->id,
+        'image' => $faker->imageUrl(),
+        'public_id' => $faker->sha1,
+        'name' => $faker->company .' '. 'Event',
+        'venue' => $faker->city,
+        'description' => $faker->sentence($nbWords = 6, $variableNbWords = true),
+        'time' => $faker->randomDigit .' '. $amPm[$randomamPm],
+        'date' =>  $faker->monthName() .' ' .',' .$faker->dayOfWeek() .$faker->randomDigit,
+        'age' => '18 and above',
+        'quantity' => $faker->randomDigitNotNull,
+    ];
+});

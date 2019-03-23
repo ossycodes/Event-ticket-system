@@ -6,7 +6,6 @@ use App\Ticket;
 use Laravel\Scout\Searchable;
 use Illuminate\Database\Eloquent\Model;
 
-
 class Event extends Model
 {
     use Searchable;
@@ -14,6 +13,11 @@ class Event extends Model
     protected $path = 'images/frontend_images/events/';
 
     protected $guarded = [];
+
+    // public function getRouteKey()
+    // {
+    //     return slug;
+    // }
 
     public function eventscomment()
     {

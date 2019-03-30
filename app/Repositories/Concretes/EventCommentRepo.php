@@ -45,7 +45,6 @@ class EventCommentRepo implements EventCommentRepoInterface
             ->update([
                 'status' => 1
             ]);
-
     }
 
     public function deActivateComment(int $commentId)

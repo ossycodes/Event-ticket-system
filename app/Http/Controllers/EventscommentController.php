@@ -13,7 +13,7 @@ class EventscommentController extends Controller
      */
     public function store(Request $request, EventCommentRepoInterface $eventComment)
     {
-        // dd($request->all());
+        // dd('reaching');
         try {
             $eventComment->addCommentForEvent($request);
         } catch (\Exception $e) {

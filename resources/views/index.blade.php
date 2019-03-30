@@ -34,27 +34,15 @@
 							<br><br><br>
 							<a href="{{ url('events') }}"><i class="book"></i>BOOK TICKET</a>
 						
-
+							<div id="app">
 								<div class="contact-form">
-					
-									<form action="{{ url('/newsletter') }}" method="post">{{ csrf_field() }}
-									
-										@include('layouts.errors2')
-									
-										<p>Subscribe <strong>to</strong> our Newsletter </p>		
-										<input type="email" placeholder="{{ Auth::user() ? Auth::user()->email :  'Enter your E-mail' }}" name="email" class="form-control" required/>
-										<br>
-										<input type="submit" value="Subscribe" class="btn btn-warning"/>
-										<div class="clearfix"></div>
-								
-									</form>
-									
-					
+									<vue-newsletter-component></vue-newsletter-component>
 								</div>	
-
+							</div>
+						
 						</div>
 				
-				
+						<vue-newsletter-component></vue-newsletter-component>
 
 					
 						<div class="col-md-6 news-right-grid">

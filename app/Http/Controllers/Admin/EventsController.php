@@ -143,7 +143,6 @@ class EventsController extends Controller
             return back()->with('error', 'Something went wrong');
         }
        
-        //return flash session success message back to the view.
         return back()->with('success', 'Event successfully activated');
     }
 

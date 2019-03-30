@@ -10,8 +10,11 @@
 -->
 <!-- Custom Theme files -->
 <script src="{{ asset('js/frontend_js/jquery.min.js') }}"></script>
+<!-- Scripts -->
+<script src="{{ asset('js/app.js') }}" defer></script>
 <!-- Custom Theme files -->
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="csrf-token" value="{{ csrf_token() }}">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="keywords" content="Cinema Responsive web template, Bootstrap Web Templates, Flat Web Templates, Andriod Compatible web template, 
 Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyErricsson, Motorola web design" />
@@ -21,6 +24,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 </head>
 
 <body>
+ 
 
 @yield('content')
 

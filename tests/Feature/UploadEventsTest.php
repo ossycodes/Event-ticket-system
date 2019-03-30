@@ -9,8 +9,8 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 class UploadEventsTest extends TestCase
 {
     /** @test */
-    public function onlyAuthenticatedUserCanUploadEvent()
-    {
+    // public function onlyAuthenticatedUserCanUploadEvent()
+    // {
         
-    }
+    // }
 }

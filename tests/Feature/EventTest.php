@@ -25,9 +25,32 @@ class EventTest extends TestCase
         $this->get("/events/{$event->id}")
             ->assertSee($event->$event['name'])
             ->assertSee($event->$event['description']);
-            
     }
 
+    /** @test */
+    // public function admin_can_activate_an_event()
+    // {
+        //verify this
+    //     $event = factory('App\Event')->create();
+    //     $resp = $this->post("admin/activate/{$event->id}");
+
+    //     $resp->assertSessionHas('success', 'Event successfully activated');
+
+    //     $this->assertDatabaseHas('events', $event->toArray());
+    // }
+    
+    /** @test */
+    // public function admin_can_de_activate_an_event()
+    // {
+      //verify this
+        //     $event = factory('App\Event')->create([
+        //     'status' => 1
+        // ]);
+        //     $resp = $this->post("admin/de-activate/{$event->id}");
+
+        //     $resp->assertSessionHas('success', 'Event successfully De-activated');
+
+        //     $this->assertDatabaseHas('events', $event->toArray());
+
+    // }
 }
-
-

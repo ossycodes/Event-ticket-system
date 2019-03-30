@@ -101,7 +101,6 @@ class EventsController extends Controller
         }
     }
 
-
     //TO-do use a clodinary service
 
     /**

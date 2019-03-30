@@ -6,6 +6,7 @@ use App\Contact;
 use App\Category;
 use Carbon\Carbon;
 use App\Newsletter;
+use App\Eventscomment;
 use Faker\Generator as Faker;
 
 /*
@@ -62,10 +63,21 @@ $factory->define(Event::class, function (Faker $faker) {
         'public_id' => $faker->sha1,
         'name' => $faker->company .' '. 'Event',
         'venue' => $faker->city,
+        'status' => 0,
         'description' => $faker->sentence($nbWords = 6, $variableNbWords = true),
         'time' => $faker->randomDigit .' '. $amPm[$randomamPm],
         'date' =>  $faker->monthName() .' ' .',' .$faker->dayOfWeek() .$faker->randomDigit,
         'age' => '18 and above',
         'quantity' => $faker->randomDigitNotNull,
+    ];
+});
+
+$factory->define(Eventscomment::class, function (Faker $faker) {
+    return [
+        'name' => $faker->name,
+        'email' => $faker->email,
+        'message' => $faker->sentence(),
+        'status' => 0,
+        'event_id' => factory('App\Event')->create()->id
     ];
 });

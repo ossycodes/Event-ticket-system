@@ -47720,6 +47720,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   },
 
   methods: {
+    emailIsValid: function emailIsValid() {
+      if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.email)) {
+        return true;
+      } else {
+        return false;
+      }
+    },
     sendContactFormMessage: function sendContactFormMessage() {
       var _this = this;
 
@@ -47747,7 +47754,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       });
     },
     formIsValid: function formIsValid() {
-      return this.name === "" && this.email === "" && this.message === "" && this.phone === "";
+      return this.emailIsValid() && this.name === "" && this.email === "" && this.message === "" && this.phone === "";
     }
   }
 });

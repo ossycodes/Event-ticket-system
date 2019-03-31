@@ -71,6 +71,13 @@ export default {
     };
   },
   methods: {
+    emailIsValid() {
+      if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.email)) {
+        return true;
+      } else {
+        return false;
+      }
+    },
     sendContactFormMessage() {
       this.successResp = "";
       this.errors = [];
@@ -100,7 +107,13 @@ export default {
     },
 
     formIsValid() {
-        return this.name === "" && this.email === "" && this.message === "" && this.phone === "";
+      return (
+        this.emailIsValid() &&
+        this.name === "" &&
+        this.email === "" &&
+        this.message === "" &&
+        this.phone === ""
+      );
     }
   }
 };

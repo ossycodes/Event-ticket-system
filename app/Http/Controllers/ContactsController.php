@@ -5,21 +5,16 @@ namespace App\Http\Controllers;
 use Validator;
 use Illuminate\Http\Request;
 
-use App \{
-    Contact,
-        Category,
-        Mail\ContactusMail,
-        Jobs\SendContactUsMailJob,
-        Http\Requests\ContactusRequest,
-        Repositories\Contracts\CategoryRepoInterface,
-        Repositories\Contracts\ContactRepoInterface
-}; //php7 grouping use statements
+use App \Contact;
+use App \Category;
+use App \Mail\ContactusMail;
+use App \Jobs\SendContactUsMailJob;
+use App \Http\Requests\ContactusRequest;
+use App \Repositories\Contracts\CategoryRepoInterface;
+use App \Repositories\Contracts\ContactRepoInterface; //php7 grouping use statements
 
-use Illuminate\Support\Facades \{
-    Log,
-        Mail
-}; //php7 grouping use statements
-
+use Illuminate\Support\Facades \Log;
+use Illuminate\Support\Facades \Mail; //php7 grouping use statements
 
 class ContactsController extends Controller
 {
@@ -56,14 +51,19 @@ class ContactsController extends Controller
             $this->contactRepo->storeContactusMessage($request->all());
         } catch (\Exception $e) {
             Log::error($e->getMessage());
+            
             return back()->with('error', 'Something went wrong');
+        }
+
+        if ($request->ajax()) {
+            return response()->json([
+                'status' => 'ok',
+                 'message' => 'Message sent successfully'
+            ], 200);
         }
        
         dispatch(new SendContactUsMailJob($request->all()));
 
         return back()->with('success', 'Message Sent Successfully');
-
     }
-
-
 }

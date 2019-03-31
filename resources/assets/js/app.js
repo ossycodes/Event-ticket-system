@@ -16,6 +16,7 @@ window.Vue = require('vue');
  */
 
 Vue.component('vue-newsletter-component', require('./components/Newsletter.vue'));
+Vue.component('vue-contactform-component', require('./components/ContactForm.vue'));
 
 const app = new Vue({
     el: '#app'

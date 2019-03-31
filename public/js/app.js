@@ -13904,6 +13904,7 @@ window.Vue = __webpack_require__(36);
  */
 
 Vue.component('vue-newsletter-component', __webpack_require__(48));
+Vue.component('vue-contactform-component', __webpack_require__(51));
 
 var app = new Vue({
   el: '#app'
@@ -47401,9 +47402,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  mounted: function mounted() {
-    console.log("Component mounted.");
-  },
   data: function data() {
     return {
       email: "",
@@ -47590,6 +47588,382 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-78cb64a0", module.exports)
+  }
+}
+
+/***/ }),
+/* 51 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(40)
+/* script */
+var __vue_script__ = __webpack_require__(52)
+/* template */
+var __vue_template__ = __webpack_require__(53)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/ContactForm.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-667ae69d", Component.options)
+  } else {
+    hotAPI.reload("data-v-667ae69d", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 52 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(17);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  mounted: function mounted() {
+    console.log("mounted");
+  },
+  data: function data() {
+    return {
+      name: "",
+      email: "",
+      phone: "",
+      message: "",
+      errors: [],
+      successResp: ""
+    };
+  },
+
+  methods: {
+    sendContactFormMessage: function sendContactFormMessage() {
+      var _this = this;
+
+      this.successResp = "";
+      this.errors = [];
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post("/contactus", {
+        name: this.name,
+        email: this.email,
+        phonenumber: this.phone,
+        message: this.message
+      }).then(function (resp) {
+        _this.errors = [];
+        _this.name = "";
+        _this.email = "";
+        _this.phone = "";
+        _this.message = "";
+        _this.successResp = resp.data.message;
+        console.log(resp);
+      }).catch(function (err) {
+        _this.successResp = "";
+        if (err.response.status === 422) {
+          _this.errors.push(err.response.data.errors);
+        }
+        console.log(err.response.data.errors);
+      });
+    },
+    formIsValid: function formIsValid() {
+      return this.name === "" && this.email === "" && this.message === "" && this.phone === "";
+    }
+  }
+});
+
+/***/ }),
+/* 53 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    [
+      _c(
+        "div",
+        {
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: _vm.successResp !== "",
+              expression: "successResp !== ''"
+            }
+          ],
+          staticClass: "alert alert-success"
+        },
+        [
+          _c(
+            "button",
+            {
+              staticClass: "close",
+              attrs: { type: "button", "data-dismiss": "alert" }
+            },
+            [_vm._v("x")]
+          ),
+          _vm._v(" "),
+          _c("strong", [
+            _vm._v("\n      " + _vm._s(_vm.successResp) + "\n      "),
+            _c("br"),
+            _vm._v(" "),
+            _c("br")
+          ])
+        ]
+      ),
+      _vm._v(" "),
+      _vm._l(_vm.errors, function(err) {
+        return _c(
+          "div",
+          {
+            directives: [
+              {
+                name: "show",
+                rawName: "v-show",
+                value: _vm.errors.length > 0,
+                expression: "errors.length > 0"
+              }
+            ],
+            key: _vm.errors.indexOf(err),
+            staticClass: "alert alert-danger"
+          },
+          [
+            _c(
+              "button",
+              {
+                staticClass: "close",
+                attrs: { type: "button", "data-dismiss": "alert" }
+              },
+              [_vm._v("x")]
+            ),
+            _vm._v(" "),
+            _c("strong", [
+              _vm._v(
+                "\n      " +
+                  _vm._s(err.name[0]) +
+                  "\n      " +
+                  _vm._s(err.email[0]) +
+                  "\n      " +
+                  _vm._s(err.phonenumber[0]) +
+                  "\n      " +
+                  _vm._s(err.message[0]) +
+                  "\n      "
+              ),
+              _c("br"),
+              _vm._v(" "),
+              _c("br")
+            ])
+          ]
+        )
+      }),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-md-6 contact-left" }, [
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.name,
+              expression: "name"
+            }
+          ],
+          attrs: {
+            type: "text",
+            placeholder: "name",
+            name: "name",
+            required: ""
+          },
+          domProps: { value: _vm.name },
+          on: {
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.name = $event.target.value
+            }
+          }
+        }),
+        _vm._v(" "),
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.email,
+              expression: "email"
+            }
+          ],
+          attrs: {
+            type: "text",
+            placeholder: "email",
+            name: "email",
+            required: ""
+          },
+          domProps: { value: _vm.email },
+          on: {
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.email = $event.target.value
+            }
+          }
+        }),
+        _vm._v(" "),
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.phone,
+              expression: "phone"
+            }
+          ],
+          attrs: {
+            type: "text",
+            placeholder: "Phone",
+            name: "phonenumber",
+            required: ""
+          },
+          domProps: { value: _vm.phone },
+          on: {
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.phone = $event.target.value
+            }
+          }
+        })
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-md-6 contact-right" }, [
+        _c("textarea", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.message,
+              expression: "message"
+            }
+          ],
+          attrs: { placeholder: "Message", name: "message", required: "" },
+          domProps: { value: _vm.message },
+          on: {
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.message = $event.target.value
+            }
+          }
+        }),
+        _vm._v(" "),
+        _c("input", {
+          attrs: { type: "submit", disabled: _vm.formIsValid(), value: "SEND" },
+          on: {
+            click: function($event) {
+              _vm.sendContactFormMessage()
+            }
+          }
+        })
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "clearfix" })
+    ],
+    2
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-667ae69d", module.exports)
   }
 }
 

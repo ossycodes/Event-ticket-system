@@ -55,14 +55,17 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 					<h3 class="head">CONTACT</h3>
 					<p>WE'RE ALWAYS HERE TO HELP YOU</p>
 					<br><br>
-			
+				
+				<div id="app">
+
 					<div class="contact-form">
 						<!-- displays flash error messages if any -->
 						@include('layouts.errors')
 						
-						<form action="{{ url('/contactus') }}" method="post">{{ csrf_field() }}
-										
-							<div class="col-md-6 contact-left">
+						<form action="javascript:void(0)">
+								
+							<vue-contactform-component></vue-contactform-component>
+							{{-- <div class="col-md-6 contact-left">
 								<input type="text" placeholder="{{ Auth::user() ? Auth::user()->name : 'Name'}}" name="name" required/>
 								<input type="text" placeholder="{{ Auth::user() ? Auth::user()->email : 'Email' }}" name="email" required/>
 								<input type="text" placeholder="Phone" name="phonenumber" required/>
@@ -73,7 +76,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 								<input type="submit" value="SEND"/>
 							</div>
 
-							<div class="clearfix"></div>
+							<div class="clearfix"></div> --}}
 						
 						</form>
 					
@@ -81,6 +84,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 	
 				</div>
 
+			</div>
 	
 		<!--Displays all the categories available-->
 		@include('layouts.frontLayout.front_categories')

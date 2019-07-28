@@ -34,22 +34,14 @@
                       <span class="badge bg-primary float-right">{{$sentNotifcations}}</span>
                     </a>
                   </li>
-                  {{--<li class="nav-item">--}}
-                    {{--<a href="#" class="nav-link">--}}
-                      {{--<i class="fa fa-file-text-o"></i> Drafts--}}
-                    {{--</a>--}}
-                  {{--</li>--}}
+                  
                   <li class="nav-item">
                     <a class="nav-link">
                       <i class="fa fa-filter"></i> Read
                       <span class="badge bg-warning float-right">{{$readNotifications}}</span>
                     </a>
                   </li>
-                  {{--<li class="nav-item">--}}
-                    {{--<a href="#" class="nav-link">--}}
-                      {{--<i class="fa fa-trash-o"></i> Trash--}}
-                    {{--</a>--}}
-                  {{--</li>--}}
+                
                 </ul>
               </div>
               <!-- /.card-body -->
@@ -74,8 +66,7 @@
                     <a class="nav-link" data-toggle="modal" data-target="#myModal"href="{{route('system-admin.admin.view-notifications')}}"><i class="fa fa-circle-o text-warning"></i> View Notifcations</a>
                   </li>
                   <li class="nav-item">
-                    {{--<a class="nav-link" href="#"><i class="fa fa-circle-o text-primary"></i> Social</a>--}}
-                  {{--</li>--}}
+                    
                 </ul>
               </div>
               <!-- /.card-body -->
@@ -130,9 +121,10 @@
             <button type="button" class="close" data-dismiss="modal">&times;</button>
           </div>
           <div class="modal-body">
-            @foreach ($allNotifications as $notification)
-             <p>{{ $notification->data }}</p>      
-            @endforeach
+            
+             @foreach ($allNotifications as $notification)
+                <p>{{ $notification->data->message }}</p>     
+             @endforeach 
           
           </div>
           <div class="modal-footer">

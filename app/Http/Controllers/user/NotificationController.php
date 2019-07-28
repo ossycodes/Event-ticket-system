@@ -12,4 +12,6 @@ class NotificationController extends Controller
         \Illuminate\Support\Facades\Auth::user()->unreadNotifications->markAsRead();
         return back();
     }
+
+    
 }

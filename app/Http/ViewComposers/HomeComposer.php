@@ -38,7 +38,7 @@ class HomeComposer
         $noOfPosts = $this->blogRepo->getTotalBlogPosts();
         $noOfUsers = $this->userRepo->getTotalUsers();
         $noOfCategories = $this->categoryRepo->getTotalCategories();
-
+        
         //since i can't go pass Four dependency injections i refactored to real-time facades
         //Real-time facades, allows me access methods on this object as though they were static methods
         $noOfTransactions = TransactionRepoInterface::getTotalTransaction();

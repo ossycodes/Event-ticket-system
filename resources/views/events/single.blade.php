@@ -17,7 +17,7 @@
 										<a href="index.html"><img src="{{ asset('images/frontend_images/logo.png') }}" alt="" /></a>
 										<p>For All Events</p>
 									</div>
-
+									
 									<div class="search v-search">
 											@guest
 										
@@ -287,20 +287,20 @@
 
 					</form>
 
-						{{-- payment button for stripe --}}
-						{{-- <form action="your-server-side-code" method="POST">
-							<script
-							var tickets = {{ json_encode($tickets) }}
-							src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-							data-key="pk_test_TYooMQauvdEDq54NiTphI7jx"
-							data-amount="999"
-							data-name="Stripe.com"
-							data-description="Example charge"
-							data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
-							data-locale="auto"
-							data-zip-code="true">
-							</script>
-						</form> --}}
+					{{-- payment button for stripe --}}
+					<form action="/stripe/pay" method="POST">
+						<script
+						{{-- var tickets = {{ json_encode($tickets) }} --}}
+						src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+						data-key="pk_test_TYooMQauvdEDq54NiTphI7jx"
+						data-amount="999" document.querySelector('input[name = "amount"]').value * document.querySelector('input[name = "qty"]').value;
+						data-name="{{ $eventDetails->name }}"
+						data-description="Example charge"
+						data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+						data-locale="auto"
+						data-zip-code="true">
+						</script>
+					</form>
 
 					</div>
 				<div class="modal-footer">

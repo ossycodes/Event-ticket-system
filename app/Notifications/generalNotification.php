@@ -3,6 +3,7 @@
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
+use Illuminate\Support\Facades\App;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -32,6 +33,9 @@ class generalNotification extends Notification implements ShouldQueue
      */
     public function via($notifiable)
     {
+        if(App::environment('local')) {
+            return ['database'];    
+        }
         return ['database', 'nexmo', 'mail'];
     }
 
@@ -62,7 +66,7 @@ class generalNotification extends Notification implements ShouldQueue
     public function toArray($notifiable)
     {
         return [
-            'data' => $this->message,
+            'message' => $this->message,
         ];
     }
 }

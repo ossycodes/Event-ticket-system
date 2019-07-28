@@ -42,6 +42,7 @@
 						
 						</div>
 				
+						{{-- newsletter vue component --}}
 						<vue-newsletter-component></vue-newsletter-component>
 
 					

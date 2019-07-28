@@ -47,13 +47,13 @@ class ContactsController extends Controller
      */
     public function store(ContactusRequest $request)
     {
-        try {
+        // try {
             $this->contactRepo->storeContactusMessage($request->all());
-        } catch (\Exception $e) {
-            Log::error($e->getMessage());
+        // } catch (\Exception $e) {
+        //     Log::error($e->getMessage());
             
-            return back()->with('error', 'Something went wrong');
-        }
+        //     return back()->with('error', 'Something went wrong');
+        // }
 
         if ($request->ajax()) {
             return response()->json([
@@ -62,7 +62,7 @@ class ContactsController extends Controller
             ], 200);
         }
        
-        dispatch(new SendContactUsMailJob($request->all()));
+        // dispatch(new SendContactUsMailJob($request->all()));
 
         return back()->with('success', 'Message Sent Successfully');
     }

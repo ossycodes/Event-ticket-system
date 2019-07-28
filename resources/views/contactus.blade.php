@@ -59,26 +59,10 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				<div id="app">
 
 					<div class="contact-form">
-						<!-- displays flash error messages if any -->
-						@include('layouts.errors')
+					
 						
-						<form action="javascript:void(0)">
-								
 							<vue-contactform-component></vue-contactform-component>
-							{{-- <div class="col-md-6 contact-left">
-								<input type="text" placeholder="{{ Auth::user() ? Auth::user()->name : 'Name'}}" name="name" required/>
-								<input type="text" placeholder="{{ Auth::user() ? Auth::user()->email : 'Email' }}" name="email" required/>
-								<input type="text" placeholder="Phone" name="phonenumber" required/>
-							</div>
-
-							<div class="col-md-6 contact-right">
-								<textarea placeholder="Message" name="message" required></textarea>
-								<input type="submit" value="SEND"/>
-							</div>
-
-							<div class="clearfix"></div> --}}
-						
-						</form>
+				
 					
 					</div>
 	

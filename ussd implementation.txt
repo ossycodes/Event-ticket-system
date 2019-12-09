@@ -1,0 +1,9 @@
+users can sign in and pay for tickets to events via ussd
+
+1. They create a ussd secret pin
+2. Enter ussd secret pin 
+3. Enter password
+4. Display a list of events
+5. Select an event
+6. Pay for event
+7. return event reference code and transaction reference.

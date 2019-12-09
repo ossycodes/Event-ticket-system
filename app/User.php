@@ -23,6 +23,11 @@ class User extends Authenticatable
         'name', 'email', 'password',
     ];
 
+    public function routeNotificationForSlack($notification)
+    {
+        return "https://hooks.slack.com/services/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";
+    }
+
     /**
      * The attributes that should be hidden for arrays.
      *

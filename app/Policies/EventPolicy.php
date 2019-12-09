@@ -18,8 +18,7 @@ class EventPolicy
      * @return mixed
      */
     public function view(User $user, Event $event)
-    {
-    }
+    { }
 
     /**
      * Determine whether the user can create events.
@@ -40,7 +39,8 @@ class EventPolicy
      */
     public function edit(User $user, Event $event)
     {
-        return $user->id === $event->user_id;
+        // return $user->id == $event->user_id;
+        return $user->is($event->user);
     }
 
     /**
@@ -52,7 +52,11 @@ class EventPolicy
      */
     public function update(User $user, Event $event)
     {
-        return $user->id === $event->user_id;
+        // return $user->id === $event->user_id;
+
+        //declarative
+        //checking if the user is the event owner(creator)
+        return $user->is($event->user);
     }
 
     /**

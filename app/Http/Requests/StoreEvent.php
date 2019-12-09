@@ -23,7 +23,6 @@ class StoreEvent extends FormRequest
 
     public function __construct(TicketRepoInterface $ticketRepo, BlogRepoInterface $blogRepo, EventRepoInterface $eventRepo)
     {
-
         $this->eventRepo = $eventRepo;
         $this->ticketRepo = $ticketRepo;
         $this->blogRepo = $blogRepo;
@@ -46,7 +45,6 @@ class StoreEvent extends FormRequest
     public function rules()
     {
         return [
-            //validation rules
             'name' => 'required',
             'category_id' => 'required|integer',
             'image' => 'required|mimes:jpeg,jpg,png',
@@ -67,7 +65,6 @@ class StoreEvent extends FormRequest
     public function messages()
     {
         return [ 
-        //custom validation messages.
             'category_id.required' => 'Please select a given category',
             'name.required' => 'Please give the event a name',
             'image.required' => 'Please choose an image for the event',
@@ -128,6 +125,7 @@ class StoreEvent extends FormRequest
 
     public function updateEvent()
     {
+        
         $id = $this->returnIdFromRequestSegment(3);
         if ($this->has('image')) {
             Cloudder::destroyImage($this->public_id);

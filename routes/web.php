@@ -54,7 +54,6 @@ Route::group(['prefix' => 'events'], function () {
 
     Route::get('', 'EventsController@index')->name('events');
     Route::get('{id}', 'EventsController@show');
-
 });
 
 //Admin Routes
@@ -78,7 +77,7 @@ Route::group(['prefix' => 'system-admin', 'as' => 'system-admin.', 'middleware' 
     //Admin password controller routes
     Route::get('admin/change-password', 'Admin\PasswordController@index');
     Route::post('admin/update-password', 'Admin\PasswordController@update');
-    
+
     //to-do
     Route::get('admin/compose-mail', 'Admin\MailController@index');
 
@@ -103,7 +102,6 @@ Route::group(['prefix' => 'system-admin', 'as' => 'system-admin.', 'middleware' 
 
     //all transactions in the system route
     Route::get('admin/transactions', 'Admin\TransactionController')->name('admin.transactions');
-
 });
 
 //User's Routes
@@ -113,7 +111,6 @@ Route::group(['prefix' => 'user', 'as' => 'user.', 'middleware' => ['isUser', 'a
         'profile' => 'user\ProfileController',
         'events' => 'user\EventsController'
     ]);
-
 });
 
 //User's Routes
@@ -127,7 +124,6 @@ Route::group(['middleware' => ['isUser', 'auth', 'can:is-User']], function () {
     Route::get('user/{userid}/download-ticket/{id}', 'TicketController@downloadTicketReciept');
     Route::get('user/receipt/{id}', 'TicketController@showReceiptPage')->name('view.receipt');
     Route::get('user/unread-notification', 'NotificationController@show');
-
 });
 
 Route::group(['middleware' => 'auth'], function () {
@@ -136,9 +132,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/payment/callback', 'PaymentController@handleGatewayCallback');
 });
 
-Route::post('/stripe/pay', function() {
+Route::post('/stripe/pay', function () {
     dd(request()->all());
 });
 
-
-
+Route::get('/slack/paymentnotification', 'SlackPaymentNotificationController@send');

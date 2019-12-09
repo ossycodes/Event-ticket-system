@@ -47,15 +47,15 @@ class ContactsController extends Controller
      */
     public function store(ContactusRequest $request)
     {
-        // try {
+        try {
             $this->contactRepo->storeContactusMessage($request->all());
-        // } catch (\Exception $e) {
-        //     Log::error($e->getMessage());
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
             
-        //     return back()->with('error', 'Something went wrong');
-        // }
+            return back()->with('error', 'Something went wrong');
+        }
 
-        if ($request->ajax()) {
+        if ($request->expectsJson()) {
             return response()->json([
                 'status' => 'ok',
                  'message' => 'Message sent successfully'

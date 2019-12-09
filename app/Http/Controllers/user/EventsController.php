@@ -5,33 +5,33 @@ namespace App\Http\Controllers\user;
 use Validator;
 use JD\Cloudder\Facades\Cloudder;
 
-use App \{
+use App\{
     User,
-        Event,
-        Ticket,
-        Category,
-        Helper\checkAndUploadImage,
-        Http\Controllers\Controller,
-        Http\Requests\StoreEvent
+    Event,
+    Ticket,
+    Category,
+    Helper\checkAndUploadImage,
+    Http\Controllers\Controller,
+    Http\Requests\StoreEvent
 }; //php7 grouping use statements
 
-use Illuminate \{
+use Illuminate\{
     Http\Request,
-        Database\QueryException
+    Database\QueryException
 }; //php7 grouping use statements
 
-use Illuminate\Support\Facades \{
+use Illuminate\Support\Facades\{
     Auth,
-        Log,
-        Input,
-        Image
+    Log,
+    Input,
+    Image
 }; //php7 grouping use statements
 
 
-use App\Repositories\Contracts \{
+use App\Repositories\Contracts\{
     EventRepoInterface,
-        CategoryRepoInterface,
-        TicketRepoInterface
+    CategoryRepoInterface,
+    TicketRepoInterface
 }; //php7 grouping use statements
 
 
@@ -76,7 +76,6 @@ class EventsController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-     //see if i can succeed in moving this to the storeevent form request
     public function store(StoreEvent $request)
     {
         $stored = $request->uploadEvent();
@@ -95,10 +94,9 @@ class EventsController extends Controller
     public function edit($id)
     {
         //Authourizing  edit action using policies via the user model
-        if (Auth::user()->can('edit', Event::find($id))) {
-            //refer to usereventeditcomposer for the data passed to this view
-            return view('users.events.edit');
-        }
+        $this->authorize('edit',  Event::find($id));
+        //refer to usereventeditcomposer for the data passed to this view
+        return view('users.events.edit');
     }
 
     //TO-do use a clodinary service
@@ -110,13 +108,17 @@ class EventsController extends Controller
      */
     public function update(StoreEvent $request, $id)
     {
-        if (Auth::user()->can('update', Event::find($id))) {
-            $updateEvent = $request->updateEvent();
-            if (!$updateEvent) {
-                return redirect()->back()->with('error', 'Something went wrong');
-            }
-            return redirect()->route('user.events.index')->with('success', 'Event updated successfully');
+        //declarative programming deals with what should be done 
+        //rather than how
+        //authorization shouldnt go in here.
+        //the method says update, hence it should only update the event,nothing more
+
+        $this->authorize('update',  Event::find($id));
+        $updateEvent = $request->updateEvent();
+        if (!$updateEvent) {
+            return redirect()->back()->with('error', 'Something went wrong');
         }
+        return redirect()->route('user.events.index')->with('success', 'Event updated successfully');
     }
 
     /**
@@ -134,8 +136,5 @@ class EventsController extends Controller
             }
             return back()->with('success', 'Event deleted successfully');
         }
-
     }
-
-
 }

@@ -1,3 +1,7 @@
+##Note
+-uses the repository pattern etc.
+-uses redis for caching, Algolia for real time search, this project is advanced and is not meant for newbies.
+
 ##Online-Event-Ticket-System
 
     git clone https://github.com/osaigbovoemmanuel1/Online-Event-Ticket-System.git
@@ -30,7 +34,7 @@
         -manage newsletter subscribers.
         -send email/notifications to users
         -manage contact us queries
-        -view transactions 
+        -view transactions
         -manage all events, users, transactions
         -activate/de-activate events uploaded by users
         -activate/de-activate comments posted by users
@@ -40,3 +44,4 @@
         -manage transactions, purchase ticket to events
         -upload events etc
         -comment on uploaded events etc
+        -payment integration using PAYSTACK.

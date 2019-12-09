@@ -1,7 +1,6 @@
 <template>
   <div>
     <div class="alert alert-success" v-if="message !== ''">
-      <button type="button" class="close" data-dismiss="alert">x</button>
       <strong>
         {{ message }}
         <br>
@@ -15,10 +14,8 @@
       v-for="err in errors"
       :key="errors.indexOf(err)"
     >
-      <button type="button" class="close" data-dismiss="alert">x</button>
       <strong>
         {{ err[0] }}
-        <br>
         <br>
       </strong>
     </div>

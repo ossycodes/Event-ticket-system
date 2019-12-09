@@ -8,24 +8,19 @@ use App\Services\RedisService;
 
 class EventsController extends Controller
 {
-
-
-    /**
-     * EventsController constructor.
-     */
     public function __construct()
-	{
-		$this->middleware('auth')->only('show');
-	}
+    {
+        $this->middleware('auth')->only('show');
+    }
 
     /**
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index()
-	{
-		//please refer to eventcomposer for data passed to this view.
-		return view('events.events');
-	}
+    {
+        //please refer to eventcomposer for data passed to this view.
+        return view('events.events');
+    }
 
     /**
      * @param Request $request
@@ -34,12 +29,9 @@ class EventsController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function show(Request $request, RedisService $redisService, $id)
-	{
-		$redisService->storeEventPageViews($request, $id);
-
-		//please refer to eventSinglecomposer for data passed to this view.
-		return view('events.single');
-
-	}
-
+    {
+        $redisService->storeEventPageViews($request, $id);
+        //please refer to eventSinglecomposer for data passed to this view.
+        return view('events.single');
+    }
 }

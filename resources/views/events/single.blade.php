@@ -7,7 +7,7 @@
 
 		@include('layouts.frontLayout.front_menu')
 			
-			<div class="main">
+			<div class="main" id="app">
 				
 					<div class="single-content">
 					
@@ -154,20 +154,16 @@
 											</div>
 									
 									</div> 
-								
-									<div class="blog-form" id="formhere">
-										
-										@php $eventId = encrypt($eventDetails->id)  @endphp
 
-										<form action="{{ url("/events/{$eventId}/comments") }}" method="post">{{ csrf_field() }}
+										{{-- <form method="post">
 											<input type="hidden" name="event_id" value="{{ encrypt($eventDetails->id) }}">
 											<input type="text" class="text" placeholder="{{ Auth::user()->name ?? 'Enter name' }}" value="" name="name" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Enter Name';}" required>
 											<input type="text" class="text" placeholder = "{{ Auth::user() ? Auth::user()->email : 'Enter Email' }}" value="" name="email" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Enter Email';}" required>
 											<textarea name="message" required></textarea>
 											<input type="submit" value="SUBMIT COMMENT" class="btn btn-warning">
-										</form>
+										</form>  --}}
 								
-									</div>
+									<vue-commentform-component user="{{ auth()->user() ?? null }}" event-id="{{ encrypt($eventDetails->id) }}"></vue-commentform-component>
 
 								</div>
 							

@@ -20,6 +20,7 @@ class EventCommentRepo implements EventCommentRepoInterface
 
     public function addCommentForEvent(Request $request)
     {
+        dd(Event::find(decrypt($request->event_id))->eventscomment());
         Event::find(decrypt($request->event_id))->eventscomment()
             ->create($request->except('event_id'));
     }

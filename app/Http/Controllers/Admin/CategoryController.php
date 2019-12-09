@@ -5,17 +5,18 @@ namespace App\Http\Controllers\Admin;
 use Validator;
 use Auth;
 
-use Illuminate \{
+use Illuminate\{
     Database\QueryException,
-        Http\Request,
-        Support\Facades\Log
+    Http\Request,
+    Support\Facades\Log
 }; //php7 grouping use statements
 
-use App \{
+use App\{
     Category,
-        Http\Controllers\Controller,
-        Repositories\Contracts\CategoryRepoInterface
+    Http\Controllers\Controller,
+    Repositories\Contracts\CategoryRepoInterface
 }; //php7 grouping use statements
+use App\Http\Requests\CategoryRequest;
 
 class CategoryController extends Controller
 {
@@ -47,7 +48,7 @@ class CategoryController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {   
+    {
         return view('admin.categories.create');
     }
 
@@ -57,15 +58,9 @@ class CategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CategoryRequest $request)
     {
-        $this->validateRequest($request);
-        try {
-            $this->categoryRepo->createCategory($request->all());
-        } catch (QueryException $e) {
-            Log::error($e->getMessage());
-            return redirect()->route('system-admin.categories.create')->with('error', 'something went wrong');
-        }
+        $this->categoryRepo->createCategory($request->validated());
         return redirect()->route('system-admin.categories.create')->with('success', 'Category added successfully');
     }
 
@@ -88,8 +83,8 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {   
+    public function update(CategoryRequest $request, $id)
+    {
         $this->categoryRepo->updateCategory($id, $request);
         return redirect()->route('system-admin.categories.edit', $id)->with('success', 'Category updated successfully');
     }
@@ -102,13 +97,7 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-       $this->categoryRepo->deleteCategory($id);
-       return redirect()->route('system-admin.categories.index')->with('success', 'Category deleted successfully');
-    }
-
-    public function  validateRequest($request) {
-        return Validator::make($request->all(), [
-            'name' => 'required|unique:categories|min:3',
-        ])->validate();
+        $this->categoryRepo->deleteCategory($id);
+        return redirect()->route('system-admin.categories.index')->with('success', 'Category deleted successfully');
     }
 }

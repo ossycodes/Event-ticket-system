@@ -1,8 +1,8 @@
 <template>
   <div>
+    
     <form @submit.prevent="submit">
       <div class="alert alert-success" v-if="successResp">
-        <button type="button" class="close" data-dismiss="alert">x</button>
         <strong>
           {{ successResp }}
           <br>
@@ -11,7 +11,6 @@
       </div>
 
       <div v-if="errors.name" class="alert alert-danger">
-        <button type="button" class="close" data-dismiss="alert">x</button>
         <strong>
           {{ errors.name[0] }}
           <br>
@@ -20,7 +19,6 @@
       </div>
 
       <div v-if="errors.email" class="alert alert-danger">
-        <button type="button" class="close" data-dismiss="alert">x</button>
         <strong>
           {{ errors.email[0] }}
           <br>
@@ -29,7 +27,6 @@
       </div>
 
       <div v-if="errors.message" class="alert alert-danger">
-        <button type="button" class="close" data-dismiss="alert">x</button>
         <strong>
           {{ errors.message[0] }}
           <br>
@@ -38,7 +35,6 @@
       </div>
 
       <div v-if="errors.phonenumber" class="alert alert-danger">
-        <button type="button" class="close" data-dismiss="alert">x</button>
         <strong>
           {{ errors.phonenumber[0] }}
           <br>
@@ -47,13 +43,13 @@
       </div>
 
       <div class="col-md-6 contact-left">
-        <input type="text" placeholder="name" name="name" v-model="name">
-        <input type="text" placeholder="email" name="email" v-model="email">
-        <input type="text" placeholder="Phone" name="phonenumber" v-model="phonenumber">
+        <input type="text" placeholder="name" name="name" required v-model="name">
+        <input type="text" placeholder="email" name="email" required v-model="email">
+        <input type="text" placeholder="Phone" name="phonenumber" required v-model="phonenumber">
       </div>
 
       <div class="col-md-6 contact-right">
-        <textarea placeholder="Message" name="message" v-model="message"></textarea>
+        <textarea placeholder="Message" name="message" required v-model="message"></textarea>
         <input type="submit" value="SEND">
       </div>
 
@@ -103,7 +99,6 @@ export default {
           this.successResp = "";
           this.errors = error.response.data.errors;
         });
-      // alert("submitted");
     }
   }
 };

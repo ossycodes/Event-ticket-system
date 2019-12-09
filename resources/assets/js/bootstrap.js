@@ -1,6 +1,5 @@
-
-window._ = require('lodash');
-window.Popper = require('popper.js').default;
+window._ = require("lodash");
+window.Popper = require("popper.js").default;
 
 /**
  * We'll load jQuery and the Bootstrap jQuery plugin which provides support
@@ -9,9 +8,9 @@ window.Popper = require('popper.js').default;
  */
 
 try {
-    window.$ = window.jQuery = require('jquery');
+    window.$ = window.jQuery = require("jquery");
 
-    require('bootstrap');
+    require("bootstrap");
 } catch (e) {}
 
 /**
@@ -20,9 +19,29 @@ try {
  * CSRF token as a header based on the value of the "XSRF" token cookie.
  */
 
-window.axios = require('axios');
+window.axios = require("axios");
 
-window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+//configures the base url
+// window.axios.defaults.baseURL = "http://localhost:8000";
+
+window.axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
+
+//set any additional headers 
+//window.axios.defaults.headers.common['Accept'] = "application/json"
+
+//Interceptors are like middlewares  used to hook unto the request and response lifecycle.
+
+// axios.interceptors.request.use(config => {
+//     console.log("request interceptors");
+//     console.log(config);
+//     return config;
+// });
+
+// axios.interceptors.response.use(config => {
+//     console.log("response intercptors");
+//     console.log(config);
+//     return res;
+// });
 
 /**
  * Next we will register the CSRF Token as a common header with Axios so that
@@ -33,9 +52,11 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 let token = document.head.querySelector('meta[name="csrf-token"]');
 
 if (token) {
-    window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
+    window.axios.defaults.headers.common["X-CSRF-TOKEN"] = token.content;
 } else {
-    console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
+    console.error(
+        "CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token"
+    );
 }
 
 /**
